@@ -3,92 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kazeno Game Topup - Professional MLBB Services</title>
+    <title>Kazeno Game Topup - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #007bff; --secondary: #2c3e50; --bg: #f8f9fa; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-bottom: 50px; }
-        .header { background: var(--secondary); color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 20px 20px; }
-        .tab-container { display: flex; justify-content: center; margin-top: -25px; gap: 10px; }
-        .tab { padding: 12px 25px; background: white; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid transparent; }
-        .tab.active { border-color: var(--primary); color: var(--primary); }
-        .content { max-width: 450px; margin: 30px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        :root {
+            --bg-color: #0d1117;
+            --card-color: #161b22;
+            --primary-blue: #58a6ff;
+            --text-main: #c9d1d9;
+            --accent-green: #2ea44f;
+            --accent-purple: #8957e5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            padding-bottom: 80px; /* Bottom Nav အတွက် နေရာချန်ခြင်း */
+        }
+
+        /* Header Section */
+        .header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-purple), var(--primary-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .user-info h2 { margin: 0; font-size: 18px; color: white; }
+        .user-info p { margin: 2px 0 0; font-size: 13px; color: #8b949e; }
+
+        /* Wallet Card */
+        .wallet-card {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            margin: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #30363d;
+        }
+
+        .wallet-card h3 { font-size: 14px; margin: 0; color: #8b949e; }
+        .balance { font-size: 28px; font-weight: bold; margin: 10px 0; color: var(--accent-green); }
+
+        .wallet-btns { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-wallet {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .btn-topup { background: white; color: black; }
+        .btn-withdraw { background: #30363d; color: white; }
+
+        /* Game List */
+        .section-title { padding: 0 20px; font-size: 16px; margin-top: 25px; }
+        .game-list { padding: 10px 15px; }
+        .game-item {
+            background: var(--card-color);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #30363d;
+        }
+        .game-detail { display: flex; align-items: center; gap: 12px; }
+        .game-icon { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; }
+        .game-name { font-weight: bold; font-size: 15px; }
+        .game-sold { font-size: 12px; color: #8b949e; }
+        .btn-buy { background: var(--accent-green); color: white; border: none; padding: 6px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #161b22;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            border-top: 1px solid #30363d;
+        }
+        .nav-item { color: #8b949e; text-align: center; font-size: 11px; cursor: pointer; text-decoration: none; }
+        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
+        .nav-item.active { color: var(--primary-blue); }
+
         .hidden { display: none; }
-        .payment-card { background: #eef7ff; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid var(--primary); }
-        label { display: block; margin: 15px 0 5px; font-weight: 600; font-size: 14px; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        .btn-order { background: var(--primary); color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; }
-        .floating-btn { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-decoration: none; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>Kazeno Game Topup</h1>
-    <p>Mobile Legends</p>
-</div>
-
-<div class="tab-container">
-    <div class="tab active" onclick="switchTab('buy')">အော်ဒါတင်ရန်</div>
-    <div class="tab" onclick="switchTab('check')">အခြေအနေစစ်ရန်</div>
-</div>
-
-<div id="buy-section" class="content">
-    <div class="payment-card">
-        <strong>💰 ငွေလွှဲရန် အကောင့်:</strong><br>
-        KPay: 09xxxxxxxxx (U Mya)<br>
-        Wave: 09xxxxxxxxx (U Mya)
+<div id="home-page">
+    <div class="header">
+        <div class="profile-img">K</div>
+        <div class="user-info">
+            <h2>Kazeno</h2> <p>09776442942</p> </div>
     </div>
 
-    <form id="topupForm">
-        <label>Game User ID:</label>
-        <input type="number" id="userId" placeholder="ID ရိုက်ထည့်ပါ" required>
-        <label>Zone ID:</label>
-        <input type="number" id="zoneId" placeholder="Server ID" required>
-        
-        <label>Diamond Package:</label>
-        <select id="package" required>
-            <option value="">-- Package ကို ရွေးပါ --</option>
-            <optgroup label="Weekly Pass">
-                <option value="Weekly_Pass_6300">Weekly Diamond Pass - 6,300 Ks</option>
-            </optgroup>
-            <optgroup label="Regular Price">
-                <option value="11_Dai_1000">11 Dai - 1,000 Ks</option>
-                <option value="86_Dai_5300">86 Dai - 5,300 Ks</option>
-                <option value="172_Dai_10500">172 Dai - 10,500 Ks</option>
-                <option value="9288_Dai_505000">9288 Dai - 505,000 Ks</option>
-            </optgroup>
-        </select>
+    <div class="wallet-card">
+        <h3>Wallet Balance</h3>
+        <div class="balance">6,800 Ks</div> <div class="wallet-btns">
+            <button class="btn-wallet btn-topup"><i class="fas fa-plus-circle"></i> Top Up</button>
+            <button class="btn-wallet btn-withdraw"><i class="fas fa-wallet"></i> Withdrawal</button>
+        </div>
+    </div>
 
-        <label>ငွေလွှဲပြေစာ (Screenshot):</label>
-        <input type="file" id="receipt" accept="image/*" required>
+    <div class="section-title">Popular Games</div>
+    <div class="game-list">
+        <div class="game-item">
+            <div class="game-detail">
+                <img src="https://m.media-amazon.com/images/I/41O7DqQW2KL.png" class="game-icon">
+                <div>
+                    <div class="game-name">Mobile Legends</div>
+                    <div class="game-sold">1451 Sold</div> </div>
+            </div>
+            <button class="btn-buy" onclick="showBuyPage('MLBB')">Buy</button>
+        </div>
 
-        <button type="submit" id="submitBtn" class="btn-order">Order တင်မည်</button>
-    </form>
+        <div class="game-item">
+            <div class="game-detail">
+                <img src="https://play-lh.googleusercontent.com/6U6vV97y0-24N8s-kO77Fp6_G6uD-6V6K3X0fN-Uv_M-pW8P0-X" class="game-icon">
+                <div>
+                    <div class="game-name">PUBG Mobile</div>
+                    <div class="game-sold">35 Sold</div> </div>
+            </div>
+            <button class="btn-buy" onclick="showBuyPage('PUBG')">Buy</button>
+        </div>
+    </div>
 </div>
 
-<div id="check-section" class="content hidden">
-    <h3>🔍 Order Status စစ်မည်</h3>
-    <input type="number" id="searchId" placeholder="User ID ရိုက်ထည့်ပါ">
-    <button onclick="checkStatus()" class="btn-order" style="background: var(--secondary);">စစ်ဆေးမည်</button>
-    <div id="statusResult" style="margin-top: 20px;"></div>
-</div>
+<nav class="bottom-nav">
+    <a href="#" class="nav-item active"><i class="fas fa-home"></i>Shop</a>
+    <a href="#" class="nav-item"><i class="fas fa-shopping-cart"></i>Orders</a>
+    <a href="#" class="nav-item"><i class="fas fa-comment-dots"></i>Services</a>
+    <a href="#" class="nav-item"><i class="fas fa-user"></i>Profile</a>
+</nav>
 
-<a href="https://t.me/kazeno" class="floating-btn"><i class="fab fa-telegram-plane"></i></a>
-
-<script type="module" src="app.js"></script>
 <script>
-    function switchTab(type) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        event.target.classList.add('active');
-        if(type === 'buy') {
-            document.getElementById('buy-section').classList.remove('hidden');
-            document.getElementById('check-section').classList.add('hidden');
-        } else {
-            document.getElementById('buy-section').classList.add('hidden');
-            document.getElementById('check-section').classList.remove('hidden');
-        }
+    function showBuyPage(game) {
+        alert(game + " ဝယ်ယူမည့် စာမျက်နှာသို့ သွားနေပါသည်...");
+        // နောက်ပိုင်းမှာ အော်ဒါတင်တဲ့ Form ဆီ လှမ်းပို့ဖို့ လုပ်ရပါမယ်
     }
 </script>
+
 </body>
 </html>
