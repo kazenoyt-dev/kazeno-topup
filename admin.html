@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kazeno Topup - Admin Panel</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f0f2f5; padding: 20px; }
+        .admin-container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; font-size: 14px; }
+        th { background-color: #007bff; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .receipt-img { width: 80px; height: auto; cursor: pointer; border-radius: 4px; }
+        .pending { color: orange; font-weight: bold; }
+        .btn-refresh { padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <h2>Kazeno Game Topup - Admin Panel</h2>
+    <button class="btn-refresh" onclick="location.reload()">စာရင်းအသစ်ပြန်ကြည့်ရန်</button>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>အချိန်</th>
+                <th>Game ID (Zone)</th>
+                <th>Package</th>
+                <th>ပြေစာပုံ</th>
+                <th>အခြေအနေ</th>
+            </tr>
+        </thead>
+        <tbody id="orderTableBody">
+            </tbody>
+    </table>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBp_4qwNLfZfHqfRbNS69XnBsym6quBwIw",
+        authDomain: "kazeno-game-topup.firebaseapp.com",
+        projectId: "kazeno-game-topup",
+        storageBucket: "kazeno-game-topup.firebasestorage.app",
+        messagingSenderId: "1091487801666",
+        appId: "1:1091487801666:web:de6cac985bd42e199ae8db"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function loadOrders() {
+        const tableBody = document.getElementById('orderTableBody');
+        tableBody.innerHTML = "<tr><td colspan='5' style='text-align:center;'>ဒေတာများ ဆွဲယူနေပါသည်...</td></tr>";
+
+        try {
+            const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
+            const querySnapshot = await getDocs(q);
+            tableBody.innerHTML = "";
+
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const time = data.timestamp ? data.timestamp.toDate().toLocaleString() : "မသိရသေး";
+                
+                const row = `
+                    <tr>
+                        <td>${time}</td>
+                        <td>${data.userId} (${data.zoneId})</td>
+                        <td>${data.package}</td>
+                        <td><a href="${data.receiptUrl}" target="_blank"><img src="${data.receiptUrl}" class="receipt-img"></a></td>
+                        <td class="pending">${data.status}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        } catch (error) {
+            console.error("Error loading orders: ", error);
+            tableBody.innerHTML = "<tr><td colspan='5'>အမှားအယွင်းရှိနေပါသည်။</td></tr>";
+        }
+    }
+
+    loadOrders();
+</script>
+
+</body>
+</html>
+
