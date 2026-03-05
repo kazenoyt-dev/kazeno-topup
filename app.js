@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-// Kazeno Game Topup Config
 const firebaseConfig = {
   apiKey: "AIzaSyBp_4qwNLfZfHqfRbNS69XnBsym6quBwIw",
   authDomain: "kazeno-game-topup.firebaseapp.com",
@@ -17,7 +16,6 @@ const db = getFirestore(app);
 const topupForm = document.getElementById('topupForm');
 const submitBtn = document.getElementById('submitBtn');
 
-// ပုံကို ဆိုဒ်ချုံ့ပြီး သိမ်းပေးမယ့် Function (Storage မလိုဘဲ အခမဲ့သုံးနိုင်ရန်)
 const compressImage = (file) => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -30,12 +28,10 @@ const compressImage = (file) => {
                 const MAX_WIDTH = 500; 
                 let width = img.width;
                 let height = img.height;
-
                 if (width > MAX_WIDTH) {
                     height *= MAX_WIDTH / width;
                     width = MAX_WIDTH;
                 }
-
                 canvas.width = width;
                 canvas.height = height;
                 const ctx = canvas.getContext('2d');
@@ -59,8 +55,10 @@ topupForm.addEventListener('submit', async (e) => {
     submitBtn.disabled = true;
 
     try {
+        // အဆင့် ၁ - ပုံကို စစ်ဆေးခြင်း
         const base64Image = await compressImage(receiptFile);
-
+        
+        // အဆင့် ၂ - Database ဆီ လှမ်းပို့ခြင်း
         await addDoc(collection(db, "orders"), {
             userId: userId,
             zoneId: zoneId,
@@ -70,12 +68,13 @@ topupForm.addEventListener('submit', async (e) => {
             timestamp: serverTimestamp() 
         });
 
-        alert("Order တင်တာ အောင်မြင်ပါတယ်။");
+        alert("အောင်မြင်ပါသည်။ Order တင်ပြီးပါပြီ။");
         topupForm.reset(); 
         
     } catch (error) {
-        console.error("Error: ", error);
-        alert("အမှားအယွင်းဖြစ်နေပါတယ်။ Rules ကို Publish လုပ်ပြီးပြီလား ပြန်စစ်ပါ။");
+        console.error("Error Detail: ", error);
+        // ဘာကြောင့်မရလဲဆိုတာကို အတိအကျပြပေးမယ်
+        alert("မရသေးပါ။ အကြောင်းရင်း- " + error.message);
     } finally {
         submitBtn.innerText = "Order တင်မည်";
         submitBtn.disabled = false;
