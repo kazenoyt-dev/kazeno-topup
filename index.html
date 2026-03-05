@@ -127,7 +127,7 @@
         <div class="header" style="padding-bottom: 5px;">
             <div class="header-brand">Kazeno Shop</div>
             <div style="display:flex; gap:15px; color: #fff;">
-                <svg class="svg-icon" style="width:24px; height:24px; cursor:pointer;" viewBox="0 0 24 24" onclick="vibe()"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                <svg class="svg-icon" style="width:24px; height:24px; cursor:pointer;" viewBox="0 0 24 24" onclick="vibe(); toast('Notifications clear');"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
             </div>
         </div>
         
@@ -285,10 +285,26 @@
     </button>
 </div>
 
-<script>
-    // --- 1. GLOBAL STATE & DATA ---
-    function vibe() { if(navigator.vibrate) navigator.vibrate(40); }
-    function toast(msg) { const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    // Kazeno+ Database Connection လေး ပြန်သုံးထားပါတယ်
+    const firebaseConfig = {
+        apiKey: "AIzaSyDV8UNUW7CVvJy2k5_6OMrRz197c1A7uKU",
+        authDomain: "kazeno-course.firebaseapp.com",
+        projectId: "kazeno-course",
+        storageBucket: "kazeno-course.firebasestorage.app",
+        messagingSenderId: "356111425732",
+        appId: "1:356111425732:web:fd5b3a7429372ec41da991"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // --- GLOBAL STATE & DATA ---
+    window.vibe = () => { if(navigator.vibrate) navigator.vibrate(40); }
+    window.toast = (msg) => { const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
 
     let currentOrder = { gameName: '', gameCode: '', item: '', price: 0, uid: '', zone: '', slip: null };
     let historyStack = ['page-home'];
@@ -311,19 +327,18 @@
         ]
     };
 
-    // --- 2. PAGE ROUTING ---
-    function navTo(pageId) {
+    // --- PAGE ROUTING ---
+    window.navTo = (pageId) => {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
         window.scrollTo(0, 0);
         
-        // Hide Main Nav on forms
         const mainNav = document.getElementById('main-nav');
         if(pageId === 'page-home') mainNav.style.display = 'flex';
         else mainNav.style.display = 'none';
     }
 
-    function goBack() {
+    window.goBack = () => {
         vibe();
         historyStack.pop();
         const prevPage = historyStack[historyStack.length - 1];
@@ -331,14 +346,15 @@
         else { navTo('page-home'); historyStack = ['page-home']; }
     }
 
-    // --- 3. LOGIC: GAME SELECTION ---
+    window.addEventListener('popstate', () => { goBack(); });
+
+    // --- GAME SELECTION ---
     window.openGame = (name, code) => {
         vibe();
         currentOrder.gameName = name;
         currentOrder.gameCode = code;
         document.getElementById('form-game-title').innerText = name + " Topup";
         
-        // Render Packages
         const packs = dbProducts[code] || [];
         let html = "";
         packs.forEach((p, idx) => {
@@ -353,18 +369,18 @@
         });
         document.getElementById('pack-container').innerHTML = html;
 
-        // Reset form
         currentOrder.item = ''; currentOrder.price = 0; currentOrder.uid = ''; currentOrder.zone = '';
         document.getElementById('input-userid').value = '';
         document.getElementById('input-zoneid').value = '';
         document.getElementById('display-total').innerText = "0 Ks";
         document.getElementById('btn-continue').disabled = true;
 
+        history.pushState({ page: 'topup' }, "");
         historyStack.push('page-topup');
         navTo('page-topup');
     };
 
-    // --- 4. LOGIC: PACKAGE SELECTION ---
+    // --- PACKAGE SELECTION ---
     window.selectPackage = (idx, name, price) => {
         vibe();
         document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('selected'));
@@ -385,13 +401,12 @@
         }
     };
 
-    // --- 5. LOGIC: CHECKOUT ---
+    // --- CHECKOUT ---
     window.goToCheckout = () => {
         vibe();
         currentOrder.uid = document.getElementById('input-userid').value;
         currentOrder.zone = document.getElementById('input-zoneid').value;
 
-        // Populate Summary
         document.getElementById('sum-game').innerText = currentOrder.gameName;
         let idStr = currentOrder.uid;
         if(currentOrder.zone) idStr += ` (${currentOrder.zone})`;
@@ -399,6 +414,7 @@
         document.getElementById('sum-item').innerText = currentOrder.item;
         document.getElementById('sum-price').innerText = currentOrder.price.toLocaleString() + " Ks";
 
+        history.pushState({ page: 'checkout' }, "");
         historyStack.push('page-checkout');
         navTo('page-checkout');
     };
@@ -409,7 +425,7 @@
         toast("Copied KPay/Wave number!");
     };
 
-    // --- 6. LOGIC: UPLOAD SLIP ---
+    // --- UPLOAD SLIP ---
     window.handleFileUpload = (input) => {
         if (input.files && input.files[0]) {
             vibe();
@@ -427,24 +443,58 @@
         }
     };
 
-    // --- 7. LOGIC: SUBMIT ---
-    window.submitOrder = () => {
+    // --- 🚀 SUBMIT ORDER TO FIREBASE 🚀 ---
+    window.submitOrder = async () => {
         vibe();
         const btn = document.getElementById('btn-submit');
-        btn.innerText = "Processing...";
+        btn.innerText = "Uploading Slip...";
         btn.disabled = true;
 
-        /* သင်တန်းတွင် Firebase ချိတ်ဆက်ရန်-
-           ၁။ currentOrder.slip ကို Firebase Storage သို့ upload တင်ပါ။
-           ၂။ ရလာသော Image URL နှင့်တကွ currentOrder ဒေတာများကို Firestore သို့ သိမ်းပါ။
-        */
+        try {
+            let slipUrl = "";
+            
+            // 1. Upload Slip to ImgBB (Free & Fast)
+            if(currentOrder.slip) {
+                const formData = new FormData();
+                formData.append("image", currentOrder.slip);
+                
+                const res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { 
+                    method: 'POST', 
+                    body: formData 
+                });
+                const data = await res.json();
+                if(data.success) {
+                    slipUrl = data.data.url;
+                } else {
+                    throw new Error("Failed to upload image.");
+                }
+            }
 
-        // Loading simulation
-        setTimeout(() => {
+            btn.innerText = "Saving Order...";
+
+            // 2. Save Order to Firebase Firestore
+            await addDoc(collection(db, "orders"), {
+                game: currentOrder.gameName,
+                item: currentOrder.item,
+                price: currentOrder.price,
+                playerId: currentOrder.uid,
+                serverId: currentOrder.zone,
+                slipImage: slipUrl,
+                status: "Pending",
+                createdAt: serverTimestamp()
+            });
+
+            // 3. Show Success Page
             navTo('page-success');
-        }, 1500);
+
+        } catch (error) {
+            toast("Error: " + error.message);
+            btn.innerText = "Submit Order";
+            btn.disabled = false;
+        }
     };
 </script>
 
 </body>
 </html>
+
