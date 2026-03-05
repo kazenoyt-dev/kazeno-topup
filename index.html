@@ -281,7 +281,7 @@
     let me = null;
     let myWallet = 0;
     let isLoginMode = true;
-    let payMode = 'wallet'; // wallet or slip
+    let payMode = 'wallet'; 
     let currentOrder = { gameName: '', gameCode: '', item: '', price: 0, uid: '', zone: '', slipFile: null };
     let depFile = null;
 
@@ -309,7 +309,6 @@
                 toast("Login Success!");
             } else {
                 const res = await createUserWithEmailAndPassword(auth, em, pw);
-                // Create user doc
                 await setDoc(doc(db, "users", res.user.uid), { email: em, walletBalance: 0, createdAt: serverTimestamp() });
                 toast("Account Created!");
             }
