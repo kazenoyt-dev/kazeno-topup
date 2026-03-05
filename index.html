@@ -1,172 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kazeno Game Topup - Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-color: #0d1117;
-            --card-color: #161b22;
-            --primary-blue: #58a6ff;
-            --text-main: #c9d1d9;
-            --accent-green: #2ea44f;
-            --accent-purple: #8957e5;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>Kazeno Shop - Game Topup</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #050510; 
+    --glass: rgba(20, 25, 45, 0.4); 
+    --border: rgba(255, 255, 255, 0.05);
+    --text: #ffffff; 
+    --muted: #a0b0c0;
+    --primary: #8a2be2; 
+    --accent: #4facfe; 
+    --r: 20px;
+  }
+  
+  * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
+  body{margin:0; font-family:'Poppins', sans-serif; background:var(--bg); color:var(--text); padding-bottom:100px; overflow-x: hidden;}
+  body::before { content:''; position:fixed; top:-10%; left:-10%; width:50%; height:50%; background: radial-gradient(circle, rgba(138,43,226,0.1) 0%, transparent 70%); z-index:-1;}
+  
+  .wrap{max-width:520px; margin:0 auto; padding:16px;}
+  .glass { background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--r); }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            padding-bottom: 80px; /* Bottom Nav အတွက် နေရာချန်ခြင်း */
-        }
+  /* TOP HEADER */
+  .top { display:flex; align-items:center; justify-content:space-between; padding:16px; position:sticky; top:10px; z-index:100; transition: 0.3s; margin-bottom: 20px;}
+  .brand { font-weight:800; font-size: 20px; background: linear-gradient(45deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .icon-btn { background:transparent; border:none; color:var(--text); cursor:pointer; display:flex; padding:5px; transition:0.2s;}
+  .icon-btn:active { transform: scale(0.9); color: var(--accent); }
+  .svg-icon { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
 
-        /* Header Section */
-        .header {
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+  /* PROMO BANNER */
+  .banner { width: 100%; aspect-ratio: 16/7; border-radius: var(--r); overflow: hidden; position: relative; margin-bottom: 25px; border: 1px solid var(--border); }
+  .banner img { width: 100%; height: 100%; object-fit: cover; }
+  .banner-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 60%); display: flex; align-items: flex-end; padding: 15px; }
+  .banner-text { font-size: 14px; font-weight: 700; color: #fff; }
 
-        .profile-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--accent-purple), var(--primary-blue));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
+  /* GAME GRID */
+  .section-title { font-size: 16px; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+  .section-title::before { content: ''; width: 4px; height: 18px; background: var(--accent); border-radius: 2px; }
+  
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .game-card { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: 0.2s; padding: 5px; }
+  .game-card:active { transform: scale(0.95); }
+  .game-thumb { width: 100%; aspect-ratio: 1/1; border-radius: 18px; overflow: hidden; border: 1px solid var(--border); background: #000; margin-bottom: 8px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+  .game-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .game-name { font-size: 11px; font-weight: 600; color: #e5e7eb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
 
-        .user-info h2 { margin: 0; font-size: 18px; color: white; }
-        .user-info p { margin: 2px 0 0; font-size: 13px; color: #8b949e; }
+  /* NOTIFICATION BAR */
+  .noti-bar { display: flex; align-items: center; gap: 10px; padding: 12px 16px; margin-bottom: 25px; font-size: 12px; color: var(--accent); background: rgba(79, 172, 254, 0.05); border: 1px dashed rgba(79, 172, 254, 0.3); border-radius: 14px;}
 
-        /* Wallet Card */
-        .wallet-card {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            margin: 15px;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            border: 1px solid #30363d;
-        }
+  /* iOS BOTTOM NAV */
+  .nav { position:fixed; left:0; bottom:0; width:100%; display:flex; justify-content:space-around; background:rgba(10, 12, 20, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-top:1px solid rgba(255,255,255,0.05); padding: 12px 10px max(12px, env(safe-area-inset-bottom)); z-index: 100; }
+  .nav button { flex:1; background:transparent; border:none; color:var(--muted); cursor:pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition:0.3s; }
+  .nav button.active { color: var(--accent); }
+  .nav button span { font-size: 10px; font-weight: 600; }
 
-        .wallet-card h3 { font-size: 14px; margin: 0; color: #8b949e; }
-        .balance { font-size: 28px; font-weight: bold; margin: 10px 0; color: var(--accent-green); }
-
-        .wallet-btns { display: flex; gap: 10px; margin-top: 15px; }
-        .btn-wallet {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-        .btn-topup { background: white; color: black; }
-        .btn-withdraw { background: #30363d; color: white; }
-
-        /* Game List */
-        .section-title { padding: 0 20px; font-size: 16px; margin-top: 25px; }
-        .game-list { padding: 10px 15px; }
-        .game-item {
-            background: var(--card-color);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #30363d;
-        }
-        .game-detail { display: flex; align-items: center; gap: 12px; }
-        .game-icon { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; }
-        .game-name { font-weight: bold; font-size: 15px; }
-        .game-sold { font-size: 12px; color: #8b949e; }
-        .btn-buy { background: var(--accent-green); color: white; border: none; padding: 6px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: #161b22;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            border-top: 1px solid #30363d;
-        }
-        .nav-item { color: #8b949e; text-align: center; font-size: 11px; cursor: pointer; text-decoration: none; }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
-        .nav-item.active { color: var(--primary-blue); }
-
-        .hidden { display: none; }
-    </style>
+  /* TOAST */
+  .toast { position:fixed; left:50%; transform:translateX(-50%); bottom:100px; background:var(--ok); color:#000; padding:10px 24px; border-radius:999px; font-weight:800; font-size:13px; opacity:0; transition:0.3s; z-index:2000; pointer-events:none;}
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(-10px); }
+</style>
 </head>
+
 <body>
+<div id="toast" class="toast">Success</div>
 
-<div id="home-page">
-    <div class="header">
-        <div class="profile-img">K</div>
-        <div class="user-info">
-            <h2>Kazeno</h2> <p>09776442942</p> </div>
-    </div>
+<div class="wrap">
+  <div class="top glass">
+      <div class="brand">Kazeno Shop</div>
+      <div style="display:flex; gap:10px;">
+          <button class="icon-btn" onclick="vibe();">
+              <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </button>
+          <button class="icon-btn" onclick="vibe();">
+              <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          </button>
+      </div>
+  </div>
 
-    <div class="wallet-card">
-        <h3>Wallet Balance</h3>
-        <div class="balance">6,800 Ks</div> <div class="wallet-btns">
-            <button class="btn-wallet btn-topup"><i class="fas fa-plus-circle"></i> Top Up</button>
-            <button class="btn-wallet btn-withdraw"><i class="fas fa-wallet"></i> Withdrawal</button>
-        </div>
-    </div>
+  <div class="banner">
+      <img src="https://img.freepik.com/free-vector/abstract-horizontal-banner-gaming-style_23-2148704257.jpg" alt="Promo">
+      <div class="banner-overlay">
+          <div class="banner-text">Instant Delivery within 1-5 mins! ⚡</div>
+      </div>
+  </div>
 
-    <div class="section-title">Popular Games</div>
-    <div class="game-list">
-        <div class="game-item">
-            <div class="game-detail">
-                <img src="https://m.media-amazon.com/images/I/41O7DqQW2KL.png" class="game-icon">
-                <div>
-                    <div class="game-name">Mobile Legends</div>
-                    <div class="game-sold">1451 Sold</div> </div>
-            </div>
-            <button class="btn-buy" onclick="showBuyPage('MLBB')">Buy</button>
-        </div>
+  <div class="noti-bar">
+      <svg class="svg-icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+      MLBB Diamond ဈေးနှုန်းများ အနည်းငယ် ပြောင်းလဲထားပါသည်။
+  </div>
 
-        <div class="game-item">
-            <div class="game-detail">
-                <img src="https://play-lh.googleusercontent.com/6U6vV97y0-24N8s-kO77Fp6_G6uD-6V6K3X0fN-Uv_M-pW8P0-X" class="game-icon">
-                <div>
-                    <div class="game-name">PUBG Mobile</div>
-                    <div class="game-sold">35 Sold</div> </div>
-            </div>
-            <button class="btn-buy" onclick="showBuyPage('PUBG')">Buy</button>
-        </div>
-    </div>
+  <div class="section-title">Popular Games</div>
+  <div class="grid">
+      <div class="game-card" onclick="openGame('mlbb'); vibe();">
+          <div class="game-thumb"><img src="https://m.mobilelegends.com/static/images/index/logo.png" alt="MLBB"></div>
+          <div class="game-name">Mobile Legends</div>
+      </div>
+      <div class="game-card" onclick="openGame('pubg'); vibe();">
+          <div class="game-thumb"><img src="https://yt3.googleusercontent.com/4q-vJ_wW_Hk5_X49o_A3T5nF0M0T_L9YyK2G-Z-p3_x5Z5yX_Y1Y_yR_Z_xZ-y-X-x-y-A=s900-c-k-c0x00ffffff-no-rj" alt="PUBG"></div>
+          <div class="game-name">PUBG Mobile</div>
+      </div>
+      <div class="game-card" onclick="openGame('ff'); vibe();">
+          <div class="game-thumb"><img src="https://i.pinimg.com/736x/8c/b3/8c/8cb38c5b16e87b7a1510d7a04918e7e1.jpg" alt="FF"></div>
+          <div class="game-name">Free Fire</div>
+      </div>
+      <div class="game-card" onclick="openGame('hok'); vibe();">
+          <div class="game-thumb"><img src="https://play-lh.googleusercontent.com/p09F3rM5i0YyG6yG3N9S7u6W5H5p0uR8K5=s200" alt="HOK"></div>
+          <div class="game-name">Honor of Kings</div>
+      </div>
+  </div>
 </div>
 
-<nav class="bottom-nav">
-    <a href="#" class="nav-item active"><i class="fas fa-home"></i>Shop</a>
-    <a href="#" class="nav-item"><i class="fas fa-shopping-cart"></i>Orders</a>
-    <a href="#" class="nav-item"><i class="fas fa-comment-dots"></i>Services</a>
-    <a href="#" class="nav-item"><i class="fas fa-user"></i>Profile</a>
-</nav>
+<div class="nav">
+    <button class="active" onclick="vibe();">
+        <svg viewBox="0 0 24 24" class="svg-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        <span>Home</span>
+    </button>
+    <button onclick="vibe();">
+        <svg viewBox="0 0 24 24" class="svg-icon"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span>Orders</span>
+    </button>
+    <button onclick="vibe();">
+        <svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span>Support</span>
+    </button>
+    <button onclick="vibe();">
+        <svg viewBox="0 0 24 24" class="svg-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>Profile</span>
+    </button>
+</div>
 
 <script>
-    function showBuyPage(game) {
-        alert(game + " ဝယ်ယူမည့် စာမျက်နှာသို့ သွားနေပါသည်...");
-        // နောက်ပိုင်းမှာ အော်ဒါတင်တဲ့ Form ဆီ လှမ်းပို့ဖို့ လုပ်ရပါမယ်
-    }
+  function vibe() { if(navigator.vibrate) navigator.vibrate(40); }
+  function toast(msg) { const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(()=> t.classList.remove("show"), 2500); }
+  
+  function openGame(game) {
+      toast("Opening " + game.toUpperCase() + " Shop...");
+      // နောက်တစ်ဆင့်အတွက် Slide-up logic များကို ဤနေရာတွင် ထပ်ထည့်ပါမည်။
+  }
 </script>
-
 </body>
 </html>
+
