@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-// အစ်ကို့ရဲ့ Firebase သော့ (Key) အမှန်
+// Kazeno Game Topup Config
 const firebaseConfig = {
   apiKey: "AIzaSyBp_4qwNLfZfHqfRbNS69XnBsym6quBwIw",
   authDomain: "kazeno-game-topup.firebaseapp.com",
@@ -17,7 +17,7 @@ const db = getFirestore(app);
 const topupForm = document.getElementById('topupForm');
 const submitBtn = document.getElementById('submitBtn');
 
-// ပုံကို ဆိုဒ်ချုံ့ပြီး Base64 စာသားအဖြစ်ပြောင်းပေးမယ့် Function (အခမဲ့သိမ်းလို့ရအောင်ပါ)
+// ပုံကို ဆိုဒ်ချုံ့ပြီး သိမ်းပေးမယ့် Function (Storage မလိုဘဲ အခမဲ့သုံးနိုင်ရန်)
 const compressImage = (file) => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -27,8 +27,7 @@ const compressImage = (file) => {
             img.src = event.target.result;
             img.onload = () => {
                 const canvas = document.createElement('canvas');
-                // ပုံဆိုဒ်ကို 600px အထိပဲထားမယ်
-                const MAX_WIDTH = 600;
+                const MAX_WIDTH = 500; 
                 let width = img.width;
                 let height = img.height;
 
@@ -41,10 +40,8 @@ const compressImage = (file) => {
                 canvas.height = height;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
-                // Quality ကို 60% ထားပြီး စာသားပြောင်းမယ်
-                resolve(canvas.toDataURL('image/jpeg', 0.6));
+                resolve(canvas.toDataURL('image/jpeg', 0.5)); 
             };
-            img.onerror = error => reject(error);
         };
         reader.onerror = error => reject(error);
     });
@@ -62,14 +59,13 @@ topupForm.addEventListener('submit', async (e) => {
     submitBtn.disabled = true;
 
     try {
-        // Storage မလိုတော့ပါ၊ ပုံကို စာသားပြောင်းပြီး Database ထဲ တိုက်ရိုက်သိမ်းမယ်
         const base64Image = await compressImage(receiptFile);
 
         await addDoc(collection(db, "orders"), {
             userId: userId,
             zoneId: zoneId,
             package: packageInfo,
-            receiptUrl: base64Image, // ပုံစာသားကို ဒီမှာသိမ်းပါပြီ
+            receiptUrl: base64Image,
             status: "Pending", 
             timestamp: serverTimestamp() 
         });
@@ -79,7 +75,7 @@ topupForm.addEventListener('submit', async (e) => {
         
     } catch (error) {
         console.error("Error: ", error);
-        alert("အမှားအယွင်းဖြစ်နေပါတယ်။ ပြန်စမ်းကြည့်ပါ။");
+        alert("အမှားအယွင်းဖြစ်နေပါတယ်။ Rules ကို Publish လုပ်ပြီးပြီလား ပြန်စစ်ပါ။");
     } finally {
         submitBtn.innerText = "Order တင်မည်";
         submitBtn.disabled = false;
