@@ -5,44 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kazeno Game Topup - MLBB</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
-        .container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #333; }
-        label { font-weight: bold; margin-top: 10px; display: block; }
-        input, select, button { width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        button { background-color: #007bff; color: white; font-size: 16px; cursor: pointer; border: none; }
-        button:hover { background-color: #0056b3; }
-        .payment-info { background-color: #e9ecef; padding: 10px; border-radius: 5px; font-size: 14px; margin-bottom: 15px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 450px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 5px; }
+        .sub-text { text-align: center; color: #7f8c8d; margin-bottom: 20px; font-size: 14px; }
+        .payment-info { background-color: #e8f4fd; padding: 15px; border-radius: 10px; border-left: 5px solid #3498db; margin-bottom: 20px; font-size: 14px; }
+        label { font-weight: bold; display: block; margin-bottom: 8px; color: #34495e; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #dcdde1; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 15px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #2980b9; }
+        optgroup { font-weight: bold; color: #2c3e50; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>Kazeno Game Topup</h2>
-    <p style="text-align: center; color: #666;">Mobile Legends Diamond</p>
+    <div class="sub-text">Mobile Legends Diamond</div>
 
     <div class="payment-info">
-        <strong>ငွေလွှဲရန် အကောင့်များ:</strong><br>
-        KPay: 09123456789 (U Mya)<br>
-        Wave: 09123456789 (U Mya)
+        <strong>💸 ငွေလွှဲရန် အကောင့်များ:</strong><br>
+        KPay: 09xxxxxxxxx (U Mya)<br>
+        Wave: 09xxxxxxxxx (U Mya)<br>
+        <small>*ငွေလွှဲပြီးမှ Order တင်ပေးပါရန်</small>
     </div>
 
     <form id="topupForm">
-        <label for="userId">Game User ID:</label>
+        <label>Game User ID:</label>
         <input type="number" id="userId" placeholder="ဥပမာ - 12345678" required>
 
-        <label for="zoneId">Zone ID:</label>
+        <label>Zone ID:</label>
         <input type="number" id="zoneId" placeholder="ဥပမာ - 1234" required>
 
-        <label for="package">Diamond Package:</label>
+        <label>Diamond Package ရွေးချယ်ပါ:</label>
         <select id="package" required>
-            <option value="">Package ရွေးချယ်ပါ</option>
-            <option value="86_Diamonds_3000">86 Diamonds - 3,000 MMK</option>
-            <option value="172_Diamonds_6000">172 Diamonds - 6,000 MMK</option>
-            <option value="257_Diamonds_9000">257 Diamonds - 9,000 MMK</option>
+            <option value="">-- Package ကို ရွေးပါ --</option>
+            
+            <optgroup label="Weekly Diamond Pass">
+                <option value="Weekly_Pass_6300">Weekly Diamond Pass - 6,300 Ks</option>
+            </optgroup>
+
+            <optgroup label="Regular Diamonds">
+                <option value="11_Dai_1000">11 Diamonds - 1,000 Ks</option>
+                <option value="22_Dai_2000">22 Diamonds - 2,000 Ks</option>
+                <option value="33_Dai_3000">33 Diamonds - 3,000 Ks</option>
+                <option value="55_Dai_3500">55 Diamonds - 3,500 Ks</option>
+                <option value="86_Dai_5300">86 Diamonds - 5,300 Ks</option>
+                <option value="172_Dai_10500">172 Diamonds - 10,500 Ks</option>
+                <option value="257_Dai_15500">257 Diamonds - 15,500 Ks</option>
+                <option value="343_Dai_21000">343 Diamonds - 21,000 Ks</option>
+                <option value="429_Dai_26000">429 Diamonds - 26,000 Ks</option>
+                <option value="514_Dai_31000">514 Diamonds - 31,000 Ks</option>
+                <option value="600_Dai_35500">600 Diamonds - 35,500 Ks</option>
+                <option value="706_Dai_41000">706 Diamonds - 41,000 Ks</option>
+                <option value="878_Dai_51000">878 Diamonds - 51,000 Ks</option>
+                <option value="963_Dai_56000">963 Diamonds - 56,000 Ks</option>
+                <option value="1049_Dai_62000">1,049 Diamonds - 62,000 Ks</option>
+                <option value="1135_Dai_66000">1,135 Diamonds - 66,000 Ks</option>
+                <option value="1220_Dai_72000">1,220 Diamonds - 72,000 Ks</option>
+                <option value="1412_Dai_82000">1,412 Diamonds - 82,000 Ks</option>
+                <option value="2195_Dai_123000">2,195 Diamonds - 123,000 Ks</option>
+                <option value="3688_Dai_205000">3,688 Diamonds - 205,000 Ks</option>
+                <option value="5532_Dai_305000">5,532 Diamonds - 305,000 Ks</option>
+                <option value="9288_Dai_505000">9,288 Diamonds - 505,000 Ks</option>
+            </optgroup>
+
+            <optgroup label="Double Dai💎 (Special)">
+                <option value="50+50_Dai_4000">50+50 Diamonds - 4,000 Ks</option>
+                <option value="150+150_Dai_11000">150+150 Diamonds - 11,000 Ks</option>
+                <option value="250+250_Dai_17000">250+250 Diamonds - 17,000 Ks</option>
+                <option value="500+500_Dai_34000">500+500 Diamonds - 34,000 Ks</option>
+            </optgroup>
         </select>
 
-        <label for="receipt">ငွေလွှဲပြေစာ (Screenshot):</label>
+        <label>ငွေလွှဲပြေစာ (Screenshot):</label>
         <input type="file" id="receipt" accept="image/*" required>
 
         <button type="submit" id="submitBtn">Order တင်မည်</button>
@@ -50,6 +86,5 @@
 </div>
 
 <script type="module" src="app.js"></script>
-
 </body>
 </html>
