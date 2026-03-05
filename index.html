@@ -289,14 +289,14 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // Kazeno+ Database Connection လေး ပြန်သုံးထားပါတယ်
+    // 🔑 Kazeno Diamond Shop အသစ်အတွက် Firebase Thaw Gyo (Config)
     const firebaseConfig = {
-        apiKey: "AIzaSyDV8UNUW7CVvJy2k5_6OMrRz197c1A7uKU",
-        authDomain: "kazeno-course.firebaseapp.com",
-        projectId: "kazeno-course",
-        storageBucket: "kazeno-course.firebasestorage.app",
-        messagingSenderId: "356111425732",
-        appId: "1:356111425732:web:fd5b3a7429372ec41da991"
+        apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU",
+        authDomain: "kazeno-diamond-shop.firebaseapp.com",
+        projectId: "kazeno-diamond-shop",
+        storageBucket: "kazeno-diamond-shop.firebasestorage.app",
+        messagingSenderId: "1209500360",
+        appId: "1:1209500360:web:0e6f932cfd1569234e9bfd"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -472,7 +472,7 @@
 
             btn.innerText = "Saving Order...";
 
-            // 2. Save Order to Firebase Firestore
+            // 2. Save Order to your new Firebase Firestore
             await addDoc(collection(db, "orders"), {
                 game: currentOrder.gameName,
                 item: currentOrder.item,
