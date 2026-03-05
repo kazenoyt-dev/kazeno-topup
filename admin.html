@@ -3,34 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kazeno Topup - Admin Panel</title>
+    <title>Kazeno Topup - Admin Manager</title>
     <style>
-        body { font-family: sans-serif; background-color: #f0f2f5; padding: 20px; }
-        .admin-container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #333; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; font-size: 14px; }
-        th { background-color: #007bff; color: white; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        .receipt-img { width: 80px; height: auto; cursor: pointer; border-radius: 4px; }
-        .pending { color: orange; font-weight: bold; }
-        .btn-refresh { padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 10px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; }
+        .admin-container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
+        .btn-refresh { padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 15px; width: 100%; }
+        table { width: 100%; border-collapse: collapse; overflow-x: auto; display: block; }
+        th, td { border: 1px solid #eee; padding: 12px; text-align: left; min-width: 100px; }
+        th { background-color: #2c3e50; color: white; font-size: 14px; }
+        .receipt-img { width: 70px; height: auto; border-radius: 5px; cursor: pointer; border: 1px solid #ddd; }
+        .status-pending { color: #e67e22; font-weight: bold; }
+        .status-done { color: #27ae60; font-weight: bold; }
+        .action-btns { display: flex; gap: 5px; }
+        .btn-done { background: #2ecc71; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .btn-delete { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
     </style>
 </head>
 <body>
 
 <div class="admin-container">
-    <h2>Kazeno Game Topup - Admin Panel</h2>
-    <button class="btn-refresh" onclick="location.reload()">စာရင်းအသစ်ပြန်ကြည့်ရန်</button>
+    <h2>Kazeno Topup Admin</h2>
+    <button class="btn-refresh" onclick="location.reload()">Refresh Orders List</button>
     
     <table>
         <thead>
             <tr>
-                <th>အချိန်</th>
+                <th>Time</th>
                 <th>Game ID (Zone)</th>
                 <th>Package</th>
-                <th>ပြေစာပုံ</th>
-                <th>အခြေအနေ</th>
+                <th>Receipt</th>
+                <th>Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody id="orderTableBody">
@@ -40,7 +44,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, query, orderBy, getDocs, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBp_4qwNLfZfHqfRbNS69XnBsym6quBwIw",
@@ -54,33 +58,55 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // Order ပြီးသွားကြောင်း မှတ်သားရန်
+    window.markAsDone = async (id) => {
+        if(confirm("ဒီ Order ကို ပြီးသွားပြီလို့ မှတ်သားမလား?")) {
+            const orderRef = doc(db, "orders", id);
+            await updateDoc(orderRef, { status: "Completed" });
+            location.reload();
+        }
+    };
+
+    // Order ဖျက်ရန်
+    window.deleteOrder = async (id) => {
+        if(confirm("ဒီ Order ကို ဖျက်ပစ်မှာ သေချာလား?")) {
+            await deleteDoc(doc(db, "orders", id));
+            location.reload();
+        }
+    };
+
     async function loadOrders() {
         const tableBody = document.getElementById('orderTableBody');
-        tableBody.innerHTML = "<tr><td colspan='5' style='text-align:center;'>ဒေတာများ ဆွဲယူနေပါသည်...</td></tr>";
+        tableBody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>Loading...</td></tr>";
 
         try {
             const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
             const querySnapshot = await getDocs(q);
             tableBody.innerHTML = "";
 
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                const time = data.timestamp ? data.timestamp.toDate().toLocaleString() : "မသိရသေး";
+            querySnapshot.forEach((document) => {
+                const data = document.data();
+                const id = document.id;
+                const time = data.timestamp ? data.timestamp.toDate().toLocaleString() : "N/A";
+                const statusClass = data.status === "Pending" ? "status-pending" : "status-done";
                 
                 const row = `
                     <tr>
-                        <td>${time}</td>
-                        <td>${data.userId} (${data.zoneId})</td>
+                        <td style="font-size: 11px;">${time}</td>
+                        <td><strong>${data.userId}</strong><br><small>(${data.zoneId})</small></td>
                         <td>${data.package}</td>
                         <td><a href="${data.receiptUrl}" target="_blank"><img src="${data.receiptUrl}" class="receipt-img"></a></td>
-                        <td class="pending">${data.status}</td>
+                        <td class="${statusClass}">${data.status}</td>
+                        <td class="action-btns">
+                            ${data.status === "Pending" ? `<button class="btn-done" onclick="markAsDone('${id}')">Done</button>` : ''}
+                            <button class="btn-delete" onclick="deleteOrder('${id}')">Delete</button>
+                        </td>
                     </tr>
                 `;
                 tableBody.innerHTML += row;
             });
         } catch (error) {
-            console.error("Error loading orders: ", error);
-            tableBody.innerHTML = "<tr><td colspan='5'>အမှားအယွင်းရှိနေပါသည်။</td></tr>";
+            tableBody.innerHTML = "<tr><td colspan='6'>Error loading data.</td></tr>";
         }
     }
 
@@ -89,4 +115,3 @@
 
 </body>
 </html>
-
