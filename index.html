@@ -3,88 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kazeno Game Topup - MLBB</title>
+    <title>Kazeno Game Topup - Professional MLBB Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
-        .container { max-width: 450px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #2c3e50; margin-bottom: 5px; }
-        .sub-text { text-align: center; color: #7f8c8d; margin-bottom: 20px; font-size: 14px; }
-        .payment-info { background-color: #e8f4fd; padding: 15px; border-radius: 10px; border-left: 5px solid #3498db; margin-bottom: 20px; font-size: 14px; }
-        label { font-weight: bold; display: block; margin-bottom: 8px; color: #34495e; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #dcdde1; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 15px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background-color: #2980b9; }
-        optgroup { font-weight: bold; color: #2c3e50; }
+        :root { --primary: #007bff; --secondary: #2c3e50; --bg: #f8f9fa; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; padding-bottom: 50px; }
+        .header { background: var(--secondary); color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 20px 20px; }
+        .tab-container { display: flex; justify-content: center; margin-top: -25px; gap: 10px; }
+        .tab { padding: 12px 25px; background: white; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid transparent; }
+        .tab.active { border-color: var(--primary); color: var(--primary); }
+        .content { max-width: 450px; margin: 30px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .hidden { display: none; }
+        .payment-card { background: #eef7ff; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid var(--primary); }
+        label { display: block; margin: 15px 0 5px; font-weight: 600; font-size: 14px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .btn-order { background: var(--primary); color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .floating-btn { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-decoration: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Kazeno Game Topup</h2>
-    <div class="sub-text">Mobile Legends Diamond</div>
+<div class="header">
+    <h1>Kazeno Game Topup</h1>
+    <p>Mobile Legends</p>
+</div>
 
-    <div class="payment-info">
-        <strong>💸 ငွေလွှဲရန် အကောင့်များ:</strong><br>
+<div class="tab-container">
+    <div class="tab active" onclick="switchTab('buy')">အော်ဒါတင်ရန်</div>
+    <div class="tab" onclick="switchTab('check')">အခြေအနေစစ်ရန်</div>
+</div>
+
+<div id="buy-section" class="content">
+    <div class="payment-card">
+        <strong>💰 ငွေလွှဲရန် အကောင့်:</strong><br>
         KPay: 09xxxxxxxxx (U Mya)<br>
-        Wave: 09xxxxxxxxx (U Mya)<br>
-        <small>*ငွေလွှဲပြီးမှ Order တင်ပေးပါရန်</small>
+        Wave: 09xxxxxxxxx (U Mya)
     </div>
 
     <form id="topupForm">
         <label>Game User ID:</label>
-        <input type="number" id="userId" placeholder="ဥပမာ - 12345678" required>
-
+        <input type="number" id="userId" placeholder="ID ရိုက်ထည့်ပါ" required>
         <label>Zone ID:</label>
-        <input type="number" id="zoneId" placeholder="ဥပမာ - 1234" required>
-
-        <label>Diamond Package ရွေးချယ်ပါ:</label>
+        <input type="number" id="zoneId" placeholder="Server ID" required>
+        
+        <label>Diamond Package:</label>
         <select id="package" required>
             <option value="">-- Package ကို ရွေးပါ --</option>
-            
-            <optgroup label="Weekly Diamond Pass">
+            <optgroup label="Weekly Pass">
                 <option value="Weekly_Pass_6300">Weekly Diamond Pass - 6,300 Ks</option>
             </optgroup>
-
-            <optgroup label="Regular Diamonds">
-                <option value="11_Dai_1000">11 Diamonds - 1,000 Ks</option>
-                <option value="22_Dai_2000">22 Diamonds - 2,000 Ks</option>
-                <option value="33_Dai_3000">33 Diamonds - 3,000 Ks</option>
-                <option value="55_Dai_3500">55 Diamonds - 3,500 Ks</option>
-                <option value="86_Dai_5300">86 Diamonds - 5,300 Ks</option>
-                <option value="172_Dai_10500">172 Diamonds - 10,500 Ks</option>
-                <option value="257_Dai_15500">257 Diamonds - 15,500 Ks</option>
-                <option value="343_Dai_21000">343 Diamonds - 21,000 Ks</option>
-                <option value="429_Dai_26000">429 Diamonds - 26,000 Ks</option>
-                <option value="514_Dai_31000">514 Diamonds - 31,000 Ks</option>
-                <option value="600_Dai_35500">600 Diamonds - 35,500 Ks</option>
-                <option value="706_Dai_41000">706 Diamonds - 41,000 Ks</option>
-                <option value="878_Dai_51000">878 Diamonds - 51,000 Ks</option>
-                <option value="963_Dai_56000">963 Diamonds - 56,000 Ks</option>
-                <option value="1049_Dai_62000">1,049 Diamonds - 62,000 Ks</option>
-                <option value="1135_Dai_66000">1,135 Diamonds - 66,000 Ks</option>
-                <option value="1220_Dai_72000">1,220 Diamonds - 72,000 Ks</option>
-                <option value="1412_Dai_82000">1,412 Diamonds - 82,000 Ks</option>
-                <option value="2195_Dai_123000">2,195 Diamonds - 123,000 Ks</option>
-                <option value="3688_Dai_205000">3,688 Diamonds - 205,000 Ks</option>
-                <option value="5532_Dai_305000">5,532 Diamonds - 305,000 Ks</option>
-                <option value="9288_Dai_505000">9,288 Diamonds - 505,000 Ks</option>
-            </optgroup>
-
-            <optgroup label="Double Dai💎 (Special)">
-                <option value="50+50_Dai_4000">50+50 Diamonds - 4,000 Ks</option>
-                <option value="150+150_Dai_11000">150+150 Diamonds - 11,000 Ks</option>
-                <option value="250+250_Dai_17000">250+250 Diamonds - 17,000 Ks</option>
-                <option value="500+500_Dai_34000">500+500 Diamonds - 34,000 Ks</option>
+            <optgroup label="Regular Price">
+                <option value="11_Dai_1000">11 Dai - 1,000 Ks</option>
+                <option value="86_Dai_5300">86 Dai - 5,300 Ks</option>
+                <option value="172_Dai_10500">172 Dai - 10,500 Ks</option>
+                <option value="9288_Dai_505000">9288 Dai - 505,000 Ks</option>
             </optgroup>
         </select>
 
         <label>ငွေလွှဲပြေစာ (Screenshot):</label>
         <input type="file" id="receipt" accept="image/*" required>
 
-        <button type="submit" id="submitBtn">Order တင်မည်</button>
+        <button type="submit" id="submitBtn" class="btn-order">Order တင်မည်</button>
     </form>
 </div>
 
+<div id="check-section" class="content hidden">
+    <h3>🔍 Order Status စစ်မည်</h3>
+    <input type="number" id="searchId" placeholder="User ID ရိုက်ထည့်ပါ">
+    <button onclick="checkStatus()" class="btn-order" style="background: var(--secondary);">စစ်ဆေးမည်</button>
+    <div id="statusResult" style="margin-top: 20px;"></div>
+</div>
+
+<a href="https://t.me/kazeno" class="floating-btn"><i class="fab fa-telegram-plane"></i></a>
+
 <script type="module" src="app.js"></script>
+<script>
+    function switchTab(type) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        if(type === 'buy') {
+            document.getElementById('buy-section').classList.remove('hidden');
+            document.getElementById('check-section').classList.add('hidden');
+        } else {
+            document.getElementById('buy-section').classList.add('hidden');
+            document.getElementById('check-section').classList.remove('hidden');
+        }
+    }
+</script>
 </body>
 </html>
