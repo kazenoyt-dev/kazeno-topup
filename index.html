@@ -13,6 +13,7 @@
         <ul class="nav-links">
             <li><a href="#" onclick="showPage('home')">Home</a></li>
             <li><a href="#" onclick="showPage('shop')">Shop</a></li>
+            <li><a href="#" onclick="showPage('admin')">Admin Mode</a></li>
             <li><a href="#" onclick="showPage('login')">Login</a></li>
         </ul>
     </nav>
@@ -30,18 +31,20 @@
         <section id="shop" class="page">
             <h2 class="page-title">Top-Up Packages</h2>
             <div class="shop-grid">
-                <div class="glass-card product">
-                    <h3>💎 86 Diamonds</h3>
-                    <p>Mobile Legends</p>
-                    <p class="price">2,500 MMK</p>
-                    <button class="btn-buy">Buy Now</button>
                 </div>
-                <div class="glass-card product">
-                    <h3>💵 60 UC</h3>
-                    <p>PUBG Mobile</p>
-                    <p class="price">3,000 MMK</p>
-                    <button class="btn-buy">Buy Now</button>
-                </div>
+        </section>
+
+        <section id="admin" class="page">
+            <div class="glass-card login-box">
+                <h2>Add New Package</h2>
+                <p style="font-size: 12px; margin-bottom: 15px;">(Admin များသာ အသုံးပြုရန်)</p>
+                
+                <input type="text" id="p-icon" class="glass-input" placeholder="Icon (ဥပမာ - 💎 သို့မဟုတ် 💵)">
+                <input type="text" id="p-name" class="glass-input" placeholder="Name (ဥပမာ - 86 Diamonds)">
+                <input type="text" id="p-game" class="glass-input" placeholder="Game (ဥပမာ - Mobile Legends)">
+                <input type="text" id="p-price" class="glass-input" placeholder="Price (ဥပမာ - 2,500 MMK)">
+                
+                <button class="btn-buy" id="addProductBtn" style="margin-top: 15px;">Add to Shop</button>
             </div>
         </section>
 
@@ -59,4 +62,3 @@
     <script type="module" src="app.js"></script>
 </body>
 </html>
-
