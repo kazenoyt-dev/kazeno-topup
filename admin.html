@@ -6,20 +6,7 @@
 <title>Admin - Kazeno Shop</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg-dark: #0a0a0f;
-    --sidebar-bg: #11131a;
-    --card-bg: #15171e;
-    --border: #1f2128;
-    --text-main: #ffffff;
-    --text-muted: #8b92a5;
-    --primary: #4facfe;
-    --accent: #6c5ce7;
-    --ok: #00b894;
-    --danger: #ff7675;
-    --warning: #fdcb6e;
-  }
-  
+  :root { --bg-dark: #0a0a0f; --sidebar-bg: #11131a; --card-bg: #15171e; --border: #1f2128; --text-main: #ffffff; --text-muted: #8b92a5; --primary: #4facfe; --accent: #6c5ce7; --ok: #00b894; --danger: #ff7675; --warning: #fdcb6e; }
   * { box-sizing: border-box; outline: none; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent;}
   body { background: var(--bg-dark); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
@@ -39,7 +26,6 @@
   .menu-label { font-size: 11px; color: #555; font-weight: 700; text-transform: uppercase; margin: 20px 20px 5px; letter-spacing: 1px;}
   .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.2s; border-right: 3px solid transparent; }
   .menu-item:hover, .menu-item.active { background: rgba(108, 92, 231, 0.05); color: #fff; border-right-color: var(--accent); }
-  .menu-item svg { width: 18px; height: 18px; }
 
   /* --- TOP HEADER --- */
   .menu-toggle { background: none; border: none; color: #fff; cursor: pointer; display: none; }
@@ -48,78 +34,48 @@
   .admin-avatar { width: 32px; height: 32px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; }
 
   /* --- VIEWS & DASHBOARD --- */
-  .view { display: none; animation: fadeIn 0.3s; }
-  .view.active { display: block; }
+  .view { display: none; animation: fadeIn 0.3s; } .view.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
   .dash-top-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
   .d-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
   .d-card-header { display: flex; align-items: center; gap: 10px; }
-  .d-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .d-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size:18px;}
   .d-val { font-size: 24px; font-weight: 800; color: #fff; }
   .d-label { font-size: 12px; color: var(--text-muted); }
-  .d-link { font-size: 11px; color: var(--accent); cursor: pointer; margin-top: 5px; font-weight: 600; }
 
-  /* Time Filters */
-  .time-filters { display: flex; gap: 10px; background: var(--card-bg); padding: 5px; border-radius: 10px; width: fit-content; margin: 0 auto 30px; border: 1px solid var(--border);}
-  .filter-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 20px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-  .filter-btn.active { background: var(--accent); color: #fff; }
-
-  /* Financial Stats Stack */
   .fin-stack { display: flex; flex-direction: column; gap: 15px; max-width: 600px; margin: 0 auto; }
   .fin-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 20px; }
-  .fin-icon { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; }
-  .fin-icon svg { width: 24px; height: 24px; }
+  .fin-icon { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size:24px;}
   .fin-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
   .fin-val { font-size: 20px; font-weight: 800; }
 
-  /* Colors for Stats */
-  .c-blue { background: rgba(79, 172, 254, 0.1); color: #4facfe; }
-  .c-red { background: rgba(255, 118, 117, 0.1); color: #ff7675; }
-  .c-green { background: rgba(0, 184, 148, 0.1); color: #00b894; }
-  .c-orange { background: rgba(253, 203, 110, 0.1); color: #fdcb6e; }
-  .c-purple { background: rgba(108, 92, 231, 0.1); color: #6c5ce7; }
-  .c-pink { background: rgba(232, 67, 147, 0.1); color: #e84393; }
+  .c-blue { background: rgba(79, 172, 254, 0.1); color: #4facfe; } .c-red { background: rgba(255, 118, 117, 0.1); color: #ff7675; }
+  .c-green { background: rgba(0, 184, 148, 0.1); color: #00b894; } .c-orange { background: rgba(253, 203, 110, 0.1); color: #fdcb6e; }
+  .c-purple { background: rgba(108, 92, 231, 0.1); color: #6c5ce7; } .c-pink { background: rgba(232, 67, 147, 0.1); color: #e84393; }
 
-  /* --- DATA LISTS (Tables/Cards) --- */
-  .data-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  /* --- DATA LISTS --- */
+  .data-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight:600;}
   .data-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; transition: 0.2s;}
   .data-item:hover { border-color: #333; }
   .badge { padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
-  .badge.pending { color: var(--warning); background: rgba(253, 203, 110, 0.1); }
-  .badge.completed { color: var(--ok); background: rgba(0, 184, 148, 0.1); }
-  .badge.cancelled { color: var(--danger); background: rgba(255, 118, 117, 0.1); }
+  .badge.pending { color: var(--warning); background: rgba(253, 203, 110, 0.1); } .badge.completed { color: var(--ok); background: rgba(0, 184, 148, 0.1); }
+  .badge.cancelled { color: var(--danger); background: rgba(255, 118, 117, 0.1); } .badge.role { color: var(--primary); background: rgba(79, 172, 254, 0.1); }
   .id-tag { font-family: monospace; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
   
-  .btn { padding: 8px 14px; border-radius: 8px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; color: #fff; transition: 0.2s; }
-  .btn:active { transform: scale(0.95); }
-  .btn-ok { background: var(--ok); color: #000; }
-  .btn-danger { background: var(--danger); }
-  .btn-primary { background: var(--accent); }
-  .btn-dark { background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
-  .btn-dark:hover { background: rgba(255,255,255,0.1); }
+  .btn { padding: 8px 14px; border-radius: 8px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; color: #fff; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center;}
+  .btn:active { transform: scale(0.95); } .btn-ok { background: var(--ok); color: #000; } .btn-danger { background: var(--danger); }
+  .btn-primary { background: var(--accent); } .btn-dark { background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
 
   /* --- MODALS & FORMS --- */
-  .input-box { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff; margin-bottom: 15px; font-size: 13px; transition: 0.3s;}
-  .input-box:focus { border-color: var(--accent); }
+  .input-box, .select-box { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff; margin-bottom: 15px; font-size: 13px;}
   .upload-box { border: 2px dashed var(--border); border-radius: 8px; padding: 15px; text-align: center; color: var(--text-muted); cursor: pointer; font-size: 12px; margin-bottom: 15px; background: rgba(0,0,0,0.2); transition: 0.3s;}
-  .upload-box:hover { border-color: var(--accent); color: var(--accent); }
-  
   .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 15px; }
-  .modal-bg.active { display: flex; }
-  .modal-card { background: var(--sidebar-bg); border: 1px solid var(--border); border-radius: 16px; padding: 25px; width: 100%; max-width: 450px; max-height: 90vh; overflow-y: auto; }
-
-  .toast { position: fixed; top: 20px; right: 20px; background: var(--text-main); color: #000; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 13px; opacity: 0; transition: 0.3s; z-index: 3000; box-shadow: 0 5px 15px rgba(0,0,0,0.3);}
+  .modal-bg.active { display: flex; } .modal-card { background: var(--sidebar-bg); border: 1px solid var(--border); border-radius: 16px; padding: 25px; width: 100%; max-width: 450px; max-height: 90vh; overflow-y: auto; }
+  .toast { position: fixed; top: 20px; right: 20px; background: var(--text-main); color: #000; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 13px; opacity: 0; transition: 0.3s; z-index: 3000;}
   .toast.show { opacity: 1; }
 
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-      .sidebar { position: fixed; left: -260px; height: 100%; box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
-      .sidebar.open { left: 0; }
-      .menu-toggle { display: block; }
-      .close-sidebar { display: block; }
-      .dash-top-cards { grid-template-columns: repeat(2, 1fr); }
-  }
+  @media (max-width: 768px) { .sidebar { position: fixed; left: -260px; height: 100%; box-shadow: 10px 0 30px rgba(0,0,0,0.5); } .sidebar.open { left: 0; } .menu-toggle { display: block; } .close-sidebar { display: block; } .dash-top-cards { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
@@ -136,149 +92,107 @@
 <div id="main-admin" style="display:none; width:100%; height:100%;">
     
     <div class="sidebar" id="sidebar">
-        <div class="brand-area">
-            <img src="https://img.freepik.com/free-vector/ninja-mascot-esports-logo-design_140715-32.jpg" class="brand-logo">
-            <div class="brand-text">KAZENO</div>
-            <div style="flex:1;"></div>
-            <button class="close-sidebar" onclick="toggleSidebar()"><svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-        </div>
+        <div class="brand-area"><img src="https://img.freepik.com/free-vector/ninja-mascot-esports-logo-design_140715-32.jpg" class="brand-logo"><div class="brand-text">KAZENO</div><div style="flex:1;"></div><button class="close-sidebar" onclick="toggleSidebar()">✖</button></div>
         <div class="menu-wrap">
             <div class="menu-label">Main</div>
-            <div class="menu-item active" onclick="switchTab('v-dash', this)">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> Dashboard
-            </div>
-            <div class="menu-item" onclick="switchTab('v-users', this)">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Users
-            </div>
+            <div class="menu-item active" onclick="switchTab('v-dash', this)"> 📊 Dashboard </div>
+            <div class="menu-item" onclick="switchTab('v-users', this)"> 👥 Users & Roles </div>
             
-            <div class="menu-label">Wallet</div>
-            <div class="menu-item" onclick="switchTab('v-deposits', this)">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg> Deposits
-            </div>
+            <div class="menu-label">Wallet & Orders</div>
+            <div class="menu-item" onclick="switchTab('v-deposits', this)"> 💸 Deposits </div>
+            <div class="menu-item" onclick="switchTab('v-orders', this)"> 📦 Order History </div>
             
             <div class="menu-label">Products</div>
-            <div class="menu-item" onclick="switchTab('v-store', this)">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg> Categories & Games
-            </div>
-
-            <div class="menu-label">Orders</div>
-            <div class="menu-item" onclick="switchTab('v-orders', this)">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg> Order History
-            </div>
+            <div class="menu-item" onclick="switchTab('v-store', this)"> 🎮 Categories & Games </div>
+            
+            <div class="menu-label">Marketing</div>
+            <div class="menu-item" onclick="switchTab('v-promo', this)"> 🎁 Promo Codes </div>
             
             <div class="menu-label">App Settings</div>
-            <div class="menu-item" onclick="toast('Coming in Phase 2!')">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Settings
-            </div>
-            
-            <div class="menu-label">More</div>
-            <div class="menu-item" style="color: var(--danger);" onclick="location.reload()">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout
-            </div>
+            <div class="menu-item" onclick="switchTab('v-payments', this)"> 💳 Payment Methods </div>
+            <div class="menu-item" onclick="switchTab('v-settings', this)"> ⚙️ CS & App Settings </div>
+            <div class="menu-item" style="color: var(--danger);" onclick="location.reload()"> 🚪 Logout </div>
         </div>
     </div>
 
     <div class="main-content">
         <div class="top-header">
-            <div style="display:flex; align-items:center; gap:15px;">
-                <button class="menu-toggle" onclick="toggleSidebar()"><svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
-                <div class="header-title" id="page-title">Dashboard</div>
-            </div>
-            <div class="admin-profile">
-                <span>Superadmin</span>
-                <div class="admin-avatar">K</div>
-            </div>
+            <div style="display:flex; align-items:center; gap:15px;"><button class="menu-toggle" onclick="toggleSidebar()">☰</button><div class="header-title" id="page-title">Dashboard</div></div>
+            <div class="admin-profile"><span>Superadmin</span><div class="admin-avatar">K</div></div>
         </div>
 
         <div class="content-area">
-            
             <div id="v-dash" class="view active">
                 <div class="dash-top-cards">
-                    <div class="d-card">
-                        <div class="d-card-header">
-                            <div class="d-icon c-purple"><svg viewBox="0 0 24 24" width="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg></div>
-                            <div><div class="d-label">Users</div><div class="d-val" id="ds-users">0</div></div>
-                        </div>
-                        <div class="d-link" onclick="document.querySelectorAll('.menu-item')[1].click()">View all →</div>
-                    </div>
-                    <div class="d-card">
-                        <div class="d-card-header">
-                            <div class="d-icon c-red"><svg viewBox="0 0 24 24" width="20" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></div>
-                            <div><div class="d-label">Categories</div><div class="d-val" id="ds-games">0</div></div>
-                        </div>
-                        <div class="d-link" onclick="document.querySelectorAll('.menu-item')[3].click()">View all →</div>
-                    </div>
-                    <div class="d-card">
-                        <div class="d-card-header">
-                            <div class="d-icon c-green"><svg viewBox="0 0 24 24" width="20" stroke="currentColor" stroke-width="2" fill="none"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
-                            <div><div class="d-label">Orders</div><div class="d-val" id="ds-orders">0</div></div>
-                        </div>
-                        <div class="d-link" onclick="document.querySelectorAll('.menu-item')[4].click()">View all →</div>
-                    </div>
+                    <div class="d-card"><div class="d-card-header"><div class="d-icon c-purple">👥</div><div><div class="d-label">Total Users</div><div class="d-val" id="ds-users">0</div></div></div></div>
+                    <div class="d-card"><div class="d-card-header"><div class="d-icon c-red">🎮</div><div><div class="d-label">Categories</div><div class="d-val" id="ds-games">0</div></div></div></div>
+                    <div class="d-card"><div class="d-card-header"><div class="d-icon c-green">📦</div><div><div class="d-label">Completed Orders</div><div class="d-val" id="ds-orders">0</div></div></div></div>
                 </div>
-
-                <div class="time-filters">
-                    <button class="filter-btn active">All</button>
-                    <button class="filter-btn">Today</button>
-                    <button class="filter-btn">Week</button>
-                    <button class="filter-btn">Month</button>
-                </div>
-
                 <div class="fin-stack">
-                    <div class="fin-card">
-                        <div class="fin-icon c-green"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><polyline points="19 12 12 19 5 12"></polyline><line x1="12" y1="5" x2="12" y2="19"></line></svg></div>
-                        <div><div class="fin-label">Total Deposits</div><div class="fin-val c-green" id="ds-tot-dep">0 Ks</div></div>
-                    </div>
-                    <div class="fin-card">
-                        <div class="fin-icon c-orange"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
-                        <div><div class="fin-label">Pending Deposits</div><div class="fin-val c-orange" id="ds-pen-dep">0 Ks</div></div>
-                    </div>
-                    <div class="fin-card">
-                        <div class="fin-icon c-blue"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg></div>
-                        <div><div class="fin-label">Total Sales</div><div class="fin-val c-blue" id="ds-tot-sales">0 Ks</div></div>
-                    </div>
-                    <div class="fin-card">
-                        <div class="fin-icon c-purple"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div>
-                        <div><div class="fin-label">Total Profit (Est 15%)</div><div class="fin-val c-purple" id="ds-tot-profit">0 Ks</div></div>
-                    </div>
-                    <div class="fin-card">
-                        <div class="fin-icon c-pink"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg></div>
-                        <div><div class="fin-label">Wallet Balance Left (User Funds)</div><div class="fin-val c-pink" id="ds-wal-left">0 Ks</div></div>
-                    </div>
+                    <div class="fin-card"><div class="fin-icon c-green">💸</div><div><div class="fin-label">Total Deposits Approved</div><div class="fin-val c-green" id="ds-tot-dep">0 Ks</div></div></div>
+                    <div class="fin-card"><div class="fin-icon c-blue">💰</div><div><div class="fin-label">Total Sales (Revenue)</div><div class="fin-val c-blue" id="ds-tot-sales">0 Ks</div></div></div>
+                    <div class="fin-card"><div class="fin-icon c-purple">📈</div><div><div class="fin-label">Real Profit (Sales - Cost)</div><div class="fin-val c-purple" id="ds-tot-profit">0 Ks</div></div></div>
+                    <div class="fin-card"><div class="fin-icon c-pink">🏦</div><div><div class="fin-label">User Wallet Balances (Liability)</div><div class="fin-val c-pink" id="ds-wal-left">0 Ks</div></div></div>
                 </div>
             </div>
 
-            <div id="v-users" class="view">
-                <div class="data-header"><div>Manage Users</div></div>
-                <div id="list-users">Loading...</div>
-            </div>
+            <div id="v-users" class="view"><div class="data-header"><div>Manage Users & Roles</div></div><div id="list-users">Loading...</div></div>
             
-            <div id="v-deposits" class="view">
-                <div class="data-header"><div>Deposit Requests</div></div>
-                <div id="list-deposits">Loading...</div>
+            <div id="v-deposits" class="view"><div class="data-header"><div>Deposit Requests</div></div><div id="list-deposits">Loading...</div></div>
+            
+            <div id="v-orders" class="view"><div class="data-header"><div>Order History</div></div><div id="list-orders">Loading...</div></div>
+            
+            <div id="v-store" class="view">
+                <div class="data-header"><div>Games & Categories</div><button class="btn btn-primary" onclick="openGameModal()">+ Add Category</button></div>
+                <div id="list-games">Loading...</div>
             </div>
 
-            <div id="v-store" class="view">
-                <div style="background:var(--card-bg); border:1px solid var(--border); padding:20px; border-radius:12px; margin-bottom:20px;">
-                    <div style="font-weight:600; margin-bottom:10px;">Home Screen Banner</div>
+            <div id="v-promo" class="view">
+                <div class="data-header"><div>Manage Promo Codes</div><button class="btn btn-primary" onclick="openPromoModal()">+ Create Code</button></div>
+                <div id="list-promos">Loading...</div>
+            </div>
+
+            <div id="v-payments" class="view">
+                <div class="data-header"><div>Checkout Payment Methods</div><button class="btn btn-primary" onclick="openPayModal()">+ Add Payment</button></div>
+                <div id="list-payments">Loading...</div>
+            </div>
+
+            <div id="v-settings" class="view">
+                <div style="background:var(--card-bg); border:1px solid var(--border); padding:20px; border-radius:12px; margin-bottom:20px; max-width:600px;">
+                    <h3 style="color:var(--accent); margin-bottom:15px;">Customer Service & Links</h3>
+                    <label style="font-size:11px; color:var(--text-muted);">Facebook Page Link</label>
+                    <input type="text" id="inp-cs-fb" class="input-box" placeholder="https://facebook.com/...">
+                    <label style="font-size:11px; color:var(--text-muted);">Telegram Link</label>
+                    <input type="text" id="inp-cs-tg" class="input-box" placeholder="https://t.me/...">
+                    <button class="btn btn-primary" onclick="saveCSLinks()">Save Links</button>
+                </div>
+
+                <div style="background:var(--card-bg); border:1px solid var(--border); padding:20px; border-radius:12px; max-width:600px;">
+                    <h3 style="color:var(--accent); margin-bottom:15px;">Home Screen Banner</h3>
                     <img id="home-banner-preview" src="" style="width:100%; height:120px; object-fit:cover; border-radius:8px; margin-bottom:10px; display:none; border:1px solid var(--border);">
                     <div class="upload-box" onclick="document.getElementById('hb-file').click()">📸 Click to Upload New Banner</div>
                     <input type="file" id="hb-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'homeBanner')">
                 </div>
-
-                <div class="data-header">
-                    <div>Games & Categories</div>
-                    <button class="btn btn-primary" onclick="openGameModal()">+ Add Category</button>
-                </div>
-                <div id="list-games">Loading...</div>
-            </div>
-            
-            <div id="v-orders" class="view">
-                <div class="data-header"><div>Order History</div></div>
-                <div id="list-orders">Loading...</div>
             </div>
 
         </div>
+    </div>
+</div>
+
+<div class="modal-bg" id="user-modal">
+    <div class="modal-card">
+        <h3 style="margin-bottom:15px;">Edit User</h3>
+        <input type="hidden" id="um-id">
+        <div style="font-size:14px; font-weight:bold; margin-bottom:15px; color:var(--accent);" id="um-email"></div>
+        <label style="font-size:11px; color:var(--text-muted);">Wallet Balance</label>
+        <input type="number" id="um-wallet" class="input-box" placeholder="0">
+        <label style="font-size:11px; color:var(--text-muted);">User Role</label>
+        <select id="um-role" class="select-box">
+            <option value="Customer">Customer</option>
+            <option value="Seller">Seller</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <div style="display:flex; gap:10px; margin-top:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveUserEdit()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('user-modal')">Cancel</button></div>
     </div>
 </div>
 
@@ -286,62 +200,59 @@
     <div class="modal-card">
         <h3 id="gm-title" style="margin-bottom:15px;">Category Details</h3>
         <input type="hidden" id="gm-id">
-        
-        <label style="font-size:11px; color:var(--text-muted);">Name</label>
-        <input type="text" id="gm-name" class="input-box" placeholder="e.g. Mobile Legends">
-        
-        <label style="font-size:11px; color:var(--text-muted);">Code (lowercase, no space)</label>
-        <input type="text" id="gm-code" class="input-box" placeholder="e.g. mlbb">
-        
+        <label style="font-size:11px; color:var(--text-muted);">Name</label><input type="text" id="gm-name" class="input-box" placeholder="e.g. Mobile Legends">
+        <label style="font-size:11px; color:var(--text-muted);">Code (lowercase, no space)</label><input type="text" id="gm-code" class="input-box" placeholder="e.g. mlbb">
         <label style="font-size:11px; color:var(--text-muted);">Square Logo</label>
         <img id="gm-logo-preview" style="width:60px; height:60px; border-radius:10px; display:none; margin-bottom:5px; border:1px solid var(--border); object-fit:cover;">
-        <div class="upload-box" style="padding:10px;" onclick="document.getElementById('gm-logo-file').click()">Upload Logo</div>
-        <input type="file" id="gm-logo-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'gameLogo')">
-        <input type="hidden" id="gm-logo-url">
-
+        <div class="upload-box" style="padding:10px;" onclick="document.getElementById('gm-logo-file').click()">Upload Logo</div><input type="file" id="gm-logo-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'gameLogo')"><input type="hidden" id="gm-logo-url">
         <label style="font-size:11px; color:var(--text-muted);">Top Detail Banner</label>
         <img id="gm-banner-preview" style="width:100%; height:80px; object-fit:cover; border-radius:10px; display:none; margin-bottom:5px; border:1px solid var(--border);">
-        <div class="upload-box" style="padding:10px;" onclick="document.getElementById('gm-banner-file').click()">Upload Banner</div>
-        <input type="file" id="gm-banner-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'gameBanner')">
-        <input type="hidden" id="gm-banner-url">
-
-        <label style="font-size:11px; color:var(--text-muted);">Sort Order</label>
-        <input type="number" id="gm-order" class="input-box" placeholder="e.g. 1">
-        
-        <div style="display:flex; gap:10px; margin-top:10px;">
-            <button class="btn btn-primary" style="flex:1; padding:12px;" onclick="saveGame()">Save Changes</button>
-            <button class="btn btn-dark" style="flex:1; padding:12px;" onclick="closeModal('game-modal')">Cancel</button>
-        </div>
+        <div class="upload-box" style="padding:10px;" onclick="document.getElementById('gm-banner-file').click()">Upload Banner</div><input type="file" id="gm-banner-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'gameBanner')"><input type="hidden" id="gm-banner-url">
+        <label style="font-size:11px; color:var(--text-muted);">Sort Order</label><input type="number" id="gm-order" class="input-box" placeholder="e.g. 1">
+        <div style="display:flex; gap:10px; margin-top:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveGame()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('game-modal')">Cancel</button></div>
     </div>
 </div>
 
 <div class="modal-bg" id="pack-modal">
-    <div class="modal-card" style="max-width:500px;">
-        <h3 style="margin-bottom:5px;">Products List</h3>
+    <div class="modal-card" style="max-width:550px;">
+        <h3 style="margin-bottom:5px;">Products & Profit Config</h3>
         <div style="font-size:12px; color:var(--accent); margin-bottom:15px;" id="pm-game-name"></div>
         
         <div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);">
             <div style="font-size:11px; color:var(--text-muted); margin-bottom:5px;">Add New Product</div>
+            <input type="text" id="pm-new-name" class="input-box" style="margin-bottom:10px;" placeholder="Name (e.g. 86 Dia)">
             <div style="display:flex; gap:10px;">
-                <input type="text" id="pm-new-name" class="input-box" style="margin:0; flex:2;" placeholder="Name (e.g. 86 Dia)">
-                <input type="number" id="pm-new-price" class="input-box" style="margin:0; flex:1;" placeholder="Price">
+                <div style="flex:1;"><label style="font-size:10px; color:var(--text-muted);">Cost Price (အရင်း)</label><input type="number" id="pm-new-cost" class="input-box" style="margin:0;" placeholder="e.g. 4800"></div>
+                <div style="flex:1;"><label style="font-size:10px; color:var(--text-muted);">Selling Price (ရောင်းဈေး)</label><input type="number" id="pm-new-price" class="input-box" style="margin:0;" placeholder="e.g. 5300"></div>
             </div>
             <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="addPackage()">+ Add Product</button>
         </div>
 
         <div id="pm-list" style="display:flex; flex-direction:column; gap:8px; max-height:250px; overflow-y:auto; margin-bottom:15px;"></div>
         
-        <div style="display:flex; gap:10px;">
-            <button class="btn btn-ok" style="flex:1; padding:12px;" onclick="savePackages()">Save All</button>
-            <button class="btn btn-dark" style="flex:1; padding:12px;" onclick="closeModal('pack-modal')">Close</button>
-        </div>
+        <div style="display:flex; gap:10px;"><button class="btn btn-ok" style="flex:1;" onclick="savePackages()">Save All</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('pack-modal')">Close</button></div>
     </div>
 </div>
 
+<div class="modal-bg" id="pay-modal">
+    <div class="modal-card">
+        <h3 style="margin-bottom:15px;" id="pay-title">Payment Method</h3><input type="hidden" id="pay-id">
+        <input type="text" id="pay-name" class="input-box" placeholder="Provider (e.g. KPay)"><input type="text" id="pay-phone" class="input-box" placeholder="Phone Number"><input type="text" id="pay-acc" class="input-box" placeholder="Account Name">
+        <img id="pay-qr-preview" style="width:100px; height:100px; border-radius:10px; display:none; margin-bottom:5px; object-fit:cover;">
+        <div class="upload-box" style="padding:10px;" onclick="document.getElementById('pay-qr-file').click()">Upload QR</div><input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'payQR')"><input type="hidden" id="pay-qr-url">
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePayment()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('pay-modal')">Cancel</button></div>
+    </div>
+</div>
+<div class="modal-bg" id="promo-modal">
+    <div class="modal-card">
+        <h3 style="margin-bottom:15px;">Promo Code</h3><input type="hidden" id="promo-id">
+        <input type="text" id="promo-code" class="input-box" style="text-transform:uppercase;" placeholder="Code (e.g. NEWYEAR)"><input type="number" id="promo-amt" class="input-box" placeholder="Discount (Ks)">
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePromo()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('promo-modal')">Cancel</button></div>
+    </div>
+</div>
 <div class="modal-bg" id="slip-modal" onclick="if(event.target===this) closeModal('slip-modal')">
     <div class="modal-card" style="text-align:center; max-width:350px;">
-        <h3 style="margin-bottom:15px;">Transaction Slip</h3>
-        <img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);" src="">
+        <h3 style="margin-bottom:15px;">Transaction Slip</h3><img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);" src="">
         <button class="btn btn-dark" style="width:100%; padding:12px;" onclick="closeModal('slip-modal')">Close</button>
     </div>
 </div>
@@ -353,236 +264,140 @@
     const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const db = getFirestore(app);
 
-    // --- UTILS & UI ---
     window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
     function formatDate(ts) { if(!ts) return "-"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); }
-
+    
     window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); }
-    
-    window.switchTab = (viewId, el) => {
-        document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
-        if(el) el.classList.add('active');
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById(viewId).classList.add('active');
-        document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard';
-        if(window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
-    };
-    
+    window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim().replace(/[^a-zA-Z\s]/g,'') : 'Dashboard'; if(window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open'); };
     window.closeModal = (id) => document.getElementById(id).classList.remove('active');
     window.viewSlip = (url) => { if(!url)return toast("No slip uploaded"); document.getElementById('modal-img-src').src = url; document.getElementById('slip-modal').classList.add('active'); };
 
-    // --- AUTH GATE ---
-    window.checkPin = () => {
-        if(document.getElementById('admin-pin').value === "1234") {
-            document.getElementById('auth-gate').style.display = "none";
-            document.getElementById('main-admin').style.display = "flex";
-            initAdmin();
-        } else toast("Invalid PIN!");
-    };
+    window.checkPin = () => { if(document.getElementById('admin-pin').value === "1234") { document.getElementById('auth-gate').style.display = "none"; document.getElementById('main-admin').style.display = "flex"; initAdmin(); } else toast("Invalid PIN!"); };
 
-    // --- IMGBB DIRECT UPLOAD ---
-    async function uploadToImgBB(file) {
-        toast("Uploading Image...");
-        let fd = new FormData(); fd.append("image", file);
-        let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd });
-        let data = await res.json();
-        if(data.success) { toast("Upload Done!"); return data.data.url; }
-        else throw new Error("Upload Failed");
-    }
-
+    // --- IMGBB ---
+    async function uploadToImgBB(file) { toast("Uploading Image..."); let fd = new FormData(); fd.append("image", file); let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let data = await res.json(); if(data.success) { toast("Upload Done!"); return data.data.url; } else throw new Error("Upload Failed"); }
     window.uploadImageCommon = async (input, type) => {
         if(!input.files[0]) return;
         try {
             let url = await uploadToImgBB(input.files[0]);
-            if(type === 'homeBanner') {
-                document.getElementById('home-banner-preview').src = url; document.getElementById('home-banner-preview').style.display = 'block';
-                await setDoc(doc(db, "settings", "app_config"), { homeBannerUrl: url }, { merge: true });
-            } else if (type === 'gameLogo') {
-                document.getElementById('gm-logo-url').value = url; document.getElementById('gm-logo-preview').src = url; document.getElementById('gm-logo-preview').style.display = 'block';
-            } else if (type === 'gameBanner') {
-                document.getElementById('gm-banner-url').value = url; document.getElementById('gm-banner-preview').src = url; document.getElementById('gm-banner-preview').style.display = 'block';
-            }
+            if(type === 'homeBanner') { document.getElementById('home-banner-preview').src = url; document.getElementById('home-banner-preview').style.display = 'block'; await setDoc(doc(db, "settings", "app_config"), { homeBannerUrl: url }, { merge: true }); } 
+            else if (type === 'gameLogo') { document.getElementById('gm-logo-url').value = url; document.getElementById('gm-logo-preview').src = url; document.getElementById('gm-logo-preview').style.display = 'block'; } 
+            else if (type === 'gameBanner') { document.getElementById('gm-banner-url').value = url; document.getElementById('gm-banner-preview').src = url; document.getElementById('gm-banner-preview').style.display = 'block'; }
+            else if (type === 'payQR') { document.getElementById('pay-qr-url').value = url; document.getElementById('pay-qr-preview').src = url; document.getElementById('pay-qr-preview').style.display = 'block'; }
         } catch(e) { toast(e.message); }
     };
 
     let editingGameId = null; let editingPackages = [];
 
-    // --- MAIN ADMIN INIT ---
     function initAdmin() {
-        // 1. Settings (Banner)
+        // App Settings
         onSnapshot(doc(db, "settings", "app_config"), (d) => {
-            if(d.exists() && d.data().homeBannerUrl) {
-                document.getElementById('home-banner-preview').src = d.data().homeBannerUrl;
-                document.getElementById('home-banner-preview').style.display = 'block';
+            if(d.exists()) {
+                if(d.data().homeBannerUrl) { document.getElementById('home-banner-preview').src = d.data().homeBannerUrl; document.getElementById('home-banner-preview').style.display = 'block'; }
+                if(d.data().fbLink) document.getElementById('inp-cs-fb').value = d.data().fbLink;
+                if(d.data().tgLink) document.getElementById('inp-cs-tg').value = d.data().tgLink;
             }
         });
-
-        // 2. Users & Wallet Sum
-        onSnapshot(collection(db, "users"), (snap) => {
-            document.getElementById('ds-users').innerText = snap.size;
-            let html = ""; let totWal = 0;
-            snap.forEach(d => {
-                let u = d.data(); let bal = u.walletBalance||0; totWal += bal;
-                html += `<div class="data-item"><div style="flex:1;"><div style="font-weight:600; font-size:14px;">${u.email}</div><div style="color:var(--ok); font-weight:700; margin-top:5px;">${bal.toLocaleString()} Ks</div></div>
-                         <button class="btn btn-dark" onclick="editWallet('${d.id}', ${bal}, '${u.email}')">Edit Balance</button></div>`;
-            });
-            document.getElementById('list-users').innerHTML = html;
-            document.getElementById('ds-wal-left').innerText = totWal.toLocaleString() + " Ks";
+        
+        // PAYMENTS
+        onSnapshot(collection(db, "payment_methods"), (snap) => {
+            let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="flex:1;"><strong>${p.name}</strong><br><span style="color:var(--accent); font-family:monospace;">${p.phone}</span> (${p.accName})</div><div style="display:flex; gap:5px;"><button class="btn btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g, "&#39;")})'>Edit</button><button class="btn btn-danger" onclick="deleteDoc(doc(db, 'payment_methods', '${p.id}'))">Del</button></div></div>`; });
+            document.getElementById('list-payments').innerHTML = html || "<p style='color:gray;'>No payment methods set.</p>";
         });
 
-        // 3. Games / Categories
+        // PROMOS
+        onSnapshot(collection(db, "promo_codes"), (snap) => {
+            let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="flex:1;"><strong style="color:var(--ok); font-family:monospace; font-size:16px;">${p.code}</strong><br>Discount: <strong>${p.discount} Ks</strong></div><button class="btn btn-danger" onclick="deleteDoc(doc(db, 'promo_codes', '${p.id}'))">Delete</button></div>`; });
+            document.getElementById('list-promos').innerHTML = html || "<p style='color:gray;'>No promo codes.</p>";
+        });
+
+        // GAMES
         onSnapshot(query(collection(db, "games"), orderBy("orderNum", "asc")), (snap) => {
-            document.getElementById('ds-games').innerText = snap.size;
-            let html = "";
-            snap.forEach(s => {
-                let g = {id: s.id, ...s.data()};
-                html += `
-                <div class="data-item">
-                    <div style="display:flex; align-items:center; gap:15px; flex:1;">
-                        <img src="${g.logoUrl || 'https://via.placeholder.com/50'}" style="width:50px; height:50px; border-radius:10px; object-fit:cover; border:1px solid var(--border);">
-                        <div><div style="font-weight:700; font-size:15px;">${g.name}</div><div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Code: ${g.code} | Products: ${(g.packages||[]).length}</div></div>
-                    </div>
-                    <div style="display:flex; gap:8px;">
-                        <button class="btn btn-ok" onclick='openPackageModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Products</button>
-                        <button class="btn btn-dark" onclick='openGameModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Edit</button>
-                        <button class="btn btn-danger" onclick="deleteGame('${g.id}')">Del</button>
-                    </div>
-                </div>`;
-            });
-            document.getElementById('list-games').innerHTML = html || "<div style='color:var(--text-muted); text-align:center;'>No categories added.</div>";
+            let html = ""; snap.forEach(s => { let g = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="display:flex; align-items:center; gap:15px; flex:1;"><img src="${g.logoUrl || 'https://via.placeholder.com/50'}" style="width:40px; height:40px; border-radius:10px; object-fit:cover;"><div><div style="font-weight:700; font-size:14px;">${g.name}</div><div style="font-size:11px; color:var(--text-muted);">Items: ${(g.packages||[]).length}</div></div></div><div style="display:flex; gap:5px;"><button class="btn btn-ok" onclick='openPackageModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Products</button><button class="btn btn-dark" onclick='openGameModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Edit</button><button class="btn btn-danger" onclick="deleteGame('${g.id}')">Del</button></div></div>`; });
+            document.getElementById('list-games').innerHTML = html || "<p style='color:gray;'>No games.</p>";
         });
 
-        // 4. Orders & Sales Sum
-        onSnapshot(collection(db, "orders"), (snap) => {
-            document.getElementById('ds-orders').innerText = snap.size;
-            let pCount = 0; let totSales = 0; let html = ""; let arr = []; 
-            snap.forEach(d => arr.push({id: d.id, ...d.data()}));
-            arr.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
-            
-            arr.forEach(o => {
-                if(o.status === 'Pending') pCount++;
-                if(o.status === 'Completed') totSales += (o.price || 0);
-                
-                let cls = o.status==='Completed'?'completed':(o.status==='Cancelled'?'cancelled':'pending');
-                html += `<div class="data-item">
-                    <div style="flex:1;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <span class="id-tag">${o.orderId || 'ORD-'+o.id.substring(0,5)}</span>
-                            <span class="badge ${cls}">${o.status}</span>
-                        </div>
-                        <div style="font-weight:700; font-size:14px; margin-bottom:4px;">${o.game} - <span style="color:var(--accent);">${o.item}</span></div>
-                        <div style="font-size:12px; color:var(--text-muted);">Player ID: <span style="color:#fff;">${o.playerId} ${o.serverId?`(${o.serverId})`:''}</span></div>
-                        <div style="font-size:14px; font-weight:800; margin-top:8px;">${o.price.toLocaleString()} Ks <span style="font-size:10px; color:var(--text-muted); font-weight:normal;">(${o.payMethod})</span></div>
-                        <div style="font-size:10px; color:var(--text-muted); margin-top:8px;">By: ${o.userEmail} • ${formatDate(o.createdAt)}</div>
-                    </div>
-                    <div style="display:flex; flex-direction:column; gap:8px; min-width:90px;">
-                        ${o.slipImage ? `<button class="btn btn-dark" onclick="viewSlip('${o.slipImage}')">View Slip</button>`:''}
-                        ${o.status==='Pending'?`<button class="btn btn-ok" onclick="updOrd('${o.id}','Completed')">Approve</button><button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">Reject</button>`:''}
-                    </div></div>`;
-            });
-            document.getElementById('list-orders').innerHTML = html || "<div style='color:var(--text-muted); text-align:center;'>No orders yet.</div>"; 
-            document.getElementById('st-p-orders').innerText = pCount;
-            document.getElementById('ds-tot-sales').innerText = totSales.toLocaleString() + " Ks";
-            // Dummy Profit Calc (15%)
-            document.getElementById('ds-tot-profit').innerText = (totSales * 0.15).toLocaleString() + " Ks";
+        // USERS & ROLES
+        onSnapshot(collection(db, "users"), (s) => { 
+            let h=""; let t=0; document.getElementById('ds-users').innerText=s.size; 
+            s.forEach(d=>{ 
+                let u=d.data(); let bal=u.walletBalance||0; let role=u.role||'Customer'; t+=bal; 
+                h+=`<div class="data-item"><div style="flex:1;"><strong>${u.email}</strong> <span class="badge role" style="margin-left:5px;">${role}</span><br><span style="color:var(--ok); font-size:14px;">${bal.toLocaleString()} Ks</span></div><button class="btn btn-dark" onclick="openUserModal('${d.id}', ${bal}, '${role}', '${u.email}')">Edit User</button></div>`; 
+            }); 
+            document.getElementById('list-users').innerHTML=h; document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
         });
 
-        // 5. Deposits Sum
-        onSnapshot(collection(db, "deposits"), (snap) => {
-            let pCount = 0; let totDep = 0; let penDep = 0; let html = ""; let arr = []; 
-            snap.forEach(d => arr.push({id: d.id, ...d.data()}));
-            arr.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
-            
-            arr.forEach(dp => {
-                if(dp.status === 'Pending') { pCount++; penDep += dp.amount; }
-                if(dp.status === 'Completed') totDep += dp.amount;
-                
-                let cls = dp.status==='Completed'?'completed':(dp.status==='Cancelled'?'cancelled':'pending');
-                html += `<div class="data-item">
-                    <div style="flex:1;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <span class="id-tag">${dp.depId || 'DEP-'+dp.id.substring(0,5)}</span>
-                            <span class="badge ${cls}">${dp.status}</span>
-                        </div>
-                        <div style="color:var(--ok); font-size:20px; font-weight:800; margin-bottom:8px;">+ ${dp.amount.toLocaleString()} Ks</div>
-                        <div style="font-size:11px; color:var(--text-muted);">From: <span style="color:#fff;">${dp.userEmail}</span></div>
-                        <div style="font-size:10px; color:var(--text-muted); margin-top:4px;">${formatDate(dp.createdAt)}</div>
-                    </div>
-                    <div style="display:flex; flex-direction:column; gap:8px; min-width:90px;">
-                        <button class="btn btn-dark" onclick="viewSlip('${dp.slipImage}')">View Slip</button>
-                        ${dp.status==='Pending'?`<button class="btn btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})">Add Funds</button><button class="btn btn-danger" onclick="updDep('${dp.id}','Cancelled')">Reject</button>`:''}
-                    </div></div>`;
-            });
-            document.getElementById('list-deposits').innerHTML = html || "<div style='color:var(--text-muted); text-align:center;'>No deposits yet.</div>"; 
-            document.getElementById('st-p-deps').innerText = pCount;
-            document.getElementById('ds-tot-dep').innerText = totDep.toLocaleString() + " Ks";
-            document.getElementById('ds-pen-dep').innerText = penDep.toLocaleString() + " Ks";
+        // ORDERS & PROFIT CALC
+        onSnapshot(collection(db, "orders"), (s) => { 
+            let pC=0; let tS=0; let tP=0; let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
+            a.forEach(o=>{ 
+                if(o.status==='Pending') pC++; 
+                if(o.status==='Completed'){
+                    tS += (o.price||0);
+                    // 💡 Calculate Real Profit (Selling Price - Cost Price)
+                    let cost = o.costPrice || (o.price * 0.85); // Fallback to 15% margin if cost is missing
+                    tP += (o.price - cost);
+                }
+                let cls=o.status==='Completed'?'completed':(o.status==='Cancelled'?'cancelled':'pending'); 
+                let profitTxt = o.status==='Completed' ? `<div style="font-size:10px; color:var(--primary); margin-top:2px;">Profit: +${((o.price||0) - (o.costPrice||0)).toLocaleString()} Ks</div>` : '';
+                h+=`<div class="data-item"><div style="flex:1;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span class="id-tag">${o.orderId||o.id.substring(0,8)}</span><span class="badge ${cls}">${o.status}</span></div><strong>${o.game}</strong> - <span style="color:var(--accent);">${o.item}</span><br><span style="font-size:12px; color:var(--text-muted);">ID: ${o.playerId}</span><br><strong style="font-size:14px; margin-top:5px;">${(o.price||0).toLocaleString()} Ks</strong> <span style="font-size:10px;">(${o.payMethod})</span>${profitTxt}<div style="font-size:10px; color:var(--text-muted); margin-top:5px;">${o.userEmail}</div></div><div style="display:flex; flex-direction:column; gap:5px; width:80px;">${o.slipImage?`<button class="btn btn-dark" onclick="viewSlip('${o.slipImage}')">Slip</button>`:''}${o.status==='Pending'?`<button class="btn btn-ok" onclick="updOrd('${o.id}','Completed')">Approve</button><button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">Reject</button>`:''}</div></div>`; 
+            }); 
+            document.getElementById('list-orders').innerHTML=h; document.getElementById('st-p-orders').innerText=pC; document.getElementById('ds-orders').innerText = a.filter(x=>x.status==='Completed').length;
+            document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
         });
+
+        // DEPOSITS
+        onSnapshot(collection(db, "deposits"), (s) => { let pC=0; let tD=0; let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(dp=>{ if(dp.status==='Pending')pC++; if(dp.status==='Completed')tD+=dp.amount; let cls=dp.status==='Completed'?'completed':(dp.status==='Cancelled'?'cancelled':'pending'); h+=`<div class="data-item"><div style="flex:1;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span class="id-tag">${dp.depId||dp.id.substring(0,8)}</span><span class="badge ${cls}">${dp.status}</span></div><strong style="color:var(--ok); font-size:18px;">+ ${(dp.amount||0).toLocaleString()} Ks</strong><br><span style="font-size:10px;">From: ${dp.userEmail}</span></div><div style="display:flex; flex-direction:column; gap:5px; width:80px;"><button class="btn btn-dark" onclick="viewSlip('${dp.slipImage}')">Slip</button>${dp.status==='Pending'?`<button class="btn btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})">Add Funds</button><button class="btn btn-danger" onclick="updDep('${dp.id}','Cancelled')">Reject</button>`:''}</div></div>`; }); document.getElementById('list-deposits').innerHTML=h; document.getElementById('st-p-deps').innerText=pC; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
     }
+
+    // --- APP SETTINGS ---
+    window.saveCSLinks = async () => {
+        await setDoc(doc(db, "settings", "app_config"), { fbLink: document.getElementById('inp-cs-fb').value, tgLink: document.getElementById('inp-cs-tg').value }, { merge: true }); toast("Links Saved!");
+    };
+
+    // --- USERS & ROLES ---
+    window.openUserModal = (id, bal, role, em) => {
+        document.getElementById('um-id').value = id; document.getElementById('um-email').innerText = em;
+        document.getElementById('um-wallet').value = bal; document.getElementById('um-role').value = role || 'Customer';
+        document.getElementById('user-modal').classList.add('active');
+    };
+    window.saveUserEdit = async () => {
+        let id = document.getElementById('um-id').value; let b = parseInt(document.getElementById('um-wallet').value); let r = document.getElementById('um-role').value;
+        if(!isNaN(b)) { await updateDoc(doc(db, "users", id), { walletBalance: b, role: r }); toast("User Updated!"); closeModal('user-modal'); }
+    };
 
     // --- GAME CRUD ---
-    window.openGameModal = (g = null) => {
-        document.getElementById('gm-id').value = g ? g.id : ''; document.getElementById('gm-name').value = g ? g.name : '';
-        document.getElementById('gm-code').value = g ? g.code : '';
-        document.getElementById('gm-logo-url').value = g ? g.logoUrl : ''; document.getElementById('gm-banner-url').value = g ? g.bannerUrl : '';
-        document.getElementById('gm-order').value = g ? g.orderNum : 1;
-        document.getElementById('gm-title').innerText = g ? "Edit Category" : "Add Category";
-        
-        document.getElementById('gm-logo-preview').src = g ? g.logoUrl : ''; document.getElementById('gm-logo-preview').style.display = g && g.logoUrl ? 'block' : 'none';
-        document.getElementById('gm-banner-preview').src = g ? g.bannerUrl : ''; document.getElementById('gm-banner-preview').style.display = g && g.bannerUrl ? 'block' : 'none';
-        document.getElementById('game-modal').classList.add('active');
-    };
+    window.openGameModal = (g = null) => { document.getElementById('gm-id').value=g?g.id:''; document.getElementById('gm-name').value=g?g.name:''; document.getElementById('gm-code').value=g?g.code:''; document.getElementById('gm-logo-url').value=g?g.logoUrl:''; document.getElementById('gm-banner-url').value=g?g.bannerUrl:''; document.getElementById('gm-order').value=g?g.orderNum:1; document.getElementById('gm-logo-preview').src=g?g.logoUrl:''; document.getElementById('gm-logo-preview').style.display=g&&g.logoUrl?'block':'none'; document.getElementById('gm-banner-preview').src=g?g.bannerUrl:''; document.getElementById('gm-banner-preview').style.display=g&&g.bannerUrl?'block':'none'; document.getElementById('game-modal').classList.add('active'); };
+    window.saveGame = async () => { let id=document.getElementById('gm-id').value; let data={name:document.getElementById('gm-name').value, code:document.getElementById('gm-code').value, logoUrl:document.getElementById('gm-logo-url').value, bannerUrl:document.getElementById('gm-banner-url').value, orderNum:parseInt(document.getElementById('gm-order').value)||1}; if(!data.name) return toast("Name req!"); if(id) await updateDoc(doc(db,"games",id),data); else {data.packages=[]; await addDoc(collection(db,"games"),data);} closeModal('game-modal'); toast("Saved!"); };
+    window.deleteGame = async(id) => { if(confirm("Delete category?")) await deleteDoc(doc(db,"games",id)); };
 
-    window.saveGame = async () => {
-        let id = document.getElementById('gm-id').value;
-        let data = { name: document.getElementById('gm-name').value, code: document.getElementById('gm-code').value, logoUrl: document.getElementById('gm-logo-url').value, bannerUrl: document.getElementById('gm-banner-url').value, orderNum: parseInt(document.getElementById('gm-order').value) || 1 };
-        if(!data.name || !data.code) return toast("Name & Code required!");
-        if(id) { await updateDoc(doc(db, "games", id), data); } else { data.packages = []; await addDoc(collection(db, "games"), data); }
-        closeModal('game-modal'); toast("Saved!");
-    };
-    window.deleteGame = async (id) => { if(confirm("Delete this category?")) await deleteDoc(doc(db, "games", id)); };
-
-    // --- PACKAGE CRUD ---
-    window.openPackageModal = (g) => {
-        editingGameId = g.id; editingPackages = g.packages || [];
-        document.getElementById('pm-game-name').innerText = "Products for: " + g.name;
-        renderPackages(); document.getElementById('pack-modal').classList.add('active');
-    };
-    function renderPackages() {
-        let html = "";
-        editingPackages.forEach((p, i) => {
-            html += `<div class="data-item" style="padding:10px; margin-bottom:8px; border-radius:8px;">
-                <div style="flex:1;">
-                    <div style="font-size:13px; font-weight:700; color:#fff;">${p.name}</div>
-                    <div style="font-size:12px; color:var(--accent); font-weight:600; margin-top:2px;">${p.price.toLocaleString()} Ks</div>
-                </div>
-                <button class="btn btn-danger" style="padding:6px 12px;" onclick="delPack(${i})">X</button>
-            </div>`;
-        });
-        document.getElementById('pm-list').innerHTML = html;
+    // --- PACKAGE CRUD (WITH COST) ---
+    window.openPackageModal = (g) => { editingGameId=g.id; editingPackages=g.packages||[]; document.getElementById('pm-list').innerHTML=""; renderPackages(); document.getElementById('pack-modal').classList.add('active'); };
+    function renderPackages() { 
+        let h=""; editingPackages.forEach((p,i)=>{ 
+            h+=`<div class="data-item" style="padding:10px; margin-bottom:5px;"><div style="flex:1;"><strong>${p.name}</strong><br><span style="font-size:11px; color:var(--text-muted);">Cost: ${p.cost||0} | Sell: <span style="color:var(--accent); font-weight:bold;">${p.price} Ks</span></span></div><button class="btn btn-danger" onclick="delPack(${i})">X</button></div>`; 
+        }); document.getElementById('pm-list').innerHTML=h; 
     }
-    window.addPackage = () => {
-        let n = document.getElementById('pm-new-name').value; let p = parseInt(document.getElementById('pm-new-price').value);
-        if(!n || !p) return toast("Name & Price required!");
-        editingPackages.push({name: n, price: p, icon: "https://cdn-icons-png.flaticon.com/128/1077/1077114.png"});
-        document.getElementById('pm-new-name').value=''; document.getElementById('pm-new-price').value='';
-        renderPackages();
+    window.addPackage = () => { 
+        let n=document.getElementById('pm-new-name').value; let c=parseInt(document.getElementById('pm-new-cost').value)||0; let p=parseInt(document.getElementById('pm-new-price').value); 
+        if(!n||!p)return toast("Req!"); 
+        editingPackages.push({name:n, cost:c, price:p, icon: "https://cdn-icons-png.flaticon.com/128/1077/1077114.png"}); 
+        document.getElementById('pm-new-name').value=''; document.getElementById('pm-new-cost').value=''; document.getElementById('pm-new-price').value=''; renderPackages(); 
     };
-    window.delPack = (i) => { editingPackages.splice(i, 1); renderPackages(); };
-    window.savePackages = async () => { await updateDoc(doc(db, "games", editingGameId), { packages: editingPackages }); closeModal('pack-modal'); toast("Products Saved!"); };
+    window.delPack = (i) => { editingPackages.splice(i,1); renderPackages(); };
+    window.savePackages = async () => { await updateDoc(doc(db,"games",editingGameId),{packages:editingPackages}); closeModal('pack-modal'); toast("Products Saved!"); };
+
+    // --- PAYMENTS & PROMOS ---
+    window.openPayModal = (p = null) => { document.getElementById('pay-id').value = p ? p.id : ''; document.getElementById('pay-name').value = p ? p.name : ''; document.getElementById('pay-phone').value = p ? p.phone : ''; document.getElementById('pay-acc').value = p ? p.accName : ''; document.getElementById('pay-qr-url').value = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').src = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').style.display = p && p.qrUrl ? 'block' : 'none'; document.getElementById('pay-title').innerText = p ? "Edit Method" : "Add Method"; document.getElementById('pay-modal').classList.add('active'); };
+    window.savePayment = async () => { let id = document.getElementById('pay-id').value; let data = { name: document.getElementById('pay-name').value, phone: document.getElementById('pay-phone').value, accName: document.getElementById('pay-acc').value, qrUrl: document.getElementById('pay-qr-url').value }; if(!data.name || !data.phone) return toast("Req!"); if(id) await updateDoc(doc(db, "payment_methods", id), data); else await addDoc(collection(db, "payment_methods"), data); closeModal('pay-modal'); toast("Saved!"); };
+    
+    window.openPromoModal = () => { document.getElementById('promo-id').value = ''; document.getElementById('promo-code').value = ''; document.getElementById('promo-amt').value = ''; document.getElementById('promo-modal').classList.add('active'); };
+    window.savePromo = async () => { let c = document.getElementById('promo-code').value.toUpperCase().trim(); let a = parseInt(document.getElementById('promo-amt').value); if(!c || !a) return toast("Invalid!"); await addDoc(collection(db, "promo_codes"), { code: c, discount: a, createdAt: serverTimestamp() }); closeModal('promo-modal'); toast("Created!"); };
 
     // --- ACTIONS ---
-    window.editWallet = async (id, cur, em) => { let v = prompt(`Edit Wallet (${em})\nEnter new balance:`, cur); if(v && !isNaN(v)) await updateDoc(doc(db, "users", id), {walletBalance: parseInt(v)}); };
-    window.updOrd = async (id, st) => { if(confirm(`Confirm to mark as ${st}?`)) await updateDoc(doc(db, "orders", id), {status:st}); };
-    window.updDep = async (id, st) => { if(confirm(`Confirm to mark as ${st}?`)) await updateDoc(doc(db, "deposits", id), {status:st}); };
-    window.apprDep = async (id, uid, amt) => {
-        if(confirm(`Approve +${amt} Ks?`)) {
-            let u = await getDoc(doc(db, "users", uid));
-            await updateDoc(doc(db, "users", uid), {walletBalance: (u.data().walletBalance||0) + amt});
-            await updateDoc(doc(db, "deposits", id), {status: 'Completed'}); toast("Funds Added!");
-        }
-    };
+    window.updOrd = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"orders",id),{status:st}); };
+    window.updDep = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"deposits",id),{status:st}); };
+    window.apprDep = async (id, uid, amt) => { if(confirm(`Approve +${amt}?`)) { let u=await getDoc(doc(db,"users",uid)); await updateDoc(doc(db,"users",uid),{walletBalance:(u.data().walletBalance||0)+amt}); await updateDoc(doc(db,"deposits",id),{status:'Completed'}); toast("Funds Added!"); } };
 </script>
 </body>
 </html>
