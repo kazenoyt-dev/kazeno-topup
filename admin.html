@@ -14,49 +14,61 @@
   .sidebar { width: 250px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; transition: 0.3s; z-index: 100; flex-shrink: 0; }
   .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
   .top-header { height: 60px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px; justify-content: space-between;}
-  .content-area { flex: 1; overflow-y: auto; padding: 25px; }
+  .content-area { flex: 1; overflow-y: auto; padding: 20px; }
 
   /* --- SIDEBAR --- */
-  .brand-area { height: 60px; display: flex; align-items: center; padding: 0 20px; gap: 10px; border-bottom: 1px solid var(--border); }
+  .brand-area { height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid var(--border); }
   .brand-logo { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; }
-  .brand-text { font-weight: 700; font-size: 16px; color: #fff; }
+  .brand-text { font-weight: 700; font-size: 16px; color: #fff; display: flex; align-items: center; gap: 10px; }
+  .close-sidebar { display: none; background: none; border: none; color: var(--text); font-size: 20px; cursor: pointer; }
   
   .menu-wrap { flex: 1; overflow-y: auto; padding: 15px 0; }
   .menu-label { font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; margin: 15px 20px 5px; letter-spacing: 1px;}
   .menu-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: var(--muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.2s; border-left: 3px solid transparent; }
   .menu-item:hover, .menu-item.active { background: rgba(59, 130, 246, 0.1); color: #fff; border-left-color: var(--accent); }
 
+  /* --- TOP HEADER --- */
+  .menu-toggle { background: none; border: none; color: #fff; cursor: pointer; display: none; font-size: 20px; }
+  .header-title { font-size: 16px; font-weight: 700; }
+
   /* --- VIEWS --- */
   .view { display: none; animation: fadeIn 0.3s; } .view.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* --- TABLES & CARDS --- */
-  .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  .page-title { font-size: 20px; font-weight: 700; }
+  /* --- CARDS & STATS --- */
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px; }
+  .stat-card { background: var(--surface); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
+  .stat-val { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+  .stat-label { font-size: 11px; color: var(--muted); }
+
+  /* --- TABLES & LISTS --- */
+  .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+  .page-title { font-size: 18px; font-weight: 700; }
   
-  .table-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; text-align: left; }
-  th { padding: 15px; font-size: 12px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02);}
-  td { padding: 15px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .table-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; width: 100%; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; }
+  th { padding: 12px 15px; font-size: 11px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); white-space: nowrap;}
+  td { padding: 12px 15px; font-size: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
   tr:hover { background: rgba(255,255,255,0.02); }
 
-  .badge { padding: 4px 10px; border-radius: 99px; font-size: 10px; font-weight: 600; }
+  .badge { padding: 4px 8px; border-radius: 99px; font-size: 10px; font-weight: 600; white-space: nowrap; }
   .bg-active { background: rgba(16, 185, 129, 0.1); color: var(--ok); border: 1px solid rgba(16,185,129,0.2); }
   .bg-inactive { background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid rgba(245,158,11,0.2); }
   .bg-pill { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
+  .id-tag { font-family: monospace; color: var(--accent); background: rgba(59, 130, 246, 0.1); padding: 3px 6px; border-radius: 4px; font-size: 10px; }
 
-  .btn { padding: 8px 16px; border-radius: 6px; border: none; font-size: 12px; font-weight: 500; cursor: pointer; color: #fff; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap:6px;}
+  .btn { padding: 8px 14px; border-radius: 6px; border: none; font-size: 11px; font-weight: 600; cursor: pointer; color: #fff; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap:4px; white-space: nowrap;}
   .btn:active { transform: scale(0.95); } 
   .btn-primary { background: var(--primary); } 
   .btn-ok { background: var(--ok); } 
   .btn-danger { background: var(--danger); }
-  .btn-icon { padding: 6px; width: 32px; height: 32px; }
+  .btn-dark { background: rgba(255,255,255,0.1); border: 1px solid var(--border); }
 
-  /* --- FORMS & TOGGLES --- */
+  /* --- FORMS --- */
   .form-group { margin-bottom: 15px; }
-  .form-label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
-  .input-box, .select-box { width: 100%; background: var(--bg); border: 1px solid var(--border); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 13px;}
+  .form-label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .input-box, .select-box { width: 100%; background: var(--bg); border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: #fff; font-size: 12px;}
   .input-box:focus { border-color: var(--accent); }
   
   .switch { position: relative; display: inline-block; width: 36px; height: 20px; }
@@ -66,66 +78,130 @@
   input:checked + .slider { background-color: var(--primary); }
   input:checked + .slider:before { transform: translateX(16px); }
 
-  .checkbox-group { display: flex; gap: 15px; font-size: 13px; color: var(--text); align-items: center; }
-  .checkbox-group input { width: 16px; height: 16px; accent-color: var(--primary); }
-
-  .upload-box { border: 1px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; color: var(--muted); cursor: pointer; font-size: 12px; background: var(--bg); transition: 0.3s;}
-  .upload-box:hover { border-color: var(--accent); color: var(--accent); }
+  .checkbox-group { display: flex; gap: 15px; font-size: 12px; color: var(--text); align-items: center; flex-wrap: wrap; }
+  .checkbox-group input { width: 14px; height: 14px; accent-color: var(--primary); }
+  .upload-box { border: 1px dashed var(--border); border-radius: 8px; padding: 15px; text-align: center; color: var(--muted); cursor: pointer; font-size: 11px; background: var(--bg); transition: 0.3s;}
 
   /* --- MODALS --- */
   .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 15px; }
   .modal-bg.active { display: flex; } 
-  .modal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 25px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+  .modal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
   
-  .toast { position: fixed; top: 20px; right: 20px; background: var(--primary); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 13px; opacity: 0; transition: 0.3s; z-index: 3000; box-shadow: 0 10px 25px rgba(0,0,0,0.5);}
+  .toast { position: fixed; top: 20px; right: 20px; background: var(--primary); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 12px; opacity: 0; transition: 0.3s; z-index: 3000; box-shadow: 0 10px 25px rgba(0,0,0,0.5);}
   .toast.show { opacity: 1; }
+
+  /* 💡 RESPONSIVE FIXES (PHASE 6B) 💡 */
+  @media (max-width: 768px) { 
+      .sidebar { position: fixed; left: -260px; height: 100%; z-index: 9999; box-shadow: 5px 0 20px rgba(0,0,0,0.5); } 
+      .sidebar.open { left: 0; } 
+      .menu-toggle { display: block; } 
+      .close-sidebar { display: block; } 
+      .main-content { width: 100vw; }
+      .dash-grid { grid-template-columns: repeat(2, 1fr); }
+  }
 </style>
 </head>
 <body>
 <div id="toast" class="toast">Success</div>
 
 <div id="auth-gate" style="position:fixed; inset:0; background:var(--bg); z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-    <div style="font-size:24px; font-weight:bold; margin-bottom:20px;">Admin Access</div>
+    <div style="width:70px; height:70px; background:url('https://img.freepik.com/free-vector/ninja-mascot-esports-logo-design_140715-32.jpg') center/cover; border-radius:12px; margin-bottom:15px;"></div>
+    <div style="font-size:20px; font-weight:bold; margin-bottom:20px;">Admin System</div>
     <input type="password" id="admin-pin" placeholder="Enter PIN" style="padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:#fff; text-align:center; margin-bottom:15px; width:250px;">
-    <button class="btn btn-primary" style="width:250px;" onclick="checkPin()">Login</button>
+    <button class="btn btn-primary" style="width:250px; padding:12px;" onclick="checkPin()">Secure Login</button>
 </div>
 
 <div id="main-admin" style="display:none; width:100%; height:100%;">
     
     <div class="sidebar" id="sidebar">
-        <div class="brand-area"><img src="https://img.freepik.com/free-vector/ninja-mascot-esports-logo-design_140715-32.jpg" class="brand-logo"><div class="brand-text">Kazeno Admin</div></div>
+        <div class="brand-area">
+            <div class="brand-text"><img src="https://img.freepik.com/free-vector/ninja-mascot-esports-logo-design_140715-32.jpg" class="brand-logo"> Kazeno</div>
+            <button class="close-sidebar" onclick="toggleSidebar()">✕</button>
+        </div>
         <div class="menu-wrap">
             <div class="menu-label">Main</div>
-            <div class="menu-item active" onclick="switchTab('v-dash', this)"> Dashboard </div>
-            <div class="menu-item" onclick="switchTab('v-users', this)"> Users </div>
-            <div class="menu-item" onclick="switchTab('v-orders', this)"> Orders & Deposits </div>
+            <div class="menu-item active" onclick="switchTab('v-dash', this)"> 📊 Dashboard </div>
+            <div class="menu-item" onclick="switchTab('v-users', this)"> 👥 Users & Roles </div>
             
-            <div class="menu-label">Catalog (New)</div>
-            <div class="menu-item" onclick="switchTab('v-categories', this)"> Categories </div>
-            <div class="menu-item" onclick="switchTab('v-products', this)"> Products </div>
+            <div class="menu-label">Financials</div>
+            <div class="menu-item" onclick="switchTab('v-deposits', this)"> 📥 Deposits </div>
+            <div class="menu-item" onclick="switchTab('v-withdraws', this)"> 📤 Withdrawals </div>
+            <div class="menu-item" onclick="switchTab('v-orders', this)"> 📦 Order History </div>
             
-            <div class="menu-label">Settings</div>
-            <div class="menu-item" onclick="switchTab('v-settings', this)"> API & Settings </div>
-            <div class="menu-item" style="color: var(--danger);" onclick="location.reload()"> Logout </div>
+            <div class="menu-label">Catalog</div>
+            <div class="menu-item" onclick="switchTab('v-categories', this)"> 🎮 Categories </div>
+            <div class="menu-item" onclick="switchTab('v-products', this)"> 💎 Products </div>
+            
+            <div class="menu-label">Marketing & Config</div>
+            <div class="menu-item" onclick="switchTab('v-promo', this)"> 🎁 Promo Codes </div>
+            <div class="menu-item" onclick="switchTab('v-payments', this)"> 💳 Payment Methods </div>
+            <div class="menu-item" onclick="switchTab('v-settings', this)"> ⚙️ Settings & API </div>
+            <div class="menu-item" style="color: var(--danger);" onclick="location.reload()"> 🚪 Logout </div>
         </div>
     </div>
 
     <div class="main-content">
         <div class="top-header">
-            <div class="header-title" id="page-title">Dashboard</div>
-            <div style="font-size:12px; color:var(--muted);">Superadmin</div>
+            <div style="display:flex; align-items:center; gap:15px;">
+                <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                <div class="header-title" id="page-title">Dashboard</div>
+            </div>
+            <div class="admin-profile">Superadmin <div class="admin-avatar">K</div></div>
         </div>
 
         <div class="content-area">
             <div id="v-dash" class="view active">
-                <p style="color:var(--muted);">Welcome to Advanced Catalog System.</p>
-                <div style="margin-top:20px; display:flex; gap:15px;">
-                    <div style="background:var(--surface); padding:20px; border-radius:12px; border:1px solid var(--border); flex:1;">
-                        <h3 id="dash-cat-count">0</h3><div style="font-size:12px; color:var(--muted);">Categories</div>
-                    </div>
-                    <div style="background:var(--surface); padding:20px; border-radius:12px; border:1px solid var(--border); flex:1;">
-                        <h3 id="dash-prod-count">0</h3><div style="font-size:12px; color:var(--muted);">Products</div>
-                    </div>
+                <div class="dash-grid">
+                    <div class="stat-card"><div class="stat-val" id="ds-users">0</div><div class="stat-label">Total Users</div></div>
+                    <div class="stat-card"><div class="stat-val" id="ds-orders">0</div><div class="stat-label">Completed Orders</div></div>
+                    <div class="stat-card"><div class="stat-val" id="ds-cat">0</div><div class="stat-label">Categories</div></div>
+                    <div class="stat-card"><div class="stat-val" id="ds-prod">0</div><div class="stat-label">Products</div></div>
+                </div>
+                <div class="dash-grid">
+                    <div class="stat-card" style="border-left:4px solid var(--ok);"><div class="stat-val" style="color:var(--ok);" id="ds-tot-dep">0 Ks</div><div class="stat-label">Total Deposits</div></div>
+                    <div class="stat-card" style="border-left:4px solid var(--primary);"><div class="stat-val" style="color:var(--primary);" id="ds-tot-sales">0 Ks</div><div class="stat-label">Total Sales Revenue</div></div>
+                    <div class="stat-card" style="border-left:4px solid var(--accent);"><div class="stat-val" style="color:var(--accent);" id="ds-tot-profit">0 Ks</div><div class="stat-label">Real Profit (Sales - Cost)</div></div>
+                    <div class="stat-card" style="border-left:4px solid var(--danger);"><div class="stat-val" style="color:var(--danger);" id="ds-wal-left">0 Ks</div><div class="stat-label">User Wallets Liability</div></div>
+                </div>
+            </div>
+
+            <div id="v-users" class="view">
+                <div class="header-actions"><div class="page-title">Users & Roles</div></div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th>Email</th><th>Role & Info</th><th>Wallet Bal</th><th>Action</th></tr></thead>
+                        <tbody id="tb-users"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="v-orders" class="view">
+                <div class="header-actions"><div class="page-title">Order History</div></div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th>ID & Status</th><th>Details</th><th>Price / Cost</th><th>Action</th></tr></thead>
+                        <tbody id="tb-orders"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="v-deposits" class="view">
+                <div class="header-actions"><div class="page-title">Deposits</div></div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th>ID & Status</th><th>User</th><th>Amount & Method</th><th>Action</th></tr></thead>
+                        <tbody id="tb-deposits"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="v-withdraws" class="view">
+                <div class="header-actions"><div class="page-title">Withdrawals</div></div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th>ID & Status</th><th>User</th><th>Amount & Method</th><th>Action</th></tr></thead>
+                        <tbody id="tb-withdraws"></tbody>
+                    </table>
                 </div>
             </div>
 
@@ -136,8 +212,8 @@
                 </div>
                 <div class="table-wrapper">
                     <table>
-                        <thead><tr><th>Name</th><th>Forms</th><th>Is Check</th><th>Status</th><th>Action</th></tr></thead>
-                        <tbody id="tb-categories"><tr><td colspan="5" style="text-align:center;">Loading...</td></tr></tbody>
+                        <thead><tr><th>Image & Name</th><th>Required Forms</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody id="tb-categories"></tbody>
                     </table>
                 </div>
             </div>
@@ -149,229 +225,324 @@
                 </div>
                 <div class="table-wrapper">
                     <table>
-                        <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Region</th><th>Retail Price</th><th>Selling Price</th><th>Type</th><th>Status</th><th>Action</th></tr></thead>
-                        <tbody id="tb-products"><tr><td colspan="9" style="text-align:center;">Loading...</td></tr></tbody>
+                        <thead><tr><th>Product</th><th>Category</th><th>Prices (Cost/Sell/Resell)</th><th>Type & Status</th><th>Action</th></tr></thead>
+                        <tbody id="tb-products"></tbody>
                     </table>
                 </div>
             </div>
 
-            <div id="v-users" class="view"><div class="header-actions"><div class="page-title">Users</div></div><div class="table-wrapper"><table><tbody id="tb-users"></tbody></table></div></div>
-            
-            <div id="v-orders" class="view">
-                <div class="header-actions"><div class="page-title">Orders</div></div>
-                <div class="table-wrapper" style="margin-bottom:20px;"><table><tbody id="tb-orders"></tbody></table></div>
-                <div class="header-actions"><div class="page-title">Deposits</div></div>
-                <div class="table-wrapper"><table><tbody id="tb-deposits"></tbody></table></div>
+            <div id="v-promo" class="view">
+                <div class="header-actions"><div class="page-title">Promo Codes</div><button class="btn btn-primary" onclick="openPromoModal()">+ Add Code</button></div>
+                <div class="table-wrapper"><table><thead><tr><th>Code</th><th>Discount Amount</th><th>Action</th></tr></thead><tbody id="tb-promos"></tbody></table></div>
+            </div>
+
+            <div id="v-payments" class="view">
+                <div class="header-actions"><div class="page-title">Payment Methods</div><button class="btn btn-primary" onclick="openPayModal()">+ Add Method</button></div>
+                <div class="table-wrapper"><table><thead><tr><th>Provider Name</th><th>Account Info</th><th>Action</th></tr></thead><tbody id="tb-payments"></tbody></table></div>
             </div>
 
             <div id="v-settings" class="view">
-                <div class="page-title" style="margin-bottom:20px;">Settings</div>
-                <button class="btn btn-primary" onclick="toast('Settings mapped in code.')">Save Configs</button>
+                <div class="dash-grid" style="grid-template-columns: 1fr;">
+                    
+                    <div class="stat-card">
+                        <h3 style="margin-bottom:15px; font-size:14px; color:var(--accent);">🤖 Telegram Group Bot Alerts</h3>
+                        <div class="form-group"><label class="form-label">Bot API Token</label><input type="text" id="inp-bot-token" class="input-box" placeholder="e.g. 1234567890:ABCdEfG..."></div>
+                        <div class="form-group"><label class="form-label">Group Chat ID</label><input type="text" id="inp-chat-id" class="input-box" placeholder="e.g. -1001234567890"></div>
+                        <div style="display:flex; gap:10px;">
+                            <div class="form-group" style="flex:1;"><label class="form-label">Order Topic ID</label><input type="number" id="inp-tg-order-topic" class="input-box" placeholder="2"></div>
+                            <div class="form-group" style="flex:1;"><label class="form-label">Deposit/Withdraw Topic ID</label><input type="number" id="inp-tg-dep-topic" class="input-box" placeholder="4"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <h3 style="margin-bottom:15px; font-size:14px; color:var(--accent);">🍪 API & Cookies Setup</h3>
+                        <div class="form-group"><label class="form-label">Smile One Cookies</label><input type="text" id="inp-cookie-smile" class="input-box" placeholder="PHPSESSID=..."></div>
+                        <div class="form-group"><label class="form-label">JCPlay Cookies</label><input type="text" id="inp-cookie-jc" class="input-box" placeholder="..."></div>
+                    </div>
+
+                    <div class="stat-card">
+                        <h3 style="margin-bottom:15px; font-size:14px; color:var(--accent);">🖼️ CS Links & Banner</h3>
+                        <div class="form-group"><label class="form-label">Facebook Link</label><input type="text" id="inp-cs-fb" class="input-box" placeholder="https://facebook.com/..."></div>
+                        <div class="form-group"><label class="form-label">Telegram Link</label><input type="text" id="inp-cs-tg" class="input-box" placeholder="https://t.me/..."></div>
+                        
+                        <label class="form-label">Home Screen Banner URL</label>
+                        <img id="home-banner-preview" style="width:100%; height:100px; object-fit:cover; border-radius:8px; display:none; margin-bottom:10px;">
+                        <div class="upload-box" onclick="document.getElementById('hb-file').click()">📸 Upload Home Banner</div>
+                        <input type="file" id="hb-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'homeBanner')">
+                    </div>
+
+                    <button class="btn btn-primary" style="padding:12px;" onclick="saveAllSettings()">Save All Settings</button>
+                </div>
             </div>
+
         </div>
+    </div>
+</div>
+
+<div class="modal-bg" id="user-modal">
+    <div class="modal-card">
+        <h3 style="margin-bottom:15px;">Edit User</h3><input type="hidden" id="um-id">
+        <div style="font-size:13px; font-weight:bold; margin-bottom:15px; color:var(--accent);" id="um-email"></div>
+        <div class="form-group"><label class="form-label">Wallet Balance</label><input type="number" id="um-wallet" class="input-box"></div>
+        <div class="form-group"><label class="form-label">Spin Tickets</label><input type="number" id="um-spins" class="input-box"></div>
+        <div class="form-group"><label class="form-label">User Role</label><select id="um-role" class="select-box"><option value="Customer">Customer</option><option value="Seller">Seller (Reseller)</option><option value="Admin">Admin</option></select></div>
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveUserEdit()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('user-modal')">Cancel</button></div>
     </div>
 </div>
 
 <div class="modal-bg" id="cat-modal">
     <div class="modal-card">
-        <h3 style="margin-bottom:20px;" id="cm-title">Edit Category</h3>
-        <input type="hidden" id="cm-id">
-        
-        <div style="display:flex; gap:15px;">
-            <div style="flex:2;">
-                <div class="form-group"><label class="form-label">Name*</label><input type="text" id="cm-name" class="input-box" placeholder="Mobile Legends"></div>
-                <div class="form-group"><label class="form-label">Slug* (no spaces)</label><input type="text" id="cm-slug" class="input-box" placeholder="mobile_legends"></div>
-                <div class="form-group"><label class="form-label">JCPlay Product ID*</label><input type="text" id="cm-jcid" class="input-box" placeholder="Enter ID"></div>
-            </div>
-            <div style="flex:1;">
-                <label class="form-label">Upload Image</label>
-                <img id="cm-img-preview" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:8px; display:none; margin-bottom:10px; border:1px solid var(--border);">
-                <div class="upload-box" onclick="document.getElementById('cm-file').click()">Choose Image</div>
-                <input type="file" id="cm-file" style="display:none;" onchange="uploadImg(this, 'cm-img')">
-                <input type="hidden" id="cm-img-url">
-            </div>
-        </div>
-
-        <div class="form-group"><label class="form-label">Description</label><input type="text" id="cm-desc" class="input-box" placeholder="Enter Description"></div>
-        
-        <div class="form-group">
-            <label class="form-label">Assign Order Forms (Check required inputs)</label>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="cm-form-uid"> Game ID</label>
-                <label><input type="checkbox" id="cm-form-zone"> Server ID</label>
-                <label><input type="checkbox" id="cm-form-email"> Email</label>
-            </div>
-        </div>
-
-        <div style="display:flex; gap:30px; margin-bottom:20px;">
-            <div>
-                <label class="form-label">Is Check (Account verification)</label>
-                <label class="switch"><input type="checkbox" id="cm-check"><span class="slider"></span></label>
-            </div>
-            <div>
-                <label class="form-label">Active Status</label>
-                <label class="switch"><input type="checkbox" id="cm-active" checked><span class="slider"></span></label>
-            </div>
-        </div>
-
+        <h3 style="margin-bottom:15px;" id="cm-title">Category</h3><input type="hidden" id="cm-id">
         <div style="display:flex; gap:10px;">
-            <button class="btn btn-primary" onclick="saveCategory()">Save</button>
-            <button class="btn btn-danger" onclick="closeModal('cat-modal')">Cancel</button>
+            <div style="flex:2;"><div class="form-group"><label class="form-label">Name*</label><input type="text" id="cm-name" class="input-box"></div><div class="form-group"><label class="form-label">Slug*</label><input type="text" id="cm-slug" class="input-box"></div></div>
+            <div style="flex:1;"><label class="form-label">Logo</label><img id="cm-img-preview" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:8px; display:none; margin-bottom:5px;"><div class="upload-box" style="padding:10px;" onclick="document.getElementById('cm-file').click()">Upload</div><input type="file" id="cm-file" style="display:none;" onchange="uploadImg(this, 'cm-img')"><input type="hidden" id="cm-img-url"></div>
         </div>
+        <div class="form-group"><label class="form-label">JCPlay Product ID (Optional)</label><input type="text" id="cm-jcid" class="input-box"></div>
+        <div class="form-group"><label class="form-label">Detail Banner URL (Optional)</label><input type="text" id="cm-banner" class="input-box"></div>
+        
+        <div class="form-group"><label class="form-label">Required User Inputs</label><div class="checkbox-group"><label><input type="checkbox" id="cm-form-uid"> Game ID</label><label><input type="checkbox" id="cm-form-zone"> Server ID</label><label><input type="checkbox" id="cm-form-email"> Email</label></div></div>
+        
+        <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+            <div><label class="form-label">Is Check</label><label class="switch"><input type="checkbox" id="cm-check"><span class="slider"></span></label></div>
+            <div><label class="form-label">Active</label><label class="switch"><input type="checkbox" id="cm-active" checked><span class="slider"></span></label></div>
+            <div><label class="form-label">Order</label><input type="number" id="cm-order" class="input-box" style="width:60px; padding:4px;" value="1"></div>
+        </div>
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveCategory()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('cat-modal')">Cancel</button></div>
     </div>
 </div>
 
 <div class="modal-bg" id="prod-modal">
     <div class="modal-card">
-        <h3 style="margin-bottom:20px;" id="pm-title">Edit Product</h3>
-        <input type="hidden" id="pm-id">
-        
-        <div style="display:flex; gap:15px;">
-            <div style="flex:2;">
-                <div class="form-group"><label class="form-label">Name*</label><input type="text" id="pm-name" class="input-box" placeholder="Weekly Diamond Pass"></div>
-                <div class="form-group"><label class="form-label">Slug*</label><input type="text" id="pm-slug" class="input-box" placeholder="weekly_pass"></div>
-                <div class="form-group"><label class="form-label">Category</label><select id="pm-cat" class="select-box"></select></div>
-            </div>
-            <div style="flex:1;">
-                <label class="form-label">Upload Image</label>
-                <img id="pm-img-preview" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:8px; display:none; margin-bottom:10px; border:1px solid var(--border);">
-                <div class="upload-box" onclick="document.getElementById('pm-file').click()">Choose Image</div>
-                <input type="file" id="pm-file" style="display:none;" onchange="uploadImg(this, 'pm-img')">
-                <input type="hidden" id="pm-img-url">
-            </div>
-        </div>
-
+        <h3 style="margin-bottom:15px;" id="pm-title">Product</h3><input type="hidden" id="pm-id">
         <div style="display:flex; gap:10px;">
-            <div class="form-group" style="flex:1;"><label class="form-label">Retail Price (Cost)*</label><input type="number" id="pm-cost" class="input-box" placeholder="0"></div>
-            <div class="form-group" style="flex:1;"><label class="form-label">Selling Price*</label><input type="number" id="pm-price" class="input-box" placeholder="0"></div>
-            <div class="form-group" style="flex:1;"><label class="form-label" style="color:var(--accent);">Reseller Price</label><input type="number" id="pm-reseller" class="input-box" placeholder="0"></div>
+            <div style="flex:2;"><div class="form-group"><label class="form-label">Name*</label><input type="text" id="pm-name" class="input-box"></div><div class="form-group"><label class="form-label">Category*</label><select id="pm-cat" class="select-box"></select></div></div>
+            <div style="flex:1;"><label class="form-label">Icon</label><img id="pm-img-preview" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:8px; display:none; margin-bottom:5px;"><div class="upload-box" style="padding:10px;" onclick="document.getElementById('pm-file').click()">Upload</div><input type="file" id="pm-file" style="display:none;" onchange="uploadImg(this, 'pm-img')"><input type="hidden" id="pm-img-url"></div>
         </div>
-
         <div style="display:flex; gap:10px;">
-            <div class="form-group" style="flex:1;"><label class="form-label">Smile Product ID</label><input type="text" id="pm-smileid" class="input-box" placeholder="16642"></div>
-            <div class="form-group" style="flex:1;"><label class="form-label">JCPlay Item ID</label><input type="text" id="pm-jcid" class="input-box" placeholder="ID"></div>
+            <div class="form-group" style="flex:1;"><label class="form-label">Cost (အရင်း)</label><input type="number" id="pm-cost" class="input-box" placeholder="0"></div>
+            <div class="form-group" style="flex:1;"><label class="form-label">Sell (ရောင်း)</label><input type="number" id="pm-price" class="input-box" placeholder="0"></div>
+            <div class="form-group" style="flex:1;"><label class="form-label" style="color:var(--accent);">Reseller (ဖောက်သည်)</label><input type="number" id="pm-reseller" class="input-box" placeholder="0"></div>
         </div>
-
         <div style="display:flex; gap:10px;">
-            <div class="form-group" style="flex:1;">
-                <label class="form-label">Topup Type</label>
-                <select id="pm-type" class="select-box"><option value="Auto">Auto</option><option value="Manual">Manual</option></select>
-            </div>
-            <div class="form-group" style="flex:1;"><label class="form-label">Region</label><input type="text" id="pm-region" class="input-box" placeholder="br, ph, global"></div>
+            <div class="form-group" style="flex:1;"><label class="form-label">Type</label><select id="pm-type" class="select-box"><option value="Auto">Auto</option><option value="Manual">Manual</option></select></div>
+            <div class="form-group" style="flex:1;"><label class="form-label">Smile ID</label><input type="text" id="pm-smileid" class="input-box"></div>
+            <div class="form-group" style="flex:1;"><label class="form-label">JC ID</label><input type="text" id="pm-jcid" class="input-box"></div>
         </div>
-
-        <div class="form-group">
-            <label class="form-label">Active Status</label>
-            <label class="switch"><input type="checkbox" id="pm-active" checked><span class="slider"></span></label>
-        </div>
-
-        <div style="display:flex; gap:10px;">
-            <button class="btn btn-primary" onclick="saveProduct()">Save</button>
-            <button class="btn btn-danger" onclick="closeModal('prod-modal')">Cancel</button>
-        </div>
+        <div class="form-group"><label class="form-label">Active</label><label class="switch"><input type="checkbox" id="pm-active" checked><span class="slider"></span></label></div>
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveProduct()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('prod-modal')">Cancel</button></div>
     </div>
 </div>
 
+<div class="modal-bg" id="pay-modal"><div class="modal-card"><h3 style="margin-bottom:15px;" id="pay-title">Payment Method</h3><input type="hidden" id="pay-id"><input type="text" id="pay-name" class="input-box" placeholder="Provider (e.g. KPay)"><input type="text" id="pay-phone" class="input-box" placeholder="Phone Number"><input type="text" id="pay-acc" class="input-box" placeholder="Account Name"><img id="pay-qr-preview" style="width:100px; height:100px; border-radius:10px; display:none; margin-bottom:5px; object-fit:cover;"><div class="upload-box" style="padding:10px;" onclick="document.getElementById('pay-qr-file').click()">Upload QR</div><input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'pay-qr')"><input type="hidden" id="pay-qr-url"><div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePayment()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('pay-modal')">Cancel</button></div></div></div>
+<div class="modal-bg" id="promo-modal"><div class="modal-card"><h3 style="margin-bottom:15px;">Promo Code</h3><input type="hidden" id="promo-id"><input type="text" id="promo-code" class="input-box" style="text-transform:uppercase;" placeholder="Code (e.g. NEWYEAR)"><input type="number" id="promo-amt" class="input-box" placeholder="Discount (Ks)"><div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePromo()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('promo-modal')">Cancel</button></div></div></div>
+<div class="modal-bg" id="slip-modal" onclick="if(event.target===this) closeModal('slip-modal')"><div class="modal-card" style="text-align:center; max-width:350px;"><h3 style="margin-bottom:15px;">Transaction Slip</h3><img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);" src=""><button class="btn btn-dark" style="width:100%; padding:12px;" onclick="closeModal('slip-modal')">Close</button></div></div>
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, doc, updateDoc, setDoc, addDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc, setDoc, addDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const db = getFirestore(app);
 
     window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
-    window.switchTab = (id, el) => { document.querySelectorAll('.menu-item').forEach(x=>x.classList.remove('active')); if(el)el.classList.add('active'); document.querySelectorAll('.view').forEach(x=>x.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+    function formatDate(ts) { if(!ts) return "-"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); }
+    
+    window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); }
+    window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim().replace(/[^a-zA-Z\s]/g,'') : 'Dashboard'; if(window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open'); };
     window.closeModal = (id) => document.getElementById(id).classList.remove('active');
+    window.viewSlip = (url) => { if(!url)return toast("No slip uploaded"); document.getElementById('modal-img-src').src = url; document.getElementById('slip-modal').classList.add('active'); };
     window.checkPin = () => { if(document.getElementById('admin-pin').value === "1234") { document.getElementById('auth-gate').style.display = "none"; document.getElementById('main-admin').style.display = "flex"; initAdmin(); } else toast("Invalid PIN!"); };
 
-    async function uploadToImgBB(file) { toast("Uploading..."); let fd = new FormData(); fd.append("image", file); let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let d = await res.json(); if(d.success) { toast("Uploaded!"); return d.data.url; } throw new Error("Upload Failed"); }
-    window.uploadImg = async (input, prefix) => { if(input.files[0]) { try { let url = await uploadToImgBB(input.files[0]); document.getElementById(`${prefix}-url`).value = url; document.getElementById(`${prefix}-preview`).src = url; document.getElementById(`${prefix}-preview`).style.display = 'block'; } catch(e){toast(e.message);} } }
+    // --- IMGBB ---
+    async function uploadToImgBB(file) { toast("Uploading Image..."); let fd = new FormData(); fd.append("image", file); let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let data = await res.json(); if(data.success) { toast("Upload Done!"); return data.data.url; } else throw new Error("Upload Failed"); }
+    window.uploadImg = async (input, prefix) => {
+        if(!input.files[0]) return;
+        try {
+            let url = await uploadToImgBB(input.files[0]);
+            if(prefix === 'homeBanner') { document.getElementById('home-banner-preview').src = url; document.getElementById('home-banner-preview').style.display = 'block'; await setDoc(doc(db, "settings", "app_config"), { homeBannerUrl: url }, { merge: true }); } 
+            else { document.getElementById(`${prefix}-url`).value = url; document.getElementById(`${prefix}-preview`).src = url; document.getElementById(`${prefix}-preview`).style.display = 'block'; }
+        } catch(e) { toast(e.message); }
+    };
 
-    let allCats = []; let allProds = [];
+    let allCats = [];
 
     function initAdmin() {
-        // Categories
-        onSnapshot(query(collection(db, "categories")), (snap) => {
-            allCats = []; let html = "";
-            snap.forEach(s => { let d={id:s.id, ...s.data()}; allCats.push(d); 
-                let badge = d.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Not Active</span>`;
-                let chk = d.isCheck ? `<span class="badge" style="background:rgba(16,185,129,0.1); color:var(--ok);">Yes</span>` : `<span class="badge" style="background:rgba(245,158,11,0.1); color:var(--warning);">No</span>`;
-                let fTxt = (d.forms||[]).join(', ') || 'None';
-                html += `<tr>
-                    <td style="display:flex; align-items:center; gap:10px;"><img src="${d.logoUrl||'https://via.placeholder.com/30'}" style="width:30px; height:30px; border-radius:6px; object-fit:cover;"> ${d.name}</td>
-                    <td>${fTxt}</td><td>${chk}</td><td>${badge}</td>
-                    <td>
-                        <button class="btn btn-ok btn-icon" onclick='openCatModal(${JSON.stringify(d).replace(/'/g,"&#39;")})'>✏️</button>
-                        <button class="btn btn-danger btn-icon" onclick="deleteDoc(doc(db,'categories','${d.id}'))">🗑️</button>
-                    </td>
-                </tr>`;
-            });
-            document.getElementById('tb-categories').innerHTML = html || '<tr><td colspan="5" style="text-align:center;">No categories.</td></tr>';
-            document.getElementById('dash-cat-count').innerText = allCats.length;
-            
-            // Populate Dropdown for Products Modal
-            let opt = "<option value=''>Select Category</option>";
-            allCats.forEach(c => opt += `<option value="${c.id}">${c.name}</option>`);
+        // App Settings
+        onSnapshot(doc(db, "settings", "app_config"), (d) => {
+            if(d.exists()) {
+                if(d.data().homeBannerUrl) { document.getElementById('home-banner-preview').src = d.data().homeBannerUrl; document.getElementById('home-banner-preview').style.display = 'block'; }
+                if(d.data().fbLink) document.getElementById('inp-cs-fb').value = d.data().fbLink;
+                if(d.data().tgLink) document.getElementById('inp-cs-tg').value = d.data().tgLink;
+                if(d.data().tgBotToken) document.getElementById('inp-bot-token').value = d.data().tgBotToken;
+                if(d.data().tgChatId) document.getElementById('inp-chat-id').value = d.data().tgChatId;
+                if(d.data().tgOrderTopicId) document.getElementById('inp-tg-order-topic').value = d.data().tgOrderTopicId;
+                if(d.data().tgDepositTopicId) document.getElementById('inp-tg-dep-topic').value = d.data().tgDepositTopicId;
+                if(d.data().cookieSmile) document.getElementById('inp-cookie-smile').value = d.data().cookieSmile;
+                if(d.data().cookieJC) document.getElementById('inp-cookie-jc').value = d.data().cookieJC;
+            }
+        });
+        
+        // PAYMENTS & PROMOS
+        onSnapshot(collection(db, "payment_methods"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<tr><td>${p.name}</td><td>${p.phone} (${p.accName})</td><td><button class="btn btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g, "&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db, 'payment_methods', '${p.id}'))">Del</button></td></tr>`; }); document.getElementById('tb-payments').innerHTML = html || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
+        onSnapshot(collection(db, "promo_codes"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<tr><td><span class="id-tag">${p.code}</span></td><td>${p.discount} Ks</td><td><button class="btn btn-danger" onclick="deleteDoc(doc(db, 'promo_codes', '${p.id}'))">Delete</button></td></tr>`; }); document.getElementById('tb-promos').innerHTML = html || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
+
+        // CATEGORIES (Phase 6)
+        onSnapshot(query(collection(db, "categories"), orderBy("orderNum", "asc")), (snap) => { 
+            allCats = []; let html = ""; let opt = "<option value=''>Select Category</option>";
+            snap.forEach(s => { 
+                let c = {id: s.id, ...s.data()}; allCats.push(c); 
+                opt += `<option value="${c.id}">${c.name}</option>`;
+                let badge = c.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Inactive</span>`;
+                let fTxt = (c.forms||[]).join(', ') || 'None';
+                html += `<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${c.logoUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:cover;">${c.name}</div></td><td>${fTxt}</td><td>${badge}</td><td><button class="btn btn-dark" onclick='openCatModal(${JSON.stringify(c).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteGame('${c.id}')">Del</button></td></tr>`; 
+            }); 
+            document.getElementById('tb-categories').innerHTML = html || "<tr><td colspan='4' style='text-align:center;'>No data</td></tr>";
             document.getElementById('pm-cat').innerHTML = opt;
+            document.getElementById('ds-cat').innerText = allCats.length;
         });
 
-        // Products
-        onSnapshot(query(collection(db, "products")), (snap) => {
-            allProds = []; let html = "";
-            snap.forEach(s => { let d={id:s.id, ...s.data()}; allProds.push(d); 
-                let catName = allCats.find(x=>x.id===d.categoryId)?.name || 'Unknown';
-                let reg = d.region ? `<span class="badge bg-pill">${d.region.toUpperCase()}</span>` : '--';
-                let type = d.topupType==='Auto' ? `<span class="badge" style="color:#a855f7; border:1px solid #a855f7;">Auto</span>` : `<span class="badge" style="color:#22c55e; border:1px solid #22c55e;">Manual</span>`;
-                let stat = d.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Inactive</span>`;
-                
-                html += `<tr>
-                    <td><img src="${d.logoUrl||'https://via.placeholder.com/30'}" style="width:35px; height:35px; border-radius:6px; object-fit:cover;"></td>
-                    <td>${d.name}</td> <td>${catName}</td> <td>${reg}</td>
-                    <td style="color:var(--danger);">$${d.retailPrice}</td> <td style="color:var(--ok); font-weight:bold;">$${d.sellingPrice}</td>
-                    <td>${type}</td> <td>${stat}</td>
-                    <td>
-                        <button class="btn btn-primary btn-icon" onclick='openProdModal(${JSON.stringify(d).replace(/'/g,"&#39;")})'>✏️</button>
-                        <button class="btn btn-danger btn-icon" onclick="deleteDoc(doc(db,'products','${d.id}'))">🗑️</button>
-                    </td>
-                </tr>`;
+        // PRODUCTS (Phase 6)
+        onSnapshot(collection(db, "products"), (snap) => {
+            let html = "";
+            snap.forEach(s => {
+                let p = {id: s.id, ...s.data()};
+                let cName = allCats.find(x=>x.id===p.categoryId)?.name || 'Unknown';
+                let stat = p.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Inactive</span>`;
+                html += `<tr><td><div style="font-weight:bold;">${p.name}</div></td><td>${cName}</td><td><div style="font-size:10px; color:var(--muted);">C: ${p.retailPrice||0} | S: <span style="color:var(--ok);">${p.sellingPrice||0}</span> | R: <span style="color:var(--accent);">${p.resellerPrice||p.sellingPrice||0}</span></div></td><td>${p.topupType} ${stat}</td><td><button class="btn btn-dark" onclick='openProdModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db,'products','${p.id}'))">Del</button></td></tr>`;
             });
-            document.getElementById('tb-products').innerHTML = html || '<tr><td colspan="9" style="text-align:center;">No products.</td></tr>';
-            document.getElementById('dash-prod-count').innerText = allProds.length;
+            document.getElementById('tb-products').innerHTML = html || "<tr><td colspan='5' style='text-align:center;'>No data</td></tr>";
+            document.getElementById('ds-prod').innerText = snap.size;
+        });
+
+        // USERS & ROLES
+        onSnapshot(collection(db, "users"), (s) => { 
+            let h=""; let t=0; document.getElementById('ds-users').innerText=s.size; 
+            s.forEach(d=>{ 
+                let u=d.data(); let bal=u.walletBalance||0; let role=u.role||'Customer'; let spins=u.spinCount||0; let ref=u.refCode||'N/A'; t+=bal; 
+                h+=`<tr><td><div style="font-weight:bold;">${u.email}</div><div style="font-size:10px; color:var(--muted);">Ref: ${ref}</div></td><td><span class="badge bg-pill">${role}</span><br><span style="font-size:10px; color:var(--warning);">Spins: ${spins}</span></td><td style="color:var(--ok); font-weight:bold;">${bal.toLocaleString()} Ks</td><td><button class="btn btn-dark" onclick="openUserModal('${d.id}', ${bal}, '${role}', '${u.email}', ${spins})">Edit</button></td></tr>`; 
+            }); 
+            document.getElementById('tb-users').innerHTML=h; document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
+        });
+
+        // ORDERS & PROFIT CALC
+        onSnapshot(collection(db, "orders"), (s) => { 
+            let tS=0; let tP=0; let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
+            a.forEach(o=>{ 
+                if(o.status==='Completed'){ tS += (o.price||0); let cost = o.costPrice || (o.price * 0.85); tP += (o.price - cost); }
+                let cls=o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':'bg-pill'); 
+                h+=`<tr><td><span class="id-tag">${o.orderId||o.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${o.status}</span></td><td><div style="font-weight:bold;">${o.game} - ${o.item}</div><div style="font-size:10px; color:var(--muted);">${o.playerId} | By: ${o.userEmail}</div></td><td><div style="color:var(--ok); font-weight:bold;">${(o.price||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--muted);">Cost: ${(o.costPrice||0)}</div></td><td>${o.slipImage?`<button class="btn btn-dark" onclick="viewSlip('${o.slipImage}')">Slip</button>`:''}${o.status==='Pending'?`<button class="btn btn-ok" onclick="updOrd('${o.id}','Completed')">✔</button> <button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">✕</button>`:''}</td></tr>`; 
+            }); 
+            document.getElementById('tb-orders').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No orders.</td></tr>"; document.getElementById('ds-orders').innerText = a.filter(x=>x.status==='Completed').length; document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
+        });
+
+        // DEPOSITS (With Auto Spin)
+        onSnapshot(collection(db, "deposits"), (s) => { 
+            let tD=0; let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
+            a.forEach(dp=>{ 
+                if(dp.status==='Completed')tD+=dp.amount; 
+                let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); 
+                h+=`<tr><td><span class="id-tag">${dp.depId||dp.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${dp.status}</span></td><td><div style="font-size:11px;">${dp.userEmail}</div></td><td><div style="color:var(--ok); font-weight:bold; font-size:14px;">+${(dp.amount||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--muted);">${dp.payMethod}</div></td><td><button class="btn btn-dark" onclick="viewSlip('${dp.slipImage}')">Slip</button>${dp.status==='Pending'?` <button class="btn btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})">✔</button> <button class="btn btn-danger" onclick="updDep('${dp.id}','Cancelled')">✕</button>`:''}</td></tr>`; 
+            }); 
+            document.getElementById('tb-deposits').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No deposits.</td></tr>"; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; 
+        });
+        
+        // WITHDRAWALS
+        onSnapshot(collection(db, "withdrawals"), (s) => { 
+            let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
+            a.forEach(w=>{ 
+                let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); 
+                h+=`<tr><td><span class="id-tag">${w.wdId||w.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${w.status}</span></td><td><div style="font-size:11px;">${w.userEmail}</div></td><td><div style="color:var(--danger); font-weight:bold; font-size:14px;">-${(w.amount||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--accent);">${w.payMethod}: ${w.accPhone}</div></td><td>${w.status==='Pending'?`<button class="btn btn-ok" onclick="updWd('${w.id}','Completed')">Sent</button> <button class="btn btn-danger" onclick="updWd('${w.id}','Cancelled','${w.userId}',${w.amount})">Reject</button>`:''}</td></tr>`; 
+            }); 
+            document.getElementById('tb-withdraws').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No withdrawals.</td></tr>"; 
         });
     }
 
-    // --- CATEGORY CRUD ---
+    // --- APP SETTINGS ---
+    window.saveAllSettings = async () => { 
+        await setDoc(doc(db, "settings", "app_config"), { 
+            fbLink: document.getElementById('inp-cs-fb').value, tgLink: document.getElementById('inp-cs-tg').value,
+            tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value,
+            cookieSmile: document.getElementById('inp-cookie-smile').value, cookieJC: document.getElementById('inp-cookie-jc').value
+        }, { merge: true }); 
+        toast("All Settings Saved!"); 
+    };
+
+    // --- USERS & ROLES ---
+    window.openUserModal = (id, bal, role, em, spins) => { document.getElementById('um-id').value = id; document.getElementById('um-email').innerText = em; document.getElementById('um-wallet').value = bal; document.getElementById('um-spins').value = spins; document.getElementById('um-role').value = role || 'Customer'; document.getElementById('user-modal').classList.add('active'); };
+    window.saveUserEdit = async () => { let id = document.getElementById('um-id').value; let b = parseInt(document.getElementById('um-wallet').value); let s = parseInt(document.getElementById('um-spins').value); let r = document.getElementById('um-role').value; if(!isNaN(b)) { await updateDoc(doc(db, "users", id), { walletBalance: b, spinCount: s, role: r }); toast("User Updated!"); closeModal('user-modal'); } };
+
+    // --- CATEGORY CRUD (PHASE 6) ---
     window.openCatModal = (c=null) => {
-        document.getElementById('cm-id').value = c?c.id:''; document.getElementById('cm-name').value = c?c.name:''; document.getElementById('cm-slug').value = c?c.slug:''; document.getElementById('cm-jcid').value = c?c.jcId:''; document.getElementById('cm-desc').value = c?c.desc:'';
+        document.getElementById('cm-id').value = c?c.id:''; document.getElementById('cm-name').value = c?c.name:''; document.getElementById('cm-slug').value = c?c.slug:''; document.getElementById('cm-jcid').value = c?c.jcId:''; document.getElementById('cm-banner').value = c?c.bannerUrl:'';
         document.getElementById('cm-logo-url').value = c?c.logoUrl:''; document.getElementById('cm-img-preview').src = c?c.logoUrl:''; document.getElementById('cm-img-preview').style.display = c&&c.logoUrl?'block':'none';
         let f = c?c.forms:[]; document.getElementById('cm-form-uid').checked = f.includes('gameId'); document.getElementById('cm-form-zone').checked = f.includes('zoneId'); document.getElementById('cm-form-email').checked = f.includes('email');
-        document.getElementById('cm-check').checked = c?c.isCheck:false; document.getElementById('cm-active').checked = c?c.isActive:true;
+        document.getElementById('cm-check').checked = c?c.isCheck:false; document.getElementById('cm-active').checked = c?c.isActive:true; document.getElementById('cm-order').value = c?c.orderNum:1;
         document.getElementById('cm-title').innerText = c?"Edit Category":"New Category"; document.getElementById('cat-modal').classList.add('active');
     };
     window.saveCategory = async () => {
         let id = document.getElementById('cm-id').value; let forms=[];
         if(document.getElementById('cm-form-uid').checked) forms.push('gameId'); if(document.getElementById('cm-form-zone').checked) forms.push('zoneId'); if(document.getElementById('cm-form-email').checked) forms.push('email');
-        let data = { name: document.getElementById('cm-name').value, slug: document.getElementById('cm-slug').value, jcId: document.getElementById('cm-jcid').value, desc: document.getElementById('cm-desc').value, forms: forms, isCheck: document.getElementById('cm-check').checked, isActive: document.getElementById('cm-active').checked, logoUrl: document.getElementById('cm-logo-url').value };
+        let data = { name: document.getElementById('cm-name').value, slug: document.getElementById('cm-slug').value, jcId: document.getElementById('cm-jcid').value, bannerUrl: document.getElementById('cm-banner').value, forms: forms, isCheck: document.getElementById('cm-check').checked, isActive: document.getElementById('cm-active').checked, orderNum: parseInt(document.getElementById('cm-order').value)||1, logoUrl: document.getElementById('cm-logo-url').value };
         if(!data.name || !data.slug) return toast("Name & Slug req!");
         if(id) await updateDoc(doc(db,"categories",id), data); else await addDoc(collection(db,"categories"), data);
         closeModal('cat-modal'); toast("Category Saved!");
     };
+    window.deleteGame = async(id) => { if(confirm("Delete category?")) await deleteDoc(doc(db,"categories",id)); };
 
-    // --- PRODUCT CRUD ---
+    // --- PRODUCT CRUD (PHASE 6) ---
     window.openProdModal = (p=null) => {
-        document.getElementById('pm-id').value = p?p.id:''; document.getElementById('pm-name').value = p?p.name:''; document.getElementById('pm-slug').value = p?p.slug:''; document.getElementById('pm-cat').value = p?p.categoryId:''; 
+        document.getElementById('pm-id').value = p?p.id:''; document.getElementById('pm-name').value = p?p.name:''; document.getElementById('pm-cat').value = p?p.categoryId:''; 
         document.getElementById('pm-cost').value = p?p.retailPrice:''; document.getElementById('pm-price').value = p?p.sellingPrice:''; document.getElementById('pm-reseller').value = p?(p.resellerPrice||p.sellingPrice):'';
-        document.getElementById('pm-smileid').value = p?p.smileId:''; document.getElementById('pm-jcid').value = p?p.jcId:''; document.getElementById('pm-type').value = p?p.topupType:'Auto'; document.getElementById('pm-region').value = p?p.region:'';
+        document.getElementById('pm-smileid').value = p?p.smileId:''; document.getElementById('pm-jcid').value = p?p.jcId:''; document.getElementById('pm-type').value = p?p.topupType:'Auto';
         document.getElementById('pm-active').checked = p?p.isActive:true;
         document.getElementById('pm-img-url').value = p?p.logoUrl:''; document.getElementById('pm-img-preview').src = p?p.logoUrl:''; document.getElementById('pm-img-preview').style.display = p&&p.logoUrl?'block':'none';
         document.getElementById('pm-title').innerText = p?"Edit Product":"New Product"; document.getElementById('prod-modal').classList.add('active');
     };
     window.saveProduct = async () => {
         let id = document.getElementById('pm-id').value;
-        let data = { name: document.getElementById('pm-name').value, slug: document.getElementById('pm-slug').value, categoryId: document.getElementById('pm-cat').value, retailPrice: parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice: parseFloat(document.getElementById('pm-price').value)||0, resellerPrice: parseFloat(document.getElementById('pm-reseller').value)||0, smileId: document.getElementById('pm-smileid').value, jcId: document.getElementById('pm-jcid').value, topupType: document.getElementById('pm-type').value, region: document.getElementById('pm-region').value, isActive: document.getElementById('pm-active').checked, logoUrl: document.getElementById('pm-img-url').value };
+        let data = { name: document.getElementById('pm-name').value, categoryId: document.getElementById('pm-cat').value, retailPrice: parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice: parseFloat(document.getElementById('pm-price').value)||0, resellerPrice: parseFloat(document.getElementById('pm-reseller').value)||0, smileId: document.getElementById('pm-smileid').value, jcId: document.getElementById('pm-jcid').value, topupType: document.getElementById('pm-type').value, isActive: document.getElementById('pm-active').checked, logoUrl: document.getElementById('pm-img-url').value };
         if(!data.name || !data.categoryId) return toast("Name & Category req!");
         if(id) await updateDoc(doc(db,"products",id), data); else await addDoc(collection(db,"products"), data);
         closeModal('prod-modal'); toast("Product Saved!");
+    };
+
+    // --- PAYMENTS & PROMOS ---
+    window.openPayModal = (p = null) => { document.getElementById('pay-id').value = p ? p.id : ''; document.getElementById('pay-name').value = p ? p.name : ''; document.getElementById('pay-phone').value = p ? p.phone : ''; document.getElementById('pay-acc').value = p ? p.accName : ''; document.getElementById('pay-qr-url').value = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').src = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').style.display = p && p.qrUrl ? 'block' : 'none'; document.getElementById('pay-title').innerText = p ? "Edit Method" : "Add Method"; document.getElementById('pay-modal').classList.add('active'); };
+    window.savePayment = async () => { let id = document.getElementById('pay-id').value; let data = { name: document.getElementById('pay-name').value, phone: document.getElementById('pay-phone').value, accName: document.getElementById('pay-acc').value, qrUrl: document.getElementById('pay-qr-url').value }; if(!data.name || !data.phone) return toast("Req!"); if(id) await updateDoc(doc(db, "payment_methods", id), data); else await addDoc(collection(db, "payment_methods"), data); closeModal('pay-modal'); toast("Saved!"); };
+    window.openPromoModal = () => { document.getElementById('promo-id').value = ''; document.getElementById('promo-code').value = ''; document.getElementById('promo-amt').value = ''; document.getElementById('promo-modal').classList.add('active'); };
+    window.savePromo = async () => { let c = document.getElementById('promo-code').value.toUpperCase().trim(); let a = parseInt(document.getElementById('promo-amt').value); if(!c || !a) return toast("Invalid!"); await addDoc(collection(db, "promo_codes"), { code: c, discount: a, createdAt: serverTimestamp() }); closeModal('promo-modal'); toast("Created!"); };
+
+    // --- ACTIONS (WITH AUTO SPIN CALC & LEDGER) ---
+    import { serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    window.updOrd = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"orders",id),{status:st}); };
+    window.updDep = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"deposits",id),{status:st}); };
+    
+    // 💡 Auto Spin Ticket Calculation & Ledger Logging on Deposit Approval 💡
+    window.apprDep = async (id, uid, amt) => { 
+        if(confirm(`Approve +${amt}?`)) { 
+            let u = await getDoc(doc(db,"users",uid)); 
+            let uData = u.data();
+            let newSpins = Math.floor(amt / 10000); // 1 Spin per 10,000 Ks
+            
+            await updateDoc(doc(db,"users",uid),{
+                walletBalance: (uData.walletBalance||0) + amt,
+                spinCount: (uData.spinCount||0) + newSpins
+            }); 
+            await updateDoc(doc(db,"deposits",id),{status:'Completed'}); 
+            await addDoc(collection(db, "transactions"), { userId: uid, type: 'Deposit', amount: amt, desc: 'Deposit Approved', createdAt: serverTimestamp() });
+            toast(`Funds Added! User got ${newSpins} spins.`); 
+        } 
+    };
+
+    window.updWd = async (id, st, uid, amt) => { 
+        if(confirm(`Confirm to ${st}?`)) { 
+            if(st === 'Cancelled' && uid && amt) { 
+                let u=await getDoc(doc(db,"users",uid)); 
+                await updateDoc(doc(db,"users",uid),{walletBalance:(u.data().walletBalance||0)+amt}); 
+                await addDoc(collection(db, "transactions"), { userId: uid, type: 'Refund', amount: amt, desc: 'Withdrawal Rejected', createdAt: serverTimestamp() });
+            } 
+            await updateDoc(doc(db,"withdrawals",id),{status:st}); toast(`Withdrawal ${st}`);
+        } 
     };
 </script>
 </body>
