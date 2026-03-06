@@ -48,8 +48,9 @@
   .back-btn-float{position:absolute; top:15px; left:15px; background:rgba(0,0,0,0.5); backdrop-filter:blur(10px); border:1px solid var(--border); border-radius:50%; width:40px; height:40px; display:flex; justify-content:center; align-items:center; color:#fff; cursor:pointer; z-index:10;}
   
   .pack-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:25px;}
-  .pack-card{background:var(--card); border:1px solid var(--border); padding:15px; border-radius:14px; cursor:pointer; transition:0.2s;}
+  .pack-card{background:var(--card); border:1px solid var(--border); padding:15px; border-radius:14px; cursor:pointer; transition:0.2s; position:relative; overflow:hidden;}
   .pack-card.selected{border-color:var(--accent); background:rgba(79,172,254,0.1);}
+  .reseller-badge{position:absolute; top:0; right:0; background:var(--primary); color:#fff; font-size:9px; padding:2px 6px; border-bottom-left-radius:8px; font-weight:bold;}
   
   .pay-tabs{display:flex; background:rgba(0,0,0,0.4); border-radius:12px; padding:4px; margin-bottom:15px;}
   .pay-tab{flex:1; text-align:center; padding:10px; font-size:13px; font-weight:600; color:var(--muted); border-radius:8px; cursor:pointer; transition:0.3s;}
@@ -185,8 +186,12 @@
                 <div style="font-size:16px; font-weight:700;">My Wallet</div>
                 <div id="prof-role" class="badge role">Customer</div>
             </div>
-            <div style="font-size:30px; font-weight:800; color:var(--ok); margin-bottom:15px;" id="prof-wallet">0 Ks</div>
-            <button class="btn-main" onclick="navTo('page-deposit')">Top Up Wallet</button>
+            <div style="font-size:30px; font-weight:800; color:var(--ok); margin-bottom:20px;" id="prof-wallet">0 Ks</div>
+            
+            <div style="display:flex; gap:10px;">
+                <button class="btn-main" style="flex:1; padding:12px; font-size:13px;" onclick="navTo('page-deposit')">📥 Top Up</button>
+                <button class="btn-main" style="flex:1; padding:12px; font-size:13px; background:transparent; border:1px solid var(--border); color:var(--danger);" onclick="navTo('page-withdraw')">📤 Withdraw</button>
+            </div>
         </div>
         
         <h3 style="font-size:14px; color:var(--muted); margin-bottom:10px;">Menu</h3>
@@ -217,6 +222,25 @@
         <div class="bottom-bar"><button class="btn-main" id="btn-dep" onclick="submitDeposit()">Submit Deposit</button></div>
     </div>
 
+    <div id="page-withdraw" class="page">
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;">
+            <div class="back-btn-float" style="position:static;" onclick="navToMain('page-profile')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div>
+            <h2 style="margin:0;">Withdraw Funds</h2>
+        </div>
+        <div style="font-size:12px; color:var(--muted); margin-bottom:15px; text-align:center;">Available Balance: <span style="color:var(--ok); font-weight:bold;" id="wd-avail">0 Ks</span></div>
+        
+        <input type="number" id="wd-amount" class="auth-input" placeholder="Amount to withdraw (Ks)">
+        <select id="wd-method" class="auth-input" style="appearance:none;">
+            <option value="KPay">KBZPay (KPay)</option>
+            <option value="WavePay">WavePay</option>
+            <option value="AYAPay">AYA Pay</option>
+        </select>
+        <input type="text" id="wd-phone" class="auth-input" placeholder="Account Phone Number">
+        <input type="text" id="wd-name" class="auth-input" placeholder="Account Name">
+
+        <div class="bottom-bar"><button class="btn-main" style="background:var(--danger);" id="btn-wd" onclick="submitWithdraw()">Submit Request</button></div>
+    </div>
+
     <div class="main-nav" id="main-nav">
         <button class="nav-btn active" id="nav-page-home" onclick="navToMain('page-home')"><svg viewBox="0 0 24 24" class="svg-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Shop</span></button>
         <button class="nav-btn" id="nav-page-orders" onclick="navToMain('page-orders')"><svg viewBox="0 0 24 24" class="svg-icon"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg><span>Orders</span></button>
@@ -241,8 +265,6 @@
     let currentOrder = { gameName: '', item: '', basePrice: 0, costPrice: 0, price: 0, uid: '', zone: '', slipFile: null };
     let depFile = null; let seenNotis = JSON.parse(localStorage.getItem('seenNotis') || '[]'); let allMyData = [];
     let dynamicGames = []; let payMethods = []; let currentPromo = null;
-    
-    // 💡 Telegram Bot Vars 💡
     let tgBotToken = ""; let tgChatId = ""; let tgOrderTopicId = ""; let tgDepositTopicId = "";
 
     // --- DYNAMIC DATA ---
@@ -251,11 +273,7 @@
             if(d.data().homeBannerUrl) { document.getElementById('dyn-home-banner').src = d.data().homeBannerUrl; document.getElementById('dyn-home-banner').style.display = 'block'; }
             if(d.data().fbLink) { document.getElementById('btn-cs-fb').href = d.data().fbLink; document.getElementById('btn-cs-fb').style.display = 'flex'; }
             if(d.data().tgLink) { document.getElementById('btn-cs-tg').href = d.data().tgLink; document.getElementById('btn-cs-tg').style.display = 'flex'; }
-            
-            tgBotToken = d.data().tgBotToken || "";
-            tgChatId = d.data().tgChatId || "";
-            tgOrderTopicId = d.data().tgOrderTopicId || "";
-            tgDepositTopicId = d.data().tgDepositTopicId || "";
+            tgBotToken = d.data().tgBotToken || ""; tgChatId = d.data().tgChatId || ""; tgOrderTopicId = d.data().tgOrderTopicId || ""; tgDepositTopicId = d.data().tgDepositTopicId || "";
         }
     });
 
@@ -263,13 +281,7 @@
         dynamicGames = []; let html = "";
         snap.forEach(s => {
             let g = {id: s.id, ...s.data()}; dynamicGames.push(g);
-            html += `<div class="game-card" onclick="openGameDetail('${g.id}')">
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <img class="game-img" src="${g.logoUrl || 'https://via.placeholder.com/60'}">
-                    <div><div class="game-name">${g.name}</div><div style="font-size:11px; color:var(--muted); margin-top:4px;">Available</div></div>
-                </div>
-                <div class="buy-btn">Buy</div>
-            </div>`;
+            html += `<div class="game-card" onclick="openGameDetail('${g.id}')"><div style="display:flex; align-items:center; gap:15px;"><img class="game-img" src="${g.logoUrl || 'https://via.placeholder.com/60'}"><div><div class="game-name">${g.name}</div><div style="font-size:11px; color:var(--muted); margin-top:4px;">Available</div></div></div><div class="buy-btn">Buy</div></div>`;
         });
         document.getElementById('dyn-game-list').innerHTML = html || "<div style='text-align:center; padding:20px; border:1px dashed var(--border); border-radius:12px;'>No games found.</div>";
     });
@@ -288,45 +300,23 @@
         document.getElementById('dep-dyn-payments').innerHTML = html || "<p>No payment methods found.</p>";
     });
 
-    window.selectDynPay = (id) => {
-        vibe(); document.querySelectorAll('.dyn-pay-card').forEach(c=>c.classList.remove('selected'));
-        document.querySelectorAll(`#paycard-${id}`).forEach(c=>c.classList.add('selected'));
-        document.getElementById('selected-pay-method').value = payMethods.find(x=>x.id===id)?.name || '';
-        document.getElementById('selected-dep-method').value = payMethods.find(x=>x.id===id)?.name || '';
-        checkForm();
-    };
+    window.selectDynPay = (id) => { vibe(); document.querySelectorAll('.dyn-pay-card').forEach(c=>c.classList.remove('selected')); document.querySelectorAll(`#paycard-${id}`).forEach(c=>c.classList.add('selected')); document.getElementById('selected-pay-method').value = payMethods.find(x=>x.id===id)?.name || ''; document.getElementById('selected-dep-method').value = payMethods.find(x=>x.id===id)?.name || ''; checkForm(); };
     window.copyTxt = (t) => { navigator.clipboard.writeText(t); toast("Copied!"); };
 
     window.applyPromo = async () => {
         vibe(); let code = document.getElementById('inp-promo').value.toUpperCase().trim();
         if(!code) return toast("Enter a code!");
-        const q = query(collection(db, "promo_codes"), where("code", "==", code));
-        const snap = await getDocs(q);
+        const q = query(collection(db, "promo_codes"), where("code", "==", code)); const snap = await getDocs(q);
         if(snap.empty) { currentPromo = null; document.getElementById('promo-msg').style.display='none'; toast("Invalid Code!"); updatePriceDisplay(); return; }
-        
-        let pData = snap.docs[0].data(); currentPromo = pData.discount;
-        document.getElementById('promo-msg').innerText = `✅ Promo applied: -${currentPromo} Ks`;
-        document.getElementById('promo-msg').style.display='block'; toast(`Applied: -${currentPromo} Ks`); updatePriceDisplay();
+        let pData = snap.docs[0].data(); currentPromo = pData.discount; document.getElementById('promo-msg').innerText = `✅ Promo applied: -${currentPromo} Ks`; document.getElementById('promo-msg').style.display='block'; toast(`Applied: -${currentPromo} Ks`); updatePriceDisplay();
     };
-    function updatePriceDisplay() {
-        let fPrice = currentOrder.basePrice;
-        if(currentPromo && fPrice > 0) { fPrice = Math.max(0, fPrice - currentPromo); }
-        currentOrder.price = fPrice; document.getElementById('display-total').innerText = fPrice.toLocaleString() + " Ks"; checkForm();
-    }
+    function updatePriceDisplay() { let fPrice = currentOrder.basePrice; if(currentPromo && fPrice > 0) { fPrice = Math.max(0, fPrice - currentPromo); } currentOrder.price = fPrice; document.getElementById('display-total').innerText = fPrice.toLocaleString() + " Ks"; checkForm(); }
 
-    // 💡 TELEGRAM BOT SENDER FUNCTION 💡
     async function sendTgAlert(msg, threadIdStr) {
-        if(!tgBotToken || !tgChatId) return; // Ignore if admin didn't set up bot
+        if(!tgBotToken || !tgChatId) return;
         let payload = { chat_id: tgChatId, text: msg, parse_mode: "HTML" };
-        
-        // Add Topic ID (Forum Thread ID) if provided
-        if(threadIdStr && !isNaN(parseInt(threadIdStr))) {
-            payload.message_thread_id = parseInt(threadIdStr);
-        }
-
-        let url = `https://api.telegram.org/bot${tgBotToken}/sendMessage`;
-        try { await fetch(url, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); } 
-        catch(e) { console.log("TG Error:", e); }
+        if(threadIdStr && !isNaN(parseInt(threadIdStr))) { payload.message_thread_id = parseInt(threadIdStr); }
+        try { await fetch(`https://api.telegram.org/bot${tgBotToken}/sendMessage`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); } catch(e) {}
     }
 
     // --- AUTH ---
@@ -348,46 +338,43 @@
             document.getElementById('auth-screen').classList.remove('active'); document.getElementById('main-app').style.display = 'block';
             onSnapshot(doc(db, "users", me.uid), (ds) => {
                 if(ds.exists()) { 
-                    myWallet = ds.data().walletBalance || 0; 
-                    myRole = ds.data().role || 'Customer';
+                    myWallet = ds.data().walletBalance || 0; myRole = ds.data().role || 'Customer';
                     document.getElementById('home-wallet').innerText = myWallet.toLocaleString() + " Ks"; 
                     document.getElementById('prof-wallet').innerText = myWallet.toLocaleString() + " Ks"; 
                     document.getElementById('detail-wallet-bal').innerText = myWallet.toLocaleString() + " Ks"; 
-                    document.getElementById('prof-role').innerText = myRole;
-                    checkForm(); 
+                    document.getElementById('wd-avail').innerText = myWallet.toLocaleString() + " Ks"; 
+                    document.getElementById('prof-role').innerText = myRole; checkForm(); 
                 }
             });
             onSnapshot(query(collection(db, "orders"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'order', ...d.data()})); processData(a, false); });
-            onSnapshot(query(collection(db, "deposits"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'deposit', ...d.data()})); processData(a, true); });
+            onSnapshot(query(collection(db, "deposits"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'deposit', ...d.data()})); processData(a, true, false); });
+            onSnapshot(query(collection(db, "withdrawals"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'withdraw', ...d.data()})); processData(a, false, true); });
         } else { document.getElementById('main-app').style.display = 'none'; document.getElementById('auth-screen').classList.add('active'); }
     });
 
-    function processData(newData, isDeposit) {
+    function processData(newData, isDeposit = false, isWithdraw = false) {
         if(isDeposit) allMyData = allMyData.filter(x => x.type !== 'deposit').concat(newData);
+        else if (isWithdraw) allMyData = allMyData.filter(x => x.type !== 'withdraw').concat(newData);
         else allMyData = allMyData.filter(x => x.type !== 'order').concat(newData);
+        
         allMyData.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
         let oHtml = "", nHtml = "", unread = 0;
         
         allMyData.forEach(o => {
             let cls = o.status==='Completed'?'completed':(o.status==='Cancelled'?'cancelled':'pending');
             if(o.type === 'order') {
-                oHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span class="id-tag">${o.orderId || o.id.substring(0,8)}</span><span class="badge ${cls}">${o.status}</span></div>
-                    <div style="font-weight:700; font-size:14px; margin-bottom:4px;">${o.game} - <span style="color:var(--accent);">${o.item}</span></div>
-                    <div style="font-size:12px; color:var(--muted);">ID: ${o.playerId}</div>
-                    <div style="font-size:14px; font-weight:800; margin-top:8px;">${o.price.toLocaleString()} Ks</div>
-                </div>`;
+                oHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px;"><div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span class="id-tag">${o.orderId || o.id.substring(0,8)}</span><span class="badge ${cls}">${o.status}</span></div><div style="font-weight:700; font-size:14px; margin-bottom:4px;">${o.game} - <span style="color:var(--accent);">${o.item}</span></div><div style="font-size:12px; color:var(--muted);">ID: ${o.playerId}</div><div style="font-size:14px; font-weight:800; margin-top:8px;">${o.price.toLocaleString()} Ks</div></div>`;
+            } else if (o.type === 'withdraw') {
+                oHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px;"><div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span class="id-tag">${o.wdId || o.id.substring(0,8)}</span><span class="badge ${cls}">${o.status}</span></div><div style="font-weight:700; font-size:14px; margin-bottom:4px; color:var(--danger);">Withdrawal Request</div><div style="font-size:12px; color:var(--muted);">${o.payMethod}: ${o.accPhone}</div><div style="font-size:14px; font-weight:800; margin-top:8px; color:var(--danger);">- ${o.amount.toLocaleString()} Ks</div></div>`;
             }
+
             if(o.status !== 'Pending') {
                 if(!seenNotis.includes(o.id+o.status)) unread++;
-                nHtml += `<div class="glass-card" style="padding:15px; margin-bottom:10px; border-left:4px solid ${o.status==='Completed'?'var(--ok)':'var(--danger)'};">
-                    <div style="font-size:13px; font-weight:700; margin-bottom:6px;">${o.status==='Completed'?'✅':'❌'} ${o.type==='deposit'?'TOP UP':'ORDER'} ${o.status.toUpperCase()}</div>
-                    <div style="font-size:12px; color:var(--muted);">${o.type==='deposit'?`Top up request for ${o.amount} Ks`:`Order ID: ${o.orderId||o.id.substring(0,8)}`} is ${o.status.toLowerCase()}.</div>
-                    <div style="font-size:10px; color:var(--muted); text-align:right; margin-top:5px;">${formatDate(o.createdAt)}</div>
-                </div>`;
+                let title = o.type === 'order' ? 'ORDER' : (o.type === 'deposit' ? 'TOP UP' : 'WITHDRAW');
+                nHtml += `<div class="glass-card" style="padding:15px; margin-bottom:10px; border-left:4px solid ${o.status==='Completed'?'var(--ok)':'var(--danger)'};"><div style="font-size:13px; font-weight:700; margin-bottom:6px;">${o.status==='Completed'?'✅':'❌'} ${title} ${o.status.toUpperCase()}</div><div style="font-size:12px; color:var(--muted);">${o.type==='order'?`Order: ${o.item}`:`Amount: ${o.amount} Ks`} is ${o.status.toLowerCase()}.</div><div style="font-size:10px; color:var(--muted); text-align:right; margin-top:5px;">${formatDate(o.createdAt)}</div></div>`;
             }
         });
-        document.getElementById('orders-list').innerHTML = oHtml || "<div style='text-align:center; color:gray;'>No orders yet.</div>";
+        document.getElementById('orders-list').innerHTML = oHtml || "<div style='text-align:center; color:gray;'>No history yet.</div>";
         document.getElementById('noti-list').innerHTML = nHtml || "<div style='text-align:center; color:gray;'>No notifications.</div>";
         document.getElementById('bell-badge').style.display = unread > 0 ? 'block' : 'none';
     }
@@ -396,36 +383,30 @@
     window.navToMain = (id) => { vibe(); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); navTo(id); };
     window.navTo = (id) => { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); document.getElementById('main-nav').style.display = ['page-home','page-orders','page-profile'].includes(id) ? 'flex' : 'none'; };
 
-    // --- DETAIL ---
+    // --- DETAIL (WITH RESELLER LOGIC) ---
     window.openGameDetail = (gameId) => {
         vibe(); let g = dynamicGames.find(x => x.id === gameId); if(!g) return;
         currentOrder.gameName = g.name; 
-        document.getElementById('detail-game-title').innerText = g.name; 
-        document.getElementById('detail-banner').src = g.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
+        document.getElementById('detail-game-title').innerText = g.name; document.getElementById('detail-banner').src = g.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
         
         let html = "";
         (g.packages || []).forEach((p, i) => {
-            html += `<div class="pack-card" id="pkg-${i}" onclick="selectPackage(${i}, '${p.name}', ${p.price}, ${p.cost||0})">
-                <div style="font-weight:700; font-size:14px; display:flex; flex-direction:column;">${p.name} <span style="font-size:12px; color:var(--accent); font-weight:800; margin-top:4px;">${p.price.toLocaleString()} Ks</span></div>
+            // 💡 Determine Price based on Role 💡
+            let displayPrice = p.price; let isReseller = false;
+            if(myRole === 'Seller' && p.resellerPrice && p.resellerPrice > 0) { displayPrice = p.resellerPrice; isReseller = true; }
+
+            html += `<div class="pack-card" id="pkg-${i}" onclick="selectPackage(${i}, '${p.name}', ${displayPrice}, ${p.cost||0})">
+                ${isReseller ? `<div class="reseller-badge">Seller Price</div>` : ''}
+                <div style="font-weight:700; font-size:14px; display:flex; flex-direction:column;">${p.name} <span style="font-size:12px; color:var(--accent); font-weight:800; margin-top:4px;">${displayPrice.toLocaleString()} Ks</span></div>
             </div>`;
         });
         document.getElementById('pack-container').innerHTML = html;
-        
-        currentOrder.item = ''; currentOrder.basePrice = 0; currentOrder.costPrice = 0; currentOrder.price = 0; currentOrder.uid = ''; 
-        currentPromo = null; document.getElementById('promo-msg').style.display='none'; document.getElementById('inp-promo').value='';
-        document.getElementById('input-userid').value = ''; document.getElementById('input-zoneid').value = ''; document.getElementById('display-total').innerText = "0 Ks";
-        
-        switchPayTab('wallet', document.querySelector('.pay-tab')); navTo('page-detail');
+        currentOrder.item = ''; currentOrder.basePrice = 0; currentOrder.costPrice = 0; currentOrder.price = 0; currentOrder.uid = ''; currentPromo = null; document.getElementById('promo-msg').style.display='none'; document.getElementById('inp-promo').value=''; document.getElementById('input-userid').value = ''; document.getElementById('input-zoneid').value = ''; document.getElementById('display-total').innerText = "0 Ks"; switchPayTab('wallet', document.querySelector('.pay-tab')); navTo('page-detail');
     };
 
     window.selectPackage = (i, n, p, c) => { vibe(); document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('selected')); document.getElementById(`pkg-${i}`).classList.add('selected'); currentOrder.item = n; currentOrder.basePrice = p; currentOrder.costPrice = c; updatePriceDisplay(); };
     window.switchPayTab = (m, el) => { vibe(); payMode = m; document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.pay-view').forEach(v => v.classList.remove('active')); el.classList.add('active'); document.getElementById('pay-'+m).classList.add('active'); checkForm(); };
-    window.checkForm = () => {
-        let isValid = document.getElementById('input-userid').value.length > 3 && currentOrder.price > 0;
-        if(payMode === 'wallet') { if(myWallet < currentOrder.price) { document.getElementById('wallet-msg').innerText = "Insufficient Balance!"; isValid = false; } else document.getElementById('wallet-msg').innerText = ""; } 
-        else { let pMethod = document.getElementById('selected-pay-method').value; if(!currentOrder.slipFile || !pMethod) isValid = false; }
-        document.getElementById('btn-submit').disabled = !isValid;
-    };
+    window.checkForm = () => { let isValid = document.getElementById('input-userid').value.length > 3 && currentOrder.price > 0; if(payMode === 'wallet') { if(myWallet < currentOrder.price) { document.getElementById('wallet-msg').innerText = "Insufficient Balance!"; isValid = false; } else document.getElementById('wallet-msg').innerText = ""; } else { let pMethod = document.getElementById('selected-pay-method').value; if(!currentOrder.slipFile || !pMethod) isValid = false; } document.getElementById('btn-submit').disabled = !isValid; };
 
     // --- UPLOADS & SUBMITS ---
     window.handleFileUpload = (i) => { if(i.files[0]) { vibe(); currentOrder.slipFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('upload-placeholder').style.display='none'; document.getElementById('preview-img').src = e.target.result; document.getElementById('preview-img').style.display='block'; checkForm(); }; r.readAsDataURL(i.files[0]); } };
@@ -435,19 +416,11 @@
     window.submitOrder = async () => {
         vibe(); const b = document.getElementById('btn-submit'); b.innerText = "Processing..."; b.disabled = true;
         try {
-            currentOrder.uid = document.getElementById('input-userid').value; currentOrder.zone = document.getElementById('input-zoneid').value;
-            let slipUrl = null; let finalMethod = 'wallet';
-            
-            if(payMode === 'slip') { slipUrl = await uploadImage(currentOrder.slipFile); finalMethod = document.getElementById('selected-pay-method').value; } 
-            else { if(myWallet < currentOrder.price) throw new Error("Insufficient Balance"); await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - currentOrder.price }); }
-            
+            currentOrder.uid = document.getElementById('input-userid').value; currentOrder.zone = document.getElementById('input-zoneid').value; let slipUrl = null; let finalMethod = 'wallet';
+            if(payMode === 'slip') { slipUrl = await uploadImage(currentOrder.slipFile); finalMethod = document.getElementById('selected-pay-method').value; } else { if(myWallet < currentOrder.price) throw new Error("Insufficient Balance"); await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - currentOrder.price }); }
             let ordId = genID('ORD');
             await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, costPrice: currentOrder.costPrice, playerId: currentOrder.uid, serverId: currentOrder.zone, payMethod: finalMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
-            
-            // 🚀 Send Telegram Alert (Routed to Order Topic if available)
-            let tgMsg = `📦 <b>NEW ORDER [${ordId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n🎮 Game: ${currentOrder.gameName}\n💎 Item: ${currentOrder.item}\n🆔 Player ID: <code>${currentOrder.uid}</code> ${currentOrder.zone ? '('+currentOrder.zone+')' : ''}\n💰 Price: ${currentOrder.price.toLocaleString()} Ks\n💳 Method: ${finalMethod}`;
-            sendTgAlert(tgMsg, tgOrderTopicId);
-
+            sendTgAlert(`📦 <b>NEW ORDER [${ordId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email} (${myRole})\n🎮 Game: ${currentOrder.gameName}\n💎 Item: ${currentOrder.item}\n🆔 ID: <code>${currentOrder.uid}</code> ${currentOrder.zone ? '('+currentOrder.zone+')' : ''}\n💰 Price: ${currentOrder.price.toLocaleString()} Ks\n💳 Method: ${finalMethod}`, tgOrderTopicId);
             toast("Order Placed!"); document.getElementById('preview-img').style.display = 'none'; document.getElementById('upload-placeholder').style.display = 'block'; currentOrder.slipFile = null; navToMain('page-orders');
         } catch (e) { toast(e.message); checkForm(); b.innerText="Pay Now"; }
     };
@@ -459,14 +432,26 @@
         try {
             let slipUrl = await uploadImage(depFile); let depId = genID('DEP');
             await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
-            
-            // 🚀 Send Telegram Alert (Routed to Deposit Topic if available)
-            let tgMsg = `💸 <b>NEW DEPOSIT [${depId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n💳 Method: ${pMethod}`;
-            sendTgAlert(tgMsg, tgDepositTopicId);
-
+            sendTgAlert(`💸 <b>NEW DEPOSIT [${depId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n💳 Method: ${pMethod}`, tgDepositTopicId);
             toast("Deposit sent!"); document.getElementById('dep-amount').value = ""; document.getElementById('dep-img').style.display = "none"; document.getElementById('dep-placeholder').style.display = "block"; depFile = null; navToMain('page-profile');
         } catch(e) { toast(e.message); } b.innerText = "Submit Deposit"; b.disabled = false;
     };
+
+    // 💡 WITHDRAWAL SUBMIT (PHASE 4) 💡
+    window.submitWithdraw = async () => {
+        let amt = parseInt(document.getElementById('wd-amount').value); let met = document.getElementById('wd-method').value; let ph = document.getElementById('wd-phone').value; let nm = document.getElementById('wd-name').value;
+        if(!amt || !ph || !nm) return toast("Fill all fields");
+        if(amt > myWallet) return toast("Insufficient balance!");
+        vibe(); const b = document.getElementById('btn-wd'); b.disabled = true; b.innerText = "Processing...";
+        try {
+            await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - amt });
+            let wdId = genID('WD');
+            await addDoc(collection(db, "withdrawals"), { wdId: wdId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: met, accPhone: ph, accName: nm, status: "Pending", createdAt: serverTimestamp() });
+            sendTgAlert(`💳 <b>WITHDRAW REQUEST [${wdId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n🏦 Method: ${met}\n📱 Acc: ${ph} (${nm})`, tgDepositTopicId);
+            toast("Withdraw requested!"); navToMain('page-orders');
+            document.getElementById('wd-amount').value=''; document.getElementById('wd-phone').value=''; document.getElementById('wd-name').value='';
+        } catch(e) { toast(e.message); } b.disabled = false; b.innerText = "Submit Request";
+    }
 </script>
 </body>
 </html>
