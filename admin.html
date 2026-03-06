@@ -137,27 +137,28 @@
             </div>
 
             <div id="v-users" class="view"><div class="data-header"><div>Manage Users & Roles</div></div><div id="list-users">Loading...</div></div>
-            
             <div id="v-deposits" class="view"><div class="data-header"><div>Deposit Requests</div></div><div id="list-deposits">Loading...</div></div>
-            
             <div id="v-orders" class="view"><div class="data-header"><div>Order History</div></div><div id="list-orders">Loading...</div></div>
-            
-            <div id="v-store" class="view">
-                <div class="data-header"><div>Games & Categories</div><button class="btn btn-primary" onclick="openGameModal()">+ Add Category</button></div>
-                <div id="list-games">Loading...</div>
-            </div>
-
-            <div id="v-promo" class="view">
-                <div class="data-header"><div>Manage Promo Codes</div><button class="btn btn-primary" onclick="openPromoModal()">+ Create Code</button></div>
-                <div id="list-promos">Loading...</div>
-            </div>
-
-            <div id="v-payments" class="view">
-                <div class="data-header"><div>Checkout Payment Methods</div><button class="btn btn-primary" onclick="openPayModal()">+ Add Payment</button></div>
-                <div id="list-payments">Loading...</div>
-            </div>
+            <div id="v-store" class="view"><div class="data-header"><div>Games & Categories</div><button class="btn btn-primary" onclick="openGameModal()">+ Add Category</button></div><div id="list-games">Loading...</div></div>
+            <div id="v-promo" class="view"><div class="data-header"><div>Manage Promo Codes</div><button class="btn btn-primary" onclick="openPromoModal()">+ Create Code</button></div><div id="list-promos">Loading...</div></div>
+            <div id="v-payments" class="view"><div class="data-header"><div>Checkout Payment Methods</div><button class="btn btn-primary" onclick="openPayModal()">+ Add Payment</button></div><div id="list-payments">Loading...</div></div>
 
             <div id="v-settings" class="view">
+                
+                <div style="background:var(--card-bg); border:1px solid var(--border); padding:20px; border-radius:12px; margin-bottom:20px; max-width:600px;">
+                    <h3 style="color:var(--accent); margin-bottom:5px;">🤖 Telegram Bot Alerts</h3>
+                    <div style="font-size:11px; color:var(--text-muted); margin-bottom:15px; line-height:1.5;">
+                        Get instantly notified in Telegram for new Orders & Deposits. <br>
+                        1. Create bot via <b>@BotFather</b> & copy Token.<br>
+                        2. Start chat with your bot, go to <b>@userinfobot</b> to get your Chat ID.
+                    </div>
+                    <label style="font-size:11px; color:var(--text-muted);">Telegram Bot Token</label>
+                    <input type="text" id="inp-bot-token" class="input-box" placeholder="e.g. 1234567890:ABCdEfGhIjKlMnOpQrSt...">
+                    <label style="font-size:11px; color:var(--text-muted);">Admin Chat ID</label>
+                    <input type="text" id="inp-chat-id" class="input-box" placeholder="e.g. 123456789">
+                    <button class="btn btn-primary" onclick="saveBotSettings()">Save Bot Settings</button>
+                </div>
+
                 <div style="background:var(--card-bg); border:1px solid var(--border); padding:20px; border-radius:12px; margin-bottom:20px; max-width:600px;">
                     <h3 style="color:var(--accent); margin-bottom:15px;">Customer Service & Links</h3>
                     <label style="font-size:11px; color:var(--text-muted);">Facebook Page Link</label>
@@ -229,33 +230,13 @@
         </div>
 
         <div id="pm-list" style="display:flex; flex-direction:column; gap:8px; max-height:250px; overflow-y:auto; margin-bottom:15px;"></div>
-        
         <div style="display:flex; gap:10px;"><button class="btn btn-ok" style="flex:1;" onclick="savePackages()">Save All</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('pack-modal')">Close</button></div>
     </div>
 </div>
 
-<div class="modal-bg" id="pay-modal">
-    <div class="modal-card">
-        <h3 style="margin-bottom:15px;" id="pay-title">Payment Method</h3><input type="hidden" id="pay-id">
-        <input type="text" id="pay-name" class="input-box" placeholder="Provider (e.g. KPay)"><input type="text" id="pay-phone" class="input-box" placeholder="Phone Number"><input type="text" id="pay-acc" class="input-box" placeholder="Account Name">
-        <img id="pay-qr-preview" style="width:100px; height:100px; border-radius:10px; display:none; margin-bottom:5px; object-fit:cover;">
-        <div class="upload-box" style="padding:10px;" onclick="document.getElementById('pay-qr-file').click()">Upload QR</div><input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'payQR')"><input type="hidden" id="pay-qr-url">
-        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePayment()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('pay-modal')">Cancel</button></div>
-    </div>
-</div>
-<div class="modal-bg" id="promo-modal">
-    <div class="modal-card">
-        <h3 style="margin-bottom:15px;">Promo Code</h3><input type="hidden" id="promo-id">
-        <input type="text" id="promo-code" class="input-box" style="text-transform:uppercase;" placeholder="Code (e.g. NEWYEAR)"><input type="number" id="promo-amt" class="input-box" placeholder="Discount (Ks)">
-        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePromo()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('promo-modal')">Cancel</button></div>
-    </div>
-</div>
-<div class="modal-bg" id="slip-modal" onclick="if(event.target===this) closeModal('slip-modal')">
-    <div class="modal-card" style="text-align:center; max-width:350px;">
-        <h3 style="margin-bottom:15px;">Transaction Slip</h3><img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);" src="">
-        <button class="btn btn-dark" style="width:100%; padding:12px;" onclick="closeModal('slip-modal')">Close</button>
-    </div>
-</div>
+<div class="modal-bg" id="pay-modal"><div class="modal-card"><h3 style="margin-bottom:15px;" id="pay-title">Payment Method</h3><input type="hidden" id="pay-id"><input type="text" id="pay-name" class="input-box" placeholder="Provider (e.g. KPay)"><input type="text" id="pay-phone" class="input-box" placeholder="Phone Number"><input type="text" id="pay-acc" class="input-box" placeholder="Account Name"><img id="pay-qr-preview" style="width:100px; height:100px; border-radius:10px; display:none; margin-bottom:5px; object-fit:cover;"><div class="upload-box" style="padding:10px;" onclick="document.getElementById('pay-qr-file').click()">Upload QR</div><input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'payQR')"><input type="hidden" id="pay-qr-url"><div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePayment()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('pay-modal')">Cancel</button></div></div></div>
+<div class="modal-bg" id="promo-modal"><div class="modal-card"><h3 style="margin-bottom:15px;">Promo Code</h3><input type="hidden" id="promo-id"><input type="text" id="promo-code" class="input-box" style="text-transform:uppercase;" placeholder="Code (e.g. NEWYEAR)"><input type="number" id="promo-amt" class="input-box" placeholder="Discount (Ks)"><div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePromo()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('promo-modal')">Cancel</button></div></div></div>
+<div class="modal-bg" id="slip-modal" onclick="if(event.target===this) closeModal('slip-modal')"><div class="modal-card" style="text-align:center; max-width:350px;"><h3 style="margin-bottom:15px;">Transaction Slip</h3><img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);" src=""><button class="btn btn-dark" style="width:100%; padding:12px;" onclick="closeModal('slip-modal')">Close</button></div></div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
@@ -296,54 +277,32 @@
                 if(d.data().homeBannerUrl) { document.getElementById('home-banner-preview').src = d.data().homeBannerUrl; document.getElementById('home-banner-preview').style.display = 'block'; }
                 if(d.data().fbLink) document.getElementById('inp-cs-fb').value = d.data().fbLink;
                 if(d.data().tgLink) document.getElementById('inp-cs-tg').value = d.data().tgLink;
+                if(d.data().tgBotToken) document.getElementById('inp-bot-token').value = d.data().tgBotToken;
+                if(d.data().tgChatId) document.getElementById('inp-chat-id').value = d.data().tgChatId;
             }
         });
         
-        // PAYMENTS
-        onSnapshot(collection(db, "payment_methods"), (snap) => {
-            let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="flex:1;"><strong>${p.name}</strong><br><span style="color:var(--accent); font-family:monospace;">${p.phone}</span> (${p.accName})</div><div style="display:flex; gap:5px;"><button class="btn btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g, "&#39;")})'>Edit</button><button class="btn btn-danger" onclick="deleteDoc(doc(db, 'payment_methods', '${p.id}'))">Del</button></div></div>`; });
-            document.getElementById('list-payments').innerHTML = html || "<p style='color:gray;'>No payment methods set.</p>";
-        });
-
-        // PROMOS
-        onSnapshot(collection(db, "promo_codes"), (snap) => {
-            let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="flex:1;"><strong style="color:var(--ok); font-family:monospace; font-size:16px;">${p.code}</strong><br>Discount: <strong>${p.discount} Ks</strong></div><button class="btn btn-danger" onclick="deleteDoc(doc(db, 'promo_codes', '${p.id}'))">Delete</button></div>`; });
-            document.getElementById('list-promos').innerHTML = html || "<p style='color:gray;'>No promo codes.</p>";
-        });
+        // PAYMENTS & PROMOS
+        onSnapshot(collection(db, "payment_methods"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="flex:1;"><strong>${p.name}</strong><br><span style="color:var(--accent); font-family:monospace;">${p.phone}</span> (${p.accName})</div><div style="display:flex; gap:5px;"><button class="btn btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g, "&#39;")})'>Edit</button><button class="btn btn-danger" onclick="deleteDoc(doc(db, 'payment_methods', '${p.id}'))">Del</button></div></div>`; }); document.getElementById('list-payments').innerHTML = html || "<p style='color:gray;'>No payment methods set.</p>"; });
+        onSnapshot(collection(db, "promo_codes"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="flex:1;"><strong style="color:var(--ok); font-family:monospace; font-size:16px;">${p.code}</strong><br>Discount: <strong>${p.discount} Ks</strong></div><button class="btn btn-danger" onclick="deleteDoc(doc(db, 'promo_codes', '${p.id}'))">Delete</button></div>`; }); document.getElementById('list-promos').innerHTML = html || "<p style='color:gray;'>No promo codes.</p>"; });
 
         // GAMES
-        onSnapshot(query(collection(db, "games"), orderBy("orderNum", "asc")), (snap) => {
-            let html = ""; snap.forEach(s => { let g = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="display:flex; align-items:center; gap:15px; flex:1;"><img src="${g.logoUrl || 'https://via.placeholder.com/50'}" style="width:40px; height:40px; border-radius:10px; object-fit:cover;"><div><div style="font-weight:700; font-size:14px;">${g.name}</div><div style="font-size:11px; color:var(--text-muted);">Items: ${(g.packages||[]).length}</div></div></div><div style="display:flex; gap:5px;"><button class="btn btn-ok" onclick='openPackageModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Products</button><button class="btn btn-dark" onclick='openGameModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Edit</button><button class="btn btn-danger" onclick="deleteGame('${g.id}')">Del</button></div></div>`; });
-            document.getElementById('list-games').innerHTML = html || "<p style='color:gray;'>No games.</p>";
-        });
+        onSnapshot(query(collection(db, "games"), orderBy("orderNum", "asc")), (snap) => { let html = ""; snap.forEach(s => { let g = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="display:flex; align-items:center; gap:15px; flex:1;"><img src="${g.logoUrl || 'https://via.placeholder.com/50'}" style="width:40px; height:40px; border-radius:10px; object-fit:cover;"><div><div style="font-weight:700; font-size:14px;">${g.name}</div><div style="font-size:11px; color:var(--text-muted);">Items: ${(g.packages||[]).length}</div></div></div><div style="display:flex; gap:5px;"><button class="btn btn-ok" onclick='openPackageModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Products</button><button class="btn btn-dark" onclick='openGameModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Edit</button><button class="btn btn-danger" onclick="deleteGame('${g.id}')">Del</button></div></div>`; }); document.getElementById('list-games').innerHTML = html || "<p style='color:gray;'>No games.</p>"; });
 
         // USERS & ROLES
-        onSnapshot(collection(db, "users"), (s) => { 
-            let h=""; let t=0; document.getElementById('ds-users').innerText=s.size; 
-            s.forEach(d=>{ 
-                let u=d.data(); let bal=u.walletBalance||0; let role=u.role||'Customer'; t+=bal; 
-                h+=`<div class="data-item"><div style="flex:1;"><strong>${u.email}</strong> <span class="badge role" style="margin-left:5px;">${role}</span><br><span style="color:var(--ok); font-size:14px;">${bal.toLocaleString()} Ks</span></div><button class="btn btn-dark" onclick="openUserModal('${d.id}', ${bal}, '${role}', '${u.email}')">Edit User</button></div>`; 
-            }); 
-            document.getElementById('list-users').innerHTML=h; document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
-        });
+        onSnapshot(collection(db, "users"), (s) => { let h=""; let t=0; document.getElementById('ds-users').innerText=s.size; s.forEach(d=>{ let u=d.data(); let bal=u.walletBalance||0; let role=u.role||'Customer'; t+=bal; h+=`<div class="data-item"><div style="flex:1;"><strong>${u.email}</strong> <span class="badge role" style="margin-left:5px;">${role}</span><br><span style="color:var(--ok); font-size:14px;">${bal.toLocaleString()} Ks</span></div><button class="btn btn-dark" onclick="openUserModal('${d.id}', ${bal}, '${role}', '${u.email}')">Edit User</button></div>`; }); document.getElementById('list-users').innerHTML=h; document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; });
 
         // ORDERS & PROFIT CALC
         onSnapshot(collection(db, "orders"), (s) => { 
             let pC=0; let tS=0; let tP=0; let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
             a.forEach(o=>{ 
                 if(o.status==='Pending') pC++; 
-                if(o.status==='Completed'){
-                    tS += (o.price||0);
-                    // 💡 Calculate Real Profit (Selling Price - Cost Price)
-                    let cost = o.costPrice || (o.price * 0.85); // Fallback to 15% margin if cost is missing
-                    tP += (o.price - cost);
-                }
+                if(o.status==='Completed'){ tS += (o.price||0); let cost = o.costPrice || (o.price * 0.85); tP += (o.price - cost); }
                 let cls=o.status==='Completed'?'completed':(o.status==='Cancelled'?'cancelled':'pending'); 
                 let profitTxt = o.status==='Completed' ? `<div style="font-size:10px; color:var(--primary); margin-top:2px;">Profit: +${((o.price||0) - (o.costPrice||0)).toLocaleString()} Ks</div>` : '';
                 h+=`<div class="data-item"><div style="flex:1;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span class="id-tag">${o.orderId||o.id.substring(0,8)}</span><span class="badge ${cls}">${o.status}</span></div><strong>${o.game}</strong> - <span style="color:var(--accent);">${o.item}</span><br><span style="font-size:12px; color:var(--text-muted);">ID: ${o.playerId}</span><br><strong style="font-size:14px; margin-top:5px;">${(o.price||0).toLocaleString()} Ks</strong> <span style="font-size:10px;">(${o.payMethod})</span>${profitTxt}<div style="font-size:10px; color:var(--text-muted); margin-top:5px;">${o.userEmail}</div></div><div style="display:flex; flex-direction:column; gap:5px; width:80px;">${o.slipImage?`<button class="btn btn-dark" onclick="viewSlip('${o.slipImage}')">Slip</button>`:''}${o.status==='Pending'?`<button class="btn btn-ok" onclick="updOrd('${o.id}','Completed')">Approve</button><button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">Reject</button>`:''}</div></div>`; 
             }); 
-            document.getElementById('list-orders').innerHTML=h; document.getElementById('st-p-orders').innerText=pC; document.getElementById('ds-orders').innerText = a.filter(x=>x.status==='Completed').length;
-            document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
+            document.getElementById('list-orders').innerHTML=h; document.getElementById('st-p-orders').innerText=pC; document.getElementById('ds-orders').innerText = a.filter(x=>x.status==='Completed').length; document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
         });
 
         // DEPOSITS
@@ -351,20 +310,12 @@
     }
 
     // --- APP SETTINGS ---
-    window.saveCSLinks = async () => {
-        await setDoc(doc(db, "settings", "app_config"), { fbLink: document.getElementById('inp-cs-fb').value, tgLink: document.getElementById('inp-cs-tg').value }, { merge: true }); toast("Links Saved!");
-    };
+    window.saveCSLinks = async () => { await setDoc(doc(db, "settings", "app_config"), { fbLink: document.getElementById('inp-cs-fb').value, tgLink: document.getElementById('inp-cs-tg').value }, { merge: true }); toast("Links Saved!"); };
+    window.saveBotSettings = async () => { await setDoc(doc(db, "settings", "app_config"), { tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value }, { merge: true }); toast("Bot Saved!"); };
 
     // --- USERS & ROLES ---
-    window.openUserModal = (id, bal, role, em) => {
-        document.getElementById('um-id').value = id; document.getElementById('um-email').innerText = em;
-        document.getElementById('um-wallet').value = bal; document.getElementById('um-role').value = role || 'Customer';
-        document.getElementById('user-modal').classList.add('active');
-    };
-    window.saveUserEdit = async () => {
-        let id = document.getElementById('um-id').value; let b = parseInt(document.getElementById('um-wallet').value); let r = document.getElementById('um-role').value;
-        if(!isNaN(b)) { await updateDoc(doc(db, "users", id), { walletBalance: b, role: r }); toast("User Updated!"); closeModal('user-modal'); }
-    };
+    window.openUserModal = (id, bal, role, em) => { document.getElementById('um-id').value = id; document.getElementById('um-email').innerText = em; document.getElementById('um-wallet').value = bal; document.getElementById('um-role').value = role || 'Customer'; document.getElementById('user-modal').classList.add('active'); };
+    window.saveUserEdit = async () => { let id = document.getElementById('um-id').value; let b = parseInt(document.getElementById('um-wallet').value); let r = document.getElementById('um-role').value; if(!isNaN(b)) { await updateDoc(doc(db, "users", id), { walletBalance: b, role: r }); toast("User Updated!"); closeModal('user-modal'); } };
 
     // --- GAME CRUD ---
     window.openGameModal = (g = null) => { document.getElementById('gm-id').value=g?g.id:''; document.getElementById('gm-name').value=g?g.name:''; document.getElementById('gm-code').value=g?g.code:''; document.getElementById('gm-logo-url').value=g?g.logoUrl:''; document.getElementById('gm-banner-url').value=g?g.bannerUrl:''; document.getElementById('gm-order').value=g?g.orderNum:1; document.getElementById('gm-logo-preview').src=g?g.logoUrl:''; document.getElementById('gm-logo-preview').style.display=g&&g.logoUrl?'block':'none'; document.getElementById('gm-banner-preview').src=g?g.bannerUrl:''; document.getElementById('gm-banner-preview').style.display=g&&g.bannerUrl?'block':'none'; document.getElementById('game-modal').classList.add('active'); };
@@ -373,24 +324,14 @@
 
     // --- PACKAGE CRUD (WITH COST) ---
     window.openPackageModal = (g) => { editingGameId=g.id; editingPackages=g.packages||[]; document.getElementById('pm-list').innerHTML=""; renderPackages(); document.getElementById('pack-modal').classList.add('active'); };
-    function renderPackages() { 
-        let h=""; editingPackages.forEach((p,i)=>{ 
-            h+=`<div class="data-item" style="padding:10px; margin-bottom:5px;"><div style="flex:1;"><strong>${p.name}</strong><br><span style="font-size:11px; color:var(--text-muted);">Cost: ${p.cost||0} | Sell: <span style="color:var(--accent); font-weight:bold;">${p.price} Ks</span></span></div><button class="btn btn-danger" onclick="delPack(${i})">X</button></div>`; 
-        }); document.getElementById('pm-list').innerHTML=h; 
-    }
-    window.addPackage = () => { 
-        let n=document.getElementById('pm-new-name').value; let c=parseInt(document.getElementById('pm-new-cost').value)||0; let p=parseInt(document.getElementById('pm-new-price').value); 
-        if(!n||!p)return toast("Req!"); 
-        editingPackages.push({name:n, cost:c, price:p, icon: "https://cdn-icons-png.flaticon.com/128/1077/1077114.png"}); 
-        document.getElementById('pm-new-name').value=''; document.getElementById('pm-new-cost').value=''; document.getElementById('pm-new-price').value=''; renderPackages(); 
-    };
+    function renderPackages() { let h=""; editingPackages.forEach((p,i)=>{ h+=`<div class="data-item" style="padding:10px; margin-bottom:5px;"><div style="flex:1;"><strong>${p.name}</strong><br><span style="font-size:11px; color:var(--text-muted);">Cost: ${p.cost||0} | Sell: <span style="color:var(--accent); font-weight:bold;">${p.price} Ks</span></span></div><button class="btn btn-danger" onclick="delPack(${i})">X</button></div>`; }); document.getElementById('pm-list').innerHTML=h; }
+    window.addPackage = () => { let n=document.getElementById('pm-new-name').value; let c=parseInt(document.getElementById('pm-new-cost').value)||0; let p=parseInt(document.getElementById('pm-new-price').value); if(!n||!p)return toast("Req!"); editingPackages.push({name:n, cost:c, price:p, icon: "https://cdn-icons-png.flaticon.com/128/1077/1077114.png"}); document.getElementById('pm-new-name').value=''; document.getElementById('pm-new-cost').value=''; document.getElementById('pm-new-price').value=''; renderPackages(); };
     window.delPack = (i) => { editingPackages.splice(i,1); renderPackages(); };
     window.savePackages = async () => { await updateDoc(doc(db,"games",editingGameId),{packages:editingPackages}); closeModal('pack-modal'); toast("Products Saved!"); };
 
     // --- PAYMENTS & PROMOS ---
     window.openPayModal = (p = null) => { document.getElementById('pay-id').value = p ? p.id : ''; document.getElementById('pay-name').value = p ? p.name : ''; document.getElementById('pay-phone').value = p ? p.phone : ''; document.getElementById('pay-acc').value = p ? p.accName : ''; document.getElementById('pay-qr-url').value = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').src = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').style.display = p && p.qrUrl ? 'block' : 'none'; document.getElementById('pay-title').innerText = p ? "Edit Method" : "Add Method"; document.getElementById('pay-modal').classList.add('active'); };
     window.savePayment = async () => { let id = document.getElementById('pay-id').value; let data = { name: document.getElementById('pay-name').value, phone: document.getElementById('pay-phone').value, accName: document.getElementById('pay-acc').value, qrUrl: document.getElementById('pay-qr-url').value }; if(!data.name || !data.phone) return toast("Req!"); if(id) await updateDoc(doc(db, "payment_methods", id), data); else await addDoc(collection(db, "payment_methods"), data); closeModal('pay-modal'); toast("Saved!"); };
-    
     window.openPromoModal = () => { document.getElementById('promo-id').value = ''; document.getElementById('promo-code').value = ''; document.getElementById('promo-amt').value = ''; document.getElementById('promo-modal').classList.add('active'); };
     window.savePromo = async () => { let c = document.getElementById('promo-code').value.toUpperCase().trim(); let a = parseInt(document.getElementById('promo-amt').value); if(!c || !a) return toast("Invalid!"); await addDoc(collection(db, "promo_codes"), { code: c, discount: a, createdAt: serverTimestamp() }); closeModal('promo-modal'); toast("Created!"); };
 
