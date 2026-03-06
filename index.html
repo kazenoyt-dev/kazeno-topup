@@ -27,7 +27,7 @@
   /* COMMONS */
   .btn-main{background:linear-gradient(135deg,var(--accent),var(--primary)); color:#fff; border:none; padding:14px 20px; border-radius:14px; font-weight:700; width:100%; font-family:'Poppins'; cursor:pointer; transition:0.2s;}
   .btn-main:active{transform:scale(0.96);} .btn-main:disabled{background:rgba(255,255,255,0.1); color:var(--muted); cursor:not-allowed; transform:none;}
-  .toast{position:fixed; top:-100px; left:50%; transform:translateX(-50%); background:var(--ok); color:#000; padding:12px 24px; border-radius:999px; font-weight:800; font-size:13px; opacity:0; transition:0.4s; z-index:9999;}
+  .toast{position:fixed; top:-100px; left:50%; transform:translateX(-50%); background:var(--ok); color:#000; padding:12px 24px; border-radius:999px; font-weight:800; font-size:13px; opacity:0; transition:0.4s cubic-bezier(0.2, 0.8, 0.2, 1); z-index:9999;}
   .toast.show{opacity:1; top:20px;}
   .badge{padding:4px 8px; border-radius:6px; font-size:10px; font-weight:800; text-transform:uppercase; display:inline-block;}
   .badge.pending{color:var(--warning); background:rgba(245,158,11,0.1);} .badge.completed{color:var(--ok); background:rgba(16,185,129,0.1);} .badge.cancelled{color:var(--danger); background:rgba(239,68,68,0.1);} .badge.role{color:var(--primary); background:rgba(79,172,254,0.1); border:1px solid var(--primary);}
@@ -241,13 +241,18 @@
     let currentOrder = { gameName: '', item: '', basePrice: 0, costPrice: 0, price: 0, uid: '', zone: '', slipFile: null };
     let depFile = null; let seenNotis = JSON.parse(localStorage.getItem('seenNotis') || '[]'); let allMyData = [];
     let dynamicGames = []; let payMethods = []; let currentPromo = null;
+    
+    // Telegram Bot Vars
+    let tgBotToken = ""; let tgChatId = "";
 
-    // --- DYNAMIC DATA (Fetching from Admin settings) ---
+    // --- DYNAMIC DATA ---
     onSnapshot(doc(db, "settings", "app_config"), (d) => {
         if(d.exists()) { 
             if(d.data().homeBannerUrl) { document.getElementById('dyn-home-banner').src = d.data().homeBannerUrl; document.getElementById('dyn-home-banner').style.display = 'block'; }
             if(d.data().fbLink) { document.getElementById('btn-cs-fb').href = d.data().fbLink; document.getElementById('btn-cs-fb').style.display = 'flex'; }
             if(d.data().tgLink) { document.getElementById('btn-cs-tg').href = d.data().tgLink; document.getElementById('btn-cs-tg').style.display = 'flex'; }
+            tgBotToken = d.data().tgBotToken || "";
+            tgChatId = d.data().tgChatId || "";
         }
     });
 
@@ -304,6 +309,14 @@
         let fPrice = currentOrder.basePrice;
         if(currentPromo && fPrice > 0) { fPrice = Math.max(0, fPrice - currentPromo); }
         currentOrder.price = fPrice; document.getElementById('display-total').innerText = fPrice.toLocaleString() + " Ks"; checkForm();
+    }
+
+    // --- TELEGRAM BOT SENDER ---
+    async function sendTgAlert(msg) {
+        if(!tgBotToken || !tgChatId) return;
+        let url = `https://api.telegram.org/bot${tgBotToken}/sendMessage`;
+        try { await fetch(url, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ chat_id: tgChatId, text: msg, parse_mode: "HTML" }) }); } 
+        catch(e) { console.log("TG Error:", e); }
     }
 
     // --- AUTH ---
@@ -421,6 +434,10 @@
             let ordId = genID('ORD');
             await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, costPrice: currentOrder.costPrice, playerId: currentOrder.uid, serverId: currentOrder.zone, payMethod: finalMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
             
+            // 🚀 Send Telegram Alert
+            let tgMsg = `📦 <b>NEW ORDER [${ordId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n🎮 Game: ${currentOrder.gameName}\n💎 Item: ${currentOrder.item}\n🆔 Player ID: ${currentOrder.uid} ${currentOrder.zone ? '('+currentOrder.zone+')' : ''}\n💰 Price: ${currentOrder.price.toLocaleString()} Ks\n💳 Method: ${finalMethod}`;
+            sendTgAlert(tgMsg);
+
             toast("Order Placed!"); document.getElementById('preview-img').style.display = 'none'; document.getElementById('upload-placeholder').style.display = 'block'; currentOrder.slipFile = null; navToMain('page-orders');
         } catch (e) { toast(e.message); checkForm(); b.innerText="Pay Now"; }
     };
@@ -432,6 +449,11 @@
         try {
             let slipUrl = await uploadImage(depFile); let depId = genID('DEP');
             await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
+            
+            // 🚀 Send Telegram Alert
+            let tgMsg = `💸 <b>NEW DEPOSIT [${depId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n💳 Method: ${pMethod}`;
+            sendTgAlert(tgMsg);
+
             toast("Deposit sent!"); document.getElementById('dep-amount').value = ""; document.getElementById('dep-img').style.display = "none"; document.getElementById('dep-placeholder').style.display = "block"; depFile = null; navToMain('page-profile');
         } catch(e) { toast(e.message); } b.innerText = "Submit Deposit"; b.disabled = false;
     };
