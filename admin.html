@@ -6,156 +6,343 @@
 <title>Admin - Kazeno Shop</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{ --bg:#050510; --glass:rgba(20,25,45,0.8); --border:rgba(255,255,255,0.1); --text:#fff; --muted:#9ca3af; --primary:#8a2be2; --accent:#4facfe; --ok:#10b981; --danger:#ef4444; --warning:#f59e0b; }
-  *{box-sizing:border-box; outline:none; margin:0; padding:0; font-family:'Poppins',sans-serif;}
-  body{background:var(--bg); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden;}
+  :root {
+    --bg-dark: #0a0a0f;
+    --sidebar-bg: #11131a;
+    --card-bg: #15171e;
+    --border: #1f2128;
+    --text-main: #ffffff;
+    --text-muted: #8b92a5;
+    --primary: #4facfe;
+    --accent: #6c5ce7;
+    --ok: #00b894;
+    --danger: #ff7675;
+    --warning: #fdcb6e;
+  }
   
-  /* HEADER */
-  .top-nav{background:var(--glass); border-bottom:1px solid var(--border); padding:15px; display:flex; justify-content:space-between; align-items:center; overflow-x:auto;}
-  .brand{font-weight:800; font-size:18px; color:var(--accent);}
-  .nav-tabs{display:flex; gap:10px;}
-  .tab-btn{background:transparent; border:none; color:var(--muted); font-size:13px; font-weight:600; cursor:pointer; padding:6px 12px; border-radius:8px;}
-  .tab-btn.active{background:rgba(79,172,254,0.15); color:var(--accent);}
+  * { box-sizing: border-box; outline: none; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent;}
+  body { background: var(--bg-dark); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+
+  /* --- LAYOUT --- */
+  .sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; transition: 0.3s; z-index: 100; flex-shrink: 0; }
+  .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .top-header { height: 65px; background: var(--sidebar-bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px; justify-content: space-between;}
+  .content-area { flex: 1; overflow-y: auto; padding: 25px; }
+
+  /* --- SIDEBAR --- */
+  .brand-area { height: 65px; display: flex; align-items: center; padding: 0 20px; gap: 12px; border-bottom: 1px solid var(--border); }
+  .brand-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
+  .brand-text { font-weight: 800; font-size: 18px; letter-spacing: 1px; color: #fff; }
+  .close-sidebar { display: none; background: none; border: none; color: var(--text-muted); cursor: pointer; }
   
-  /* CONTENT */
-  .content{padding:15px; flex:1; overflow-y:auto; padding-bottom:50px;}
-  .view{display:none; animation:fadeIn 0.3s;} .view.active{display:block;}
-  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+  .menu-wrap { flex: 1; overflow-y: auto; padding-bottom: 20px; }
+  .menu-label { font-size: 11px; color: #555; font-weight: 700; text-transform: uppercase; margin: 20px 20px 5px; letter-spacing: 1px;}
+  .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.2s; border-right: 3px solid transparent; }
+  .menu-item:hover, .menu-item.active { background: rgba(108, 92, 231, 0.05); color: #fff; border-right-color: var(--accent); }
+  .menu-item svg { width: 18px; height: 18px; }
+
+  /* --- TOP HEADER --- */
+  .menu-toggle { background: none; border: none; color: #fff; cursor: pointer; display: none; }
+  .header-title { font-size: 18px; font-weight: 700; }
+  .admin-profile { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--text-muted);}
+  .admin-avatar { width: 32px; height: 32px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; }
+
+  /* --- VIEWS & DASHBOARD --- */
+  .view { display: none; animation: fadeIn 0.3s; }
+  .view.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .dash-top-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+  .d-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .d-card-header { display: flex; align-items: center; gap: 10px; }
+  .d-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .d-val { font-size: 24px; font-weight: 800; color: #fff; }
+  .d-label { font-size: 12px; color: var(--text-muted); }
+  .d-link { font-size: 11px; color: var(--accent); cursor: pointer; margin-top: 5px; font-weight: 600; }
+
+  /* Time Filters */
+  .time-filters { display: flex; gap: 10px; background: var(--card-bg); padding: 5px; border-radius: 10px; width: fit-content; margin: 0 auto 30px; border: 1px solid var(--border);}
+  .filter-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 20px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+  .filter-btn.active { background: var(--accent); color: #fff; }
+
+  /* Financial Stats Stack */
+  .fin-stack { display: flex; flex-direction: column; gap: 15px; max-width: 600px; margin: 0 auto; }
+  .fin-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 20px; }
+  .fin-icon { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; }
+  .fin-icon svg { width: 24px; height: 24px; }
+  .fin-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .fin-val { font-size: 20px; font-weight: 800; }
+
+  /* Colors for Stats */
+  .c-blue { background: rgba(79, 172, 254, 0.1); color: #4facfe; }
+  .c-red { background: rgba(255, 118, 117, 0.1); color: #ff7675; }
+  .c-green { background: rgba(0, 184, 148, 0.1); color: #00b894; }
+  .c-orange { background: rgba(253, 203, 110, 0.1); color: #fdcb6e; }
+  .c-purple { background: rgba(108, 92, 231, 0.1); color: #6c5ce7; }
+  .c-pink { background: rgba(232, 67, 147, 0.1); color: #e84393; }
+
+  /* --- DATA LISTS (Tables/Cards) --- */
+  .data-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .data-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; transition: 0.2s;}
+  .data-item:hover { border-color: #333; }
+  .badge { padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+  .badge.pending { color: var(--warning); background: rgba(253, 203, 110, 0.1); }
+  .badge.completed { color: var(--ok); background: rgba(0, 184, 148, 0.1); }
+  .badge.cancelled { color: var(--danger); background: rgba(255, 118, 117, 0.1); }
+  .id-tag { font-family: monospace; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
   
-  /* CARDS */
-  .stat-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:20px;}
-  .stat-card{background:var(--glass); border:1px solid var(--border); padding:15px; border-radius:12px; text-align:center;}
-  .data-item{background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:15px; margin-bottom:10px;}
+  .btn { padding: 8px 14px; border-radius: 8px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; color: #fff; transition: 0.2s; }
+  .btn:active { transform: scale(0.95); }
+  .btn-ok { background: var(--ok); color: #000; }
+  .btn-danger { background: var(--danger); }
+  .btn-primary { background: var(--accent); }
+  .btn-dark { background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
+  .btn-dark:hover { background: rgba(255,255,255,0.1); }
+
+  /* --- MODALS & FORMS --- */
+  .input-box { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff; margin-bottom: 15px; font-size: 13px; transition: 0.3s;}
+  .input-box:focus { border-color: var(--accent); }
+  .upload-box { border: 2px dashed var(--border); border-radius: 8px; padding: 15px; text-align: center; color: var(--text-muted); cursor: pointer; font-size: 12px; margin-bottom: 15px; background: rgba(0,0,0,0.2); transition: 0.3s;}
+  .upload-box:hover { border-color: var(--accent); color: var(--accent); }
   
-  .badge{padding:4px 8px; border-radius:6px; font-size:10px; font-weight:700; text-transform:uppercase;}
-  .badge.pending{color:var(--warning); background:rgba(245,158,11,0.1);} .badge.completed{color:var(--ok); background:rgba(16,185,129,0.1);} .badge.cancelled{color:var(--danger); background:rgba(239,68,68,0.1);}
-  
-  .btn{padding:8px 12px; border-radius:8px; border:none; font-size:12px; font-weight:600; cursor:pointer; color:#fff; display:inline-flex; align-items:center; justify-content:center;}
-  .btn-ok{background:var(--ok); color:#000;} .btn-danger{background:var(--danger);} .btn-edit{background:var(--accent); color:#000;} .btn-dark{background:rgba(255,255,255,0.1);}
-  
-  /* INPUTS & MODALS */
-  .input-box{width:100%; background:rgba(0,0,0,0.5); border:1px solid var(--border); padding:12px; border-radius:8px; color:#fff; margin-bottom:10px; font-size:13px;}
-  .upload-box{border:2px dashed var(--border); border-radius:8px; padding:15px; text-align:center; color:var(--accent); cursor:pointer; font-size:12px; margin-bottom:10px; background:rgba(0,0,0,0.3);}
-  
-  .modal-bg{position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:100; display:none; align-items:center; justify-content:center; padding:15px;}
-  .modal-bg.active{display:flex;}
-  .modal-card{background:var(--bg); border:1px solid var(--border); border-radius:16px; padding:20px; width:100%; max-width:450px; max-height:90vh; overflow-y:auto;}
-  
-  .toast{position:fixed; top:20px; right:20px; background:var(--accent); color:#000; padding:10px 20px; border-radius:8px; font-weight:700; font-size:13px; opacity:0; transition:0.3s; z-index:2000;}
-  .toast.show{opacity:1;}
-  
-  /* IDs */
-  .id-tag{font-family:monospace; color:var(--accent); background:rgba(79,172,254,0.1); padding:2px 6px; border-radius:4px; font-size:11px;}
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 15px; }
+  .modal-bg.active { display: flex; }
+  .modal-card { background: var(--sidebar-bg); border: 1px solid var(--border); border-radius: 16px; padding: 25px; width: 100%; max-width: 450px; max-height: 90vh; overflow-y: auto; }
+
+  .toast { position: fixed; top: 20px; right: 20px; background: var(--text-main); color: #000; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 13px; opacity: 0; transition: 0.3s; z-index: 3000; box-shadow: 0 5px 15px rgba(0,0,0,0.3);}
+  .toast.show { opacity: 1; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+      .sidebar { position: fixed; left: -260px; height: 100%; box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+      .sidebar.open { left: 0; }
+      .menu-toggle { display: block; }
+      .close-sidebar { display: block; }
+      .dash-top-cards { grid-template-columns: repeat(2, 1fr); }
+  }
 </style>
 </head>
 <body>
 <div id="toast" class="toast">Success</div>
 
-<div id="auth-gate" style="position:fixed; inset:0; background:var(--bg); z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-    <h2 style="color:var(--accent); margin-bottom:20px;">Admin Panel</h2>
-    <input type="password" id="admin-pin" placeholder="Enter PIN" style="padding:15px; border-radius:10px; border:1px solid var(--border); background:#111; color:#fff; text-align:center; margin-bottom:15px;">
-    <button class="btn btn-edit" onclick="checkPin()" style="padding:12px 40px; font-size:14px;">Login</button>
+<div id="auth-gate" style="position:fixed; inset:0; background:var(--bg-dark); z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+    <div style="width: 80px; height: 80px; background: url('https://img.freepik.com/free-vector/ninja-mascot-esports-logo-design_140715-32.jpg') center/cover; border-radius: 50%; margin-bottom: 20px; border: 2px solid var(--accent);"></div>
+    <h2 style="color:#fff; margin-bottom:5px;">Admin Login</h2>
+    <div style="color:var(--text-muted); font-size:13px; margin-bottom:30px;">Kazeno Management System</div>
+    <input type="password" id="admin-pin" placeholder="Enter PIN" style="padding:15px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,0.5); color:#fff; text-align:center; margin-bottom:20px; width: 250px;">
+    <button class="btn btn-primary" style="width: 250px; padding: 15px; font-size: 14px;" onclick="checkPin()">Access Panel</button>
 </div>
 
-<div id="main-admin" style="display:none; height:100%; flex-direction:column;">
-    <div class="top-nav">
-        <div class="brand">Kazeno</div>
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchTab('v-dash', this)">Dash</button>
-            <button class="tab-btn" onclick="switchTab('v-store', this)">Store</button>
-            <button class="tab-btn" onclick="switchTab('v-users', this)">Users</button>
-            <button class="tab-btn" onclick="switchTab('v-orders', this)">Orders</button>
-            <button class="tab-btn" onclick="switchTab('v-deposits', this)">Deps</button>
+<div id="main-admin" style="display:none; width:100%; height:100%;">
+    
+    <div class="sidebar" id="sidebar">
+        <div class="brand-area">
+            <img src="https://img.freepik.com/free-vector/ninja-mascot-esports-logo-design_140715-32.jpg" class="brand-logo">
+            <div class="brand-text">KAZENO</div>
+            <div style="flex:1;"></div>
+            <button class="close-sidebar" onclick="toggleSidebar()"><svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        </div>
+        <div class="menu-wrap">
+            <div class="menu-label">Main</div>
+            <div class="menu-item active" onclick="switchTab('v-dash', this)">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> Dashboard
+            </div>
+            <div class="menu-item" onclick="switchTab('v-users', this)">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Users
+            </div>
+            
+            <div class="menu-label">Wallet</div>
+            <div class="menu-item" onclick="switchTab('v-deposits', this)">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg> Deposits
+            </div>
+            
+            <div class="menu-label">Products</div>
+            <div class="menu-item" onclick="switchTab('v-store', this)">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg> Categories & Games
+            </div>
+
+            <div class="menu-label">Orders</div>
+            <div class="menu-item" onclick="switchTab('v-orders', this)">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg> Order History
+            </div>
+            
+            <div class="menu-label">App Settings</div>
+            <div class="menu-item" onclick="toast('Coming in Phase 2!')">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Settings
+            </div>
+            
+            <div class="menu-label">More</div>
+            <div class="menu-item" style="color: var(--danger);" onclick="location.reload()">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout
+            </div>
         </div>
     </div>
 
-    <div class="content">
-        <div id="v-dash" class="view active">
-            <div class="stat-grid">
-                <div class="stat-card"><div style="font-size:11px; color:var(--muted);">Users</div><div id="st-users" style="font-size:24px; font-weight:bold; color:var(--accent);">0</div></div>
-                <div class="stat-card"><div style="font-size:11px; color:var(--muted);">Games</div><div id="st-games" style="font-size:24px; font-weight:bold; color:#fff;">0</div></div>
-                <div class="stat-card"><div style="font-size:11px; color:var(--muted);">Pending Orders</div><div id="st-p-orders" style="font-size:24px; font-weight:bold; color:var(--warning);">0</div></div>
-                <div class="stat-card"><div style="font-size:11px; color:var(--muted);">Pending Deps</div><div id="st-p-deps" style="font-size:24px; font-weight:bold; color:var(--warning);">0</div></div>
+    <div class="main-content">
+        <div class="top-header">
+            <div style="display:flex; align-items:center; gap:15px;">
+                <button class="menu-toggle" onclick="toggleSidebar()"><svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+                <div class="header-title" id="page-title">Dashboard</div>
+            </div>
+            <div class="admin-profile">
+                <span>Superadmin</span>
+                <div class="admin-avatar">K</div>
             </div>
         </div>
 
-        <div id="v-store" class="view">
-            <h3 style="margin-bottom:10px; color:var(--accent);">Home Banner</h3>
-            <div class="data-item">
-                <img id="home-banner-preview" src="" style="width:100%; height:100px; object-fit:cover; border-radius:8px; margin-bottom:10px; display:none;">
-                <div class="upload-box" onclick="document.getElementById('hb-file').click()">📸 Upload Home Banner Image</div>
-                <input type="file" id="hb-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'homeBanner')">
+        <div class="content-area">
+            
+            <div id="v-dash" class="view active">
+                <div class="dash-top-cards">
+                    <div class="d-card">
+                        <div class="d-card-header">
+                            <div class="d-icon c-purple"><svg viewBox="0 0 24 24" width="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg></div>
+                            <div><div class="d-label">Users</div><div class="d-val" id="ds-users">0</div></div>
+                        </div>
+                        <div class="d-link" onclick="document.querySelectorAll('.menu-item')[1].click()">View all →</div>
+                    </div>
+                    <div class="d-card">
+                        <div class="d-card-header">
+                            <div class="d-icon c-red"><svg viewBox="0 0 24 24" width="20" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></div>
+                            <div><div class="d-label">Categories</div><div class="d-val" id="ds-games">0</div></div>
+                        </div>
+                        <div class="d-link" onclick="document.querySelectorAll('.menu-item')[3].click()">View all →</div>
+                    </div>
+                    <div class="d-card">
+                        <div class="d-card-header">
+                            <div class="d-icon c-green"><svg viewBox="0 0 24 24" width="20" stroke="currentColor" stroke-width="2" fill="none"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
+                            <div><div class="d-label">Orders</div><div class="d-val" id="ds-orders">0</div></div>
+                        </div>
+                        <div class="d-link" onclick="document.querySelectorAll('.menu-item')[4].click()">View all →</div>
+                    </div>
+                </div>
+
+                <div class="time-filters">
+                    <button class="filter-btn active">All</button>
+                    <button class="filter-btn">Today</button>
+                    <button class="filter-btn">Week</button>
+                    <button class="filter-btn">Month</button>
+                </div>
+
+                <div class="fin-stack">
+                    <div class="fin-card">
+                        <div class="fin-icon c-green"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><polyline points="19 12 12 19 5 12"></polyline><line x1="12" y1="5" x2="12" y2="19"></line></svg></div>
+                        <div><div class="fin-label">Total Deposits</div><div class="fin-val c-green" id="ds-tot-dep">0 Ks</div></div>
+                    </div>
+                    <div class="fin-card">
+                        <div class="fin-icon c-orange"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+                        <div><div class="fin-label">Pending Deposits</div><div class="fin-val c-orange" id="ds-pen-dep">0 Ks</div></div>
+                    </div>
+                    <div class="fin-card">
+                        <div class="fin-icon c-blue"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg></div>
+                        <div><div class="fin-label">Total Sales</div><div class="fin-val c-blue" id="ds-tot-sales">0 Ks</div></div>
+                    </div>
+                    <div class="fin-card">
+                        <div class="fin-icon c-purple"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div>
+                        <div><div class="fin-label">Total Profit (Est 15%)</div><div class="fin-val c-purple" id="ds-tot-profit">0 Ks</div></div>
+                    </div>
+                    <div class="fin-card">
+                        <div class="fin-icon c-pink"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg></div>
+                        <div><div class="fin-label">Wallet Balance Left (User Funds)</div><div class="fin-val c-pink" id="ds-wal-left">0 Ks</div></div>
+                    </div>
+                </div>
             </div>
 
-            <div style="display:flex; justify-content:space-between; align-items:center; margin:20px 0 10px;">
-                <h3 style="color:var(--accent);">Games</h3>
-                <button class="btn btn-edit" onclick="openGameModal()">+ Add Game</button>
+            <div id="v-users" class="view">
+                <div class="data-header"><div>Manage Users</div></div>
+                <div id="list-users">Loading...</div>
             </div>
-            <div id="list-games">Loading...</div>
+            
+            <div id="v-deposits" class="view">
+                <div class="data-header"><div>Deposit Requests</div></div>
+                <div id="list-deposits">Loading...</div>
+            </div>
+
+            <div id="v-store" class="view">
+                <div style="background:var(--card-bg); border:1px solid var(--border); padding:20px; border-radius:12px; margin-bottom:20px;">
+                    <div style="font-weight:600; margin-bottom:10px;">Home Screen Banner</div>
+                    <img id="home-banner-preview" src="" style="width:100%; height:120px; object-fit:cover; border-radius:8px; margin-bottom:10px; display:none; border:1px solid var(--border);">
+                    <div class="upload-box" onclick="document.getElementById('hb-file').click()">📸 Click to Upload New Banner</div>
+                    <input type="file" id="hb-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'homeBanner')">
+                </div>
+
+                <div class="data-header">
+                    <div>Games & Categories</div>
+                    <button class="btn btn-primary" onclick="openGameModal()">+ Add Category</button>
+                </div>
+                <div id="list-games">Loading...</div>
+            </div>
+            
+            <div id="v-orders" class="view">
+                <div class="data-header"><div>Order History</div></div>
+                <div id="list-orders">Loading...</div>
+            </div>
+
         </div>
-
-        <div id="v-users" class="view"><h3 style="margin-bottom:15px;">Users</h3><div id="list-users">Loading...</div></div>
-        
-        <div id="v-orders" class="view"><h3 style="margin-bottom:15px;">Orders</h3><div id="list-orders">Loading...</div></div>
-        
-        <div id="v-deposits" class="view"><h3 style="margin-bottom:15px;">Deposits</h3><div id="list-deposits">Loading...</div></div>
     </div>
 </div>
 
 <div class="modal-bg" id="game-modal">
     <div class="modal-card">
-        <h3 id="gm-title" style="margin-bottom:15px;">Add/Edit Game</h3>
+        <h3 id="gm-title" style="margin-bottom:15px;">Category Details</h3>
         <input type="hidden" id="gm-id">
-        <input type="text" id="gm-name" class="input-box" placeholder="Game Name (e.g. Mobile Legends)">
         
-        <label style="font-size:11px; color:var(--muted);">Game Logo (Square)</label>
-        <img id="gm-logo-preview" style="width:60px; height:60px; border-radius:10px; display:none; margin-bottom:5px;">
-        <div class="upload-box" onclick="document.getElementById('gm-logo-file').click()">📸 Upload Logo</div>
+        <label style="font-size:11px; color:var(--text-muted);">Name</label>
+        <input type="text" id="gm-name" class="input-box" placeholder="e.g. Mobile Legends">
+        
+        <label style="font-size:11px; color:var(--text-muted);">Code (lowercase, no space)</label>
+        <input type="text" id="gm-code" class="input-box" placeholder="e.g. mlbb">
+        
+        <label style="font-size:11px; color:var(--text-muted);">Square Logo</label>
+        <img id="gm-logo-preview" style="width:60px; height:60px; border-radius:10px; display:none; margin-bottom:5px; border:1px solid var(--border); object-fit:cover;">
+        <div class="upload-box" style="padding:10px;" onclick="document.getElementById('gm-logo-file').click()">Upload Logo</div>
         <input type="file" id="gm-logo-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'gameLogo')">
         <input type="hidden" id="gm-logo-url">
 
-        <label style="font-size:11px; color:var(--muted);">Detail Banner (Landscape)</label>
-        <img id="gm-banner-preview" style="width:100%; height:80px; object-fit:cover; border-radius:10px; display:none; margin-bottom:5px;">
-        <div class="upload-box" onclick="document.getElementById('gm-banner-file').click()">📸 Upload Banner</div>
+        <label style="font-size:11px; color:var(--text-muted);">Top Detail Banner</label>
+        <img id="gm-banner-preview" style="width:100%; height:80px; object-fit:cover; border-radius:10px; display:none; margin-bottom:5px; border:1px solid var(--border);">
+        <div class="upload-box" style="padding:10px;" onclick="document.getElementById('gm-banner-file').click()">Upload Banner</div>
         <input type="file" id="gm-banner-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'gameBanner')">
         <input type="hidden" id="gm-banner-url">
 
-        <input type="number" id="gm-order" class="input-box" placeholder="Sort Order (e.g. 1)">
-        <div style="display:flex; gap:10px; margin-top:15px;">
-            <button class="btn btn-ok" style="flex:1;" onclick="saveGame()">Save</button>
-            <button class="btn btn-dark" style="flex:1;" onclick="closeModal('game-modal')">Cancel</button>
+        <label style="font-size:11px; color:var(--text-muted);">Sort Order</label>
+        <input type="number" id="gm-order" class="input-box" placeholder="e.g. 1">
+        
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <button class="btn btn-primary" style="flex:1; padding:12px;" onclick="saveGame()">Save Changes</button>
+            <button class="btn btn-dark" style="flex:1; padding:12px;" onclick="closeModal('game-modal')">Cancel</button>
         </div>
     </div>
 </div>
 
 <div class="modal-bg" id="pack-modal">
-    <div class="modal-card">
-        <h3 style="margin-bottom:5px;">Packages</h3>
-        <div style="font-size:11px; color:var(--muted); margin-bottom:15px;" id="pm-game-name"></div>
+    <div class="modal-card" style="max-width:500px;">
+        <h3 style="margin-bottom:5px;">Products List</h3>
+        <div style="font-size:12px; color:var(--accent); margin-bottom:15px;" id="pm-game-name"></div>
         
-        <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; margin-bottom:15px;">
-            <input type="text" id="pm-new-name" class="input-box" placeholder="Item Name (e.g. 86 Dia)">
-            <input type="number" id="pm-new-price" class="input-box" placeholder="Price (e.g. 5300)">
-            <div class="upload-box" style="padding:10px;" onclick="document.getElementById('pm-icon-file').click()">📸 Item Icon (Optional)</div>
-            <input type="file" id="pm-icon-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'packIcon')">
-            <input type="hidden" id="pm-new-icon-url">
-            <button class="btn btn-edit" style="width:100%;" onclick="addPackage()">+ Add Item</button>
+        <div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);">
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:5px;">Add New Product</div>
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="pm-new-name" class="input-box" style="margin:0; flex:2;" placeholder="Name (e.g. 86 Dia)">
+                <input type="number" id="pm-new-price" class="input-box" style="margin:0; flex:1;" placeholder="Price">
+            </div>
+            <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="addPackage()">+ Add Product</button>
         </div>
 
-        <div id="pm-list" style="display:flex; flex-direction:column; gap:8px; max-height:200px; overflow-y:auto; margin-bottom:15px;"></div>
+        <div id="pm-list" style="display:flex; flex-direction:column; gap:8px; max-height:250px; overflow-y:auto; margin-bottom:15px;"></div>
         
         <div style="display:flex; gap:10px;">
-            <button class="btn btn-ok" style="flex:1;" onclick="savePackages()">Save Changes</button>
-            <button class="btn btn-dark" style="flex:1;" onclick="closeModal('pack-modal')">Close</button>
+            <button class="btn btn-ok" style="flex:1; padding:12px;" onclick="savePackages()">Save All</button>
+            <button class="btn btn-dark" style="flex:1; padding:12px;" onclick="closeModal('pack-modal')">Close</button>
         </div>
     </div>
 </div>
 
 <div class="modal-bg" id="slip-modal" onclick="if(event.target===this) closeModal('slip-modal')">
-    <div class="modal-card" style="text-align:center;">
-        <h3 style="margin-bottom:10px;">Receipt Image</h3>
-        <img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px;" src="">
-        <button class="btn btn-dark" style="width:100%;" onclick="closeModal('slip-modal')">Close</button>
+    <div class="modal-card" style="text-align:center; max-width:350px;">
+        <h3 style="margin-bottom:15px;">Transaction Slip</h3>
+        <img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);" src="">
+        <button class="btn btn-dark" style="width:100%; padding:12px;" onclick="closeModal('slip-modal')">Close</button>
     </div>
 </div>
 
@@ -166,27 +353,35 @@
     const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const db = getFirestore(app);
 
+    // --- UTILS & UI ---
     window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
     function formatDate(ts) { if(!ts) return "-"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); }
 
+    window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); }
+    
+    window.switchTab = (viewId, el) => {
+        document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+        if(el) el.classList.add('active');
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+        document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard';
+        if(window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+    };
+    
+    window.closeModal = (id) => document.getElementById(id).classList.remove('active');
+    window.viewSlip = (url) => { if(!url)return toast("No slip uploaded"); document.getElementById('modal-img-src').src = url; document.getElementById('slip-modal').classList.add('active'); };
+
+    // --- AUTH GATE ---
     window.checkPin = () => {
         if(document.getElementById('admin-pin').value === "1234") {
             document.getElementById('auth-gate').style.display = "none";
             document.getElementById('main-admin').style.display = "flex";
             initAdmin();
-        } else toast("Wrong PIN!");
+        } else toast("Invalid PIN!");
     };
 
-    window.switchTab = (viewId, el) => {
-        document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        el.classList.add('active'); document.getElementById(viewId).classList.add('active');
-    };
-    
-    window.closeModal = (id) => document.getElementById(id).classList.remove('active');
-    window.viewSlip = (url) => { if(!url)return toast("No slip"); document.getElementById('modal-img-src').src = url; document.getElementById('slip-modal').classList.add('active'); };
-
-    // --- IMGBB UPLOAD ---
+    // --- IMGBB DIRECT UPLOAD ---
     async function uploadToImgBB(file) {
         toast("Uploading Image...");
         let fd = new FormData(); fd.append("image", file);
@@ -207,16 +402,15 @@
                 document.getElementById('gm-logo-url').value = url; document.getElementById('gm-logo-preview').src = url; document.getElementById('gm-logo-preview').style.display = 'block';
             } else if (type === 'gameBanner') {
                 document.getElementById('gm-banner-url').value = url; document.getElementById('gm-banner-preview').src = url; document.getElementById('gm-banner-preview').style.display = 'block';
-            } else if (type === 'packIcon') {
-                document.getElementById('pm-new-icon-url').value = url;
             }
         } catch(e) { toast(e.message); }
     };
 
     let editingGameId = null; let editingPackages = [];
 
+    // --- MAIN ADMIN INIT ---
     function initAdmin() {
-        // Home Banner initial load
+        // 1. Settings (Banner)
         onSnapshot(doc(db, "settings", "app_config"), (d) => {
             if(d.exists() && d.data().homeBannerUrl) {
                 document.getElementById('home-banner-preview').src = d.data().homeBannerUrl;
@@ -224,164 +418,169 @@
             }
         });
 
-        // Games
+        // 2. Users & Wallet Sum
+        onSnapshot(collection(db, "users"), (snap) => {
+            document.getElementById('ds-users').innerText = snap.size;
+            let html = ""; let totWal = 0;
+            snap.forEach(d => {
+                let u = d.data(); let bal = u.walletBalance||0; totWal += bal;
+                html += `<div class="data-item"><div style="flex:1;"><div style="font-weight:600; font-size:14px;">${u.email}</div><div style="color:var(--ok); font-weight:700; margin-top:5px;">${bal.toLocaleString()} Ks</div></div>
+                         <button class="btn btn-dark" onclick="editWallet('${d.id}', ${bal}, '${u.email}')">Edit Balance</button></div>`;
+            });
+            document.getElementById('list-users').innerHTML = html;
+            document.getElementById('ds-wal-left').innerText = totWal.toLocaleString() + " Ks";
+        });
+
+        // 3. Games / Categories
         onSnapshot(query(collection(db, "games"), orderBy("orderNum", "asc")), (snap) => {
-            document.getElementById('st-games').innerText = snap.size;
+            document.getElementById('ds-games').innerText = snap.size;
             let html = "";
             snap.forEach(s => {
                 let g = {id: s.id, ...s.data()};
                 html += `
                 <div class="data-item">
-                    <div style="display:flex; align-items:center; gap:10px; flex:1;">
-                        <img src="${g.logoUrl || 'https://via.placeholder.com/50'}" style="width:40px; height:40px; border-radius:8px; object-fit:cover;">
-                        <div><div style="font-weight:bold; font-size:14px;">${g.name}</div><div style="font-size:11px; color:var(--muted);">Items: ${(g.packages||[]).length}</div></div>
+                    <div style="display:flex; align-items:center; gap:15px; flex:1;">
+                        <img src="${g.logoUrl || 'https://via.placeholder.com/50'}" style="width:50px; height:50px; border-radius:10px; object-fit:cover; border:1px solid var(--border);">
+                        <div><div style="font-weight:700; font-size:15px;">${g.name}</div><div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Code: ${g.code} | Products: ${(g.packages||[]).length}</div></div>
                     </div>
-                    <div style="display:flex; gap:5px;">
-                        <button class="btn btn-ok" onclick='openPackageModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>📦 Items</button>
-                        <button class="btn btn-edit" onclick='openGameModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>✏️</button>
-                        <button class="btn btn-danger" onclick="deleteGame('${g.id}')">🗑️</button>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn btn-ok" onclick='openPackageModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Products</button>
+                        <button class="btn btn-dark" onclick='openGameModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Edit</button>
+                        <button class="btn btn-danger" onclick="deleteGame('${g.id}')">Del</button>
                     </div>
                 </div>`;
             });
-            document.getElementById('list-games').innerHTML = html || "<p>No games yet.</p>";
+            document.getElementById('list-games').innerHTML = html || "<div style='color:var(--text-muted); text-align:center;'>No categories added.</div>";
         });
 
-        // Users
-        onSnapshot(collection(db, "users"), (snap) => {
-            document.getElementById('st-users').innerText = snap.size;
-            let html = "";
-            snap.forEach(d => {
-                let u = d.data();
-                html += `<div class="data-item"><div style="flex:1;"><strong>${u.email}</strong><br><span style="color:var(--ok); font-size:14px;">${(u.walletBalance||0).toLocaleString()} Ks</span></div>
-                         <button class="btn btn-edit" onclick="editWallet('${d.id}', ${u.walletBalance||0}, '${u.email}')">Edit Bal</button></div>`;
-            });
-            document.getElementById('list-users').innerHTML = html;
-        });
-
-        // Orders
+        // 4. Orders & Sales Sum
         onSnapshot(collection(db, "orders"), (snap) => {
-            let pCount = 0; let html = ""; let arr = []; 
+            document.getElementById('ds-orders').innerText = snap.size;
+            let pCount = 0; let totSales = 0; let html = ""; let arr = []; 
             snap.forEach(d => arr.push({id: d.id, ...d.data()}));
             arr.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
+            
             arr.forEach(o => {
                 if(o.status === 'Pending') pCount++;
+                if(o.status === 'Completed') totSales += (o.price || 0);
+                
                 let cls = o.status==='Completed'?'completed':(o.status==='Cancelled'?'cancelled':'pending');
                 html += `<div class="data-item">
                     <div style="flex:1;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                            <span class="id-tag">${o.orderId || o.id.substring(0,8)}</span>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span class="id-tag">${o.orderId || 'ORD-'+o.id.substring(0,5)}</span>
                             <span class="badge ${cls}">${o.status}</span>
                         </div>
-                        <strong>${o.game}</strong> - <span style="color:var(--accent);">${o.item}</span><br>
-                        <span style="font-size:12px; color:var(--muted);">ID: ${o.playerId} ${o.serverId?`(${o.serverId})`:''}</span><br>
-                        <div style="font-size:14px; font-weight:bold; margin-top:5px;">${o.price.toLocaleString()} Ks <span style="font-size:11px; color:var(--muted);">(${o.payMethod})</span></div>
-                        <div style="font-size:10px; color:var(--muted); margin-top:5px;">${o.userEmail} • ${formatDate(o.createdAt)}</div>
+                        <div style="font-weight:700; font-size:14px; margin-bottom:4px;">${o.game} - <span style="color:var(--accent);">${o.item}</span></div>
+                        <div style="font-size:12px; color:var(--text-muted);">Player ID: <span style="color:#fff;">${o.playerId} ${o.serverId?`(${o.serverId})`:''}</span></div>
+                        <div style="font-size:14px; font-weight:800; margin-top:8px;">${o.price.toLocaleString()} Ks <span style="font-size:10px; color:var(--text-muted); font-weight:normal;">(${o.payMethod})</span></div>
+                        <div style="font-size:10px; color:var(--text-muted); margin-top:8px;">By: ${o.userEmail} • ${formatDate(o.createdAt)}</div>
                     </div>
-                    <div style="display:flex; flex-direction:column; gap:5px; width:80px;">
-                        ${o.slipImage ? `<button class="btn btn-dark" onclick="viewSlip('${o.slipImage}')">Slip</button>`:''}
-                        ${o.status==='Pending'?`<button class="btn btn-ok" onclick="updOrd('${o.id}','Completed')">Done</button><button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">Reject</button>`:''}
+                    <div style="display:flex; flex-direction:column; gap:8px; min-width:90px;">
+                        ${o.slipImage ? `<button class="btn btn-dark" onclick="viewSlip('${o.slipImage}')">View Slip</button>`:''}
+                        ${o.status==='Pending'?`<button class="btn btn-ok" onclick="updOrd('${o.id}','Completed')">Approve</button><button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">Reject</button>`:''}
                     </div></div>`;
             });
-            document.getElementById('list-orders').innerHTML = html || "<p>No orders yet.</p>"; document.getElementById('st-p-orders').innerText = pCount;
+            document.getElementById('list-orders').innerHTML = html || "<div style='color:var(--text-muted); text-align:center;'>No orders yet.</div>"; 
+            document.getElementById('st-p-orders').innerText = pCount;
+            document.getElementById('ds-tot-sales').innerText = totSales.toLocaleString() + " Ks";
+            // Dummy Profit Calc (15%)
+            document.getElementById('ds-tot-profit').innerText = (totSales * 0.15).toLocaleString() + " Ks";
         });
 
-        // Deposits
+        // 5. Deposits Sum
         onSnapshot(collection(db, "deposits"), (snap) => {
-            let pCount = 0; let html = ""; let arr = []; 
+            let pCount = 0; let totDep = 0; let penDep = 0; let html = ""; let arr = []; 
             snap.forEach(d => arr.push({id: d.id, ...d.data()}));
             arr.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
+            
             arr.forEach(dp => {
-                if(dp.status === 'Pending') pCount++;
+                if(dp.status === 'Pending') { pCount++; penDep += dp.amount; }
+                if(dp.status === 'Completed') totDep += dp.amount;
+                
                 let cls = dp.status==='Completed'?'completed':(dp.status==='Cancelled'?'cancelled':'pending');
                 html += `<div class="data-item">
                     <div style="flex:1;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                            <span class="id-tag">${dp.depId || dp.id.substring(0,8)}</span>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span class="id-tag">${dp.depId || 'DEP-'+dp.id.substring(0,5)}</span>
                             <span class="badge ${cls}">${dp.status}</span>
                         </div>
-                        <strong style="color:var(--ok); font-size:18px;">${dp.amount.toLocaleString()} Ks</strong><br>
-                        <div style="font-size:10px; color:var(--muted); margin-top:5px;">${dp.userEmail} • ${formatDate(dp.createdAt)}</div>
+                        <div style="color:var(--ok); font-size:20px; font-weight:800; margin-bottom:8px;">+ ${dp.amount.toLocaleString()} Ks</div>
+                        <div style="font-size:11px; color:var(--text-muted);">From: <span style="color:#fff;">${dp.userEmail}</span></div>
+                        <div style="font-size:10px; color:var(--text-muted); margin-top:4px;">${formatDate(dp.createdAt)}</div>
                     </div>
-                    <div style="display:flex; flex-direction:column; gap:5px; width:80px;">
-                        <button class="btn btn-dark" onclick="viewSlip('${dp.slipImage}')">Slip</button>
+                    <div style="display:flex; flex-direction:column; gap:8px; min-width:90px;">
+                        <button class="btn btn-dark" onclick="viewSlip('${dp.slipImage}')">View Slip</button>
                         ${dp.status==='Pending'?`<button class="btn btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})">Add Funds</button><button class="btn btn-danger" onclick="updDep('${dp.id}','Cancelled')">Reject</button>`:''}
                     </div></div>`;
             });
-            document.getElementById('list-deposits').innerHTML = html || "<p>No deposits yet.</p>"; document.getElementById('st-p-deps').innerText = pCount;
+            document.getElementById('list-deposits').innerHTML = html || "<div style='color:var(--text-muted); text-align:center;'>No deposits yet.</div>"; 
+            document.getElementById('st-p-deps').innerText = pCount;
+            document.getElementById('ds-tot-dep').innerText = totDep.toLocaleString() + " Ks";
+            document.getElementById('ds-pen-dep').innerText = penDep.toLocaleString() + " Ks";
         });
     }
 
-    // GAME CRUD
+    // --- GAME CRUD ---
     window.openGameModal = (g = null) => {
-        document.getElementById('gm-id').value = g ? g.id : '';
-        document.getElementById('gm-name').value = g ? g.name : '';
-        document.getElementById('gm-logo-url').value = g ? g.logoUrl : '';
-        document.getElementById('gm-banner-url').value = g ? g.bannerUrl : '';
+        document.getElementById('gm-id').value = g ? g.id : ''; document.getElementById('gm-name').value = g ? g.name : '';
+        document.getElementById('gm-code').value = g ? g.code : '';
+        document.getElementById('gm-logo-url').value = g ? g.logoUrl : ''; document.getElementById('gm-banner-url').value = g ? g.bannerUrl : '';
         document.getElementById('gm-order').value = g ? g.orderNum : 1;
-        document.getElementById('gm-title').innerText = g ? "Edit Game" : "Add Game";
+        document.getElementById('gm-title').innerText = g ? "Edit Category" : "Add Category";
         
-        document.getElementById('gm-logo-preview').src = g ? g.logoUrl : '';
-        document.getElementById('gm-logo-preview').style.display = g && g.logoUrl ? 'block' : 'none';
-        document.getElementById('gm-banner-preview').src = g ? g.bannerUrl : '';
-        document.getElementById('gm-banner-preview').style.display = g && g.bannerUrl ? 'block' : 'none';
-
+        document.getElementById('gm-logo-preview').src = g ? g.logoUrl : ''; document.getElementById('gm-logo-preview').style.display = g && g.logoUrl ? 'block' : 'none';
+        document.getElementById('gm-banner-preview').src = g ? g.bannerUrl : ''; document.getElementById('gm-banner-preview').style.display = g && g.bannerUrl ? 'block' : 'none';
         document.getElementById('game-modal').classList.add('active');
     };
 
     window.saveGame = async () => {
         let id = document.getElementById('gm-id').value;
-        let data = {
-            name: document.getElementById('gm-name').value,
-            logoUrl: document.getElementById('gm-logo-url').value,
-            bannerUrl: document.getElementById('gm-banner-url').value,
-            orderNum: parseInt(document.getElementById('gm-order').value) || 1
-        };
-        if(!data.name) return toast("Name is required!");
-        if(id) { await updateDoc(doc(db, "games", id), data); } 
-        else { data.packages = []; await addDoc(collection(db, "games"), data); }
-        closeModal('game-modal'); toast("Game Saved!");
+        let data = { name: document.getElementById('gm-name').value, code: document.getElementById('gm-code').value, logoUrl: document.getElementById('gm-logo-url').value, bannerUrl: document.getElementById('gm-banner-url').value, orderNum: parseInt(document.getElementById('gm-order').value) || 1 };
+        if(!data.name || !data.code) return toast("Name & Code required!");
+        if(id) { await updateDoc(doc(db, "games", id), data); } else { data.packages = []; await addDoc(collection(db, "games"), data); }
+        closeModal('game-modal'); toast("Saved!");
     };
-    window.deleteGame = async (id) => { if(confirm("Delete this game?")) await deleteDoc(doc(db, "games", id)); };
+    window.deleteGame = async (id) => { if(confirm("Delete this category?")) await deleteDoc(doc(db, "games", id)); };
 
-    // PACKAGE CRUD
+    // --- PACKAGE CRUD ---
     window.openPackageModal = (g) => {
         editingGameId = g.id; editingPackages = g.packages || [];
-        document.getElementById('pm-game-name').innerText = g.name;
+        document.getElementById('pm-game-name').innerText = "Products for: " + g.name;
         renderPackages(); document.getElementById('pack-modal').classList.add('active');
     };
     function renderPackages() {
         let html = "";
         editingPackages.forEach((p, i) => {
-            html += `<div class="data-item" style="padding:10px; margin-bottom:5px;">
+            html += `<div class="data-item" style="padding:10px; margin-bottom:8px; border-radius:8px;">
                 <div style="flex:1;">
-                    <div style="font-size:12px; font-weight:bold;">${p.name}</div>
-                    <div style="font-size:12px; color:var(--accent);">${p.price} Ks</div>
+                    <div style="font-size:13px; font-weight:700; color:#fff;">${p.name}</div>
+                    <div style="font-size:12px; color:var(--accent); font-weight:600; margin-top:2px;">${p.price.toLocaleString()} Ks</div>
                 </div>
-                <button class="btn btn-danger" style="padding:5px 10px;" onclick="delPack(${i})">X</button>
+                <button class="btn btn-danger" style="padding:6px 12px;" onclick="delPack(${i})">X</button>
             </div>`;
         });
         document.getElementById('pm-list').innerHTML = html;
     }
     window.addPackage = () => {
         let n = document.getElementById('pm-new-name').value; let p = parseInt(document.getElementById('pm-new-price').value);
-        let ic = document.getElementById('pm-new-icon-url').value || "https://cdn-icons-png.flaticon.com/128/1077/1077114.png";
         if(!n || !p) return toast("Name & Price required!");
-        editingPackages.push({name: n, price: p, icon: ic});
-        document.getElementById('pm-new-name').value=''; document.getElementById('pm-new-price').value=''; document.getElementById('pm-new-icon-url').value='';
+        editingPackages.push({name: n, price: p, icon: "https://cdn-icons-png.flaticon.com/128/1077/1077114.png"});
+        document.getElementById('pm-new-name').value=''; document.getElementById('pm-new-price').value='';
         renderPackages();
     };
     window.delPack = (i) => { editingPackages.splice(i, 1); renderPackages(); };
-    window.savePackages = async () => { await updateDoc(doc(db, "games", editingGameId), { packages: editingPackages }); closeModal('pack-modal'); toast("Packages Saved!"); };
+    window.savePackages = async () => { await updateDoc(doc(db, "games", editingGameId), { packages: editingPackages }); closeModal('pack-modal'); toast("Products Saved!"); };
 
-    // ACTIONS
+    // --- ACTIONS ---
     window.editWallet = async (id, cur, em) => { let v = prompt(`Edit Wallet (${em})\nEnter new balance:`, cur); if(v && !isNaN(v)) await updateDoc(doc(db, "users", id), {walletBalance: parseInt(v)}); };
-    window.updOrd = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db, "orders", id), {status:st}); };
-    window.updDep = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db, "deposits", id), {status:st}); };
+    window.updOrd = async (id, st) => { if(confirm(`Confirm to mark as ${st}?`)) await updateDoc(doc(db, "orders", id), {status:st}); };
+    window.updDep = async (id, st) => { if(confirm(`Confirm to mark as ${st}?`)) await updateDoc(doc(db, "deposits", id), {status:st}); };
     window.apprDep = async (id, uid, amt) => {
-        if(confirm(`Approve ${amt} Ks?`)) {
+        if(confirm(`Approve +${amt} Ks?`)) {
             let u = await getDoc(doc(db, "users", uid));
             await updateDoc(doc(db, "users", uid), {walletBalance: (u.data().walletBalance||0) + amt});
-            await updateDoc(doc(db, "deposits", id), {status: 'Completed'}); toast("Funds added!");
+            await updateDoc(doc(db, "deposits", id), {status: 'Completed'}); toast("Funds Added!");
         }
     };
 </script>
