@@ -4,404 +4,376 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Admin - Kazeno Shop</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --bg-dark: #0a0a0f; --sidebar-bg: #11131a; --card-bg: #15171e; --border: #1f2128; --text-main: #ffffff; --text-muted: #8b92a5; --primary: #4facfe; --accent: #6c5ce7; --ok: #00b894; --danger: #ff7675; --warning: #fdcb6e; }
-  * { box-sizing: border-box; outline: none; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent;}
-  body { background: var(--bg-dark); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+  :root { --bg: #0f1115; --surface: #181b21; --border: #2a2e39; --text: #e2e8f0; --muted: #94a3b8; --primary: #1d4ed8; --accent: #3b82f6; --ok: #10b981; --danger: #ef4444; --warning: #f59e0b; }
+  * { box-sizing: border-box; outline: none; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent;}
+  body { background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
   /* --- LAYOUT --- */
-  .sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; transition: 0.3s; z-index: 100; flex-shrink: 0; }
+  .sidebar { width: 250px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; transition: 0.3s; z-index: 100; flex-shrink: 0; }
   .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-  .top-header { height: 65px; background: var(--sidebar-bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px; justify-content: space-between;}
+  .top-header { height: 60px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px; justify-content: space-between;}
   .content-area { flex: 1; overflow-y: auto; padding: 25px; }
 
   /* --- SIDEBAR --- */
-  .brand-area { height: 65px; display: flex; align-items: center; padding: 0 20px; gap: 12px; border-bottom: 1px solid var(--border); }
-  .brand-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
-  .brand-text { font-weight: 800; font-size: 18px; letter-spacing: 1px; color: #fff; }
-  .close-sidebar { display: none; background: none; border: none; color: var(--text-muted); cursor: pointer; }
+  .brand-area { height: 60px; display: flex; align-items: center; padding: 0 20px; gap: 10px; border-bottom: 1px solid var(--border); }
+  .brand-logo { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; }
+  .brand-text { font-weight: 700; font-size: 16px; color: #fff; }
   
-  .menu-wrap { flex: 1; overflow-y: auto; padding-bottom: 20px; }
-  .menu-label { font-size: 11px; color: #555; font-weight: 700; text-transform: uppercase; margin: 20px 20px 5px; letter-spacing: 1px;}
-  .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.2s; border-right: 3px solid transparent; }
-  .menu-item:hover, .menu-item.active { background: rgba(108, 92, 231, 0.05); color: #fff; border-right-color: var(--accent); }
+  .menu-wrap { flex: 1; overflow-y: auto; padding: 15px 0; }
+  .menu-label { font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; margin: 15px 20px 5px; letter-spacing: 1px;}
+  .menu-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: var(--muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.2s; border-left: 3px solid transparent; }
+  .menu-item:hover, .menu-item.active { background: rgba(59, 130, 246, 0.1); color: #fff; border-left-color: var(--accent); }
 
-  /* --- TOP HEADER --- */
-  .menu-toggle { background: none; border: none; color: #fff; cursor: pointer; display: none; }
-  .header-title { font-size: 18px; font-weight: 700; }
-  .admin-profile { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--text-muted);}
-  .admin-avatar { width: 32px; height: 32px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; }
-
-  /* --- VIEWS & DASHBOARD --- */
+  /* --- VIEWS --- */
   .view { display: none; animation: fadeIn 0.3s; } .view.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-  .dash-top-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-  .d-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-  .d-card-header { display: flex; align-items: center; gap: 10px; }
-  .d-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size:18px;}
-  .d-val { font-size: 24px; font-weight: 800; color: #fff; }
-  .d-label { font-size: 12px; color: var(--text-muted); }
-
-  .fin-stack { display: flex; flex-direction: column; gap: 15px; max-width: 600px; margin: 0 auto; }
-  .fin-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 20px; }
-  .fin-icon { width: 60px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size:24px;}
-  .fin-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-  .fin-val { font-size: 20px; font-weight: 800; }
-
-  .c-blue { background: rgba(79, 172, 254, 0.1); color: #4facfe; } .c-red { background: rgba(255, 118, 117, 0.1); color: #ff7675; }
-  .c-green { background: rgba(0, 184, 148, 0.1); color: #00b894; } .c-orange { background: rgba(253, 203, 110, 0.1); color: #fdcb6e; }
-  .c-purple { background: rgba(108, 92, 231, 0.1); color: #6c5ce7; } .c-pink { background: rgba(232, 67, 147, 0.1); color: #e84393; }
-
-  /* --- DATA LISTS --- */
-  .data-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight:600;}
-  .data-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; transition: 0.2s;}
-  .data-item:hover { border-color: #333; }
-  .badge { padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
-  .badge.pending { color: var(--warning); background: rgba(253, 203, 110, 0.1); } .badge.completed { color: var(--ok); background: rgba(0, 184, 148, 0.1); }
-  .badge.cancelled { color: var(--danger); background: rgba(255, 118, 117, 0.1); } .badge.role { color: var(--primary); background: rgba(79, 172, 254, 0.1); border: 1px solid var(--primary); }
-  .id-tag { font-family: monospace; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
+  /* --- TABLES & CARDS --- */
+  .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .page-title { font-size: 20px; font-weight: 700; }
   
-  .btn { padding: 8px 14px; border-radius: 8px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; color: #fff; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center;}
-  .btn:active { transform: scale(0.95); } .btn-ok { background: var(--ok); color: #000; } .btn-danger { background: var(--danger); }
-  .btn-primary { background: var(--accent); } .btn-dark { background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
+  .table-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; text-align: left; }
+  th { padding: 15px; font-size: 12px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02);}
+  td { padding: 15px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover { background: rgba(255,255,255,0.02); }
 
-  /* --- MODALS & FORMS --- */
-  .input-box, .select-box { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px; border-radius: 8px; color: #fff; margin-bottom: 15px; font-size: 13px;}
-  .upload-box { border: 2px dashed var(--border); border-radius: 8px; padding: 15px; text-align: center; color: var(--text-muted); cursor: pointer; font-size: 12px; margin-bottom: 15px; background: rgba(0,0,0,0.2); transition: 0.3s;}
+  .badge { padding: 4px 10px; border-radius: 99px; font-size: 10px; font-weight: 600; }
+  .bg-active { background: rgba(16, 185, 129, 0.1); color: var(--ok); border: 1px solid rgba(16,185,129,0.2); }
+  .bg-inactive { background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid rgba(245,158,11,0.2); }
+  .bg-pill { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
+
+  .btn { padding: 8px 16px; border-radius: 6px; border: none; font-size: 12px; font-weight: 500; cursor: pointer; color: #fff; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap:6px;}
+  .btn:active { transform: scale(0.95); } 
+  .btn-primary { background: var(--primary); } 
+  .btn-ok { background: var(--ok); } 
+  .btn-danger { background: var(--danger); }
+  .btn-icon { padding: 6px; width: 32px; height: 32px; }
+
+  /* --- FORMS & TOGGLES --- */
+  .form-group { margin-bottom: 15px; }
+  .form-label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .input-box, .select-box { width: 100%; background: var(--bg); border: 1px solid var(--border); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 13px;}
+  .input-box:focus { border-color: var(--accent); }
+  
+  .switch { position: relative; display: inline-block; width: 36px; height: 20px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border); transition: .4s; border-radius: 34px; }
+  .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+  input:checked + .slider { background-color: var(--primary); }
+  input:checked + .slider:before { transform: translateX(16px); }
+
+  .checkbox-group { display: flex; gap: 15px; font-size: 13px; color: var(--text); align-items: center; }
+  .checkbox-group input { width: 16px; height: 16px; accent-color: var(--primary); }
+
+  .upload-box { border: 1px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; color: var(--muted); cursor: pointer; font-size: 12px; background: var(--bg); transition: 0.3s;}
+  .upload-box:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* --- MODALS --- */
   .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 15px; }
-  .modal-bg.active { display: flex; } .modal-card { background: var(--sidebar-bg); border: 1px solid var(--border); border-radius: 16px; padding: 25px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
-  .toast { position: fixed; top: 20px; right: 20px; background: var(--text-main); color: #000; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 13px; opacity: 0; transition: 0.3s; z-index: 3000;}
+  .modal-bg.active { display: flex; } 
+  .modal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 25px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+  
+  .toast { position: fixed; top: 20px; right: 20px; background: var(--primary); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 13px; opacity: 0; transition: 0.3s; z-index: 3000; box-shadow: 0 10px 25px rgba(0,0,0,0.5);}
   .toast.show { opacity: 1; }
-
-  @media (max-width: 768px) { .sidebar { position: fixed; left: -260px; height: 100%; box-shadow: 10px 0 30px rgba(0,0,0,0.5); } .sidebar.open { left: 0; } .menu-toggle { display: block; } .close-sidebar { display: block; } .dash-top-cards { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
 <div id="toast" class="toast">Success</div>
 
-<div id="auth-gate" style="position:fixed; inset:0; background:var(--bg-dark); z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-    <div style="width: 80px; height: 80px; background: url('https://img.freepik.com/free-vector/ninja-mascot-esports-logo-design_140715-32.jpg') center/cover; border-radius: 50%; margin-bottom: 20px; border: 2px solid var(--accent);"></div>
-    <h2 style="color:#fff; margin-bottom:5px;">Admin Login</h2>
-    <div style="color:var(--text-muted); font-size:13px; margin-bottom:30px;">Kazeno Management System</div>
-    <input type="password" id="admin-pin" placeholder="Enter PIN" style="padding:15px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,0.5); color:#fff; text-align:center; margin-bottom:20px; width: 250px;">
-    <button class="btn btn-primary" style="width: 250px; padding: 15px; font-size: 14px;" onclick="checkPin()">Access Panel</button>
+<div id="auth-gate" style="position:fixed; inset:0; background:var(--bg); z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+    <div style="font-size:24px; font-weight:bold; margin-bottom:20px;">Admin Access</div>
+    <input type="password" id="admin-pin" placeholder="Enter PIN" style="padding:12px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:#fff; text-align:center; margin-bottom:15px; width:250px;">
+    <button class="btn btn-primary" style="width:250px;" onclick="checkPin()">Login</button>
 </div>
 
 <div id="main-admin" style="display:none; width:100%; height:100%;">
     
     <div class="sidebar" id="sidebar">
-        <div class="brand-area"><img src="https://img.freepik.com/free-vector/ninja-mascot-esports-logo-design_140715-32.jpg" class="brand-logo"><div class="brand-text">KAZENO</div><div style="flex:1;"></div><button class="close-sidebar" onclick="toggleSidebar()">✖</button></div>
+        <div class="brand-area"><img src="https://img.freepik.com/free-vector/ninja-mascot-esports-logo-design_140715-32.jpg" class="brand-logo"><div class="brand-text">Kazeno Admin</div></div>
         <div class="menu-wrap">
             <div class="menu-label">Main</div>
-            <div class="menu-item active" onclick="switchTab('v-dash', this)"> 📊 Dashboard </div>
-            <div class="menu-item" onclick="switchTab('v-users', this)"> 👥 Users & Roles </div>
+            <div class="menu-item active" onclick="switchTab('v-dash', this)"> Dashboard </div>
+            <div class="menu-item" onclick="switchTab('v-users', this)"> Users </div>
+            <div class="menu-item" onclick="switchTab('v-orders', this)"> Orders & Deposits </div>
             
-            <div class="menu-label">Wallet & Orders</div>
-            <div class="menu-item" onclick="switchTab('v-deposits', this)"> 💸 Deposits </div>
-            <div class="menu-item" onclick="switchTab('v-withdraws', this)"> 💳 Withdrawals </div>
-            <div class="menu-item" onclick="switchTab('v-orders', this)"> 📦 Order History </div>
+            <div class="menu-label">Catalog (New)</div>
+            <div class="menu-item" onclick="switchTab('v-categories', this)"> Categories </div>
+            <div class="menu-item" onclick="switchTab('v-products', this)"> Products </div>
             
-            <div class="menu-label">Products</div>
-            <div class="menu-item" onclick="switchTab('v-store', this)"> 🎮 Categories & Games </div>
-            
-            <div class="menu-label">Marketing</div>
-            <div class="menu-item" onclick="switchTab('v-promo', this)"> 🎁 Promo Codes </div>
-            
-            <div class="menu-label">App Settings</div>
-            <div class="menu-item" onclick="switchTab('v-payments', this)"> 🏦 Payment Methods </div>
-            <div class="menu-item" onclick="switchTab('v-settings', this)"> ⚙️ CS & API Settings </div>
-            <div class="menu-item" style="color: var(--danger);" onclick="location.reload()"> 🚪 Logout </div>
+            <div class="menu-label">Settings</div>
+            <div class="menu-item" onclick="switchTab('v-settings', this)"> API & Settings </div>
+            <div class="menu-item" style="color: var(--danger);" onclick="location.reload()"> Logout </div>
         </div>
     </div>
 
     <div class="main-content">
         <div class="top-header">
-            <div style="display:flex; align-items:center; gap:15px;"><button class="menu-toggle" onclick="toggleSidebar()">☰</button><div class="header-title" id="page-title">Dashboard</div></div>
-            <div class="admin-profile"><span>Superadmin</span><div class="admin-avatar">K</div></div>
+            <div class="header-title" id="page-title">Dashboard</div>
+            <div style="font-size:12px; color:var(--muted);">Superadmin</div>
         </div>
 
         <div class="content-area">
             <div id="v-dash" class="view active">
-                <div class="dash-top-cards">
-                    <div class="d-card"><div class="d-card-header"><div class="d-icon c-purple">👥</div><div><div class="d-label">Total Users</div><div class="d-val" id="ds-users">0</div></div></div></div>
-                    <div class="d-card"><div class="d-card-header"><div class="d-icon c-red">🎮</div><div><div class="d-label">Categories</div><div class="d-val" id="ds-games">0</div></div></div></div>
-                    <div class="d-card"><div class="d-card-header"><div class="d-icon c-green">📦</div><div><div class="d-label">Completed Orders</div><div class="d-val" id="ds-orders">0</div></div></div></div>
-                </div>
-                <div class="fin-stack">
-                    <div class="fin-card"><div class="fin-icon c-green">💸</div><div><div class="fin-label">Total Deposits Approved</div><div class="fin-val c-green" id="ds-tot-dep">0 Ks</div></div></div>
-                    <div class="fin-card"><div class="fin-icon c-blue">💰</div><div><div class="fin-label">Total Sales (Revenue)</div><div class="fin-val c-blue" id="ds-tot-sales">0 Ks</div></div></div>
-                    <div class="fin-card"><div class="fin-icon c-purple">📈</div><div><div class="fin-label">Real Profit (Sales - Cost)</div><div class="fin-val c-purple" id="ds-tot-profit">0 Ks</div></div></div>
-                    <div class="fin-card"><div class="fin-icon c-pink">🏦</div><div><div class="fin-label">User Wallet Balances (Liability)</div><div class="fin-val c-pink" id="ds-wal-left">0 Ks</div></div></div>
+                <p style="color:var(--muted);">Welcome to Advanced Catalog System.</p>
+                <div style="margin-top:20px; display:flex; gap:15px;">
+                    <div style="background:var(--surface); padding:20px; border-radius:12px; border:1px solid var(--border); flex:1;">
+                        <h3 id="dash-cat-count">0</h3><div style="font-size:12px; color:var(--muted);">Categories</div>
+                    </div>
+                    <div style="background:var(--surface); padding:20px; border-radius:12px; border:1px solid var(--border); flex:1;">
+                        <h3 id="dash-prod-count">0</h3><div style="font-size:12px; color:var(--muted);">Products</div>
+                    </div>
                 </div>
             </div>
 
-            <div id="v-users" class="view"><div class="data-header"><div>Manage Users & Roles</div></div><div id="list-users">Loading...</div></div>
+            <div id="v-categories" class="view">
+                <div class="header-actions">
+                    <div class="page-title">Categories</div>
+                    <button class="btn btn-primary" onclick="openCatModal()">+ New Category</button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th>Name</th><th>Forms</th><th>Is Check</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody id="tb-categories"><tr><td colspan="5" style="text-align:center;">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="v-products" class="view">
+                <div class="header-actions">
+                    <div class="page-title">Products</div>
+                    <button class="btn btn-primary" onclick="openProdModal()">+ New Product</button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Region</th><th>Retail Price</th><th>Selling Price</th><th>Type</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody id="tb-products"><tr><td colspan="9" style="text-align:center;">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="v-users" class="view"><div class="header-actions"><div class="page-title">Users</div></div><div class="table-wrapper"><table><tbody id="tb-users"></tbody></table></div></div>
             
-            <div id="v-deposits" class="view"><div class="data-header"><div>Deposit Requests</div></div><div id="list-deposits">Loading...</div></div>
-            <div id="v-withdraws" class="view"><div class="data-header"><div>Withdrawal Requests</div></div><div id="list-withdraws">Loading...</div></div>
-            <div id="v-orders" class="view"><div class="data-header"><div>Order History</div></div><div id="list-orders">Loading...</div></div>
-            <div id="v-store" class="view"><div class="data-header"><div>Games & Categories</div><button class="btn btn-primary" onclick="openGameModal()">+ Add Category</button></div><div id="list-games">Loading...</div></div>
-            <div id="v-promo" class="view"><div class="data-header"><div>Manage Promo Codes</div><button class="btn btn-primary" onclick="openPromoModal()">+ Create Code</button></div><div id="list-promos">Loading...</div></div>
-            <div id="v-payments" class="view"><div class="data-header"><div>Checkout Payment Methods</div><button class="btn btn-primary" onclick="openPayModal()">+ Add Payment</button></div><div id="list-payments">Loading...</div></div>
+            <div id="v-orders" class="view">
+                <div class="header-actions"><div class="page-title">Orders</div></div>
+                <div class="table-wrapper" style="margin-bottom:20px;"><table><tbody id="tb-orders"></tbody></table></div>
+                <div class="header-actions"><div class="page-title">Deposits</div></div>
+                <div class="table-wrapper"><table><tbody id="tb-deposits"></tbody></table></div>
+            </div>
 
             <div id="v-settings" class="view">
-                <div style="background:var(--card-bg); border:1px solid var(--border); padding:20px; border-radius:12px; margin-bottom:20px; max-width:600px;">
-                    <h3 style="color:var(--accent); margin-bottom:5px;">🍪 API & Cookies Setup</h3>
-                    <div style="font-size:11px; color:var(--text-muted); margin-bottom:15px;">Configure cookies for Auto-Topup APIs (Smile One, JCPlay).</div>
-                    <label style="font-size:11px; color:var(--text-muted);">Smile One Cookies</label><input type="text" id="inp-cookie-smile" class="input-box" placeholder="PHPSESSID=...">
-                    <label style="font-size:11px; color:var(--text-muted);">JCPlay Cookies</label><input type="text" id="inp-cookie-jc" class="input-box" placeholder="...">
-                    <button class="btn btn-primary" onclick="saveCookies()">Save API Settings</button>
-                </div>
-
-                <div style="background:var(--card-bg); border:1px solid var(--border); padding:20px; border-radius:12px; margin-bottom:20px; max-width:600px;">
-                    <h3 style="color:var(--accent); margin-bottom:5px;">🤖 Telegram Group Bot Alerts</h3>
-                    <div style="font-size:11px; color:var(--text-muted); margin-bottom:15px; line-height:1.5;">Get instantly notified in your Telegram Group/Topics.</div>
-                    <div style="display:flex; gap:10px;">
-                        <div style="flex:2;"><label style="font-size:11px; color:var(--text-muted);">Bot API Token</label><input type="text" id="inp-bot-token" class="input-box" placeholder="e.g. 1234567890:ABCdEfG..."></div>
-                        <div style="flex:1;"><label style="font-size:11px; color:var(--text-muted);">Group Chat ID</label><input type="text" id="inp-chat-id" class="input-box" placeholder="e.g. -100123456"></div>
-                    </div>
-                    <div style="display:flex; gap:10px;">
-                        <div style="flex:1;"><label style="font-size:11px; color:var(--text-muted);">Order Topic ID</label><input type="number" id="inp-tg-order-topic" class="input-box" placeholder="e.g. 2"></div>
-                        <div style="flex:1;"><label style="font-size:11px; color:var(--text-muted);">Deposit/Withdraw Topic ID</label><input type="number" id="inp-tg-dep-topic" class="input-box" placeholder="e.g. 4"></div>
-                    </div>
-                    <button class="btn btn-primary" onclick="saveBotSettings()">Save Bot Settings</button>
-                </div>
-
-                <div style="background:var(--card-bg); border:1px solid var(--border); padding:20px; border-radius:12px; margin-bottom:20px; max-width:600px;">
-                    <h3 style="color:var(--accent); margin-bottom:15px;">Customer Service & Links</h3>
-                    <label style="font-size:11px; color:var(--text-muted);">Facebook Page Link</label><input type="text" id="inp-cs-fb" class="input-box" placeholder="https://facebook.com/...">
-                    <label style="font-size:11px; color:var(--text-muted);">Telegram Link</label><input type="text" id="inp-cs-tg" class="input-box" placeholder="https://t.me/...">
-                    <button class="btn btn-primary" onclick="saveCSLinks()">Save Links</button>
-                </div>
-
-                <div style="background:var(--card-bg); border:1px solid var(--border); padding:20px; border-radius:12px; max-width:600px;">
-                    <h3 style="color:var(--accent); margin-bottom:15px;">Home Screen Banner</h3>
-                    <img id="home-banner-preview" src="" style="width:100%; height:120px; object-fit:cover; border-radius:8px; margin-bottom:10px; display:none; border:1px solid var(--border);">
-                    <div class="upload-box" onclick="document.getElementById('hb-file').click()">📸 Click to Upload New Banner</div>
-                    <input type="file" id="hb-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'homeBanner')">
-                </div>
+                <div class="page-title" style="margin-bottom:20px;">Settings</div>
+                <button class="btn btn-primary" onclick="toast('Settings mapped in code.')">Save Configs</button>
             </div>
-
         </div>
     </div>
 </div>
 
-<div class="modal-bg" id="user-modal">
+<div class="modal-bg" id="cat-modal">
     <div class="modal-card">
-        <h3 style="margin-bottom:15px;">Edit User</h3>
-        <input type="hidden" id="um-id">
-        <div style="font-size:14px; font-weight:bold; margin-bottom:15px; color:var(--accent);" id="um-email"></div>
-        <label style="font-size:11px; color:var(--text-muted);">Wallet Balance</label>
-        <input type="number" id="um-wallet" class="input-box" placeholder="0">
-        <label style="font-size:11px; color:var(--text-muted);">Spin Count (Tickets)</label>
-        <input type="number" id="um-spins" class="input-box" placeholder="0">
-        <label style="font-size:11px; color:var(--text-muted);">User Role</label>
-        <select id="um-role" class="select-box">
-            <option value="Customer">Customer</option>
-            <option value="Seller">Seller (Reseller)</option>
-            <option value="Admin">Admin</option>
-        </select>
-        <div style="display:flex; gap:10px; margin-top:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveUserEdit()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('user-modal')">Cancel</button></div>
-    </div>
-</div>
-
-<div class="modal-bg" id="game-modal">
-    <div class="modal-card">
-        <h3 id="gm-title" style="margin-bottom:15px;">Category Details</h3>
-        <input type="hidden" id="gm-id">
-        <label style="font-size:11px; color:var(--text-muted);">Name</label><input type="text" id="gm-name" class="input-box" placeholder="e.g. Mobile Legends">
-        <label style="font-size:11px; color:var(--text-muted);">Code (lowercase, no space)</label><input type="text" id="gm-code" class="input-box" placeholder="e.g. mlbb">
-        <label style="font-size:11px; color:var(--text-muted);">Square Logo</label>
-        <img id="gm-logo-preview" style="width:60px; height:60px; border-radius:10px; display:none; margin-bottom:5px; border:1px solid var(--border); object-fit:cover;">
-        <div class="upload-box" style="padding:10px;" onclick="document.getElementById('gm-logo-file').click()">Upload Logo</div><input type="file" id="gm-logo-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'gameLogo')"><input type="hidden" id="gm-logo-url">
-        <label style="font-size:11px; color:var(--text-muted);">Top Detail Banner</label>
-        <img id="gm-banner-preview" style="width:100%; height:80px; object-fit:cover; border-radius:10px; display:none; margin-bottom:5px; border:1px solid var(--border);">
-        <div class="upload-box" style="padding:10px;" onclick="document.getElementById('gm-banner-file').click()">Upload Banner</div><input type="file" id="gm-banner-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'gameBanner')"><input type="hidden" id="gm-banner-url">
-        <label style="font-size:11px; color:var(--text-muted);">Sort Order</label><input type="number" id="gm-order" class="input-box" placeholder="e.g. 1">
-        <div style="display:flex; gap:10px; margin-top:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveGame()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('game-modal')">Cancel</button></div>
-    </div>
-</div>
-
-<div class="modal-bg" id="pack-modal">
-    <div class="modal-card" style="max-width:550px;">
-        <h3 style="margin-bottom:5px;">Products & Pricing Config</h3>
-        <div style="font-size:12px; color:var(--accent); margin-bottom:15px;" id="pm-game-name"></div>
-        <div style="background:rgba(255,255,255,0.02); padding:15px; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);">
-            <div style="font-size:11px; color:var(--text-muted); margin-bottom:5px;">Add New Product</div>
-            <input type="text" id="pm-new-name" class="input-box" style="margin-bottom:10px;" placeholder="Name (e.g. 86 Dia)">
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-                <div style="flex:1;"><label style="font-size:10px; color:var(--text-muted);">Cost Price (အရင်း)</label><input type="number" id="pm-new-cost" class="input-box" style="margin:0;" placeholder="e.g. 4800"></div>
-                <div style="flex:1;"><label style="font-size:10px; color:var(--text-muted);">Normal Price (ရောင်းဈေး)</label><input type="number" id="pm-new-price" class="input-box" style="margin:0;" placeholder="e.g. 5300"></div>
+        <h3 style="margin-bottom:20px;" id="cm-title">Edit Category</h3>
+        <input type="hidden" id="cm-id">
+        
+        <div style="display:flex; gap:15px;">
+            <div style="flex:2;">
+                <div class="form-group"><label class="form-label">Name*</label><input type="text" id="cm-name" class="input-box" placeholder="Mobile Legends"></div>
+                <div class="form-group"><label class="form-label">Slug* (no spaces)</label><input type="text" id="cm-slug" class="input-box" placeholder="mobile_legends"></div>
+                <div class="form-group"><label class="form-label">JCPlay Product ID*</label><input type="text" id="cm-jcid" class="input-box" placeholder="Enter ID"></div>
             </div>
-            <label style="font-size:10px; color:var(--primary);">Reseller Price (ဖောက်သည်ဈေး)</label><input type="number" id="pm-new-reseller" class="input-box" style="border-color:var(--primary); margin:0;" placeholder="e.g. 5000">
-            <button class="btn btn-primary" style="width:100%; margin-top:15px;" onclick="addPackage()">+ Add Product</button>
+            <div style="flex:1;">
+                <label class="form-label">Upload Image</label>
+                <img id="cm-img-preview" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:8px; display:none; margin-bottom:10px; border:1px solid var(--border);">
+                <div class="upload-box" onclick="document.getElementById('cm-file').click()">Choose Image</div>
+                <input type="file" id="cm-file" style="display:none;" onchange="uploadImg(this, 'cm-img')">
+                <input type="hidden" id="cm-img-url">
+            </div>
         </div>
-        <div id="pm-list" style="display:flex; flex-direction:column; gap:8px; max-height:250px; overflow-y:auto; margin-bottom:15px;"></div>
-        <div style="display:flex; gap:10px;"><button class="btn btn-ok" style="flex:1;" onclick="savePackages()">Save All</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('pack-modal')">Close</button></div>
+
+        <div class="form-group"><label class="form-label">Description</label><input type="text" id="cm-desc" class="input-box" placeholder="Enter Description"></div>
+        
+        <div class="form-group">
+            <label class="form-label">Assign Order Forms (Check required inputs)</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="cm-form-uid"> Game ID</label>
+                <label><input type="checkbox" id="cm-form-zone"> Server ID</label>
+                <label><input type="checkbox" id="cm-form-email"> Email</label>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:30px; margin-bottom:20px;">
+            <div>
+                <label class="form-label">Is Check (Account verification)</label>
+                <label class="switch"><input type="checkbox" id="cm-check"><span class="slider"></span></label>
+            </div>
+            <div>
+                <label class="form-label">Active Status</label>
+                <label class="switch"><input type="checkbox" id="cm-active" checked><span class="slider"></span></label>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <button class="btn btn-primary" onclick="saveCategory()">Save</button>
+            <button class="btn btn-danger" onclick="closeModal('cat-modal')">Cancel</button>
+        </div>
     </div>
 </div>
 
-<div class="modal-bg" id="pay-modal"><div class="modal-card"><h3 style="margin-bottom:15px;" id="pay-title">Payment Method</h3><input type="hidden" id="pay-id"><input type="text" id="pay-name" class="input-box" placeholder="Provider (e.g. KPay)"><input type="text" id="pay-phone" class="input-box" placeholder="Phone Number"><input type="text" id="pay-acc" class="input-box" placeholder="Account Name"><img id="pay-qr-preview" style="width:100px; height:100px; border-radius:10px; display:none; margin-bottom:5px; object-fit:cover;"><div class="upload-box" style="padding:10px;" onclick="document.getElementById('pay-qr-file').click()">Upload QR</div><input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="uploadImageCommon(this, 'payQR')"><input type="hidden" id="pay-qr-url"><div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePayment()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('pay-modal')">Cancel</button></div></div></div>
-<div class="modal-bg" id="promo-modal"><div class="modal-card"><h3 style="margin-bottom:15px;">Promo Code</h3><input type="hidden" id="promo-id"><input type="text" id="promo-code" class="input-box" style="text-transform:uppercase;" placeholder="Code (e.g. NEWYEAR)"><input type="number" id="promo-amt" class="input-box" placeholder="Discount (Ks)"><div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePromo()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('promo-modal')">Cancel</button></div></div></div>
-<div class="modal-bg" id="slip-modal" onclick="if(event.target===this) closeModal('slip-modal')"><div class="modal-card" style="text-align:center; max-width:350px;"><h3 style="margin-bottom:15px;">Transaction Slip</h3><img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);" src=""><button class="btn btn-dark" style="width:100%; padding:12px;" onclick="closeModal('slip-modal')">Close</button></div></div>
+<div class="modal-bg" id="prod-modal">
+    <div class="modal-card">
+        <h3 style="margin-bottom:20px;" id="pm-title">Edit Product</h3>
+        <input type="hidden" id="pm-id">
+        
+        <div style="display:flex; gap:15px;">
+            <div style="flex:2;">
+                <div class="form-group"><label class="form-label">Name*</label><input type="text" id="pm-name" class="input-box" placeholder="Weekly Diamond Pass"></div>
+                <div class="form-group"><label class="form-label">Slug*</label><input type="text" id="pm-slug" class="input-box" placeholder="weekly_pass"></div>
+                <div class="form-group"><label class="form-label">Category</label><select id="pm-cat" class="select-box"></select></div>
+            </div>
+            <div style="flex:1;">
+                <label class="form-label">Upload Image</label>
+                <img id="pm-img-preview" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:8px; display:none; margin-bottom:10px; border:1px solid var(--border);">
+                <div class="upload-box" onclick="document.getElementById('pm-file').click()">Choose Image</div>
+                <input type="file" id="pm-file" style="display:none;" onchange="uploadImg(this, 'pm-img')">
+                <input type="hidden" id="pm-img-url">
+            </div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <div class="form-group" style="flex:1;"><label class="form-label">Retail Price (Cost)*</label><input type="number" id="pm-cost" class="input-box" placeholder="0"></div>
+            <div class="form-group" style="flex:1;"><label class="form-label">Selling Price*</label><input type="number" id="pm-price" class="input-box" placeholder="0"></div>
+            <div class="form-group" style="flex:1;"><label class="form-label" style="color:var(--accent);">Reseller Price</label><input type="number" id="pm-reseller" class="input-box" placeholder="0"></div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <div class="form-group" style="flex:1;"><label class="form-label">Smile Product ID</label><input type="text" id="pm-smileid" class="input-box" placeholder="16642"></div>
+            <div class="form-group" style="flex:1;"><label class="form-label">JCPlay Item ID</label><input type="text" id="pm-jcid" class="input-box" placeholder="ID"></div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <div class="form-group" style="flex:1;">
+                <label class="form-label">Topup Type</label>
+                <select id="pm-type" class="select-box"><option value="Auto">Auto</option><option value="Manual">Manual</option></select>
+            </div>
+            <div class="form-group" style="flex:1;"><label class="form-label">Region</label><input type="text" id="pm-region" class="input-box" placeholder="br, ph, global"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Active Status</label>
+            <label class="switch"><input type="checkbox" id="pm-active" checked><span class="slider"></span></label>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <button class="btn btn-primary" onclick="saveProduct()">Save</button>
+            <button class="btn btn-danger" onclick="closeModal('prod-modal')">Cancel</button>
+        </div>
+    </div>
+</div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc, setDoc, addDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot, doc, updateDoc, setDoc, addDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const db = getFirestore(app);
 
     window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
-    function formatDate(ts) { if(!ts) return "-"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); }
-    
-    window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); }
-    window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim().replace(/[^a-zA-Z\s]/g,'') : 'Dashboard'; if(window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open'); };
+    window.switchTab = (id, el) => { document.querySelectorAll('.menu-item').forEach(x=>x.classList.remove('active')); if(el)el.classList.add('active'); document.querySelectorAll('.view').forEach(x=>x.classList.remove('active')); document.getElementById(id).classList.add('active'); }
     window.closeModal = (id) => document.getElementById(id).classList.remove('active');
-    window.viewSlip = (url) => { if(!url)return toast("No slip uploaded"); document.getElementById('modal-img-src').src = url; document.getElementById('slip-modal').classList.add('active'); };
     window.checkPin = () => { if(document.getElementById('admin-pin').value === "1234") { document.getElementById('auth-gate').style.display = "none"; document.getElementById('main-admin').style.display = "flex"; initAdmin(); } else toast("Invalid PIN!"); };
 
-    // --- IMGBB ---
-    async function uploadToImgBB(file) { toast("Uploading Image..."); let fd = new FormData(); fd.append("image", file); let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let data = await res.json(); if(data.success) { toast("Upload Done!"); return data.data.url; } else throw new Error("Upload Failed"); }
-    window.uploadImageCommon = async (input, type) => {
-        if(!input.files[0]) return;
-        try {
-            let url = await uploadToImgBB(input.files[0]);
-            if(type === 'homeBanner') { document.getElementById('home-banner-preview').src = url; document.getElementById('home-banner-preview').style.display = 'block'; await setDoc(doc(db, "settings", "app_config"), { homeBannerUrl: url }, { merge: true }); } 
-            else if (type === 'gameLogo') { document.getElementById('gm-logo-url').value = url; document.getElementById('gm-logo-preview').src = url; document.getElementById('gm-logo-preview').style.display = 'block'; } 
-            else if (type === 'gameBanner') { document.getElementById('gm-banner-url').value = url; document.getElementById('gm-banner-preview').src = url; document.getElementById('gm-banner-preview').style.display = 'block'; }
-            else if (type === 'payQR') { document.getElementById('pay-qr-url').value = url; document.getElementById('pay-qr-preview').src = url; document.getElementById('pay-qr-preview').style.display = 'block'; }
-        } catch(e) { toast(e.message); }
-    };
+    async function uploadToImgBB(file) { toast("Uploading..."); let fd = new FormData(); fd.append("image", file); let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let d = await res.json(); if(d.success) { toast("Uploaded!"); return d.data.url; } throw new Error("Upload Failed"); }
+    window.uploadImg = async (input, prefix) => { if(input.files[0]) { try { let url = await uploadToImgBB(input.files[0]); document.getElementById(`${prefix}-url`).value = url; document.getElementById(`${prefix}-preview`).src = url; document.getElementById(`${prefix}-preview`).style.display = 'block'; } catch(e){toast(e.message);} } }
 
-    let editingGameId = null; let editingPackages = [];
+    let allCats = []; let allProds = [];
 
     function initAdmin() {
-        onSnapshot(doc(db, "settings", "app_config"), (d) => {
-            if(d.exists()) {
-                if(d.data().homeBannerUrl) { document.getElementById('home-banner-preview').src = d.data().homeBannerUrl; document.getElementById('home-banner-preview').style.display = 'block'; }
-                if(d.data().fbLink) document.getElementById('inp-cs-fb').value = d.data().fbLink;
-                if(d.data().tgLink) document.getElementById('inp-cs-tg').value = d.data().tgLink;
-                if(d.data().tgBotToken) document.getElementById('inp-bot-token').value = d.data().tgBotToken;
-                if(d.data().tgChatId) document.getElementById('inp-chat-id').value = d.data().tgChatId;
-                if(d.data().tgOrderTopicId) document.getElementById('inp-tg-order-topic').value = d.data().tgOrderTopicId;
-                if(d.data().tgDepositTopicId) document.getElementById('inp-tg-dep-topic').value = d.data().tgDepositTopicId;
-                if(d.data().cookieSmile) document.getElementById('inp-cookie-smile').value = d.data().cookieSmile;
-                if(d.data().cookieJC) document.getElementById('inp-cookie-jc').value = d.data().cookieJC;
-            }
-        });
-        
-        onSnapshot(collection(db, "payment_methods"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="flex:1;"><strong>${p.name}</strong><br><span style="color:var(--accent); font-family:monospace;">${p.phone}</span> (${p.accName})</div><div style="display:flex; gap:5px;"><button class="btn btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g, "&#39;")})'>Edit</button><button class="btn btn-danger" onclick="deleteDoc(doc(db, 'payment_methods', '${p.id}'))">Del</button></div></div>`; }); document.getElementById('list-payments').innerHTML = html || "<p style='color:gray;'>No payment methods set.</p>"; });
-        onSnapshot(collection(db, "promo_codes"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="flex:1;"><strong style="color:var(--ok); font-family:monospace; font-size:16px;">${p.code}</strong><br>Discount: <strong>${p.discount} Ks</strong></div><button class="btn btn-danger" onclick="deleteDoc(doc(db, 'promo_codes', '${p.id}'))">Delete</button></div></div>`; }); document.getElementById('list-promos').innerHTML = html || "<p style='color:gray;'>No promo codes.</p>"; });
-        onSnapshot(query(collection(db, "games"), orderBy("orderNum", "asc")), (snap) => { let html = ""; snap.forEach(s => { let g = {id: s.id, ...s.data()}; html += `<div class="data-item"><div style="display:flex; align-items:center; gap:15px; flex:1;"><img src="${g.logoUrl || 'https://via.placeholder.com/50'}" style="width:40px; height:40px; border-radius:10px; object-fit:cover;"><div><div style="font-weight:700; font-size:14px;">${g.name}</div><div style="font-size:11px; color:var(--text-muted);">Items: ${(g.packages||[]).length}</div></div></div><div style="display:flex; gap:5px;"><button class="btn btn-ok" onclick='openPackageModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Products</button><button class="btn btn-dark" onclick='openGameModal(${JSON.stringify(g).replace(/'/g, "&#39;")})'>Edit</button><button class="btn btn-danger" onclick="deleteGame('${g.id}')">Del</button></div></div>`; }); document.getElementById('list-games').innerHTML = html || "<p style='color:gray;'>No games.</p>"; });
-
-        // 💡 USERS (With Ref Code & Spins) 💡
-        onSnapshot(collection(db, "users"), (s) => { 
-            let h=""; let t=0; document.getElementById('ds-users').innerText=s.size; 
-            s.forEach(d=>{ 
-                let u=d.data(); let bal=u.walletBalance||0; let role=u.role||'Customer'; let spins=u.spinCount||0; let ref=u.refCode||'N/A'; t+=bal; 
-                h+=`<div class="data-item"><div style="flex:1;">
-                    <strong>${u.email}</strong> <span class="badge role" style="margin-left:5px;">${role}</span><br>
-                    <div style="font-size:11px; color:var(--text-muted); margin-top:5px;">Ref: <span style="color:#fff;">${ref}</span> | Spins: <span style="color:var(--warning);">${spins}</span></div>
-                    <span style="color:var(--ok); font-size:16px; font-weight:bold;">${bal.toLocaleString()} Ks</span>
-                </div><button class="btn btn-dark" onclick="openUserModal('${d.id}', ${bal}, '${role}', '${u.email}', ${spins})">Edit User</button></div>`; 
-            }); 
-            document.getElementById('list-users').innerHTML=h; document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
+        // Categories
+        onSnapshot(query(collection(db, "categories")), (snap) => {
+            allCats = []; let html = "";
+            snap.forEach(s => { let d={id:s.id, ...s.data()}; allCats.push(d); 
+                let badge = d.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Not Active</span>`;
+                let chk = d.isCheck ? `<span class="badge" style="background:rgba(16,185,129,0.1); color:var(--ok);">Yes</span>` : `<span class="badge" style="background:rgba(245,158,11,0.1); color:var(--warning);">No</span>`;
+                let fTxt = (d.forms||[]).join(', ') || 'None';
+                html += `<tr>
+                    <td style="display:flex; align-items:center; gap:10px;"><img src="${d.logoUrl||'https://via.placeholder.com/30'}" style="width:30px; height:30px; border-radius:6px; object-fit:cover;"> ${d.name}</td>
+                    <td>${fTxt}</td><td>${chk}</td><td>${badge}</td>
+                    <td>
+                        <button class="btn btn-ok btn-icon" onclick='openCatModal(${JSON.stringify(d).replace(/'/g,"&#39;")})'>✏️</button>
+                        <button class="btn btn-danger btn-icon" onclick="deleteDoc(doc(db,'categories','${d.id}'))">🗑️</button>
+                    </td>
+                </tr>`;
+            });
+            document.getElementById('tb-categories').innerHTML = html || '<tr><td colspan="5" style="text-align:center;">No categories.</td></tr>';
+            document.getElementById('dash-cat-count').innerText = allCats.length;
+            
+            // Populate Dropdown for Products Modal
+            let opt = "<option value=''>Select Category</option>";
+            allCats.forEach(c => opt += `<option value="${c.id}">${c.name}</option>`);
+            document.getElementById('pm-cat').innerHTML = opt;
         });
 
-        // ORDERS
-        onSnapshot(collection(db, "orders"), (s) => { 
-            let pC=0; let tS=0; let tP=0; let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
-            a.forEach(o=>{ 
-                if(o.status==='Pending') pC++; 
-                if(o.status==='Completed'){ tS += (o.price||0); let cost = o.costPrice || (o.price * 0.85); tP += (o.price - cost); }
-                let cls=o.status==='Completed'?'completed':(o.status==='Cancelled'?'cancelled':'pending'); 
-                let profitTxt = o.status==='Completed' ? `<div style="font-size:10px; color:var(--primary); margin-top:2px;">Profit: +${((o.price||0) - (o.costPrice||0)).toLocaleString()} Ks</div>` : '';
-                h+=`<div class="data-item"><div style="flex:1;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span class="id-tag">${o.orderId||o.id.substring(0,8)}</span><span class="badge ${cls}">${o.status}</span></div><strong>${o.game}</strong> - <span style="color:var(--accent);">${o.item}</span><br><span style="font-size:12px; color:var(--text-muted);">ID: ${o.playerId} ${o.serverId?`(${o.serverId})`:''}</span><br><strong style="font-size:14px; margin-top:5px;">${(o.price||0).toLocaleString()} Ks</strong> <span style="font-size:10px;">(${o.payMethod})</span>${profitTxt}<div style="font-size:10px; color:var(--text-muted); margin-top:5px;">${o.userEmail}</div></div><div style="display:flex; flex-direction:column; gap:5px; width:80px;">${o.slipImage?`<button class="btn btn-dark" onclick="viewSlip('${o.slipImage}')">Slip</button>`:''}${o.status==='Pending'?`<button class="btn btn-ok" onclick="updOrd('${o.id}','Completed')">Approve</button><button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">Reject</button>`:''}</div></div>`; 
-            }); 
-            document.getElementById('list-orders').innerHTML=h; document.getElementById('st-p-orders').innerText=pC; document.getElementById('ds-orders').innerText = a.filter(x=>x.status==='Completed').length; document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
+        // Products
+        onSnapshot(query(collection(db, "products")), (snap) => {
+            allProds = []; let html = "";
+            snap.forEach(s => { let d={id:s.id, ...s.data()}; allProds.push(d); 
+                let catName = allCats.find(x=>x.id===d.categoryId)?.name || 'Unknown';
+                let reg = d.region ? `<span class="badge bg-pill">${d.region.toUpperCase()}</span>` : '--';
+                let type = d.topupType==='Auto' ? `<span class="badge" style="color:#a855f7; border:1px solid #a855f7;">Auto</span>` : `<span class="badge" style="color:#22c55e; border:1px solid #22c55e;">Manual</span>`;
+                let stat = d.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Inactive</span>`;
+                
+                html += `<tr>
+                    <td><img src="${d.logoUrl||'https://via.placeholder.com/30'}" style="width:35px; height:35px; border-radius:6px; object-fit:cover;"></td>
+                    <td>${d.name}</td> <td>${catName}</td> <td>${reg}</td>
+                    <td style="color:var(--danger);">$${d.retailPrice}</td> <td style="color:var(--ok); font-weight:bold;">$${d.sellingPrice}</td>
+                    <td>${type}</td> <td>${stat}</td>
+                    <td>
+                        <button class="btn btn-primary btn-icon" onclick='openProdModal(${JSON.stringify(d).replace(/'/g,"&#39;")})'>✏️</button>
+                        <button class="btn btn-danger btn-icon" onclick="deleteDoc(doc(db,'products','${d.id}'))">🗑️</button>
+                    </td>
+                </tr>`;
+            });
+            document.getElementById('tb-products').innerHTML = html || '<tr><td colspan="9" style="text-align:center;">No products.</td></tr>';
+            document.getElementById('dash-prod-count').innerText = allProds.length;
         });
-
-        // DEPOSITS (With Auto Spin Credit Logic)
-        onSnapshot(collection(db, "deposits"), (s) => { 
-            let pC=0; let tD=0; let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
-            a.forEach(dp=>{ 
-                if(dp.status==='Pending')pC++; if(dp.status==='Completed')tD+=dp.amount; 
-                let cls=dp.status==='Completed'?'completed':(dp.status==='Cancelled'?'cancelled':'pending'); 
-                h+=`<div class="data-item"><div style="flex:1;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span class="id-tag">${dp.depId||dp.id.substring(0,8)}</span><span class="badge ${cls}">${dp.status}</span></div><strong style="color:var(--ok); font-size:18px;">+ ${(dp.amount||0).toLocaleString()} Ks</strong><br><span style="font-size:10px;">From: ${dp.userEmail}</span></div><div style="display:flex; flex-direction:column; gap:5px; width:80px;"><button class="btn btn-dark" onclick="viewSlip('${dp.slipImage}')">Slip</button>${dp.status==='Pending'?`<button class="btn btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})">Add Funds</button><button class="btn btn-danger" onclick="updDep('${dp.id}','Cancelled')">Reject</button>`:''}</div></div>`; 
-            }); 
-            document.getElementById('list-deposits').innerHTML=h; document.getElementById('st-p-deps').innerText=pC; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; 
-        });
-        
-        // WITHDRAWALS
-        onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(w=>{ let cls=w.status==='Completed'?'completed':(w.status==='Cancelled'?'cancelled':'pending'); h+=`<div class="data-item"><div style="flex:1;"><div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span class="id-tag">${w.wdId||w.id.substring(0,8)}</span><span class="badge ${cls}">${w.status}</span></div><strong style="color:var(--danger); font-size:18px;">- ${(w.amount||0).toLocaleString()} Ks</strong><br><div style="font-size:12px; color:var(--accent); margin:4px 0;">${w.payMethod} - ${w.accPhone} (${w.accName})</div><span style="font-size:10px;">From: ${w.userEmail}</span></div><div style="display:flex; flex-direction:column; gap:5px; width:80px;">${w.status==='Pending'?`<button class="btn btn-ok" onclick="updWd('${w.id}','Completed')">Sent</button><button class="btn btn-danger" onclick="updWd('${w.id}','Cancelled','${w.userId}',${w.amount})">Reject</button>`:''}</div></div>`; }); document.getElementById('list-withdraws').innerHTML=h || "<p style='color:gray;'>No withdrawal requests.</p>"; });
     }
 
-    // --- APP SETTINGS ---
-    window.saveCSLinks = async () => { await setDoc(doc(db, "settings", "app_config"), { fbLink: document.getElementById('inp-cs-fb').value, tgLink: document.getElementById('inp-cs-tg').value }, { merge: true }); toast("Links Saved!"); };
-    window.saveBotSettings = async () => { await setDoc(doc(db, "settings", "app_config"), { tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value }, { merge: true }); toast("Bot Config Saved!"); };
-    window.saveCookies = async () => { await setDoc(doc(db, "settings", "app_config"), { cookieSmile: document.getElementById('inp-cookie-smile').value, cookieJC: document.getElementById('inp-cookie-jc').value }, { merge: true }); toast("Cookies Saved!"); };
-
-    // --- USERS & ROLES ---
-    window.openUserModal = (id, bal, role, em, spins) => { document.getElementById('um-id').value = id; document.getElementById('um-email').innerText = em; document.getElementById('um-wallet').value = bal; document.getElementById('um-spins').value = spins; document.getElementById('um-role').value = role || 'Customer'; document.getElementById('user-modal').classList.add('active'); };
-    window.saveUserEdit = async () => { let id = document.getElementById('um-id').value; let b = parseInt(document.getElementById('um-wallet').value); let s = parseInt(document.getElementById('um-spins').value); let r = document.getElementById('um-role').value; if(!isNaN(b)) { await updateDoc(doc(db, "users", id), { walletBalance: b, spinCount: s, role: r }); toast("User Updated!"); closeModal('user-modal'); } };
-
-    // --- GAME CRUD ---
-    window.openGameModal = (g = null) => { document.getElementById('gm-id').value=g?g.id:''; document.getElementById('gm-name').value=g?g.name:''; document.getElementById('gm-code').value=g?g.code:''; document.getElementById('gm-logo-url').value=g?g.logoUrl:''; document.getElementById('gm-banner-url').value=g?g.bannerUrl:''; document.getElementById('gm-order').value=g?g.orderNum:1; document.getElementById('gm-logo-preview').src=g?g.logoUrl:''; document.getElementById('gm-logo-preview').style.display=g&&g.logoUrl?'block':'none'; document.getElementById('gm-banner-preview').src=g?g.bannerUrl:''; document.getElementById('gm-banner-preview').style.display=g&&g.bannerUrl?'block':'none'; document.getElementById('game-modal').classList.add('active'); };
-    window.saveGame = async () => { let id=document.getElementById('gm-id').value; let data={name:document.getElementById('gm-name').value, code:document.getElementById('gm-code').value, logoUrl:document.getElementById('gm-logo-url').value, bannerUrl:document.getElementById('gm-banner-url').value, orderNum:parseInt(document.getElementById('gm-order').value)||1}; if(!data.name) return toast("Name req!"); if(id) await updateDoc(doc(db,"games",id),data); else {data.packages=[]; await addDoc(collection(db,"games"),data);} closeModal('game-modal'); toast("Saved!"); };
-    window.deleteGame = async(id) => { if(confirm("Delete category?")) await deleteDoc(doc(db,"games",id)); };
-
-    // --- PACKAGE CRUD ---
-    window.openPackageModal = (g) => { editingGameId=g.id; editingPackages=g.packages||[]; document.getElementById('pm-list').innerHTML=""; renderPackages(); document.getElementById('pack-modal').classList.add('active'); };
-    function renderPackages() { let h=""; editingPackages.forEach((p,i)=>{ h+=`<div class="data-item" style="padding:10px; margin-bottom:5px;"><div style="flex:1;"><strong>${p.name}</strong><br><span style="font-size:11px; color:var(--text-muted);">Cost: ${p.cost||0} | Sell: <span style="color:var(--ok);">${p.price}</span> | Resell: <span style="color:var(--primary);">${p.resellerPrice||p.price}</span> Ks</span></div><button class="btn btn-danger" onclick="delPack(${i})">X</button></div>`; }); document.getElementById('pm-list').innerHTML=h; }
-    window.addPackage = () => { let n=document.getElementById('pm-new-name').value; let c=parseInt(document.getElementById('pm-new-cost').value)||0; let p=parseInt(document.getElementById('pm-new-price').value); let rp=parseInt(document.getElementById('pm-new-reseller').value)||p; if(!n||!p)return toast("Req!"); editingPackages.push({name:n, cost:c, price:p, resellerPrice:rp, icon: "https://cdn-icons-png.flaticon.com/128/1077/1077114.png"}); document.getElementById('pm-new-name').value=''; document.getElementById('pm-new-cost').value=''; document.getElementById('pm-new-price').value=''; document.getElementById('pm-new-reseller').value=''; renderPackages(); };
-    window.delPack = (i) => { editingPackages.splice(i,1); renderPackages(); };
-    window.savePackages = async () => { await updateDoc(doc(db,"games",editingGameId),{packages:editingPackages}); closeModal('pack-modal'); toast("Products Saved!"); };
-
-    // --- PAYMENTS & PROMOS ---
-    window.openPayModal = (p = null) => { document.getElementById('pay-id').value = p ? p.id : ''; document.getElementById('pay-name').value = p ? p.name : ''; document.getElementById('pay-phone').value = p ? p.phone : ''; document.getElementById('pay-acc').value = p ? p.accName : ''; document.getElementById('pay-qr-url').value = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').src = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').style.display = p && p.qrUrl ? 'block' : 'none'; document.getElementById('pay-title').innerText = p ? "Edit Method" : "Add Method"; document.getElementById('pay-modal').classList.add('active'); };
-    window.savePayment = async () => { let id = document.getElementById('pay-id').value; let data = { name: document.getElementById('pay-name').value, phone: document.getElementById('pay-phone').value, accName: document.getElementById('pay-acc').value, qrUrl: document.getElementById('pay-qr-url').value }; if(!data.name || !data.phone) return toast("Req!"); if(id) await updateDoc(doc(db, "payment_methods", id), data); else await addDoc(collection(db, "payment_methods"), data); closeModal('pay-modal'); toast("Saved!"); };
-    window.openPromoModal = () => { document.getElementById('promo-id').value = ''; document.getElementById('promo-code').value = ''; document.getElementById('promo-amt').value = ''; document.getElementById('promo-modal').classList.add('active'); };
-    window.savePromo = async () => { let c = document.getElementById('promo-code').value.toUpperCase().trim(); let a = parseInt(document.getElementById('promo-amt').value); if(!c || !a) return toast("Invalid!"); await addDoc(collection(db, "promo_codes"), { code: c, discount: a, createdAt: serverTimestamp() }); closeModal('promo-modal'); toast("Created!"); };
-
-    // --- ACTIONS (WITH AUTO SPIN CALC & LEDGER) ---
-    import { serverTimestamp as st } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-    window.updOrd = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"orders",id),{status:st}); };
-    window.updDep = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"deposits",id),{status:st}); };
-    
-    // 💡 Auto Spin Ticket Calculation & Ledger Logging on Deposit Approval 💡
-    window.apprDep = async (id, uid, amt) => { 
-        if(confirm(`Approve +${amt}?`)) { 
-            let u = await getDoc(doc(db,"users",uid)); 
-            let uData = u.data();
-            let newSpins = Math.floor(amt / 10000); // 1 Spin per 10,000 Ks
-            
-            await updateDoc(doc(db,"users",uid),{
-                walletBalance: (uData.walletBalance||0) + amt,
-                spinCount: (uData.spinCount||0) + newSpins
-            }); 
-            await updateDoc(doc(db,"deposits",id),{status:'Completed'}); 
-            
-            // Write to Transaction Ledger
-            await addDoc(collection(db, "transactions"), { userId: uid, type: 'Deposit', amount: amt, desc: 'Deposit Approved', createdAt: serverTimestamp() });
-            
-            toast(`Funds Added! User got ${newSpins} spins.`); 
-        } 
+    // --- CATEGORY CRUD ---
+    window.openCatModal = (c=null) => {
+        document.getElementById('cm-id').value = c?c.id:''; document.getElementById('cm-name').value = c?c.name:''; document.getElementById('cm-slug').value = c?c.slug:''; document.getElementById('cm-jcid').value = c?c.jcId:''; document.getElementById('cm-desc').value = c?c.desc:'';
+        document.getElementById('cm-logo-url').value = c?c.logoUrl:''; document.getElementById('cm-img-preview').src = c?c.logoUrl:''; document.getElementById('cm-img-preview').style.display = c&&c.logoUrl?'block':'none';
+        let f = c?c.forms:[]; document.getElementById('cm-form-uid').checked = f.includes('gameId'); document.getElementById('cm-form-zone').checked = f.includes('zoneId'); document.getElementById('cm-form-email').checked = f.includes('email');
+        document.getElementById('cm-check').checked = c?c.isCheck:false; document.getElementById('cm-active').checked = c?c.isActive:true;
+        document.getElementById('cm-title').innerText = c?"Edit Category":"New Category"; document.getElementById('cat-modal').classList.add('active');
+    };
+    window.saveCategory = async () => {
+        let id = document.getElementById('cm-id').value; let forms=[];
+        if(document.getElementById('cm-form-uid').checked) forms.push('gameId'); if(document.getElementById('cm-form-zone').checked) forms.push('zoneId'); if(document.getElementById('cm-form-email').checked) forms.push('email');
+        let data = { name: document.getElementById('cm-name').value, slug: document.getElementById('cm-slug').value, jcId: document.getElementById('cm-jcid').value, desc: document.getElementById('cm-desc').value, forms: forms, isCheck: document.getElementById('cm-check').checked, isActive: document.getElementById('cm-active').checked, logoUrl: document.getElementById('cm-logo-url').value };
+        if(!data.name || !data.slug) return toast("Name & Slug req!");
+        if(id) await updateDoc(doc(db,"categories",id), data); else await addDoc(collection(db,"categories"), data);
+        closeModal('cat-modal'); toast("Category Saved!");
     };
 
-    window.updWd = async (id, st, uid, amt) => { 
-        if(confirm(`Confirm to ${st}?`)) { 
-            if(st === 'Cancelled' && uid && amt) { 
-                let u=await getDoc(doc(db,"users",uid)); 
-                await updateDoc(doc(db,"users",uid),{walletBalance:(u.data().walletBalance||0)+amt}); 
-                // Write refund to ledger
-                await addDoc(collection(db, "transactions"), { userId: uid, type: 'Refund', amount: amt, desc: 'Withdrawal Rejected', createdAt: serverTimestamp() });
-            } 
-            await updateDoc(doc(db,"withdrawals",id),{status:st}); toast(`Withdrawal ${st}`);
-        } 
+    // --- PRODUCT CRUD ---
+    window.openProdModal = (p=null) => {
+        document.getElementById('pm-id').value = p?p.id:''; document.getElementById('pm-name').value = p?p.name:''; document.getElementById('pm-slug').value = p?p.slug:''; document.getElementById('pm-cat').value = p?p.categoryId:''; 
+        document.getElementById('pm-cost').value = p?p.retailPrice:''; document.getElementById('pm-price').value = p?p.sellingPrice:''; document.getElementById('pm-reseller').value = p?(p.resellerPrice||p.sellingPrice):'';
+        document.getElementById('pm-smileid').value = p?p.smileId:''; document.getElementById('pm-jcid').value = p?p.jcId:''; document.getElementById('pm-type').value = p?p.topupType:'Auto'; document.getElementById('pm-region').value = p?p.region:'';
+        document.getElementById('pm-active').checked = p?p.isActive:true;
+        document.getElementById('pm-img-url').value = p?p.logoUrl:''; document.getElementById('pm-img-preview').src = p?p.logoUrl:''; document.getElementById('pm-img-preview').style.display = p&&p.logoUrl?'block':'none';
+        document.getElementById('pm-title').innerText = p?"Edit Product":"New Product"; document.getElementById('prod-modal').classList.add('active');
+    };
+    window.saveProduct = async () => {
+        let id = document.getElementById('pm-id').value;
+        let data = { name: document.getElementById('pm-name').value, slug: document.getElementById('pm-slug').value, categoryId: document.getElementById('pm-cat').value, retailPrice: parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice: parseFloat(document.getElementById('pm-price').value)||0, resellerPrice: parseFloat(document.getElementById('pm-reseller').value)||0, smileId: document.getElementById('pm-smileid').value, jcId: document.getElementById('pm-jcid').value, topupType: document.getElementById('pm-type').value, region: document.getElementById('pm-region').value, isActive: document.getElementById('pm-active').checked, logoUrl: document.getElementById('pm-img-url').value };
+        if(!data.name || !data.categoryId) return toast("Name & Category req!");
+        if(id) await updateDoc(doc(db,"products",id), data); else await addDoc(collection(db,"products"), data);
+        closeModal('prod-modal'); toast("Product Saved!");
     };
 </script>
 </body>
 </html>
+
