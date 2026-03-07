@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>Admin - Kazeno Shop</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -37,7 +37,7 @@
   @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
   /* --- CARDS & STATS --- */
-  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px; }
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 20px; }
   .stat-card { background: var(--surface); padding: 15px; border-radius: 12px; border: 1px solid var(--border); }
   .stat-val { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px; }
   .stat-label { font-size: 11px; color: var(--muted); }
@@ -47,7 +47,7 @@
   .page-title { font-size: 18px; font-weight: 700; }
   
   .table-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; width: 100%; margin-bottom: 20px; -webkit-overflow-scrolling: touch; position: relative; z-index: 5;}
-  table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; }
+  table { width: 100%; border-collapse: collapse; text-align: left; min-width: 500px; }
   th { padding: 12px 15px; font-size: 11px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); white-space: nowrap;}
   td { padding: 12px 15px; font-size: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
@@ -67,7 +67,7 @@
   .btn-danger { background: var(--danger); }
   .btn-dark { background: rgba(255,255,255,0.1); border: 1px solid var(--border); }
 
-  /* --- ADVANCED TABS & DETAILS (PHASE 7) --- */
+  /* --- ADVANCED TABS & DETAILS --- */
   .tabs-container { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
   .tab-pill { background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 99px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: 0.2s; }
   .tab-pill.active { background: rgba(59, 130, 246, 0.1); color: var(--accent); border-color: var(--accent); }
@@ -85,7 +85,6 @@
   .info-val { font-size: 13px; font-weight: 600; color: #fff; word-break: break-all;}
   .info-val.highlight { color: var(--accent); }
   .info-val.profit { color: var(--ok); }
-  
   .divider { height: 1px; background: var(--border); margin: 20px 0; }
 
   /* --- FORMS --- */
@@ -109,7 +108,6 @@
   .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 20000; display: none; align-items: center; justify-content: center; padding: 15px; }
   .modal-bg.active { display: flex; } 
   .modal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
-  
   .toast { position: fixed; top: 20px; right: 20px; background: var(--primary); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 12px; opacity: 0; transition: 0.3s; z-index: 30000; box-shadow: 0 10px 25px rgba(0,0,0,0.5);}
   .toast.show { opacity: 1; }
 
@@ -188,7 +186,6 @@
             </div>
 
             <div id="v-users" class="view">
-                
                 <div id="v-users-list">
                     <div class="header-actions">
                         <div class="page-title">Users Management</div>
@@ -201,7 +198,6 @@
                         </table>
                     </div>
                 </div>
-
                 <div id="v-users-detail" style="display:none;">
                     <div class="back-btn-text" onclick="closeUserDetail()">← Back to Users</div>
                     <div class="detail-card">
@@ -215,7 +211,6 @@
                             <div class="info-group"><span class="info-label">Total Orders Count</span><span class="info-val" id="ud-ord-cnt">0</span></div>
                         </div>
                     </div>
-
                     <div class="page-title" style="margin-bottom:15px; font-size:16px;">Wallet Usages (Ledger)</div>
                     <div class="table-wrapper">
                         <table>
@@ -224,11 +219,9 @@
                         </table>
                     </div>
                 </div>
-
             </div>
 
             <div id="v-orders" class="view">
-                
                 <div id="v-orders-list">
                     <div class="tabs-container">
                         <div class="tab-pill active" onclick="filterOrders('Pending', this)">Pending <span class="tab-count" id="cnt-pending">0</span></div>
@@ -243,10 +236,8 @@
                         </table>
                     </div>
                 </div>
-
                 <div id="v-orders-detail" style="display:none;">
                     <div class="back-btn-text" onclick="closeOrderDetail()">← Back to Orders</div>
-                    
                     <div class="detail-card">
                         <div class="detail-title">Order Details <span id="od-status-badge"></span></div>
                         <div class="info-grid">
@@ -257,12 +248,8 @@
                             <div class="info-group"><span class="info-label">Total Cost</span><span class="info-val" id="od-cost">0 Ks</span></div>
                             <div class="info-group"><span class="info-label">Total Profit</span><span class="info-val profit" id="od-profit">0 Ks</span></div>
                             <div class="info-group"><span class="info-label">Payment Method</span><span class="info-val" id="od-pay">--</span></div>
-                            <div class="info-group" id="od-slip-box" style="display:none;">
-                                <span class="info-label">Receipt Slip</span>
-                                <button class="btn btn-dark" style="width:fit-content;" id="od-slip-btn">View Slip Image</button>
-                            </div>
+                            <div class="info-group" id="od-slip-box" style="display:none;"><span class="info-label">Receipt Slip</span><button class="btn btn-dark" style="width:fit-content;" id="od-slip-btn">View Slip</button></div>
                         </div>
-
                         <div class="divider"></div>
                         <div class="detail-title" style="font-size:14px; color:var(--muted);">Product & Account Information</div>
                         <div class="info-grid">
@@ -270,13 +257,10 @@
                             <div class="info-group"><span class="info-label">Item / Package</span><span class="info-val" id="od-item">--</span></div>
                             <div class="info-group"><span class="info-label">Account Information provided</span><span class="info-val highlight" id="od-acc" style="font-size:15px;">--</span></div>
                         </div>
-
                         <div class="divider"></div>
-                        <div style="display:flex; gap:10px; justify-content:flex-end;" id="od-actions">
-                            </div>
+                        <div style="display:flex; gap:10px; justify-content:flex-end;" id="od-actions"></div>
                     </div>
                 </div>
-
             </div>
 
             <div id="v-deposits" class="view">
@@ -300,29 +284,13 @@
             </div>
 
             <div id="v-categories" class="view">
-                <div class="header-actions">
-                    <div class="page-title">Categories</div>
-                    <button class="btn btn-primary" onclick="openCatModal()">+ New Category</button>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>Image & Name</th><th>Required Forms</th><th>Status</th><th>Action</th></tr></thead>
-                        <tbody id="tb-categories"></tbody>
-                    </table>
-                </div>
+                <div class="header-actions"><div class="page-title">Categories</div><button class="btn btn-primary" onclick="openCatModal()">+ New Category</button></div>
+                <div class="table-wrapper"><table><thead><tr><th>Image & Name</th><th>Required Forms</th><th>Status</th><th>Action</th></tr></thead><tbody id="tb-categories"></tbody></table></div>
             </div>
 
             <div id="v-products" class="view">
-                <div class="header-actions">
-                    <div class="page-title">Products</div>
-                    <button class="btn btn-primary" onclick="openProdModal()">+ New Product</button>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>Product</th><th>Category</th><th>Prices (Cost/Sell/Resell)</th><th>Type & Status</th><th>Action</th></tr></thead>
-                        <tbody id="tb-products"></tbody>
-                    </table>
-                </div>
+                <div class="header-actions"><div class="page-title">Products</div><button class="btn btn-primary" onclick="openProdModal()">+ New Product</button></div>
+                <div class="table-wrapper"><table><thead><tr><th>Product</th><th>Category</th><th>Prices (Cost/Sell/Resell)</th><th>Type & Status</th><th>Action</th></tr></thead><tbody id="tb-products"></tbody></table></div>
             </div>
 
             <div id="v-promo" class="view">
@@ -337,7 +305,6 @@
 
             <div id="v-settings" class="view">
                 <div class="dash-grid" style="grid-template-columns: 1fr; max-width: 600px;">
-                    
                     <div class="stat-card">
                         <h3 style="margin-bottom:15px; font-size:14px; color:var(--accent);">🤖 Telegram Group Bot Alerts</h3>
                         <div class="form-group"><label class="form-label">Bot API Token</label><input type="text" id="inp-bot-token" class="input-box" placeholder="e.g. 1234567890:ABCdEfG..."></div>
@@ -347,24 +314,20 @@
                             <div class="form-group" style="flex:1;"><label class="form-label">Deposit/Withdraw Topic ID</label><input type="number" id="inp-tg-dep-topic" class="input-box" placeholder="4"></div>
                         </div>
                     </div>
-
                     <div class="stat-card">
                         <h3 style="margin-bottom:15px; font-size:14px; color:var(--accent);">🍪 API & Cookies Setup</h3>
                         <div class="form-group"><label class="form-label">Smile One Cookies</label><input type="text" id="inp-cookie-smile" class="input-box" placeholder="PHPSESSID=..."></div>
                         <div class="form-group"><label class="form-label">JCPlay Cookies</label><input type="text" id="inp-cookie-jc" class="input-box" placeholder="..."></div>
                     </div>
-
                     <div class="stat-card">
                         <h3 style="margin-bottom:15px; font-size:14px; color:var(--accent);">🖼️ CS Links & Banner</h3>
                         <div class="form-group"><label class="form-label">Facebook Link</label><input type="text" id="inp-cs-fb" class="input-box" placeholder="https://facebook.com/..."></div>
                         <div class="form-group"><label class="form-label">Telegram Link</label><input type="text" id="inp-cs-tg" class="input-box" placeholder="https://t.me/..."></div>
-                        
                         <label class="form-label">Home Screen Banner URL</label>
                         <img id="home-banner-preview" style="width:100%; height:100px; object-fit:cover; border-radius:8px; display:none; margin-bottom:10px;">
                         <div class="upload-box" onclick="document.getElementById('hb-file').click()">📸 Upload Home Banner</div>
                         <input type="file" id="hb-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'homeBanner')">
                     </div>
-
                     <button class="btn btn-primary" style="padding:12px;" onclick="saveAllSettings()">Save All Settings</button>
                 </div>
             </div>
@@ -393,9 +356,7 @@
         </div>
         <div class="form-group"><label class="form-label">JCPlay Product ID (Optional)</label><input type="text" id="cm-jcid" class="input-box"></div>
         <div class="form-group"><label class="form-label">Detail Banner URL (Optional)</label><input type="text" id="cm-banner" class="input-box"></div>
-        
         <div class="form-group"><label class="form-label">Required User Inputs</label><div class="checkbox-group"><label><input type="checkbox" id="cm-form-uid"> Game ID</label><label><input type="checkbox" id="cm-form-zone"> Server ID</label><label><input type="checkbox" id="cm-form-email"> Email</label></div></div>
-        
         <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
             <div><label class="form-label">Is Check</label><label class="switch"><input type="checkbox" id="cm-check"><span class="slider"></span></label></div>
             <div><label class="form-label">Active</label><label class="switch"><input type="checkbox" id="cm-active" checked><span class="slider"></span></label></div>
@@ -447,7 +408,26 @@
     window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim().replace(/[^a-zA-Z\s&]/g,'') : 'Dashboard'; if(window.innerWidth <= 768) toggleSidebar(); };
     window.closeModal = (id) => document.getElementById(id).classList.remove('active');
     window.viewSlip = (url) => { if(!url)return toast("No slip uploaded"); document.getElementById('modal-img-src').src = url; document.getElementById('slip-modal').classList.add('active'); };
-    window.checkPin = () => { if(document.getElementById('admin-pin').value === "1234") { document.getElementById('auth-gate').style.display = "none"; document.getElementById('main-admin').style.display = "flex"; initAdmin(); } else toast("Invalid PIN!"); };
+    
+    window.checkPin = () => { 
+        if(document.getElementById('admin-pin').value === "1234") { 
+            document.getElementById('auth-gate').style.display = "none"; 
+            document.getElementById('main-admin').style.display = "flex"; 
+            initAdmin(); 
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetTab = urlParams.get('tab');
+            if(targetTab) {
+                const tabNames = {'v-orders': 'Process Orders', 'v-deposits': 'Deposits', 'v-withdraws': 'Withdrawals'};
+                document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+                let targetView = document.getElementById(targetTab);
+                if(targetView) {
+                    targetView.classList.add('active');
+                    document.getElementById('page-title').innerText = tabNames[targetTab] || 'Dashboard';
+                }
+            }
+        } else { toast("Invalid PIN!"); }
+    };
 
     // --- IMGBB UPLOAD ---
     async function uploadToImgBB(file) { toast("Uploading Image..."); let fd = new FormData(); fd.append("image", file); let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let data = await res.json(); if(data.success) { toast("Upload Done!"); return data.data.url; } else throw new Error("Upload Failed"); }
@@ -460,11 +440,9 @@
         } catch(e) { toast(e.message); }
     };
 
-    // --- GLOBAL DATA CACHE ---
     let allCats = []; let globalOrders = []; let globalUsers = []; let globalTransactions = [];
 
     function initAdmin() {
-        // App Settings
         onSnapshot(doc(db, "settings", "app_config"), (d) => {
             if(d.exists()) {
                 if(d.data().homeBannerUrl) { document.getElementById('home-banner-preview').src = d.data().homeBannerUrl; document.getElementById('home-banner-preview').style.display = 'block'; }
@@ -479,16 +457,28 @@
             }
         });
         
-        // PAYMENTS, PROMOS, CATEGORIES, PRODUCTS (Same as before)
         onSnapshot(collection(db, "payment_methods"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<tr><td>${p.name}</td><td>${p.phone} (${p.accName})</td><td><button class="btn btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g, "&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db, 'payment_methods', '${p.id}'))">Del</button></td></tr>`; }); document.getElementById('tb-payments').innerHTML = html || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
         onSnapshot(collection(db, "promo_codes"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<tr><td><span class="id-tag">${p.code}</span></td><td>${p.discount} Ks</td><td><button class="btn btn-danger" onclick="deleteDoc(doc(db, 'promo_codes', '${p.id}'))">Delete</button></td></tr>`; }); document.getElementById('tb-promos').innerHTML = html || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
-        onSnapshot(query(collection(db, "categories"), orderBy("orderNum", "asc")), (snap) => { allCats = []; let html = ""; let opt = "<option value=''>Select Category</option>"; snap.forEach(s => { let c = {id: s.id, ...s.data()}; allCats.push(c); opt += `<option value="${c.id}">${c.name}</option>`; let badge = c.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Inactive</span>`; let fTxt = (c.forms||[]).join(', ') || 'None'; html += `<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${c.logoUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:cover;">${c.name}</div></td><td>${fTxt}</td><td>${badge}</td><td><button class="btn btn-dark" onclick='openCatModal(${JSON.stringify(c).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteGame('${c.id}')">Del</button></td></tr>`; }); document.getElementById('tb-categories').innerHTML = html || "<tr><td colspan='4' style='text-align:center;'>No data</td></tr>"; document.getElementById('pm-cat').innerHTML = opt; document.getElementById('ds-cat').innerText = allCats.length; });
+        
+        // 💡 CATEGORIES: Fixed JS Array check bug 💡
+        onSnapshot(query(collection(db, "categories"), orderBy("orderNum", "asc")), (snap) => { 
+            allCats = []; let html = ""; let opt = "<option value=''>Select Category</option>"; 
+            snap.forEach(s => { 
+                let c = {id: s.id, ...s.data()}; allCats.push(c); 
+                opt += `<option value="${c.id}">${c.name}</option>`; 
+                let badge = c.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Inactive</span>`; 
+                let fTxt = (Array.isArray(c.forms) ? c.forms : []).join(', ') || 'None'; 
+                html += `<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${c.logoUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:cover;">${c.name}</div></td><td>${fTxt}</td><td>${badge}</td><td><button class="btn btn-dark" onclick='openCatModal(${JSON.stringify(c).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteGame('${c.id}')">Del</button></td></tr>`; 
+            }); 
+            document.getElementById('tb-categories').innerHTML = html || "<tr><td colspan='4' style='text-align:center;'>No data</td></tr>";
+            document.getElementById('pm-cat').innerHTML = opt;
+            document.getElementById('ds-cat').innerText = allCats.length;
+        });
+
         onSnapshot(collection(db, "products"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; let cName = allCats.find(x=>x.id===p.categoryId)?.name || 'Unknown'; let stat = p.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Inactive</span>`; html += `<tr><td><div style="font-weight:bold;">${p.name}</div></td><td>${cName}</td><td><div style="font-size:10px; color:var(--muted);">C: ${p.retailPrice||0} | S: <span style="color:var(--ok);">${p.sellingPrice||0}</span> | R: <span style="color:var(--accent);">${p.resellerPrice||p.sellingPrice||0}</span></div></td><td>${p.topupType} ${stat}</td><td><button class="btn btn-dark" onclick='openProdModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db,'products','${p.id}'))">Del</button></td></tr>`; }); document.getElementById('tb-products').innerHTML = html || "<tr><td colspan='5' style='text-align:center;'>No data</td></tr>"; document.getElementById('ds-prod').innerText = snap.size; });
 
-        // TRANSACTIONS CACHE (For Ledgers)
         onSnapshot(collection(db, "transactions"), (snap) => { globalTransactions = []; snap.forEach(s => globalTransactions.push({id: s.id, ...s.data()})); });
 
-        // 💡 ADVANCED USERS (PHASE 7) 💡
         onSnapshot(collection(db, "users"), (s) => { 
             globalUsers = []; let h=""; let t=0; document.getElementById('ds-users').innerText=s.size; document.getElementById('u-total-cnt').innerText=s.size;
             s.forEach(d=>{ 
@@ -500,7 +490,6 @@
             document.getElementById('tb-users').innerHTML=h; document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
         });
 
-        // 💡 ADVANCED ORDERS (PHASE 7) 💡
         onSnapshot(collection(db, "orders"), (s) => { 
             globalOrders = []; let tS=0; let tP=0; let cPen=0; let cPro=0; let cCom=0; let cCan=0;
             s.forEach(d=>{ let o={id:d.id, ...d.data()}; globalOrders.push(o); });
@@ -514,17 +503,14 @@
             document.getElementById('cnt-pending').innerText = cPen; document.getElementById('cnt-processing').innerText = cPro; document.getElementById('cnt-completed').innerText = cCom; document.getElementById('cnt-cancelled').innerText = cCan;
             document.getElementById('ds-orders').innerText = cCom; document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
             
-            // Auto render currently active tab
             let actTab = document.querySelector('.tab-pill.active');
             if(actTab) filterOrders(actTab.innerText.split(' ')[0].trim(), actTab); else filterOrders('Pending');
         });
 
-        // DEPOSITS & WITHDRAWALS (Same as before)
         onSnapshot(collection(db, "deposits"), (s) => { let tD=0; let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(dp=>{ if(dp.status==='Completed')tD+=dp.amount; let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span class="id-tag">${dp.depId||dp.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${dp.status}</span></td><td><div style="font-size:11px;">${dp.userEmail}</div></td><td><div style="color:var(--ok); font-weight:bold; font-size:14px;">+${(dp.amount||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--muted);">${dp.payMethod}</div></td><td><button class="btn btn-dark" onclick="viewSlip('${dp.slipImage}')">Slip</button>${dp.status==='Pending'?` <button class="btn btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})">✔</button> <button class="btn btn-danger" onclick="updDep('${dp.id}','Cancelled')">✕</button>`:''}</td></tr>`; }); document.getElementById('tb-deposits').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No deposits.</td></tr>"; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
         onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(w=>{ let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span class="id-tag">${w.wdId||w.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${w.status}</span></td><td><div style="font-size:11px;">${w.userEmail}</div></td><td><div style="color:var(--danger); font-weight:bold; font-size:14px;">-${(w.amount||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--accent);">${w.payMethod}: ${w.accPhone}</div></td><td>${w.status==='Pending'?`<button class="btn btn-ok" onclick="updWd('${w.id}','Completed')">Sent</button> <button class="btn btn-danger" onclick="updWd('${w.id}','Cancelled','${w.userId}',${w.amount})">Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-withdraws').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No withdrawals.</td></tr>"; });
     }
 
-    // --- 💡 ADVANCED ORDER LOGIC (PHASE 7) 💡 ---
     window.filterOrders = (status, el=null) => {
         if(el) { document.querySelectorAll('.tab-pill').forEach(t=>t.classList.remove('active')); el.classList.add('active'); }
         let h = "";
@@ -570,7 +556,6 @@
         document.getElementById('od-item').innerText = o.item;
         document.getElementById('od-acc').innerText = o.playerId;
 
-        // Dynamic Actions based on Status
         let actHtml = "";
         if(o.status === 'Pending') {
             actHtml = `<button class="btn btn-warning" style="padding:10px 20px;" onclick="updOrd('${o.id}','Processing', true)">⚙️ Processing</button>
@@ -585,20 +570,17 @@
 
     window.closeOrderDetail = () => { document.getElementById('v-orders-detail').style.display = 'none'; document.getElementById('v-orders-list').style.display = 'block'; };
     
-    // Updated order update function to handle detail view refresh
     window.updOrd = async (id, st, fromDetail=false) => { 
         if(confirm(`Mark as ${st}?`)) {
             await updateDoc(doc(db,"orders",id),{status:st}); 
-            if(fromDetail) { setTimeout(() => { showOrderDetail(id); }, 500); } // slight delay to let snap trigger
+            if(fromDetail) { setTimeout(() => { showOrderDetail(id); }, 500); }
         }
     };
 
-    // --- 💡 ADVANCED USER LOGIC (PHASE 7) 💡 ---
     window.showUserDetail = (uid) => {
         let u = globalUsers.find(x => x.id === uid); if(!u) return;
         document.getElementById('v-users-list').style.display = 'none';
         
-        // Populate User Info
         let roleBdg = u.role === 'Superadmin' || u.role === 'Admin' ? `<span class="badge" style="background:rgba(59,130,246,0.2); color:var(--accent); border:1px solid var(--accent); margin-left:10px;">${u.role}</span>` : `<span class="badge bg-pill" style="margin-left:10px;">${u.role||'Customer'}</span>`;
         document.getElementById('ud-email').innerHTML = u.email + roleBdg;
         document.getElementById('ud-role').innerText = u.role || 'Customer';
@@ -606,28 +588,18 @@
         document.getElementById('ud-bal').innerText = (u.walletBalance||0).toLocaleString() + " Ks";
         document.getElementById('ud-spins').innerText = u.spinCount || 0;
 
-        // Calc Orders Count for this user
         let userOrders = globalOrders.filter(x => x.userId === uid);
         document.getElementById('ud-ord-cnt').innerText = userOrders.length;
-
-        // Bind Edit Button
         document.getElementById('v-users-detail').querySelector('.btn-dark').onclick = () => openUserModal(u.id, u.walletBalance||0, u.role||'Customer', u.email, u.spinCount||0);
 
-        // Fetch User Ledger from Transactions
         let userTrans = globalTransactions.filter(x => x.userId === uid);
         userTrans.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
-        
         let lHtml = "";
         userTrans.forEach(t => {
             let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)';
             let sign = t.amount >= 0 ? '+' : '';
             let inOut = t.amount >= 0 ? '<span class="badge" style="color:var(--ok); background:rgba(16,185,129,0.1);">IN</span>' : '<span class="badge" style="color:var(--danger); background:rgba(239,68,68,0.1);">OUT</span>';
-            lHtml += `<tr>
-                <td style="color:var(--muted);">${formatDate(t.createdAt)}</td>
-                <td><strong style="color:#fff;">${t.type}</strong></td>
-                <td>${t.desc}</td>
-                <td><div style="font-weight:800; font-size:14px; color:${color}; display:flex; align-items:center; gap:10px;">${sign}${(t.amount||0).toLocaleString()} Ks ${inOut}</div></td>
-            </tr>`;
+            lHtml += `<tr><td style="color:var(--muted);">${formatDate(t.createdAt)}</td><td><strong style="color:#fff;">${t.type}</strong></td><td>${t.desc}</td><td><div style="font-weight:800; font-size:14px; color:${color}; display:flex; align-items:center; gap:10px;">${sign}${(t.amount||0).toLocaleString()} Ks ${inOut}</div></td></tr>`;
         });
         document.getElementById('tb-user-ledger').innerHTML = lHtml || "<tr><td colspan='4' style='text-align:center;'>No transaction records.</td></tr>";
 
@@ -635,42 +607,27 @@
     };
     window.closeUserDetail = () => { document.getElementById('v-users-detail').style.display = 'none'; document.getElementById('v-users-list').style.display = 'block'; };
 
-
-    // --- APP SETTINGS ---
-    window.saveAllSettings = async () => { 
-        let hb = document.getElementById('home-banner-preview').src;
-        if (hb.includes('http')) { await setDoc(doc(db, "settings", "app_config"), { homeBannerUrl: hb }, { merge: true }); }
-        await setDoc(doc(db, "settings", "app_config"), { fbLink: document.getElementById('inp-cs-fb').value, tgLink: document.getElementById('inp-cs-tg').value, tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value, cookieSmile: document.getElementById('inp-cookie-smile').value, cookieJC: document.getElementById('inp-cookie-jc').value }, { merge: true }); 
-        toast("All Settings Saved!"); 
-    };
-
-    // --- USERS EDIT ---
+    window.saveAllSettings = async () => { let hb = document.getElementById('home-banner-preview').src; if (hb.includes('http')) { await setDoc(doc(db, "settings", "app_config"), { homeBannerUrl: hb }, { merge: true }); } await setDoc(doc(db, "settings", "app_config"), { fbLink: document.getElementById('inp-cs-fb').value, tgLink: document.getElementById('inp-cs-tg').value, tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value, cookieSmile: document.getElementById('inp-cookie-smile').value, cookieJC: document.getElementById('inp-cookie-jc').value }, { merge: true }); toast("All Settings Saved!"); };
     window.openUserModal = (id, bal, role, em, spins) => { document.getElementById('um-id').value = id; document.getElementById('um-email').innerText = em; document.getElementById('um-wallet').value = bal; document.getElementById('um-spins').value = spins; document.getElementById('um-role').value = role || 'Customer'; document.getElementById('user-modal').classList.add('active'); };
-    window.saveUserEdit = async () => { 
-        let id = document.getElementById('um-id').value; let b = parseInt(document.getElementById('um-wallet').value); let s = parseInt(document.getElementById('um-spins').value); let r = document.getElementById('um-role').value; 
-        if(!isNaN(b)) { 
-            await updateDoc(doc(db, "users", id), { walletBalance: b, spinCount: s, role: r }); toast("User Updated!"); closeModal('user-modal'); 
-            // Re-render detail if open
-            if(document.getElementById('v-users-detail').style.display === 'block') { setTimeout(()=>{showUserDetail(id);}, 500); }
-        } 
+    window.saveUserEdit = async () => { let id = document.getElementById('um-id').value; let b = parseInt(document.getElementById('um-wallet').value); let s = parseInt(document.getElementById('um-spins').value); let r = document.getElementById('um-role').value; if(!isNaN(b)) { await updateDoc(doc(db, "users", id), { walletBalance: b, spinCount: s, role: r }); toast("User Updated!"); closeModal('user-modal'); if(document.getElementById('v-users-detail').style.display === 'block') { setTimeout(()=>{showUserDetail(id);}, 500); } } };
+    
+    // 💡 CATEGORY EDIT BUG FIXED 💡
+    window.openCatModal = (c=null) => { 
+        document.getElementById('cm-id').value = c?c.id:''; document.getElementById('cm-name').value = c?c.name:''; document.getElementById('cm-slug').value = c?c.slug:''; document.getElementById('cm-jcid').value = c?c.jcId:''; document.getElementById('cm-banner').value = c?c.bannerUrl:''; document.getElementById('cm-logo-url').value = c?c.logoUrl:''; document.getElementById('cm-img-preview').src = c?c.logoUrl:''; document.getElementById('cm-img-preview').style.display = c&&c.logoUrl?'block':'none'; 
+        let f = (c && Array.isArray(c.forms)) ? c.forms : []; 
+        document.getElementById('cm-form-uid').checked = f.includes('gameId'); document.getElementById('cm-form-zone').checked = f.includes('zoneId'); document.getElementById('cm-form-email').checked = f.includes('email'); 
+        document.getElementById('cm-check').checked = c?c.isCheck:false; document.getElementById('cm-active').checked = c?c.isActive:true; document.getElementById('cm-order').value = c?c.orderNum:1; document.getElementById('cm-title').innerText = c?"Edit Category":"New Category"; document.getElementById('cat-modal').classList.add('active'); 
     };
-
-    // --- CATEGORY CRUD ---
-    window.openCatModal = (c=null) => { document.getElementById('cm-id').value = c?c.id:''; document.getElementById('cm-name').value = c?c.name:''; document.getElementById('cm-slug').value = c?c.slug:''; document.getElementById('cm-jcid').value = c?c.jcId:''; document.getElementById('cm-banner').value = c?c.bannerUrl:''; document.getElementById('cm-logo-url').value = c?c.logoUrl:''; document.getElementById('cm-img-preview').src = c?c.logoUrl:''; document.getElementById('cm-img-preview').style.display = c&&c.logoUrl?'block':'none'; let f = c?c.forms:[]; document.getElementById('cm-form-uid').checked = f.includes('gameId'); document.getElementById('cm-form-zone').checked = f.includes('zoneId'); document.getElementById('cm-form-email').checked = f.includes('email'); document.getElementById('cm-check').checked = c?c.isCheck:false; document.getElementById('cm-active').checked = c?c.isActive:true; document.getElementById('cm-order').value = c?c.orderNum:1; document.getElementById('cm-title').innerText = c?"Edit Category":"New Category"; document.getElementById('cat-modal').classList.add('active'); };
     window.saveCategory = async () => { let id = document.getElementById('cm-id').value; let forms=[]; if(document.getElementById('cm-form-uid').checked) forms.push('gameId'); if(document.getElementById('cm-form-zone').checked) forms.push('zoneId'); if(document.getElementById('cm-form-email').checked) forms.push('email'); let data = { name: document.getElementById('cm-name').value, slug: document.getElementById('cm-slug').value, jcId: document.getElementById('cm-jcid').value, bannerUrl: document.getElementById('cm-banner').value, forms: forms, isCheck: document.getElementById('cm-check').checked, isActive: document.getElementById('cm-active').checked, orderNum: parseInt(document.getElementById('cm-order').value)||1, logoUrl: document.getElementById('cm-logo-url').value }; if(!data.name || !data.slug) return toast("Name & Slug req!"); if(id) await updateDoc(doc(db,"categories",id), data); else await addDoc(collection(db,"categories"), data); closeModal('cat-modal'); toast("Category Saved!"); };
     window.deleteGame = async(id) => { if(confirm("Delete category?")) await deleteDoc(doc(db,"categories",id)); };
-
-    // --- PRODUCT CRUD ---
+    
     window.openProdModal = (p=null) => { document.getElementById('pm-id').value = p?p.id:''; document.getElementById('pm-name').value = p?p.name:''; document.getElementById('pm-cat').value = p?p.categoryId:''; document.getElementById('pm-cost').value = p?p.retailPrice:''; document.getElementById('pm-price').value = p?p.sellingPrice:''; document.getElementById('pm-reseller').value = p?(p.resellerPrice||p.sellingPrice):''; document.getElementById('pm-smileid').value = p?p.smileId:''; document.getElementById('pm-jcid').value = p?p.jcId:''; document.getElementById('pm-type').value = p?p.topupType:'Auto'; document.getElementById('pm-active').checked = p?p.isActive:true; document.getElementById('pm-img-url').value = p?p.logoUrl:''; document.getElementById('pm-img-preview').src = p?p.logoUrl:''; document.getElementById('pm-img-preview').style.display = p&&p.logoUrl?'block':'none'; document.getElementById('pm-title').innerText = p?"Edit Product":"New Product"; document.getElementById('prod-modal').classList.add('active'); };
     window.saveProduct = async () => { let id = document.getElementById('pm-id').value; let data = { name: document.getElementById('pm-name').value, categoryId: document.getElementById('pm-cat').value, retailPrice: parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice: parseFloat(document.getElementById('pm-price').value)||0, resellerPrice: parseFloat(document.getElementById('pm-reseller').value)||0, smileId: document.getElementById('pm-smileid').value, jcId: document.getElementById('pm-jcid').value, topupType: document.getElementById('pm-type').value, isActive: document.getElementById('pm-active').checked, logoUrl: document.getElementById('pm-img-url').value }; if(!data.name || !data.categoryId) return toast("Name & Category req!"); if(id) await updateDoc(doc(db,"products",id), data); else await addDoc(collection(db,"products"), data); closeModal('prod-modal'); toast("Product Saved!"); };
-
-    // --- PAYMENTS & PROMOS ---
     window.openPayModal = (p = null) => { document.getElementById('pay-id').value = p ? p.id : ''; document.getElementById('pay-name').value = p ? p.name : ''; document.getElementById('pay-phone').value = p ? p.phone : ''; document.getElementById('pay-acc').value = p ? p.accName : ''; document.getElementById('pay-qr-url').value = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').src = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').style.display = p && p.qrUrl ? 'block' : 'none'; document.getElementById('pay-title').innerText = p ? "Edit Method" : "Add Method"; document.getElementById('pay-modal').classList.add('active'); };
     window.savePayment = async () => { let id = document.getElementById('pay-id').value; let data = { name: document.getElementById('pay-name').value, phone: document.getElementById('pay-phone').value, accName: document.getElementById('pay-acc').value, qrUrl: document.getElementById('pay-qr-url').value }; if(!data.name || !data.phone) return toast("Req!"); if(id) await updateDoc(doc(db, "payment_methods", id), data); else await addDoc(collection(db, "payment_methods"), data); closeModal('pay-modal'); toast("Saved!"); };
     window.openPromoModal = () => { document.getElementById('promo-id').value = ''; document.getElementById('promo-code').value = ''; document.getElementById('promo-amt').value = ''; document.getElementById('promo-modal').classList.add('active'); };
     window.savePromo = async () => { let c = document.getElementById('promo-code').value.toUpperCase().trim(); let a = parseInt(document.getElementById('promo-amt').value); if(!c || !a) return toast("Invalid!"); await addDoc(collection(db, "promo_codes"), { code: c, discount: a, createdAt: serverTimestamp() }); closeModal('promo-modal'); toast("Created!"); };
-
-    // --- DEPOSITS & WITHDRAWALS ---
+    
     import { serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
     window.updDep = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"deposits",id),{status:st}); };
     window.apprDep = async (id, uid, amt) => { if(confirm(`Approve +${amt}?`)) { let u = await getDoc(doc(db,"users",uid)); let uData = u.data(); let newSpins = Math.floor(amt / 10000); await updateDoc(doc(db,"users",uid),{ walletBalance: (uData.walletBalance||0) + amt, spinCount: (uData.spinCount||0) + newSpins }); await updateDoc(doc(db,"deposits",id),{status:'Completed'}); await addDoc(collection(db, "transactions"), { userId: uid, type: 'Deposit', amount: amt, desc: 'Deposit Approved', createdAt: serverTimestamp() }); toast(`Funds Added! User got ${newSpins} spins.`); } };
@@ -678,3 +635,4 @@
 </script>
 </body>
 </html>
+
