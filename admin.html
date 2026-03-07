@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Admin - Kazeno Shop</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -37,7 +37,7 @@
   @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
   /* --- CARDS & STATS --- */
-  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 20px; }
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px; }
   .stat-card { background: var(--surface); padding: 15px; border-radius: 12px; border: 1px solid var(--border); }
   .stat-val { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px; }
   .stat-label { font-size: 11px; color: var(--muted); }
@@ -47,7 +47,7 @@
   .page-title { font-size: 18px; font-weight: 700; }
   
   .table-wrapper { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; width: 100%; margin-bottom: 20px; -webkit-overflow-scrolling: touch; position: relative; z-index: 5;}
-  table { width: 100%; border-collapse: collapse; text-align: left; min-width: 500px; }
+  table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; }
   th { padding: 12px 15px; font-size: 11px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); white-space: nowrap;}
   td { padding: 12px 15px; font-size: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
@@ -63,8 +63,30 @@
   .btn:active { transform: scale(0.95); } 
   .btn-primary { background: var(--primary); } 
   .btn-ok { background: var(--ok); } 
+  .btn-warning { background: var(--warning); color: #000; }
   .btn-danger { background: var(--danger); }
   .btn-dark { background: rgba(255,255,255,0.1); border: 1px solid var(--border); }
+
+  /* --- ADVANCED TABS & DETAILS (PHASE 7) --- */
+  .tabs-container { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+  .tab-pill { background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 99px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: 0.2s; }
+  .tab-pill.active { background: rgba(59, 130, 246, 0.1); color: var(--accent); border-color: var(--accent); }
+  .tab-count { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 99px; font-size: 10px; color: #fff;}
+  .tab-pill.active .tab-count { background: var(--accent); }
+
+  .back-btn-text { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 20px; transition: 0.2s; }
+  .back-btn-text:hover { color: #fff; }
+
+  .detail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+  .detail-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;}
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+  .info-group { display: flex; flex-direction: column; gap: 4px; }
+  .info-label { font-size: 11px; color: var(--muted); }
+  .info-val { font-size: 13px; font-weight: 600; color: #fff; word-break: break-all;}
+  .info-val.highlight { color: var(--accent); }
+  .info-val.profit { color: var(--ok); }
+  
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
 
   /* --- FORMS --- */
   .form-group { margin-bottom: 15px; }
@@ -88,10 +110,9 @@
   .modal-bg.active { display: flex; } 
   .modal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
   
-  .toast { position: fixed; top: 20px; right: 20px; background: var(--primary); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 13px; opacity: 0; transition: 0.3s; z-index: 30000; box-shadow: 0 10px 25px rgba(0,0,0,0.5);}
+  .toast { position: fixed; top: 20px; right: 20px; background: var(--primary); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 12px; opacity: 0; transition: 0.3s; z-index: 30000; box-shadow: 0 10px 25px rgba(0,0,0,0.5);}
   .toast.show { opacity: 1; }
 
-  /* 💡 MOBILE FIXES (PHASE 6B) 💡 */
   @media (max-width: 768px) { 
       .sidebar { position: fixed; left: -260px; height: 100%; box-shadow: 5px 0 20px rgba(0,0,0,0.5); } 
       .sidebar.open { left: 0; } 
@@ -126,10 +147,10 @@
             <div class="menu-item active" onclick="switchTab('v-dash', this)"> 📊 Dashboard </div>
             <div class="menu-item" onclick="switchTab('v-users', this)"> 👥 Users & Roles </div>
             
-            <div class="menu-label">Financials</div>
+            <div class="menu-label">Financials & Orders</div>
+            <div class="menu-item" onclick="switchTab('v-orders', this)"> 📦 Process Orders </div>
             <div class="menu-item" onclick="switchTab('v-deposits', this)"> 📥 Deposits </div>
             <div class="menu-item" onclick="switchTab('v-withdraws', this)"> 📤 Withdrawals </div>
-            <div class="menu-item" onclick="switchTab('v-orders', this)"> 📦 Order History </div>
             
             <div class="menu-label">Catalog</div>
             <div class="menu-item" onclick="switchTab('v-categories', this)"> 🎮 Categories </div>
@@ -145,14 +166,12 @@
 
     <div class="main-content">
         <div class="top-header">
-            <div style="display:flex; align-items:center; gap:15px;">
-                <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-                <div class="header-title" id="page-title">Dashboard</div>
-            </div>
+            <div style="display:flex; align-items:center; gap:15px;"><button class="menu-toggle" onclick="toggleSidebar()">☰</button><div class="header-title" id="page-title">Dashboard</div></div>
             <div class="admin-profile">Superadmin <div class="admin-avatar">K</div></div>
         </div>
 
         <div class="content-area">
+            
             <div id="v-dash" class="view active">
                 <div class="dash-grid">
                     <div class="stat-card"><div class="stat-val" id="ds-users">0</div><div class="stat-label">Total Users</div></div>
@@ -169,23 +188,95 @@
             </div>
 
             <div id="v-users" class="view">
-                <div class="header-actions"><div class="page-title">Users & Roles</div></div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>Email</th><th>Role & Info</th><th>Wallet Bal</th><th>Action</th></tr></thead>
-                        <tbody id="tb-users"></tbody>
-                    </table>
+                
+                <div id="v-users-list">
+                    <div class="header-actions">
+                        <div class="page-title">Users Management</div>
+                        <div style="font-size:12px; color:var(--muted);">Total: <strong id="u-total-cnt" style="color:#fff;">0</strong></div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Name / Email</th><th>Referral Code</th><th>Balance</th><th>Spins</th><th>Action</th></tr></thead>
+                            <tbody id="tb-users"></tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <div id="v-users-detail" style="display:none;">
+                    <div class="back-btn-text" onclick="closeUserDetail()">← Back to Users</div>
+                    <div class="detail-card">
+                        <div class="detail-title">Wallet Information <button class="btn btn-dark" onclick="editUserFromDetail()">Edit User</button></div>
+                        <div class="info-grid">
+                            <div class="info-group"><span class="info-label">Email / Name</span><span class="info-val" id="ud-email">--</span></div>
+                            <div class="info-group"><span class="info-label">Role</span><span class="info-val" id="ud-role">--</span></div>
+                            <div class="info-group"><span class="info-label">Referral Code</span><span class="info-val highlight" id="ud-ref">--</span></div>
+                            <div class="info-group"><span class="info-label">Current Balance</span><span class="info-val profit" id="ud-bal">0 Ks</span></div>
+                            <div class="info-group"><span class="info-label">Spin Tickets</span><span class="info-val" style="color:var(--warning);" id="ud-spins">0</span></div>
+                            <div class="info-group"><span class="info-label">Total Orders Count</span><span class="info-val" id="ud-ord-cnt">0</span></div>
+                        </div>
+                    </div>
+
+                    <div class="page-title" style="margin-bottom:15px; font-size:16px;">Wallet Usages (Ledger)</div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Amount (In/Out)</th></tr></thead>
+                            <tbody id="tb-user-ledger"></tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
 
             <div id="v-orders" class="view">
-                <div class="header-actions"><div class="page-title">Order History</div></div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>ID & Status</th><th>Details</th><th>Price / Cost</th><th>Action</th></tr></thead>
-                        <tbody id="tb-orders"></tbody>
-                    </table>
+                
+                <div id="v-orders-list">
+                    <div class="tabs-container">
+                        <div class="tab-pill active" onclick="filterOrders('Pending', this)">Pending <span class="tab-count" id="cnt-pending">0</span></div>
+                        <div class="tab-pill" onclick="filterOrders('Processing', this)">Processing <span class="tab-count" id="cnt-processing">0</span></div>
+                        <div class="tab-pill" onclick="filterOrders('Completed', this)">Completed <span class="tab-count" id="cnt-completed">0</span></div>
+                        <div class="tab-pill" onclick="filterOrders('Cancelled', this)">Cancelled <span class="tab-count" id="cnt-cancelled">0</span></div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Order ID</th><th>Date</th><th>Product</th><th>Price</th><th>Pay Method</th><th>Status</th><th>Action</th></tr></thead>
+                            <tbody id="tb-orders-tabbed"></tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <div id="v-orders-detail" style="display:none;">
+                    <div class="back-btn-text" onclick="closeOrderDetail()">← Back to Orders</div>
+                    
+                    <div class="detail-card">
+                        <div class="detail-title">Order Details <span id="od-status-badge"></span></div>
+                        <div class="info-grid">
+                            <div class="info-group"><span class="info-label">Order ID</span><span class="info-val highlight" id="od-id">--</span></div>
+                            <div class="info-group"><span class="info-label">Date</span><span class="info-val" id="od-date">--</span></div>
+                            <div class="info-group"><span class="info-label">Customer Email</span><span class="info-val" id="od-email">--</span></div>
+                            <div class="info-group"><span class="info-label">Total Price</span><span class="info-val highlight" id="od-price">0 Ks</span></div>
+                            <div class="info-group"><span class="info-label">Total Cost</span><span class="info-val" id="od-cost">0 Ks</span></div>
+                            <div class="info-group"><span class="info-label">Total Profit</span><span class="info-val profit" id="od-profit">0 Ks</span></div>
+                            <div class="info-group"><span class="info-label">Payment Method</span><span class="info-val" id="od-pay">--</span></div>
+                            <div class="info-group" id="od-slip-box" style="display:none;">
+                                <span class="info-label">Receipt Slip</span>
+                                <button class="btn btn-dark" style="width:fit-content;" id="od-slip-btn">View Slip Image</button>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+                        <div class="detail-title" style="font-size:14px; color:var(--muted);">Product & Account Information</div>
+                        <div class="info-grid">
+                            <div class="info-group"><span class="info-label">Game / Category</span><span class="info-val" id="od-game">--</span></div>
+                            <div class="info-group"><span class="info-label">Item / Package</span><span class="info-val" id="od-item">--</span></div>
+                            <div class="info-group"><span class="info-label">Account Information provided</span><span class="info-val highlight" id="od-acc" style="font-size:15px;">--</span></div>
+                        </div>
+
+                        <div class="divider"></div>
+                        <div style="display:flex; gap:10px; justify-content:flex-end;" id="od-actions">
+                            </div>
+                    </div>
+                </div>
+
             </div>
 
             <div id="v-deposits" class="view">
@@ -338,30 +429,27 @@
 
 <div class="modal-bg" id="pay-modal"><div class="modal-card"><h3 style="margin-bottom:15px;" id="pay-title">Payment Method</h3><input type="hidden" id="pay-id"><input type="text" id="pay-name" class="input-box" placeholder="Provider (e.g. KPay)"><input type="text" id="pay-phone" class="input-box" placeholder="Phone Number"><input type="text" id="pay-acc" class="input-box" placeholder="Account Name"><img id="pay-qr-preview" style="width:100px; height:100px; border-radius:10px; display:none; margin-bottom:5px; object-fit:cover;"><div class="upload-box" style="padding:10px;" onclick="document.getElementById('pay-qr-file').click()">Upload QR</div><input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'pay-qr')"><input type="hidden" id="pay-qr-url"><div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePayment()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('pay-modal')">Cancel</button></div></div></div>
 <div class="modal-bg" id="promo-modal"><div class="modal-card"><h3 style="margin-bottom:15px;">Promo Code</h3><input type="hidden" id="promo-id"><input type="text" id="promo-code" class="input-box" style="text-transform:uppercase;" placeholder="Code (e.g. NEWYEAR)"><input type="number" id="promo-amt" class="input-box" placeholder="Discount (Ks)"><div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePromo()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('promo-modal')">Cancel</button></div></div></div>
-<div class="modal-bg" id="slip-modal" onclick="if(event.target===this) closeModal('slip-modal')"><div class="modal-card" style="text-align:center; max-width:350px;"><h3 style="margin-bottom:15px;">Transaction Slip</h3><img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);" src=""><button class="btn btn-dark" style="width:100%; padding:12px;" onclick="closeModal('slip-modal')">Close</button></div></div>
+<div class="modal-bg" id="slip-modal" onclick="if(event.target===this) closeModal('slip-modal')"><div class="modal-card" style="text-align:center; max-width:400px;"><h3 style="margin-bottom:15px;">Transaction Slip</h3><img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px; border:1px solid var(--border);" src=""><button class="btn btn-dark" style="width:100%; padding:12px;" onclick="closeModal('slip-modal')">Close</button></div></div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc, setDoc, addDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc, setDoc, addDoc, deleteDoc, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const db = getFirestore(app);
 
+    // --- UTILS ---
     window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
-    function formatDate(ts) { if(!ts) return "-"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); }
+    function formatDate(ts) { if(!ts) return "-"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); }
     
-    // 💡 MOBILE SIDEBAR TOGGLE FIX 💡
-    window.toggleSidebar = () => { 
-        document.getElementById('sidebar').classList.toggle('open'); 
-        document.getElementById('sidebar-overlay').classList.toggle('active');
-    }
-    
+    // --- UI NAVIGATION ---
+    window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('active'); }
     window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim().replace(/[^a-zA-Z\s&]/g,'') : 'Dashboard'; if(window.innerWidth <= 768) toggleSidebar(); };
     window.closeModal = (id) => document.getElementById(id).classList.remove('active');
     window.viewSlip = (url) => { if(!url)return toast("No slip uploaded"); document.getElementById('modal-img-src').src = url; document.getElementById('slip-modal').classList.add('active'); };
     window.checkPin = () => { if(document.getElementById('admin-pin').value === "1234") { document.getElementById('auth-gate').style.display = "none"; document.getElementById('main-admin').style.display = "flex"; initAdmin(); } else toast("Invalid PIN!"); };
 
-    // --- IMGBB ---
+    // --- IMGBB UPLOAD ---
     async function uploadToImgBB(file) { toast("Uploading Image..."); let fd = new FormData(); fd.append("image", file); let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let data = await res.json(); if(data.success) { toast("Upload Done!"); return data.data.url; } else throw new Error("Upload Failed"); }
     window.uploadImg = async (input, prefix) => {
         if(!input.files[0]) return;
@@ -372,7 +460,8 @@
         } catch(e) { toast(e.message); }
     };
 
-    let allCats = [];
+    // --- GLOBAL DATA CACHE ---
+    let allCats = []; let globalOrders = []; let globalUsers = []; let globalTransactions = [];
 
     function initAdmin() {
         // App Settings
@@ -390,133 +479,190 @@
             }
         });
         
-        // PAYMENTS & PROMOS
+        // PAYMENTS, PROMOS, CATEGORIES, PRODUCTS (Same as before)
         onSnapshot(collection(db, "payment_methods"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<tr><td>${p.name}</td><td>${p.phone} (${p.accName})</td><td><button class="btn btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g, "&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db, 'payment_methods', '${p.id}'))">Del</button></td></tr>`; }); document.getElementById('tb-payments').innerHTML = html || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
         onSnapshot(collection(db, "promo_codes"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; html += `<tr><td><span class="id-tag">${p.code}</span></td><td>${p.discount} Ks</td><td><button class="btn btn-danger" onclick="deleteDoc(doc(db, 'promo_codes', '${p.id}'))">Delete</button></td></tr>`; }); document.getElementById('tb-promos').innerHTML = html || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
+        onSnapshot(query(collection(db, "categories"), orderBy("orderNum", "asc")), (snap) => { allCats = []; let html = ""; let opt = "<option value=''>Select Category</option>"; snap.forEach(s => { let c = {id: s.id, ...s.data()}; allCats.push(c); opt += `<option value="${c.id}">${c.name}</option>`; let badge = c.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Inactive</span>`; let fTxt = (c.forms||[]).join(', ') || 'None'; html += `<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${c.logoUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:cover;">${c.name}</div></td><td>${fTxt}</td><td>${badge}</td><td><button class="btn btn-dark" onclick='openCatModal(${JSON.stringify(c).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteGame('${c.id}')">Del</button></td></tr>`; }); document.getElementById('tb-categories').innerHTML = html || "<tr><td colspan='4' style='text-align:center;'>No data</td></tr>"; document.getElementById('pm-cat').innerHTML = opt; document.getElementById('ds-cat').innerText = allCats.length; });
+        onSnapshot(collection(db, "products"), (snap) => { let html = ""; snap.forEach(s => { let p = {id: s.id, ...s.data()}; let cName = allCats.find(x=>x.id===p.categoryId)?.name || 'Unknown'; let stat = p.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Inactive</span>`; html += `<tr><td><div style="font-weight:bold;">${p.name}</div></td><td>${cName}</td><td><div style="font-size:10px; color:var(--muted);">C: ${p.retailPrice||0} | S: <span style="color:var(--ok);">${p.sellingPrice||0}</span> | R: <span style="color:var(--accent);">${p.resellerPrice||p.sellingPrice||0}</span></div></td><td>${p.topupType} ${stat}</td><td><button class="btn btn-dark" onclick='openProdModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db,'products','${p.id}'))">Del</button></td></tr>`; }); document.getElementById('tb-products').innerHTML = html || "<tr><td colspan='5' style='text-align:center;'>No data</td></tr>"; document.getElementById('ds-prod').innerText = snap.size; });
 
-        // CATEGORIES (Phase 6)
-        onSnapshot(query(collection(db, "categories"), orderBy("orderNum", "asc")), (snap) => { 
-            allCats = []; let html = ""; let opt = "<option value=''>Select Category</option>";
-            snap.forEach(s => { 
-                let c = {id: s.id, ...s.data()}; allCats.push(c); 
-                opt += `<option value="${c.id}">${c.name}</option>`;
-                let badge = c.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Inactive</span>`;
-                let fTxt = (c.forms||[]).join(', ') || 'None';
-                html += `<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${c.logoUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:cover;">${c.name}</div></td><td>${fTxt}</td><td>${badge}</td><td><button class="btn btn-dark" onclick='openCatModal(${JSON.stringify(c).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteGame('${c.id}')">Del</button></td></tr>`; 
-            }); 
-            document.getElementById('tb-categories').innerHTML = html || "<tr><td colspan='4' style='text-align:center;'>No data</td></tr>";
-            document.getElementById('pm-cat').innerHTML = opt;
-            document.getElementById('ds-cat').innerText = allCats.length;
-        });
+        // TRANSACTIONS CACHE (For Ledgers)
+        onSnapshot(collection(db, "transactions"), (snap) => { globalTransactions = []; snap.forEach(s => globalTransactions.push({id: s.id, ...s.data()})); });
 
-        // PRODUCTS (Phase 6)
-        onSnapshot(collection(db, "products"), (snap) => {
-            let html = "";
-            snap.forEach(s => {
-                let p = {id: s.id, ...s.data()};
-                let cName = allCats.find(x=>x.id===p.categoryId)?.name || 'Unknown';
-                let stat = p.isActive ? `<span class="badge bg-active">Active</span>` : `<span class="badge bg-inactive">Inactive</span>`;
-                html += `<tr><td><div style="font-weight:bold;">${p.name}</div></td><td>${cName}</td><td><div style="font-size:10px; color:var(--muted);">C: ${p.retailPrice||0} | S: <span style="color:var(--ok);">${p.sellingPrice||0}</span> | R: <span style="color:var(--accent);">${p.resellerPrice||p.sellingPrice||0}</span></div></td><td>${p.topupType} ${stat}</td><td><button class="btn btn-dark" onclick='openProdModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db,'products','${p.id}'))">Del</button></td></tr>`;
-            });
-            document.getElementById('tb-products').innerHTML = html || "<tr><td colspan='5' style='text-align:center;'>No data</td></tr>";
-            document.getElementById('ds-prod').innerText = snap.size;
-        });
-
-        // USERS & ROLES
+        // 💡 ADVANCED USERS (PHASE 7) 💡
         onSnapshot(collection(db, "users"), (s) => { 
-            let h=""; let t=0; document.getElementById('ds-users').innerText=s.size; 
+            globalUsers = []; let h=""; let t=0; document.getElementById('ds-users').innerText=s.size; document.getElementById('u-total-cnt').innerText=s.size;
             s.forEach(d=>{ 
-                let u=d.data(); let bal=u.walletBalance||0; let role=u.role||'Customer'; let spins=u.spinCount||0; let ref=u.refCode||'N/A'; t+=bal; 
-                h+=`<tr><td><div style="font-weight:bold;">${u.email}</div><div style="font-size:10px; color:var(--muted);">Ref: ${ref}</div></td><td><span class="badge bg-pill">${role}</span><br><span style="font-size:10px; color:var(--warning);">Spins: ${spins}</span></td><td style="color:var(--ok); font-weight:bold;">${bal.toLocaleString()} Ks</td><td><button class="btn btn-dark" onclick="openUserModal('${d.id}', ${bal}, '${role}', '${u.email}', ${spins})">Edit</button></td></tr>`; 
+                let u={id:d.id, ...d.data()}; globalUsers.push(u);
+                let bal=u.walletBalance||0; let role=u.role||'Customer'; let spins=u.spinCount||0; let ref=u.refCode||'N/A'; t+=bal; 
+                let roleBdg = role === 'Superadmin' || role === 'Admin' ? `<span class="badge" style="background:rgba(59,130,246,0.2); color:var(--accent); border:1px solid var(--accent);">${role}</span>` : `<span class="badge bg-pill">${role}</span>`;
+                h+=`<tr><td><div style="font-weight:bold;">${u.email}</div>${roleBdg}</td><td><span class="id-tag">${ref}</span></td><td style="color:var(--ok); font-weight:bold;">${bal.toLocaleString()} Ks</td><td style="color:var(--warning);">${spins}</td><td><button class="btn btn-primary" onclick="showUserDetail('${u.id}')">👁 View</button></td></tr>`; 
             }); 
             document.getElementById('tb-users').innerHTML=h; document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
         });
 
-        // ORDERS & PROFIT CALC
+        // 💡 ADVANCED ORDERS (PHASE 7) 💡
         onSnapshot(collection(db, "orders"), (s) => { 
-            let tS=0; let tP=0; let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
-            a.forEach(o=>{ 
-                if(o.status==='Completed'){ tS += (o.price||0); let cost = o.costPrice || (o.price * 0.85); tP += (o.price - cost); }
-                let cls=o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':'bg-pill'); 
-                h+=`<tr><td><span class="id-tag">${o.orderId||o.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${o.status}</span></td><td><div style="font-weight:bold;">${o.game} - ${o.item}</div><div style="font-size:10px; color:var(--muted);">${o.playerId} | By: ${o.userEmail}</div></td><td><div style="color:var(--ok); font-weight:bold;">${(o.price||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--muted);">Cost: ${(o.costPrice||0)}</div></td><td>${o.slipImage?`<button class="btn btn-dark" onclick="viewSlip('${o.slipImage}')">Slip</button>`:''}${o.status==='Pending'?`<button class="btn btn-ok" onclick="updOrd('${o.id}','Completed')">✔</button> <button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">✕</button>`:''}</td></tr>`; 
+            globalOrders = []; let tS=0; let tP=0; let cPen=0; let cPro=0; let cCom=0; let cCan=0;
+            s.forEach(d=>{ let o={id:d.id, ...d.data()}; globalOrders.push(o); });
+            globalOrders.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
+            
+            globalOrders.forEach(o=>{ 
+                if(o.status==='Pending') cPen++; else if(o.status==='Processing') cPro++; else if(o.status==='Cancelled') cCan++;
+                else if(o.status==='Completed'){ cCom++; tS += (o.price||0); let cost = o.costPrice || (o.price * 0.85); tP += (o.price - cost); }
             }); 
-            document.getElementById('tb-orders').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No orders.</td></tr>"; document.getElementById('ds-orders').innerText = a.filter(x=>x.status==='Completed').length; document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
+            
+            document.getElementById('cnt-pending').innerText = cPen; document.getElementById('cnt-processing').innerText = cPro; document.getElementById('cnt-completed').innerText = cCom; document.getElementById('cnt-cancelled').innerText = cCan;
+            document.getElementById('ds-orders').innerText = cCom; document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
+            
+            // Auto render currently active tab
+            let actTab = document.querySelector('.tab-pill.active');
+            if(actTab) filterOrders(actTab.innerText.split(' ')[0].trim(), actTab); else filterOrders('Pending');
         });
 
-        // DEPOSITS (With Auto Spin)
-        onSnapshot(collection(db, "deposits"), (s) => { 
-            let tD=0; let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
-            a.forEach(dp=>{ 
-                if(dp.status==='Completed')tD+=dp.amount; 
-                let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); 
-                h+=`<tr><td><span class="id-tag">${dp.depId||dp.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${dp.status}</span></td><td><div style="font-size:11px;">${dp.userEmail}</div></td><td><div style="color:var(--ok); font-weight:bold; font-size:14px;">+${(dp.amount||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--muted);">${dp.payMethod}</div></td><td><button class="btn btn-dark" onclick="viewSlip('${dp.slipImage}')">Slip</button>${dp.status==='Pending'?` <button class="btn btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})">✔</button> <button class="btn btn-danger" onclick="updDep('${dp.id}','Cancelled')">✕</button>`:''}</td></tr>`; 
-            }); 
-            document.getElementById('tb-deposits').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No deposits.</td></tr>"; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; 
-        });
-        
-        // WITHDRAWALS
-        onSnapshot(collection(db, "withdrawals"), (s) => { 
-            let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
-            a.forEach(w=>{ 
-                let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); 
-                h+=`<tr><td><span class="id-tag">${w.wdId||w.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${w.status}</span></td><td><div style="font-size:11px;">${w.userEmail}</div></td><td><div style="color:var(--danger); font-weight:bold; font-size:14px;">-${(w.amount||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--accent);">${w.payMethod}: ${w.accPhone}</div></td><td>${w.status==='Pending'?`<button class="btn btn-ok" onclick="updWd('${w.id}','Completed')">Sent</button> <button class="btn btn-danger" onclick="updWd('${w.id}','Cancelled','${w.userId}',${w.amount})">Reject</button>`:''}</td></tr>`; 
-            }); 
-            document.getElementById('tb-withdraws').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No withdrawals.</td></tr>"; 
-        });
+        // DEPOSITS & WITHDRAWALS (Same as before)
+        onSnapshot(collection(db, "deposits"), (s) => { let tD=0; let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(dp=>{ if(dp.status==='Completed')tD+=dp.amount; let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span class="id-tag">${dp.depId||dp.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${dp.status}</span></td><td><div style="font-size:11px;">${dp.userEmail}</div></td><td><div style="color:var(--ok); font-weight:bold; font-size:14px;">+${(dp.amount||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--muted);">${dp.payMethod}</div></td><td><button class="btn btn-dark" onclick="viewSlip('${dp.slipImage}')">Slip</button>${dp.status==='Pending'?` <button class="btn btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})">✔</button> <button class="btn btn-danger" onclick="updDep('${dp.id}','Cancelled')">✕</button>`:''}</td></tr>`; }); document.getElementById('tb-deposits').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No deposits.</td></tr>"; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
+        onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(w=>{ let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span class="id-tag">${w.wdId||w.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${w.status}</span></td><td><div style="font-size:11px;">${w.userEmail}</div></td><td><div style="color:var(--danger); font-weight:bold; font-size:14px;">-${(w.amount||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--accent);">${w.payMethod}: ${w.accPhone}</div></td><td>${w.status==='Pending'?`<button class="btn btn-ok" onclick="updWd('${w.id}','Completed')">Sent</button> <button class="btn btn-danger" onclick="updWd('${w.id}','Cancelled','${w.userId}',${w.amount})">Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-withdraws').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No withdrawals.</td></tr>"; });
     }
+
+    // --- 💡 ADVANCED ORDER LOGIC (PHASE 7) 💡 ---
+    window.filterOrders = (status, el=null) => {
+        if(el) { document.querySelectorAll('.tab-pill').forEach(t=>t.classList.remove('active')); el.classList.add('active'); }
+        let h = "";
+        let filtered = globalOrders.filter(o => o.status === status);
+        filtered.forEach(o => {
+            let cls = o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':(o.status==='Processing'?'bg-pill':'bg-inactive')); 
+            if(o.status==='Pending') cls = 'bg-inactive'; if(o.status==='Processing') cls = 'bg-pill';
+            let pColor = o.status==='Cancelled' ? 'var(--muted)' : 'var(--accent)';
+            h+=`<tr>
+                <td><div style="font-weight:bold; margin-bottom:4px;">${o.orderId||o.id.substring(0,8)}</div><span class="badge ${cls}">${o.status}</span></td>
+                <td><div style="font-size:11px; color:var(--muted);">${formatDate(o.createdAt)}</div></td>
+                <td><div style="font-weight:bold;">${o.item}</div><div style="font-size:10px; color:var(--muted);">${o.game}</div></td>
+                <td><strong style="color:${pColor}; font-size:13px;">${(o.price||0).toLocaleString()} Ks</strong></td>
+                <td><span class="badge bg-pill">Manual</span></td>
+                <td><span class="badge" style="background:rgba(59, 130, 246, 0.1); color:var(--accent); border:1px solid rgba(59,130,246,0.3);">${o.payMethod}</span></td>
+                <td><button class="btn btn-primary" onclick="showOrderDetail('${o.id}')">👁 View</button></td>
+            </tr>`;
+        });
+        document.getElementById('tb-orders-tabbed').innerHTML = h || "<tr><td colspan='7' style='text-align:center; padding:30px;'>No orders found.</td></tr>";
+    };
+
+    window.showOrderDetail = (id) => {
+        let o = globalOrders.find(x => x.id === id); if(!o) return;
+        document.getElementById('v-orders-list').style.display = 'none';
+        
+        let cost = o.costPrice || (o.price * 0.85); let profit = o.price - cost;
+        let cls = o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':(o.status==='Processing'?'bg-pill':'bg-inactive')); 
+        
+        document.getElementById('od-status-badge').innerHTML = `<span class="badge ${cls}">${o.status}</span>`;
+        document.getElementById('od-id').innerText = o.orderId || o.id;
+        document.getElementById('od-date').innerText = formatDate(o.createdAt);
+        document.getElementById('od-email').innerText = o.userEmail;
+        document.getElementById('od-price').innerText = (o.price||0).toLocaleString() + " Ks";
+        document.getElementById('od-cost').innerText = cost.toLocaleString() + " Ks";
+        document.getElementById('od-profit').innerText = (profit > 0 ? "+" : "") + profit.toLocaleString() + " Ks";
+        document.getElementById('od-profit').style.color = profit >= 0 ? "var(--ok)" : "var(--danger)";
+        document.getElementById('od-pay').innerHTML = `<span class="badge" style="background:rgba(59, 130, 246, 0.1); color:var(--accent);">${o.payMethod}</span>`;
+        
+        if(o.slipImage) { document.getElementById('od-slip-box').style.display = 'flex'; document.getElementById('od-slip-btn').onclick = () => viewSlip(o.slipImage); } 
+        else { document.getElementById('od-slip-box').style.display = 'none'; }
+
+        document.getElementById('od-game').innerText = o.game;
+        document.getElementById('od-item').innerText = o.item;
+        document.getElementById('od-acc').innerText = o.playerId;
+
+        // Dynamic Actions based on Status
+        let actHtml = "";
+        if(o.status === 'Pending') {
+            actHtml = `<button class="btn btn-warning" style="padding:10px 20px;" onclick="updOrd('${o.id}','Processing', true)">⚙️ Processing</button>
+                       <button class="btn btn-danger" style="padding:10px 20px;" onclick="updOrd('${o.id}','Cancelled', true)">✕ Cancel</button>`;
+        } else if (o.status === 'Processing') {
+            actHtml = `<button class="btn btn-ok" style="padding:10px 20px;" onclick="updOrd('${o.id}','Completed', true)">✔ Complete</button>
+                       <button class="btn btn-danger" style="padding:10px 20px;" onclick="updOrd('${o.id}','Cancelled', true)">✕ Cancel</button>`;
+        }
+        document.getElementById('od-actions').innerHTML = actHtml;
+        document.getElementById('v-orders-detail').style.display = 'block';
+    };
+
+    window.closeOrderDetail = () => { document.getElementById('v-orders-detail').style.display = 'none'; document.getElementById('v-orders-list').style.display = 'block'; };
+    
+    // Updated order update function to handle detail view refresh
+    window.updOrd = async (id, st, fromDetail=false) => { 
+        if(confirm(`Mark as ${st}?`)) {
+            await updateDoc(doc(db,"orders",id),{status:st}); 
+            if(fromDetail) { setTimeout(() => { showOrderDetail(id); }, 500); } // slight delay to let snap trigger
+        }
+    };
+
+    // --- 💡 ADVANCED USER LOGIC (PHASE 7) 💡 ---
+    window.showUserDetail = (uid) => {
+        let u = globalUsers.find(x => x.id === uid); if(!u) return;
+        document.getElementById('v-users-list').style.display = 'none';
+        
+        // Populate User Info
+        let roleBdg = u.role === 'Superadmin' || u.role === 'Admin' ? `<span class="badge" style="background:rgba(59,130,246,0.2); color:var(--accent); border:1px solid var(--accent); margin-left:10px;">${u.role}</span>` : `<span class="badge bg-pill" style="margin-left:10px;">${u.role||'Customer'}</span>`;
+        document.getElementById('ud-email').innerHTML = u.email + roleBdg;
+        document.getElementById('ud-role').innerText = u.role || 'Customer';
+        document.getElementById('ud-ref').innerText = u.refCode || '--';
+        document.getElementById('ud-bal').innerText = (u.walletBalance||0).toLocaleString() + " Ks";
+        document.getElementById('ud-spins').innerText = u.spinCount || 0;
+
+        // Calc Orders Count for this user
+        let userOrders = globalOrders.filter(x => x.userId === uid);
+        document.getElementById('ud-ord-cnt').innerText = userOrders.length;
+
+        // Bind Edit Button
+        document.getElementById('v-users-detail').querySelector('.btn-dark').onclick = () => openUserModal(u.id, u.walletBalance||0, u.role||'Customer', u.email, u.spinCount||0);
+
+        // Fetch User Ledger from Transactions
+        let userTrans = globalTransactions.filter(x => x.userId === uid);
+        userTrans.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
+        
+        let lHtml = "";
+        userTrans.forEach(t => {
+            let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)';
+            let sign = t.amount >= 0 ? '+' : '';
+            let inOut = t.amount >= 0 ? '<span class="badge" style="color:var(--ok); background:rgba(16,185,129,0.1);">IN</span>' : '<span class="badge" style="color:var(--danger); background:rgba(239,68,68,0.1);">OUT</span>';
+            lHtml += `<tr>
+                <td style="color:var(--muted);">${formatDate(t.createdAt)}</td>
+                <td><strong style="color:#fff;">${t.type}</strong></td>
+                <td>${t.desc}</td>
+                <td><div style="font-weight:800; font-size:14px; color:${color}; display:flex; align-items:center; gap:10px;">${sign}${(t.amount||0).toLocaleString()} Ks ${inOut}</div></td>
+            </tr>`;
+        });
+        document.getElementById('tb-user-ledger').innerHTML = lHtml || "<tr><td colspan='4' style='text-align:center;'>No transaction records.</td></tr>";
+
+        document.getElementById('v-users-detail').style.display = 'block';
+    };
+    window.closeUserDetail = () => { document.getElementById('v-users-detail').style.display = 'none'; document.getElementById('v-users-list').style.display = 'block'; };
+
 
     // --- APP SETTINGS ---
     window.saveAllSettings = async () => { 
         let hb = document.getElementById('home-banner-preview').src;
-        if (hb.includes('http')) {
-            await setDoc(doc(db, "settings", "app_config"), { homeBannerUrl: hb }, { merge: true });
-        }
-        await setDoc(doc(db, "settings", "app_config"), { 
-            fbLink: document.getElementById('inp-cs-fb').value, tgLink: document.getElementById('inp-cs-tg').value,
-            tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value,
-            cookieSmile: document.getElementById('inp-cookie-smile').value, cookieJC: document.getElementById('inp-cookie-jc').value
-        }, { merge: true }); 
+        if (hb.includes('http')) { await setDoc(doc(db, "settings", "app_config"), { homeBannerUrl: hb }, { merge: true }); }
+        await setDoc(doc(db, "settings", "app_config"), { fbLink: document.getElementById('inp-cs-fb').value, tgLink: document.getElementById('inp-cs-tg').value, tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value, cookieSmile: document.getElementById('inp-cookie-smile').value, cookieJC: document.getElementById('inp-cookie-jc').value }, { merge: true }); 
         toast("All Settings Saved!"); 
     };
 
-    // --- USERS & ROLES ---
+    // --- USERS EDIT ---
     window.openUserModal = (id, bal, role, em, spins) => { document.getElementById('um-id').value = id; document.getElementById('um-email').innerText = em; document.getElementById('um-wallet').value = bal; document.getElementById('um-spins').value = spins; document.getElementById('um-role').value = role || 'Customer'; document.getElementById('user-modal').classList.add('active'); };
-    window.saveUserEdit = async () => { let id = document.getElementById('um-id').value; let b = parseInt(document.getElementById('um-wallet').value); let s = parseInt(document.getElementById('um-spins').value); let r = document.getElementById('um-role').value; if(!isNaN(b)) { await updateDoc(doc(db, "users", id), { walletBalance: b, spinCount: s, role: r }); toast("User Updated!"); closeModal('user-modal'); } };
+    window.saveUserEdit = async () => { 
+        let id = document.getElementById('um-id').value; let b = parseInt(document.getElementById('um-wallet').value); let s = parseInt(document.getElementById('um-spins').value); let r = document.getElementById('um-role').value; 
+        if(!isNaN(b)) { 
+            await updateDoc(doc(db, "users", id), { walletBalance: b, spinCount: s, role: r }); toast("User Updated!"); closeModal('user-modal'); 
+            // Re-render detail if open
+            if(document.getElementById('v-users-detail').style.display === 'block') { setTimeout(()=>{showUserDetail(id);}, 500); }
+        } 
+    };
 
-    // --- CATEGORY CRUD (PHASE 6) ---
-    window.openCatModal = (c=null) => {
-        document.getElementById('cm-id').value = c?c.id:''; document.getElementById('cm-name').value = c?c.name:''; document.getElementById('cm-slug').value = c?c.slug:''; document.getElementById('cm-jcid').value = c?c.jcId:''; document.getElementById('cm-banner').value = c?c.bannerUrl:'';
-        document.getElementById('cm-logo-url').value = c?c.logoUrl:''; document.getElementById('cm-img-preview').src = c?c.logoUrl:''; document.getElementById('cm-img-preview').style.display = c&&c.logoUrl?'block':'none';
-        let f = c?c.forms:[]; document.getElementById('cm-form-uid').checked = f.includes('gameId'); document.getElementById('cm-form-zone').checked = f.includes('zoneId'); document.getElementById('cm-form-email').checked = f.includes('email');
-        document.getElementById('cm-check').checked = c?c.isCheck:false; document.getElementById('cm-active').checked = c?c.isActive:true; document.getElementById('cm-order').value = c?c.orderNum:1;
-        document.getElementById('cm-title').innerText = c?"Edit Category":"New Category"; document.getElementById('cat-modal').classList.add('active');
-    };
-    window.saveCategory = async () => {
-        let id = document.getElementById('cm-id').value; let forms=[];
-        if(document.getElementById('cm-form-uid').checked) forms.push('gameId'); if(document.getElementById('cm-form-zone').checked) forms.push('zoneId'); if(document.getElementById('cm-form-email').checked) forms.push('email');
-        let data = { name: document.getElementById('cm-name').value, slug: document.getElementById('cm-slug').value, jcId: document.getElementById('cm-jcid').value, bannerUrl: document.getElementById('cm-banner').value, forms: forms, isCheck: document.getElementById('cm-check').checked, isActive: document.getElementById('cm-active').checked, orderNum: parseInt(document.getElementById('cm-order').value)||1, logoUrl: document.getElementById('cm-logo-url').value };
-        if(!data.name || !data.slug) return toast("Name & Slug req!");
-        if(id) await updateDoc(doc(db,"categories",id), data); else await addDoc(collection(db,"categories"), data);
-        closeModal('cat-modal'); toast("Category Saved!");
-    };
+    // --- CATEGORY CRUD ---
+    window.openCatModal = (c=null) => { document.getElementById('cm-id').value = c?c.id:''; document.getElementById('cm-name').value = c?c.name:''; document.getElementById('cm-slug').value = c?c.slug:''; document.getElementById('cm-jcid').value = c?c.jcId:''; document.getElementById('cm-banner').value = c?c.bannerUrl:''; document.getElementById('cm-logo-url').value = c?c.logoUrl:''; document.getElementById('cm-img-preview').src = c?c.logoUrl:''; document.getElementById('cm-img-preview').style.display = c&&c.logoUrl?'block':'none'; let f = c?c.forms:[]; document.getElementById('cm-form-uid').checked = f.includes('gameId'); document.getElementById('cm-form-zone').checked = f.includes('zoneId'); document.getElementById('cm-form-email').checked = f.includes('email'); document.getElementById('cm-check').checked = c?c.isCheck:false; document.getElementById('cm-active').checked = c?c.isActive:true; document.getElementById('cm-order').value = c?c.orderNum:1; document.getElementById('cm-title').innerText = c?"Edit Category":"New Category"; document.getElementById('cat-modal').classList.add('active'); };
+    window.saveCategory = async () => { let id = document.getElementById('cm-id').value; let forms=[]; if(document.getElementById('cm-form-uid').checked) forms.push('gameId'); if(document.getElementById('cm-form-zone').checked) forms.push('zoneId'); if(document.getElementById('cm-form-email').checked) forms.push('email'); let data = { name: document.getElementById('cm-name').value, slug: document.getElementById('cm-slug').value, jcId: document.getElementById('cm-jcid').value, bannerUrl: document.getElementById('cm-banner').value, forms: forms, isCheck: document.getElementById('cm-check').checked, isActive: document.getElementById('cm-active').checked, orderNum: parseInt(document.getElementById('cm-order').value)||1, logoUrl: document.getElementById('cm-logo-url').value }; if(!data.name || !data.slug) return toast("Name & Slug req!"); if(id) await updateDoc(doc(db,"categories",id), data); else await addDoc(collection(db,"categories"), data); closeModal('cat-modal'); toast("Category Saved!"); };
     window.deleteGame = async(id) => { if(confirm("Delete category?")) await deleteDoc(doc(db,"categories",id)); };
 
-    // --- PRODUCT CRUD (PHASE 6) ---
-    window.openProdModal = (p=null) => {
-        document.getElementById('pm-id').value = p?p.id:''; document.getElementById('pm-name').value = p?p.name:''; document.getElementById('pm-cat').value = p?p.categoryId:''; 
-        document.getElementById('pm-cost').value = p?p.retailPrice:''; document.getElementById('pm-price').value = p?p.sellingPrice:''; document.getElementById('pm-reseller').value = p?(p.resellerPrice||p.sellingPrice):'';
-        document.getElementById('pm-smileid').value = p?p.smileId:''; document.getElementById('pm-jcid').value = p?p.jcId:''; document.getElementById('pm-type').value = p?p.topupType:'Auto';
-        document.getElementById('pm-active').checked = p?p.isActive:true;
-        document.getElementById('pm-img-url').value = p?p.logoUrl:''; document.getElementById('pm-img-preview').src = p?p.logoUrl:''; document.getElementById('pm-img-preview').style.display = p&&p.logoUrl?'block':'none';
-        document.getElementById('pm-title').innerText = p?"Edit Product":"New Product"; document.getElementById('prod-modal').classList.add('active');
-    };
-    window.saveProduct = async () => {
-        let id = document.getElementById('pm-id').value;
-        let data = { name: document.getElementById('pm-name').value, categoryId: document.getElementById('pm-cat').value, retailPrice: parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice: parseFloat(document.getElementById('pm-price').value)||0, resellerPrice: parseFloat(document.getElementById('pm-reseller').value)||0, smileId: document.getElementById('pm-smileid').value, jcId: document.getElementById('pm-jcid').value, topupType: document.getElementById('pm-type').value, isActive: document.getElementById('pm-active').checked, logoUrl: document.getElementById('pm-img-url').value };
-        if(!data.name || !data.categoryId) return toast("Name & Category req!");
-        if(id) await updateDoc(doc(db,"products",id), data); else await addDoc(collection(db,"products"), data);
-        closeModal('prod-modal'); toast("Product Saved!");
-    };
+    // --- PRODUCT CRUD ---
+    window.openProdModal = (p=null) => { document.getElementById('pm-id').value = p?p.id:''; document.getElementById('pm-name').value = p?p.name:''; document.getElementById('pm-cat').value = p?p.categoryId:''; document.getElementById('pm-cost').value = p?p.retailPrice:''; document.getElementById('pm-price').value = p?p.sellingPrice:''; document.getElementById('pm-reseller').value = p?(p.resellerPrice||p.sellingPrice):''; document.getElementById('pm-smileid').value = p?p.smileId:''; document.getElementById('pm-jcid').value = p?p.jcId:''; document.getElementById('pm-type').value = p?p.topupType:'Auto'; document.getElementById('pm-active').checked = p?p.isActive:true; document.getElementById('pm-img-url').value = p?p.logoUrl:''; document.getElementById('pm-img-preview').src = p?p.logoUrl:''; document.getElementById('pm-img-preview').style.display = p&&p.logoUrl?'block':'none'; document.getElementById('pm-title').innerText = p?"Edit Product":"New Product"; document.getElementById('prod-modal').classList.add('active'); };
+    window.saveProduct = async () => { let id = document.getElementById('pm-id').value; let data = { name: document.getElementById('pm-name').value, categoryId: document.getElementById('pm-cat').value, retailPrice: parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice: parseFloat(document.getElementById('pm-price').value)||0, resellerPrice: parseFloat(document.getElementById('pm-reseller').value)||0, smileId: document.getElementById('pm-smileid').value, jcId: document.getElementById('pm-jcid').value, topupType: document.getElementById('pm-type').value, isActive: document.getElementById('pm-active').checked, logoUrl: document.getElementById('pm-img-url').value }; if(!data.name || !data.categoryId) return toast("Name & Category req!"); if(id) await updateDoc(doc(db,"products",id), data); else await addDoc(collection(db,"products"), data); closeModal('prod-modal'); toast("Product Saved!"); };
 
     // --- PAYMENTS & PROMOS ---
     window.openPayModal = (p = null) => { document.getElementById('pay-id').value = p ? p.id : ''; document.getElementById('pay-name').value = p ? p.name : ''; document.getElementById('pay-phone').value = p ? p.phone : ''; document.getElementById('pay-acc').value = p ? p.accName : ''; document.getElementById('pay-qr-url').value = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').src = p ? (p.qrUrl||'') : ''; document.getElementById('pay-qr-preview').style.display = p && p.qrUrl ? 'block' : 'none'; document.getElementById('pay-title').innerText = p ? "Edit Method" : "Add Method"; document.getElementById('pay-modal').classList.add('active'); };
@@ -524,39 +670,11 @@
     window.openPromoModal = () => { document.getElementById('promo-id').value = ''; document.getElementById('promo-code').value = ''; document.getElementById('promo-amt').value = ''; document.getElementById('promo-modal').classList.add('active'); };
     window.savePromo = async () => { let c = document.getElementById('promo-code').value.toUpperCase().trim(); let a = parseInt(document.getElementById('promo-amt').value); if(!c || !a) return toast("Invalid!"); await addDoc(collection(db, "promo_codes"), { code: c, discount: a, createdAt: serverTimestamp() }); closeModal('promo-modal'); toast("Created!"); };
 
-    // --- ACTIONS ---
+    // --- DEPOSITS & WITHDRAWALS ---
     import { serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-    window.updOrd = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"orders",id),{status:st}); };
     window.updDep = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"deposits",id),{status:st}); };
-    
-    // 💡 Auto Spin Ticket Calculation & Ledger Logging on Deposit Approval 💡
-    window.apprDep = async (id, uid, amt) => { 
-        if(confirm(`Approve +${amt}?`)) { 
-            let u = await getDoc(doc(db,"users",uid)); 
-            let uData = u.data();
-            let newSpins = Math.floor(amt / 10000); // 1 Spin per 10,000 Ks
-            
-            await updateDoc(doc(db,"users",uid),{
-                walletBalance: (uData.walletBalance||0) + amt,
-                spinCount: (uData.spinCount||0) + newSpins
-            }); 
-            await updateDoc(doc(db,"deposits",id),{status:'Completed'}); 
-            await addDoc(collection(db, "transactions"), { userId: uid, type: 'Deposit', amount: amt, desc: 'Deposit Approved', createdAt: serverTimestamp() });
-            toast(`Funds Added! User got ${newSpins} spins.`); 
-        } 
-    };
-
-    window.updWd = async (id, st, uid, amt) => { 
-        if(confirm(`Confirm to ${st}?`)) { 
-            if(st === 'Cancelled' && uid && amt) { 
-                let u=await getDoc(doc(db,"users",uid)); 
-                await updateDoc(doc(db,"users",uid),{walletBalance:(u.data().walletBalance||0)+amt}); 
-                await addDoc(collection(db, "transactions"), { userId: uid, type: 'Refund', amount: amt, desc: 'Withdrawal Rejected', createdAt: serverTimestamp() });
-            } 
-            await updateDoc(doc(db,"withdrawals",id),{status:st}); toast(`Withdrawal ${st}`);
-        } 
-    };
+    window.apprDep = async (id, uid, amt) => { if(confirm(`Approve +${amt}?`)) { let u = await getDoc(doc(db,"users",uid)); let uData = u.data(); let newSpins = Math.floor(amt / 10000); await updateDoc(doc(db,"users",uid),{ walletBalance: (uData.walletBalance||0) + amt, spinCount: (uData.spinCount||0) + newSpins }); await updateDoc(doc(db,"deposits",id),{status:'Completed'}); await addDoc(collection(db, "transactions"), { userId: uid, type: 'Deposit', amount: amt, desc: 'Deposit Approved', createdAt: serverTimestamp() }); toast(`Funds Added! User got ${newSpins} spins.`); } };
+    window.updWd = async (id, st, uid, amt) => { if(confirm(`Confirm to ${st}?`)) { if(st === 'Cancelled' && uid && amt) { let u=await getDoc(doc(db,"users",uid)); await updateDoc(doc(db,"users",uid),{walletBalance:(u.data().walletBalance||0)+amt}); await addDoc(collection(db, "transactions"), { userId: uid, type: 'Refund', amount: amt, desc: 'Withdrawal Rejected', createdAt: serverTimestamp() }); } await updateDoc(doc(db,"withdrawals",id),{status:st}); toast(`Withdrawal ${st}`); } };
 </script>
 </body>
 </html>
-
