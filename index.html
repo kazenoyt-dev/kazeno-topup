@@ -76,6 +76,10 @@
   .nav-btn{flex:1; background:transparent; border:none; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer;}
   .nav-btn svg{width:24px; height:24px; transition:0.2s;}
   .nav-btn.active{color:var(--accent);} .nav-btn.active svg{transform:scale(1.1);}
+
+  /* 💡 FIXED UPLOAD BOX CSS 💡 */
+  .upload-box-fixed { display:block; border:2px dashed var(--border); border-radius:16px; padding:25px; text-align:center; background:rgba(0,0,0,0.2); margin-top:20px; cursor:pointer; transition:0.2s; }
+  .upload-box-fixed:active { background: rgba(255,255,255,0.05); }
 </style>
 </head>
 <body>
@@ -115,7 +119,7 @@
             </div>
         </div>
         <img id="dyn-home-banner" src="" style="width:100%; height:160px; object-fit:cover; border-radius:16px; margin-bottom:20px; display:none;">
-        <div id="dyn-game-list"><div style="text-align:center; padding:20px; color:var(--muted);">Loading catalogs...</div></div>
+        <div id="dyn-game-list"><div style="text-align:center; padding:20px; color:var(--muted);">Loading games...</div></div>
     </div>
 
     <div id="page-detail" class="page" style="padding-top:0;">
@@ -147,11 +151,12 @@
         <div id="pay-slip" class="pay-view">
             <div id="chk-dyn-payments">Loading methods...</div>
             <input type="hidden" id="selected-pay-method" value="">
-            <div style="border:2px dashed var(--border); border-radius:16px; padding:25px; text-align:center; background:rgba(0,0,0,0.2); margin-top:15px;" onclick="document.getElementById('file-input').click()">
+            
+            <label for="file-input" class="upload-box-fixed">
                 <div id="upload-placeholder" style="font-size:13px; font-weight:600; color:var(--accent);">+ Upload Transfer Receipt</div>
                 <img id="preview-img" style="width:100%; border-radius:10px; display:none; margin-top:10px;">
                 <input type="file" id="file-input" style="display:none;" accept="image/*" onchange="handleFileUpload(this)">
-            </div>
+            </label>
         </div>
 
         <div style="margin-top:20px; padding-top:20px; border-top:1px dashed var(--border);">
@@ -215,7 +220,13 @@
         <input type="number" id="dep-amount" class="auth-input" placeholder="Amount (e.g. 5000)">
         <div style="font-size:12px; color:var(--muted); margin-bottom:5px;">Transfer To:</div>
         <div id="dep-dyn-payments">Loading methods...</div><input type="hidden" id="selected-dep-method" value="">
-        <div style="border:2px dashed var(--border); border-radius:16px; padding:25px; text-align:center; background:rgba(0,0,0,0.2); margin-top:20px;" onclick="document.getElementById('dep-file').click()"><div id="dep-placeholder" style="font-size:13px; font-weight:600; color:var(--accent);">+ Upload Transfer Slip</div><img id="dep-img" style="width:100%; border-radius:10px; display:none; margin-top:10px;"><input type="file" id="dep-file" style="display:none;" accept="image/*" onchange="handleDepUpload(this)"></div>
+        
+        <label for="dep-file" class="upload-box-fixed">
+            <div id="dep-placeholder" style="font-size:13px; font-weight:600; color:var(--accent);">+ Upload Transfer Slip</div>
+            <img id="dep-img" style="width:100%; border-radius:10px; display:none; margin-top:10px;">
+            <input type="file" id="dep-file" style="display:none;" accept="image/*" onchange="handleDepUpload(this)">
+        </label>
+        
         <div class="bottom-bar"><button class="btn-main" id="btn-dep" onclick="submitDeposit()">Submit Deposit</button></div>
     </div>
 
@@ -257,6 +268,7 @@
     const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
+    // --- UTILS ---
     window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
     window.vibe = () => { if(navigator.vibrate) navigator.vibrate(40); }
     function formatDate(ts) { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); }
@@ -265,6 +277,7 @@
     let me = null; let myWallet = 0; let myRole = 'Customer'; let mySpins = 0; let myRefCode = ''; 
     let isLoginMode = true; let payMode = 'wallet'; 
     let currentOrder = { gameName: '', catId: '', item: '', price: 0, inputs: {} };
+    let depFile = null; let seenNotis = JSON.parse(localStorage.getItem('seenNotis') || '[]'); let allMyData = [];
     let dynamicCats = []; let dynamicProds = []; let payMethods = []; let currentPromo = null;
     let tgBotToken = ""; let tgChatId = ""; let tgOrderTopicId = ""; let tgDepositTopicId = "";
 
@@ -286,9 +299,9 @@
         dynamicCats = []; let html = "";
         snap.forEach(s => {
             let c = {id: s.id, ...s.data()}; dynamicCats.push(c);
-            html += `<div class="game-card" onclick="openGameDetail('${c.id}')"><div style="display:flex; align-items:center; gap:15px;"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div><div style="font-weight:700; font-size:15px; color:#fff;">${c.name}</div><div style="font-size:11px; color:var(--muted); margin-top:4px;">Available</div></div></div><div class="buy-btn">Open</div></div>`;
+            html += `<div class="game-card" onclick="openGameDetail('${c.id}')"><div style="display:flex; align-items:center; gap:15px;"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div><div style="font-weight:700; font-size:15px; color:#fff;">${c.name}</div><div style="font-size:11px; color:var(--muted); margin-top:4px;">Available</div></div></div><div class="buy-btn">Buy</div></div>`;
         });
-        document.getElementById('dyn-game-list').innerHTML = html || "<div style='text-align:center; color:gray;'>No categories found.</div>";
+        document.getElementById('dyn-game-list').innerHTML = html || "<div style='text-align:center; padding:20px; color:gray;'>No categories found.</div>";
     });
 
     onSnapshot(query(collection(db, "products"), where("isActive", "==", true)), (snap) => {
@@ -318,22 +331,16 @@
     };
     function updatePriceDisplay() { let fPrice = currentOrder.basePrice; if(currentPromo && fPrice > 0) { fPrice = Math.max(0, fPrice - currentPromo); } currentOrder.price = fPrice; document.getElementById('display-total').innerText = fPrice.toLocaleString() + " Ks"; checkForm(); }
 
-    // 💡 ADVANCED TG ALERT SENDER (SENDS ADMIN LINK URL) 💡
     async function sendTgAlert(msg, threadIdStr, imageUrl, tabName) {
         if(!tgBotToken || !tgChatId) return;
         let endpoint = imageUrl ? "sendPhoto" : "sendMessage";
         let payload = { chat_id: tgChatId, parse_mode: "HTML" };
         if(threadIdStr && !isNaN(parseInt(threadIdStr))) { payload.message_thread_id = parseInt(threadIdStr); }
 
-        // Create deep link URL to Admin Panel
         let adminUrl = window.location.origin + window.location.pathname.replace('index.html', '') + "admin.html?tab=" + tabName;
         if(!adminUrl.includes('http')) adminUrl = "https://kazenoyt-dev.github.io/admin.html?tab=" + tabName;
 
-        payload.reply_markup = {
-            inline_keyboard: [[
-                { text: "✅ Check in Admin Panel", url: adminUrl }
-            ]]
-        };
+        payload.reply_markup = { inline_keyboard: [[ { text: "✅ Check in Admin Panel", url: adminUrl } ]] };
 
         if(imageUrl) { payload.photo = imageUrl; payload.caption = msg; } 
         else { payload.text = msg; }
@@ -341,7 +348,7 @@
         try { await fetch(`https://api.telegram.org/bot${tgBotToken}/${endpoint}`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); } catch(e) {}
     }
 
-    // --- AUTH & REFERRAL ---
+    // --- AUTH ---
     window.toggleAuthMode = () => { isLoginMode = !isLoginMode; document.getElementById('auth-btn').innerText = isLoginMode ? "Login" : "Sign Up"; document.getElementById('auth-toggle').innerText = isLoginMode ? "Sign Up" : "Login"; document.getElementById('ref-container').style.display = isLoginMode ? 'none' : 'block'; };
     window.handleAuth = async () => {
         const em = document.getElementById('auth-email').value.trim(); const pw = document.getElementById('auth-password').value.trim();
@@ -391,10 +398,9 @@
                     checkForm(); 
                 }
             });
-            onSnapshot(query(collection(db, "orders"), where("userId", "==", me.uid), orderBy("createdAt", "desc")), (s) => { 
-                let h=""; s.forEach(d=>{ let o=d.data(); let cls = o.status==='Completed'?'var(--ok)':(o.status==='Cancelled'?'var(--danger)':'var(--warning)'); h+=`<div class="glass-card" style="padding:15px; margin-bottom:12px; border-left:4px solid ${cls};"><div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span class="id-tag">${o.orderId||d.id.substring(0,8)}</span><span style="font-size:10px; font-weight:bold; color:${cls}; text-transform:uppercase;">${o.status}</span></div><div style="font-weight:700; font-size:14px; margin-bottom:4px;">${o.game} - <span style="color:var(--accent);">${o.item}</span></div><div style="font-size:12px; color:var(--muted);">${o.playerId}</div><div style="font-size:14px; font-weight:800; margin-top:8px;">${o.price.toLocaleString()} Ks</div></div>`; }); 
-                document.getElementById('orders-list').innerHTML = h || "<div style='text-align:center; color:gray;'>No orders yet.</div>";
-            });
+            onSnapshot(query(collection(db, "orders"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'order', ...d.data()})); processData(a, false); });
+            onSnapshot(query(collection(db, "deposits"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'deposit', ...d.data()})); processData(a, true, false); });
+            onSnapshot(query(collection(db, "withdrawals"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'withdraw', ...d.data()})); processData(a, false, true); });
             
             onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid), orderBy("createdAt", "desc")), (s) => {
                 let html = ""; s.forEach(d => { let t = d.data(); let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = t.amount >= 0 ? '+' : ''; html += `<div class="glass-card" style="padding:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700; font-size:14px; color:#fff;">${t.type}</div><div style="font-size:11px; color:var(--muted);">${t.desc}</div><div style="font-size:10px; color:var(--muted); margin-top:4px;">${formatDate(t.createdAt)}</div></div><div style="font-weight:800; font-size:16px; color:${color};">${sign}${t.amount.toLocaleString()} Ks</div></div>`; });
@@ -403,33 +409,52 @@
         } else { document.getElementById('main-app').style.display = 'none'; document.getElementById('auth-screen').classList.add('active'); }
     });
 
+    function processData(newData, isDeposit = false, isWithdraw = false) {
+        if(isDeposit) allMyData = allMyData.filter(x => x.type !== 'deposit').concat(newData);
+        else if (isWithdraw) allMyData = allMyData.filter(x => x.type !== 'withdraw').concat(newData);
+        else allMyData = allMyData.filter(x => x.type !== 'order').concat(newData);
+        allMyData.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
+        let oHtml = "", nHtml = "", unread = 0;
+        allMyData.forEach(o => {
+            let cls = o.status==='Completed'?'completed':(o.status==='Cancelled'?'cancelled':'pending');
+            if(o.type === 'order') oHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px;"><div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span class="id-tag">${o.orderId || o.id.substring(0,8)}</span><span class="badge ${cls}">${o.status}</span></div><div style="font-weight:700; font-size:14px; margin-bottom:4px;">${o.game} - <span style="color:var(--accent);">${o.item}</span></div><div style="font-size:12px; color:var(--muted);">ID: ${o.playerId}</div><div style="font-size:14px; font-weight:800; margin-top:8px;">${o.price.toLocaleString()} Ks</div></div>`;
+            else if (o.type === 'withdraw') oHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px;"><div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span class="id-tag">${o.wdId || o.id.substring(0,8)}</span><span class="badge ${cls}">${o.status}</span></div><div style="font-weight:700; font-size:14px; margin-bottom:4px; color:var(--danger);">Withdrawal Request</div><div style="font-size:12px; color:var(--muted);">${o.payMethod}: ${o.accPhone}</div><div style="font-size:14px; font-weight:800; margin-top:8px; color:var(--danger);">- ${o.amount.toLocaleString()} Ks</div></div>`;
+            if(o.status !== 'Pending') {
+                if(!seenNotis.includes(o.id+o.status)) unread++;
+                let title = o.type === 'order' ? 'ORDER' : (o.type === 'deposit' ? 'TOP UP' : 'WITHDRAW');
+                nHtml += `<div class="glass-card" style="padding:15px; margin-bottom:10px; border-left:4px solid ${o.status==='Completed'?'var(--ok)':'var(--danger)'};"><div style="font-size:13px; font-weight:700; margin-bottom:6px;">${o.status==='Completed'?'✅':'❌'} ${title} ${o.status.toUpperCase()}</div><div style="font-size:12px; color:var(--muted);">${o.type==='order'?`Order: ${o.item}`:`Amount: ${o.amount} Ks`} is ${o.status.toLowerCase()}.</div><div style="font-size:10px; color:var(--muted); text-align:right; margin-top:5px;">${formatDate(o.createdAt)}</div></div>`;
+            }
+        });
+        document.getElementById('orders-list').innerHTML = oHtml || "<div style='text-align:center; color:gray;'>No history yet.</div>";
+        document.getElementById('noti-list').innerHTML = nHtml || "<div style='text-align:center; color:gray;'>No notifications.</div>";
+        document.getElementById('bell-badge').style.display = unread > 0 ? 'block' : 'none';
+    }
+
+    // --- DETAIL ---
     window.openGameDetail = (catId) => {
         vibe(); let c = dynamicCats.find(x => x.id === catId); if(!c) return;
-        currentOrder.catId = c.id; currentOrder.gameName = c.name; 
-        document.getElementById('detail-game-title').innerText = c.name; 
-        document.getElementById('detail-banner').src = c.logoUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
-
+        currentOrder.gameName = c.name; document.getElementById('detail-game-title').innerText = c.name; document.getElementById('detail-banner').src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
+        
         let formHtml = ""; let forms = c.forms || [];
         if(forms.includes('gameId')) formHtml += `<input type="text" id="dyn-uid" class="auth-input" style="flex:2; margin:0;" placeholder="Game ID" oninput="checkForm()">`;
         if(forms.includes('zoneId')) formHtml += `<input type="text" id="dyn-zone" class="auth-input" style="flex:1; margin:0;" placeholder="Server ID">`;
         if(forms.includes('email')) formHtml += `<input type="email" id="dyn-email" class="auth-input" style="width:100%; margin:0;" placeholder="Account Email" oninput="checkForm()">`;
         document.getElementById('dyn-form-inputs').innerHTML = formHtml || `<div style="font-size:11px; color:var(--muted);">No inputs required.</div>`;
 
-        let prods = dynamicProds.filter(p => p.categoryId === c.id);
-        prods.sort((a,b) => a.sellingPrice - b.sellingPrice);
-        
+        let prods = dynamicProds.filter(p => p.categoryId === c.id); prods.sort((a,b) => a.sellingPrice - b.sellingPrice);
         let pHtml = "";
         prods.forEach(p => {
             let displayPrice = p.sellingPrice; let isReseller = false; 
             if(myRole === 'Seller' && p.resellerPrice && p.resellerPrice > 0) { displayPrice = p.resellerPrice; isReseller = true; }
-            pHtml += `<div class="pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${displayPrice}, ${p.retailPrice||0})">${isReseller ? `<div class="reseller-badge">Seller</div>` : ''}<div style="display:flex; align-items:center; gap:10px;"><img src="${p.logoUrl||'https://cdn-icons-png.flaticon.com/128/1077/1077114.png'}" style="width:30px; height:30px; object-fit:cover; border-radius:6px;"><div style="font-weight:700; font-size:13px; display:flex; flex-direction:column;">${p.name} <span style="font-size:12px; color:var(--accent); font-weight:800; margin-top:2px;">${displayPrice.toLocaleString()} Ks</span></div></div></div>`;
+            pHtml += `<div class="pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${displayPrice})">${isReseller ? `<div class="reseller-badge">Seller</div>` : ''}<div style="display:flex; align-items:center; gap:10px;"><img src="${p.logoUrl||'https://cdn-icons-png.flaticon.com/128/1077/1077114.png'}" style="width:30px; height:30px; object-fit:cover; border-radius:6px;"><div style="font-weight:700; font-size:13px; display:flex; flex-direction:column;">${p.name} <span style="font-size:12px; color:var(--accent); font-weight:800; margin-top:2px;">${displayPrice.toLocaleString()} Ks</span></div></div></div>`;
         });
         document.getElementById('pack-container').innerHTML = pHtml || "<div style='font-size:12px; color:var(--muted);'>No products available.</div>";
         
-        currentOrder.item = ''; currentOrder.basePrice = 0; currentOrder.costPrice = 0; currentOrder.price = 0; currentOrder.uid = ''; currentPromo = null; document.getElementById('promo-msg').style.display='none'; document.getElementById('inp-promo').value=''; document.getElementById('display-total').innerText = "0 Ks"; switchPayTab('wallet', document.querySelector('.pay-tab')); navToMain('page-detail');
+        currentOrder.item = ''; currentOrder.price = 0; document.getElementById('display-total').innerText = "0 Ks";
+        switchPayTab('wallet', document.querySelector('.pay-tab')); navToMain('page-detail');
     };
 
-    window.selectPackage = (id, n, p, c) => { vibe(); document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('selected')); document.getElementById(`pkg-${id}`).classList.add('selected'); currentOrder.item = n; currentOrder.basePrice = p; currentOrder.costPrice = c; updatePriceDisplay(); };
+    window.selectPackage = (id, n, p) => { vibe(); document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('selected')); document.getElementById(`pkg-${id}`).classList.add('selected'); currentOrder.item = n; currentOrder.price = p; document.getElementById('display-total').innerText = p.toLocaleString() + " Ks"; checkForm(); };
     window.switchPayTab = (m, el) => { vibe(); payMode = m; document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.pay-view').forEach(v => v.classList.remove('active')); el.classList.add('active'); document.getElementById('pay-'+m).classList.add('active'); checkForm(); };
     
     window.checkForm = () => {
@@ -442,10 +467,50 @@
         document.getElementById('btn-submit').disabled = !isValid;
     };
 
-    window.handleFileUpload = (i) => { if(i.files[0]) { vibe(); currentOrder.slipFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('upload-placeholder').style.display='none'; document.getElementById('preview-img').src = e.target.result; document.getElementById('preview-img').style.display='block'; checkForm(); }; r.readAsDataURL(i.files[0]); } };
-    window.handleDepUpload = (i) => { if(i.files[0]) { vibe(); depFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('dep-placeholder').style.display='none'; document.getElementById('dep-img').src=e.target.result; document.getElementById('dep-img').style.display='block'; }; r.readAsDataURL(i.files[0]); } };
-    async function uploadImage(f) { let fd = new FormData(); fd.append("image", f); let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let d = await res.json(); if(d.success) return d.data.url; throw new Error("Upload failed"); }
+    // 💡 IMPROVED IMGBB UPLOAD WITH ERROR CATCHING 💡
+    window.handleFileUpload = (i) => { 
+        if(i.files[0]) { 
+            vibe(); 
+            currentOrder.slipFile = i.files[0]; 
+            let r = new FileReader(); 
+            r.onload = (e) => { 
+                document.getElementById('upload-placeholder').style.display='none'; 
+                document.getElementById('preview-img').src = e.target.result; 
+                document.getElementById('preview-img').style.display='block'; 
+                checkForm(); 
+            }; 
+            r.readAsDataURL(i.files[0]); 
+        } 
+    };
+    
+    window.handleDepUpload = (i) => { 
+        if(i.files[0]) { 
+            vibe(); 
+            depFile = i.files[0]; 
+            let r = new FileReader(); 
+            r.onload = (e) => { 
+                document.getElementById('dep-placeholder').style.display='none'; 
+                document.getElementById('dep-img').src=e.target.result; 
+                document.getElementById('dep-img').style.display='block'; 
+            }; 
+            r.readAsDataURL(i.files[0]); 
+        } 
+    };
+    
+    async function uploadImage(f) { 
+        let fd = new FormData(); 
+        fd.append("image", f); 
+        try {
+            let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); 
+            let d = await res.json(); 
+            if(d.success) return d.data.url; 
+            throw new Error(d.error ? d.error.message : "ImgBB Server Error"); 
+        } catch(e) {
+            throw new Error("Failed to upload image. Please try again.");
+        }
+    }
 
+    // 💡 FIXED SUBMIT DEPOSIT & ORDERS 💡
     window.submitOrder = async () => {
         vibe(); const b = document.getElementById('btn-submit'); b.innerText = "Processing..."; b.disabled = true;
         try {
@@ -456,19 +521,25 @@
             currentOrder.uid = inputData;
 
             let slipUrl = null; let finalMethod = 'wallet';
-            if(payMode === 'slip') { slipUrl = await uploadImage(currentOrder.slipFile); finalMethod = document.getElementById('selected-pay-method').value; } 
-            else { if(myWallet < currentOrder.price) throw new Error("Insufficient Balance"); await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - currentOrder.price }); }
+            if(payMode === 'slip') { 
+                slipUrl = await uploadImage(currentOrder.slipFile); 
+                finalMethod = document.getElementById('selected-pay-method').value; 
+            } 
+            else { 
+                if(myWallet < currentOrder.price) throw new Error("Insufficient Balance"); 
+                await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - currentOrder.price }); 
+            }
             
             let ordId = genID('ORD');
-            await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, costPrice: currentOrder.costPrice, playerId: currentOrder.uid, payMethod: finalMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
+            await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, playerId: currentOrder.uid, payMethod: finalMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
             
             if(payMode === 'wallet') { await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Order', amount: -currentOrder.price, desc: `Bought ${currentOrder.item} (${currentOrder.gameName})`, createdAt: serverTimestamp() }); }
             
-            // 💡 SEND TG ALERT WITH LINK TO ORDERS TAB 💡
             sendTgAlert(`📦 <b>NEW ORDER [${ordId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email} (${myRole})\n🎮 Game: ${currentOrder.gameName}\n💎 Item: ${currentOrder.item}\n🆔 ID: <code>${currentOrder.uid}</code>\n💰 Price: ${currentOrder.price.toLocaleString()} Ks\n💳 Method: ${finalMethod}`, tgOrderTopicId, slipUrl, 'v-orders');
             
             toast("Order Placed!"); document.getElementById('preview-img').style.display = 'none'; document.getElementById('upload-placeholder').style.display = 'block'; currentOrder.slipFile = null; navToMain('page-orders');
-        } catch (e) { toast(e.message); checkForm(); b.innerText="Pay Now"; }
+        } catch (e) { toast(e.message); checkForm(); }
+        b.innerText="Pay Now"; // Reset Button
     };
 
     window.submitDeposit = async () => {
@@ -476,14 +547,15 @@
         if(!amt || !depFile || !pMethod) return toast("Select method, enter amount and slip");
         vibe(); const b = document.getElementById('btn-dep'); b.innerText = "Uploading..."; b.disabled = true;
         try {
-            let slipUrl = await uploadImage(depFile); let depId = genID('DEP');
+            let slipUrl = await uploadImage(depFile); 
+            let depId = genID('DEP');
             await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
             
-            // 💡 SEND TG ALERT WITH LINK TO DEPOSITS TAB 💡
             sendTgAlert(`💸 <b>NEW DEPOSIT [${depId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n💳 Method: ${pMethod}`, tgDepositTopicId, slipUrl, 'v-deposits');
             
             toast("Deposit sent!"); document.getElementById('dep-amount').value = ""; document.getElementById('dep-img').style.display = "none"; document.getElementById('dep-placeholder').style.display = "block"; depFile = null; navToMain('page-profile');
-        } catch(e) { toast(e.message); } b.innerText = "Submit Deposit"; b.disabled = false;
+        } catch(e) { toast(e.message); } 
+        b.innerText = "Submit Deposit"; b.disabled = false; // Reset Button
     };
 
     window.submitWithdraw = async () => {
@@ -496,11 +568,11 @@
             await addDoc(collection(db, "withdrawals"), { wdId: wdId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: met, accPhone: ph, accName: nm, status: "Pending", createdAt: serverTimestamp() });
             await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Withdrawal', amount: -amt, desc: `Requested withdraw via ${met}`, createdAt: serverTimestamp() });
             
-            // 💡 SEND TG ALERT WITH LINK TO WITHDRAWALS TAB 💡
             sendTgAlert(`💳 <b>WITHDRAW REQUEST [${wdId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n🏦 Method: ${met}\n📱 Acc: ${ph} (${nm})`, tgDepositTopicId, null, 'v-withdraws');
             
             toast("Withdraw requested!"); navToMain('page-orders'); document.getElementById('wd-amount').value=''; document.getElementById('wd-phone').value=''; document.getElementById('wd-name').value='';
-        } catch(e) { toast(e.message); } b.disabled = false; b.innerText = "Submit Request";
+        } catch(e) { toast(e.message); } 
+        b.disabled = false; b.innerText = "Submit Request"; // Reset Button
     };
 
     window.playSpin = async () => {
