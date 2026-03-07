@@ -77,7 +77,6 @@
   .nav-btn svg{width:24px; height:24px; transition:0.2s;}
   .nav-btn.active{color:var(--accent);} .nav-btn.active svg{transform:scale(1.1);}
 
-  /* 💡 FIXED UPLOAD BOX CSS 💡 */
   .upload-box-fixed { display:block; border:2px dashed var(--border); border-radius:16px; padding:25px; text-align:center; background:rgba(0,0,0,0.2); margin-top:20px; cursor:pointer; transition:0.2s; }
   .upload-box-fixed:active { background: rgba(255,255,255,0.05); }
 </style>
@@ -87,18 +86,15 @@
 
 <div id="auth-screen" class="app-container active">
     <div class="glass-card auth-box">
-        <div style="font-size:26px; font-weight:800; margin-bottom:5px; color:#fff;">Kazeno Shop</div>
-        <div style="font-size:13px; color:var(--muted); margin-bottom:30px;">Login or create account</div>
+        <div style="font-size:26px; font-weight:800; margin-bottom:30px; color:#fff;">Kazeno Shop</div>
         <input type="email" id="auth-email" class="auth-input" placeholder="Email Address">
         <input type="password" id="auth-password" class="auth-input" placeholder="Password">
-        
         <div id="ref-container" style="display:none;">
             <div style="font-size:11px; color:var(--muted); text-align:left; margin-bottom:5px;">Referral Code (Optional)</div>
             <input type="text" id="auth-ref" class="auth-input" style="text-transform:uppercase;" placeholder="e.g. A1B2C">
         </div>
-
         <button class="btn-main" id="auth-btn" onclick="handleAuth()">Login</button>
-        <div style="font-size:13px; color:var(--accent); cursor:pointer; margin-top:20px;" id="auth-toggle" onclick="toggleAuthMode()">Don't have an account? Sign Up</div>
+        <div style="font-size:13px; color:var(--accent); cursor:pointer; margin-top:20px;" onclick="toggleAuthMode()">Don't have an account? Sign Up</div>
     </div>
 </div>
 
@@ -125,8 +121,7 @@
     <div id="page-detail" class="page" style="padding-top:0;">
         <div class="back-btn-float" onclick="navToMain('page-home')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div>
         <img id="detail-banner" class="detail-banner" src="">
-        
-        <div style="font-weight:700; font-size:18px; margin-bottom:15px; color:#fff;" id="detail-game-title">Game Title</div>
+        <div style="font-weight:700; font-size:18px; margin-bottom:15px; color:#fff;" id="detail-game-title">Title</div>
         
         <div style="font-size:13px; font-weight:700; margin-bottom:10px;">1. Enter Account Info</div>
         <div id="dyn-form-inputs" style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;"></div>
@@ -137,7 +132,7 @@
         <div style="font-size:13px; font-weight:700; margin-bottom:10px;">3. Payment Method</div>
         <div class="pay-tabs">
             <div class="pay-tab active" onclick="switchPayTab('wallet', this)">Wallet</div>
-            <div class="pay-tab" onclick="switchPayTab('slip', this)">Direct Transfer</div>
+            <div class="pay-tab" onclick="switchPayTab('slip', this)">Bank Transfer</div>
         </div>
 
         <div id="pay-wallet" class="pay-view active">
@@ -151,7 +146,6 @@
         <div id="pay-slip" class="pay-view">
             <div id="chk-dyn-payments">Loading methods...</div>
             <input type="hidden" id="selected-pay-method" value="">
-            
             <label for="file-input" class="upload-box-fixed">
                 <div id="upload-placeholder" style="font-size:13px; font-weight:600; color:var(--accent);">+ Upload Transfer Receipt</div>
                 <img id="preview-img" style="width:100%; border-radius:10px; display:none; margin-top:10px;">
@@ -169,17 +163,14 @@
         </div>
 
         <div class="bottom-bar">
-            <div><div style="font-size:11px; color:var(--muted);">Total Payment</div><div style="font-size:20px; font-weight:800; color:var(--accent);" id="display-total">0 Ks</div></div>
+            <div><div style="font-size:11px; color:var(--muted);">Total</div><div style="font-size:20px; font-weight:800; color:var(--accent);" id="display-total">0 Ks</div></div>
             <button class="btn-main" style="width:auto; padding:12px 30px;" id="btn-submit" disabled onclick="submitOrder()">Pay Now</button>
         </div>
     </div>
 
-    <div id="page-orders" class="page"><h2 style="margin-bottom:15px;">Order History</h2><div id="orders-list"><div style="text-align:center; color:var(--muted);">Loading...</div></div></div>
-
-    <div id="page-notifications" class="page">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="back-btn-float" style="position:static;" onclick="navToMain('page-home')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h2 style="margin:0;">Notifications</h2></div>
-        <div id="noti-list"><div style="text-align:center; color:var(--muted);">No notifications.</div></div>
-    </div>
+    <div id="page-orders" class="page"><h2 style="margin-bottom:15px;">Order History</h2><div id="orders-list"></div></div>
+    
+    <div id="page-notifications" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="back-btn-float" style="position:static;" onclick="navToMain('page-home')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h2 style="margin:0;">Notifications</h2></div><div id="noti-list"></div></div>
 
     <div id="page-profile" class="page">
         <h2 style="margin-bottom:20px;">Profile</h2>
@@ -190,8 +181,8 @@
             </div>
             <div style="font-size:30px; font-weight:800; color:var(--ok); margin-bottom:20px;" id="prof-wallet">0 Ks</div>
             <div style="display:flex; gap:10px;">
-                <button class="btn-main" style="flex:1; padding:12px; font-size:13px;" onclick="navToMain('page-deposit')">📥 Top Up</button>
-                <button class="btn-main" style="flex:1; padding:12px; font-size:13px; background:transparent; border:1px solid var(--border); color:var(--danger);" onclick="navToMain('page-withdraw')">📤 Withdraw</button>
+                <button class="btn-main" style="flex:1; padding:12px; font-size:13px;" onclick="navTo('page-deposit')">📥 Top Up</button>
+                <button class="btn-main" style="flex:1; padding:12px; font-size:13px; background:transparent; border:1px solid var(--border); color:var(--danger);" onclick="navTo('page-withdraw')">📤 Withdraw</button>
             </div>
         </div>
 
@@ -202,17 +193,13 @@
         </div>
         
         <h3 style="font-size:14px; color:var(--muted); margin-bottom:10px;">Menu</h3>
-        <div class="glass-card" style="padding:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="navToMain('page-spin')">
+        <div class="glass-card" style="padding:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="navTo('page-spin')">
             <div><strong style="color:var(--warning);">🎰 Lucky Spin</strong><div style="font-size:10px; color:var(--muted); margin-top:3px;">Tickets: <span id="prof-spins" style="font-weight:bold; color:#fff;">0</span></div></div>
             <div style="font-size:10px; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px;">Play Now</div>
         </div>
-        <div class="glass-card" style="padding:15px; margin-bottom:10px; cursor:pointer;" onclick="navToMain('page-ledger')"><strong style="color:var(--accent);">📖 Wallet Usage / Ledger</strong></div>
+        <div class="glass-card" style="padding:15px; margin-bottom:10px; cursor:pointer;" onclick="navTo('page-ledger')"><strong style="color:var(--accent);">📖 Wallet Usage / Ledger</strong></div>
         <div class="glass-card" style="padding:15px; margin-bottom:10px; cursor:pointer;" onclick="navToMain('page-orders')"><strong style="color:var(--ok);">🛍️ My Orders</strong></div>
         <div class="glass-card" style="padding:15px; margin-bottom:20px; cursor:pointer;" onclick="logout()"><strong style="color:var(--danger);">🚪 Logout</strong></div>
-
-        <h3 style="font-size:14px; color:var(--muted); margin-bottom:10px;">Customer Service</h3>
-        <a id="btn-cs-fb" href="#" target="_blank" class="cs-btn fb" style="display:none;">📱 Contact via Facebook</a>
-        <a id="btn-cs-tg" href="#" target="_blank" class="cs-btn tg" style="display:none;">✈️ Contact via Telegram</a>
     </div>
 
     <div id="page-deposit" class="page">
@@ -220,13 +207,11 @@
         <input type="number" id="dep-amount" class="auth-input" placeholder="Amount (e.g. 5000)">
         <div style="font-size:12px; color:var(--muted); margin-bottom:5px;">Transfer To:</div>
         <div id="dep-dyn-payments">Loading methods...</div><input type="hidden" id="selected-dep-method" value="">
-        
         <label for="dep-file" class="upload-box-fixed">
             <div id="dep-placeholder" style="font-size:13px; font-weight:600; color:var(--accent);">+ Upload Transfer Slip</div>
             <img id="dep-img" style="width:100%; border-radius:10px; display:none; margin-top:10px;">
             <input type="file" id="dep-file" style="display:none;" accept="image/*" onchange="handleDepUpload(this)">
         </label>
-        
         <div class="bottom-bar"><button class="btn-main" id="btn-dep" onclick="submitDeposit()">Submit Deposit</button></div>
     </div>
 
@@ -263,7 +248,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, where, doc, setDoc, updateDoc, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, where, doc, setDoc, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
@@ -271,7 +256,7 @@
     // --- UTILS ---
     window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
     window.vibe = () => { if(navigator.vibrate) navigator.vibrate(40); }
-    function formatDate(ts) { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); }
+    function formatDate(ts) { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); }
     function genID(prefix) { return prefix + '-' + Math.random().toString(36).substr(2, 6).toUpperCase(); }
 
     let me = null; let myWallet = 0; let myRole = 'Customer'; let mySpins = 0; let myRefCode = ''; 
@@ -281,31 +266,30 @@
     let dynamicCats = []; let dynamicProds = []; let payMethods = []; let currentPromo = null;
     let tgBotToken = ""; let tgChatId = ""; let tgOrderTopicId = ""; let tgDepositTopicId = "";
 
-    // --- NAVIGATION FUNCTIONS ---
+    // --- NAVIGATION ---
     window.navToMain = (id) => { vibe(); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); navTo(id); };
     window.navTo = (id) => { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); document.getElementById('main-nav').style.display = ['page-home','page-orders','page-profile'].includes(id) ? 'flex' : 'none'; };
 
-    // --- DYNAMIC DATA ---
+    // --- FETCH DATA ---
     onSnapshot(doc(db, "settings", "app_config"), (d) => {
         if(d.exists()) { 
             if(d.data().homeBannerUrl) { document.getElementById('dyn-home-banner').src = d.data().homeBannerUrl; document.getElementById('dyn-home-banner').style.display = 'block'; }
-            if(d.data().fbLink) { document.getElementById('btn-cs-fb').href = d.data().fbLink; document.getElementById('btn-cs-fb').style.display = 'flex'; }
-            if(d.data().tgLink) { document.getElementById('btn-cs-tg').href = d.data().tgLink; document.getElementById('btn-cs-tg').style.display = 'flex'; }
             tgBotToken = d.data().tgBotToken || ""; tgChatId = d.data().tgChatId || ""; tgOrderTopicId = d.data().tgOrderTopicId || ""; tgDepositTopicId = d.data().tgDepositTopicId || "";
         }
     });
 
-    onSnapshot(query(collection(db, "categories"), where("isActive", "==", true), orderBy("orderNum", "asc")), (snap) => {
+    onSnapshot(collection(db, "categories"), (snap) => {
         dynamicCats = []; let html = "";
-        snap.forEach(s => {
-            let c = {id: s.id, ...s.data()}; dynamicCats.push(c);
-            html += `<div class="game-card" onclick="openGameDetail('${c.id}')"><div style="display:flex; align-items:center; gap:15px;"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div><div style="font-weight:700; font-size:15px; color:#fff;">${c.name}</div><div style="font-size:11px; color:var(--muted); margin-top:4px;">Available</div></div></div><div class="buy-btn">Buy</div></div>`;
+        snap.forEach(s => { let c = {id: s.id, ...s.data()}; dynamicCats.push(c); });
+        dynamicCats.sort((a,b) => (a.orderNum||1) - (b.orderNum||1)); // Sort in JS
+        dynamicCats.forEach(c => {
+            if(c.isActive) { html += `<div class="game-card" onclick="openGameDetail('${c.id}')"><div style="display:flex; align-items:center; gap:15px;"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div><div style="font-weight:700; font-size:15px; color:#fff;">${c.name}</div><div style="font-size:11px; color:var(--muted); margin-top:4px;">Available</div></div></div><div class="buy-btn">Open</div></div>`; }
         });
-        document.getElementById('dyn-game-list').innerHTML = html || "<div style='text-align:center; padding:20px; color:gray;'>No categories found.</div>";
+        document.getElementById('dyn-game-list').innerHTML = html || "<div style='text-align:center; color:gray;'>No categories found.</div>";
     });
 
-    onSnapshot(query(collection(db, "products"), where("isActive", "==", true)), (snap) => {
-        dynamicProds = []; snap.forEach(s => dynamicProds.push({id: s.id, ...s.data()}));
+    onSnapshot(collection(db, "products"), (snap) => {
+        dynamicProds = []; snap.forEach(s => { if(s.data().isActive) dynamicProds.push({id: s.id, ...s.data()}); });
     });
 
     onSnapshot(collection(db, "payment_methods"), (snap) => {
@@ -336,19 +320,14 @@
         let endpoint = imageUrl ? "sendPhoto" : "sendMessage";
         let payload = { chat_id: tgChatId, parse_mode: "HTML" };
         if(threadIdStr && !isNaN(parseInt(threadIdStr))) { payload.message_thread_id = parseInt(threadIdStr); }
-
         let adminUrl = window.location.origin + window.location.pathname.replace('index.html', '') + "admin.html?tab=" + tabName;
         if(!adminUrl.includes('http')) adminUrl = "https://kazenoyt-dev.github.io/admin.html?tab=" + tabName;
-
         payload.reply_markup = { inline_keyboard: [[ { text: "✅ Check in Admin Panel", url: adminUrl } ]] };
-
-        if(imageUrl) { payload.photo = imageUrl; payload.caption = msg; } 
-        else { payload.text = msg; }
-
+        if(imageUrl) { payload.photo = imageUrl; payload.caption = msg; } else { payload.text = msg; }
         try { await fetch(`https://api.telegram.org/bot${tgBotToken}/${endpoint}`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); } catch(e) {}
     }
 
-    // --- AUTH ---
+    // --- AUTH & DATA SYNC ---
     window.toggleAuthMode = () => { isLoginMode = !isLoginMode; document.getElementById('auth-btn').innerText = isLoginMode ? "Login" : "Sign Up"; document.getElementById('auth-toggle').innerText = isLoginMode ? "Sign Up" : "Login"; document.getElementById('ref-container').style.display = isLoginMode ? 'none' : 'block'; };
     window.handleAuth = async () => {
         const em = document.getElementById('auth-email').value.trim(); const pw = document.getElementById('auth-password').value.trim();
@@ -378,17 +357,12 @@
         me = user;
         if(me) {
             document.getElementById('auth-screen').classList.remove('active'); document.getElementById('main-app').style.display = 'block';
+            
             onSnapshot(doc(db, "users", me.uid), (ds) => {
                 if(ds.exists()) { 
                     let dData = ds.data();
-                    myWallet = dData.walletBalance || 0; myRole = dData.role || 'Customer'; mySpins = dData.spinCount || 0; 
-                    myRefCode = dData.refCode;
-                    
-                    if(!myRefCode) {
-                        myRefCode = genID('K').substring(2,8).toUpperCase();
-                        updateDoc(doc(db, "users", me.uid), { refCode: myRefCode });
-                    }
-
+                    myWallet = dData.walletBalance || 0; myRole = dData.role || 'Customer'; mySpins = dData.spinCount || 0; myRefCode = dData.refCode;
+                    if(!myRefCode) { myRefCode = genID('K').substring(2,8).toUpperCase(); updateDoc(doc(db, "users", me.uid), { refCode: myRefCode }); }
                     document.getElementById('home-wallet').innerText = myWallet.toLocaleString() + " Ks"; 
                     document.getElementById('prof-wallet').innerText = myWallet.toLocaleString() + " Ks"; 
                     document.getElementById('detail-wallet-bal').innerText = myWallet.toLocaleString() + " Ks"; 
@@ -398,14 +372,25 @@
                     checkForm(); 
                 }
             });
+            
             onSnapshot(query(collection(db, "orders"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'order', ...d.data()})); processData(a, false); });
             onSnapshot(query(collection(db, "deposits"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'deposit', ...d.data()})); processData(a, true, false); });
             onSnapshot(query(collection(db, "withdrawals"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'withdraw', ...d.data()})); processData(a, false, true); });
             
-            onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid), orderBy("createdAt", "desc")), (s) => {
-                let html = ""; s.forEach(d => { let t = d.data(); let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = t.amount >= 0 ? '+' : ''; html += `<div class="glass-card" style="padding:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700; font-size:14px; color:#fff;">${t.type}</div><div style="font-size:11px; color:var(--muted);">${t.desc}</div><div style="font-size:10px; color:var(--muted); margin-top:4px;">${formatDate(t.createdAt)}</div></div><div style="font-weight:800; font-size:16px; color:${color};">${sign}${t.amount.toLocaleString()} Ks</div></div>`; });
+            // 💡 FIXED WALLET USAGE (LEDGER) INDEX BUG 💡
+            onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid)), (s) => {
+                let tArr = []; s.forEach(d => tArr.push(d.data()));
+                tArr.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0)); // JS Auto-Sort
+                
+                let html = ""; 
+                tArr.forEach(t => { 
+                    let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; 
+                    let sign = t.amount >= 0 ? '+' : ''; 
+                    html += `<div class="glass-card" style="padding:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700; font-size:14px; color:#fff;">${t.type}</div><div style="font-size:11px; color:var(--muted);">${t.desc}</div><div style="font-size:10px; color:var(--muted); margin-top:4px;">${formatDate(t.createdAt)}</div></div><div style="font-weight:800; font-size:16px; color:${color};">${sign}${t.amount.toLocaleString()} Ks</div></div>`; 
+                });
                 document.getElementById('ledger-list').innerHTML = html || "<div style='text-align:center; color:gray;'>No records yet.</div>";
             });
+            
         } else { document.getElementById('main-app').style.display = 'none'; document.getElementById('auth-screen').classList.add('active'); }
     });
 
@@ -430,7 +415,7 @@
         document.getElementById('bell-badge').style.display = unread > 0 ? 'block' : 'none';
     }
 
-    // --- DETAIL ---
+    // --- DETAIL & FORMS ---
     window.openGameDetail = (catId) => {
         vibe(); let c = dynamicCats.find(x => x.id === catId); if(!c) return;
         currentOrder.gameName = c.name; document.getElementById('detail-game-title').innerText = c.name; document.getElementById('detail-banner').src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
@@ -446,71 +431,26 @@
         prods.forEach(p => {
             let displayPrice = p.sellingPrice; let isReseller = false; 
             if(myRole === 'Seller' && p.resellerPrice && p.resellerPrice > 0) { displayPrice = p.resellerPrice; isReseller = true; }
-            pHtml += `<div class="pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${displayPrice})">${isReseller ? `<div class="reseller-badge">Seller</div>` : ''}<div style="display:flex; align-items:center; gap:10px;"><img src="${p.logoUrl||'https://cdn-icons-png.flaticon.com/128/1077/1077114.png'}" style="width:30px; height:30px; object-fit:cover; border-radius:6px;"><div style="font-weight:700; font-size:13px; display:flex; flex-direction:column;">${p.name} <span style="font-size:12px; color:var(--accent); font-weight:800; margin-top:2px;">${displayPrice.toLocaleString()} Ks</span></div></div></div>`;
+            pHtml += `<div class="pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${displayPrice}, ${p.retailPrice||0})">${isReseller ? `<div class="reseller-badge">Seller</div>` : ''}<div style="display:flex; align-items:center; gap:10px;"><img src="${p.logoUrl||'https://cdn-icons-png.flaticon.com/128/1077/1077114.png'}" style="width:30px; height:30px; object-fit:cover; border-radius:6px;"><div style="font-weight:700; font-size:13px; display:flex; flex-direction:column;">${p.name} <span style="font-size:12px; color:var(--accent); font-weight:800; margin-top:2px;">${displayPrice.toLocaleString()} Ks</span></div></div></div>`;
         });
         document.getElementById('pack-container').innerHTML = pHtml || "<div style='font-size:12px; color:var(--muted);'>No products available.</div>";
-        
-        currentOrder.item = ''; currentOrder.price = 0; document.getElementById('display-total').innerText = "0 Ks";
-        switchPayTab('wallet', document.querySelector('.pay-tab')); navToMain('page-detail');
+        currentOrder.item = ''; currentOrder.basePrice = 0; currentOrder.costPrice = 0; currentOrder.price = 0; currentOrder.uid = ''; currentPromo = null; document.getElementById('promo-msg').style.display='none'; document.getElementById('inp-promo').value=''; document.getElementById('display-total').innerText = "0 Ks"; switchPayTab('wallet', document.querySelector('.pay-tab')); navToMain('page-detail');
     };
 
-    window.selectPackage = (id, n, p) => { vibe(); document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('selected')); document.getElementById(`pkg-${id}`).classList.add('selected'); currentOrder.item = n; currentOrder.price = p; document.getElementById('display-total').innerText = p.toLocaleString() + " Ks"; checkForm(); };
+    window.selectPackage = (id, n, p, c) => { vibe(); document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('selected')); document.getElementById(`pkg-${id}`).classList.add('selected'); currentOrder.item = n; currentOrder.basePrice = p; currentOrder.costPrice = c; updatePriceDisplay(); };
     window.switchPayTab = (m, el) => { vibe(); payMode = m; document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.pay-view').forEach(v => v.classList.remove('active')); el.classList.add('active'); document.getElementById('pay-'+m).classList.add('active'); checkForm(); };
-    
-    window.checkForm = () => {
+    window.checkForm = () => { 
         let hasUid = document.getElementById('dyn-uid') ? document.getElementById('dyn-uid').value.length > 2 : true;
         let hasEmail = document.getElementById('dyn-email') ? document.getElementById('dyn-email').value.includes('@') : true;
         let isValid = hasUid && hasEmail && currentOrder.price > 0;
-        
-        if(payMode === 'wallet') { if(myWallet < currentOrder.price) { document.getElementById('wallet-msg').innerText = "Insufficient Balance!"; isValid = false; } else document.getElementById('wallet-msg').innerText = ""; } 
-        else { let pMethod = document.getElementById('selected-pay-method').value; if(!currentOrder.slipFile || !pMethod) isValid = false; }
-        document.getElementById('btn-submit').disabled = !isValid;
+        if(payMode === 'wallet') { if(myWallet < currentOrder.price) { document.getElementById('wallet-msg').innerText = "Insufficient Balance!"; isValid = false; } else document.getElementById('wallet-msg').innerText = ""; } else { let pMethod = document.getElementById('selected-pay-method').value; if(!currentOrder.slipFile || !pMethod) isValid = false; } document.getElementById('btn-submit').disabled = !isValid; 
     };
 
-    // 💡 IMPROVED IMGBB UPLOAD WITH ERROR CATCHING 💡
-    window.handleFileUpload = (i) => { 
-        if(i.files[0]) { 
-            vibe(); 
-            currentOrder.slipFile = i.files[0]; 
-            let r = new FileReader(); 
-            r.onload = (e) => { 
-                document.getElementById('upload-placeholder').style.display='none'; 
-                document.getElementById('preview-img').src = e.target.result; 
-                document.getElementById('preview-img').style.display='block'; 
-                checkForm(); 
-            }; 
-            r.readAsDataURL(i.files[0]); 
-        } 
-    };
-    
-    window.handleDepUpload = (i) => { 
-        if(i.files[0]) { 
-            vibe(); 
-            depFile = i.files[0]; 
-            let r = new FileReader(); 
-            r.onload = (e) => { 
-                document.getElementById('dep-placeholder').style.display='none'; 
-                document.getElementById('dep-img').src=e.target.result; 
-                document.getElementById('dep-img').style.display='block'; 
-            }; 
-            r.readAsDataURL(i.files[0]); 
-        } 
-    };
-    
-    async function uploadImage(f) { 
-        let fd = new FormData(); 
-        fd.append("image", f); 
-        try {
-            let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); 
-            let d = await res.json(); 
-            if(d.success) return d.data.url; 
-            throw new Error(d.error ? d.error.message : "ImgBB Server Error"); 
-        } catch(e) {
-            throw new Error("Failed to upload image. Please try again.");
-        }
-    }
+    // --- UPLOADS & SUBMITS ---
+    window.handleFileUpload = (i) => { if(i.files[0]) { vibe(); currentOrder.slipFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('upload-placeholder').style.display='none'; document.getElementById('preview-img').src = e.target.result; document.getElementById('preview-img').style.display='block'; checkForm(); }; r.readAsDataURL(i.files[0]); } };
+    window.handleDepUpload = (i) => { if(i.files[0]) { vibe(); depFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('dep-placeholder').style.display='none'; document.getElementById('dep-img').src=e.target.result; document.getElementById('dep-img').style.display='block'; }; r.readAsDataURL(i.files[0]); } };
+    async function uploadImage(f) { let fd = new FormData(); fd.append("image", f); try { let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let d = await res.json(); if(d.success) return d.data.url; throw new Error(); } catch(e) { throw new Error("Upload failed"); } }
 
-    // 💡 FIXED SUBMIT DEPOSIT & ORDERS 💡
     window.submitOrder = async () => {
         vibe(); const b = document.getElementById('btn-submit'); b.innerText = "Processing..."; b.disabled = true;
         try {
@@ -521,25 +461,15 @@
             currentOrder.uid = inputData;
 
             let slipUrl = null; let finalMethod = 'wallet';
-            if(payMode === 'slip') { 
-                slipUrl = await uploadImage(currentOrder.slipFile); 
-                finalMethod = document.getElementById('selected-pay-method').value; 
-            } 
-            else { 
-                if(myWallet < currentOrder.price) throw new Error("Insufficient Balance"); 
-                await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - currentOrder.price }); 
-            }
+            if(payMode === 'slip') { slipUrl = await uploadImage(currentOrder.slipFile); finalMethod = document.getElementById('selected-pay-method').value; } 
+            else { if(myWallet < currentOrder.price) throw new Error("Insufficient Balance"); await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - currentOrder.price }); }
             
             let ordId = genID('ORD');
-            await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, playerId: currentOrder.uid, payMethod: finalMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
-            
+            await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, costPrice: currentOrder.costPrice, playerId: currentOrder.uid, payMethod: finalMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
             if(payMode === 'wallet') { await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Order', amount: -currentOrder.price, desc: `Bought ${currentOrder.item} (${currentOrder.gameName})`, createdAt: serverTimestamp() }); }
-            
             sendTgAlert(`📦 <b>NEW ORDER [${ordId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email} (${myRole})\n🎮 Game: ${currentOrder.gameName}\n💎 Item: ${currentOrder.item}\n🆔 ID: <code>${currentOrder.uid}</code>\n💰 Price: ${currentOrder.price.toLocaleString()} Ks\n💳 Method: ${finalMethod}`, tgOrderTopicId, slipUrl, 'v-orders');
-            
             toast("Order Placed!"); document.getElementById('preview-img').style.display = 'none'; document.getElementById('upload-placeholder').style.display = 'block'; currentOrder.slipFile = null; navToMain('page-orders');
-        } catch (e) { toast(e.message); checkForm(); }
-        b.innerText="Pay Now"; // Reset Button
+        } catch (e) { toast(e.message); checkForm(); } b.innerText="Pay Now";
     };
 
     window.submitDeposit = async () => {
@@ -547,15 +477,11 @@
         if(!amt || !depFile || !pMethod) return toast("Select method, enter amount and slip");
         vibe(); const b = document.getElementById('btn-dep'); b.innerText = "Uploading..."; b.disabled = true;
         try {
-            let slipUrl = await uploadImage(depFile); 
-            let depId = genID('DEP');
+            let slipUrl = await uploadImage(depFile); let depId = genID('DEP');
             await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
-            
             sendTgAlert(`💸 <b>NEW DEPOSIT [${depId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n💳 Method: ${pMethod}`, tgDepositTopicId, slipUrl, 'v-deposits');
-            
             toast("Deposit sent!"); document.getElementById('dep-amount').value = ""; document.getElementById('dep-img').style.display = "none"; document.getElementById('dep-placeholder').style.display = "block"; depFile = null; navToMain('page-profile');
-        } catch(e) { toast(e.message); } 
-        b.innerText = "Submit Deposit"; b.disabled = false; // Reset Button
+        } catch(e) { toast(e.message); } b.innerText = "Submit Deposit"; b.disabled = false;
     };
 
     window.submitWithdraw = async () => {
@@ -567,12 +493,9 @@
             let wdId = genID('WD');
             await addDoc(collection(db, "withdrawals"), { wdId: wdId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: met, accPhone: ph, accName: nm, status: "Pending", createdAt: serverTimestamp() });
             await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Withdrawal', amount: -amt, desc: `Requested withdraw via ${met}`, createdAt: serverTimestamp() });
-            
             sendTgAlert(`💳 <b>WITHDRAW REQUEST [${wdId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n🏦 Method: ${met}\n📱 Acc: ${ph} (${nm})`, tgDepositTopicId, null, 'v-withdraws');
-            
             toast("Withdraw requested!"); navToMain('page-orders'); document.getElementById('wd-amount').value=''; document.getElementById('wd-phone').value=''; document.getElementById('wd-name').value='';
-        } catch(e) { toast(e.message); } 
-        b.disabled = false; b.innerText = "Submit Request"; // Reset Button
+        } catch(e) { toast(e.message); } b.disabled = false; b.innerText = "Submit Request";
     };
 
     window.playSpin = async () => {
@@ -594,4 +517,3 @@
 </script>
 </body>
 </html>
-
