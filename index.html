@@ -10,21 +10,15 @@
   *{box-sizing:border-box; outline:none; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
   body{font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden;}
   body::before{content:''; position:fixed; top:-20%; left:-10%; width:60%; height:60%; background:radial-gradient(circle,rgba(138,43,226,0.15) 0%,transparent 60%); z-index:-1;}
-  
   .app-container{max-width:480px; margin:0 auto; min-height:100vh; position:relative; padding-bottom:90px;}
   .glass-card{background:var(--glass); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:20px;}
   .svg-icon{stroke:currentColor; stroke-width:2; fill:none;}
-
   .page, #auth-screen{display:none; padding:16px; padding-bottom:130px; animation:fadeIn 0.3s ease forwards;}
   .page.active, #auth-screen.active{display:block;}
   @keyframes fadeIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
-
-  /* AUTH */
   .auth-box{margin-top:10vh; padding:30px 20px; text-align:center;}
   .auth-input{width:100%; background:rgba(0,0,0,0.4); border:1px solid var(--border); padding:15px; border-radius:14px; color:#fff; font-family:'Poppins'; margin-bottom:15px; font-size:14px;}
   .auth-input:focus{border-color:var(--accent);}
-
-  /* COMMONS */
   .btn-main{background:linear-gradient(135deg,var(--accent),var(--primary)); color:#fff; border:none; padding:14px 20px; border-radius:14px; font-weight:700; width:100%; font-family:'Poppins'; cursor:pointer; transition:0.2s;}
   .btn-main:active{transform:scale(0.96);} .btn-main:disabled{background:rgba(255,255,255,0.1); color:var(--muted); cursor:not-allowed; transform:none;}
   .toast{position:fixed; top:-100px; left:50%; transform:translateX(-50%); background:var(--ok); color:#000; padding:12px 24px; border-radius:999px; font-weight:800; font-size:13px; opacity:0; transition:0.4s cubic-bezier(0.2, 0.8, 0.2, 1); z-index:9999;}
@@ -32,46 +26,32 @@
   .badge{padding:4px 8px; border-radius:6px; font-size:10px; font-weight:800; text-transform:uppercase; display:inline-block;}
   .badge.pending{color:var(--warning); background:rgba(245,158,11,0.1);} .badge.completed{color:var(--ok); background:rgba(16,185,129,0.1);} .badge.cancelled{color:var(--danger); background:rgba(239,68,68,0.1);} .badge.role{color:var(--primary); background:rgba(79,172,254,0.1); border:1px solid var(--primary);}
   .id-tag{font-family:monospace; color:var(--accent); background:rgba(79,172,254,0.1); padding:4px 8px; border-radius:6px; font-size:11px; font-weight:bold; letter-spacing:1px;}
-
-  /* HOME */
   .home-header{display:flex; justify-content:space-between; align-items:center; padding:15px 16px; position:sticky; top:0; z-index:50; background:rgba(5,5,16,0.9); backdrop-filter:blur(10px); margin:-16px -16px 15px -16px;}
   .wallet-pill{display:flex; align-items:center; gap:6px; border:1px solid var(--border); padding:6px 12px; border-radius:999px; font-size:13px; font-weight:700; cursor:pointer;}
   .bell-wrapper{position:relative; display:flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; border:1px solid var(--border); cursor:pointer;}
   .bell-badge{position:absolute; top:6px; right:8px; width:8px; height:8px; background:var(--danger); border-radius:50%; display:none;}
-
   .game-card{padding:12px; display:flex; align-items:center; justify-content:space-between; border-radius:16px; background:var(--card); border:1px solid var(--border); cursor:pointer; margin-bottom:12px; transition:0.2s;}
   .game-card:active{transform:scale(0.98); border-color:var(--accent);}
   .buy-btn{background:rgba(16,185,129,0.15); color:var(--ok); padding:6px 18px; border-radius:8px; font-size:13px; font-weight:700;}
-
-  /* DETAIL PAGE */
   .detail-banner{width:100%; height:200px; object-fit:cover; margin:-16px -16px 20px -16px; width:calc(100% + 32px); border-radius:0 0 20px 20px; background:#111;}
   .back-btn-float{position:absolute; top:15px; left:15px; background:rgba(0,0,0,0.5); backdrop-filter:blur(10px); border:1px solid var(--border); border-radius:50%; width:40px; height:40px; display:flex; justify-content:center; align-items:center; color:#fff; cursor:pointer; z-index:10;}
-  
   .pack-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:25px;}
   .pack-card{background:var(--card); border:1px solid var(--border); padding:15px; border-radius:14px; cursor:pointer; transition:0.2s; position:relative; overflow:hidden;}
   .pack-card.selected{border-color:var(--accent); background:rgba(79,172,254,0.1);}
   .reseller-badge{position:absolute; top:0; right:0; background:var(--primary); color:#fff; font-size:9px; padding:2px 6px; border-bottom-left-radius:8px; font-weight:bold;}
-  
   .pay-tabs{display:flex; background:rgba(0,0,0,0.4); border-radius:12px; padding:4px; margin-bottom:15px;}
   .pay-tab{flex:1; text-align:center; padding:10px; font-size:13px; font-weight:600; color:var(--muted); border-radius:8px; cursor:pointer; transition:0.3s;}
   .pay-tab.active{background:rgba(255,255,255,0.15); color:#fff;}
   .pay-view{display:none;} .pay-view.active{display:block;}
-
   .dyn-pay-card { background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; display:flex; justify-content:space-between; align-items:center;}
   .dyn-pay-card.selected { border-color: var(--ok); background: rgba(16, 185, 129, 0.1); }
   .qr-box { width:40px; height:40px; border-radius:8px; object-fit:cover; border:1px solid var(--border); display:none;}
-
   .bottom-bar{position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; background:rgba(10,12,20,0.95); backdrop-filter:blur(20px); border-top:1px solid var(--border); padding:15px 20px max(15px,env(safe-area-inset-bottom)); z-index:100; display:flex; justify-content:space-between; align-items:center;}
-
-  /* CS BUTTONS & SPIN */
   .cs-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 14px; margin-bottom: 10px; color: #fff; font-weight: 600; text-decoration: none;}
   .cs-btn.fb { color: #1877F2; border-color: rgba(24, 119, 242, 0.3); background: rgba(24, 119, 242, 0.05); }
   .cs-btn.tg { color: #0088cc; border-color: rgba(0, 136, 204, 0.3); background: rgba(0, 136, 204, 0.05); }
-  
   .spin-box { border: 2px dashed var(--primary); padding: 30px; text-align: center; border-radius: 20px; background: rgba(138, 43, 226, 0.05); margin-bottom: 20px;}
   .spin-result { font-size: 40px; font-weight: 800; color: var(--accent); margin: 20px 0; text-shadow: 0 0 20px var(--primary); }
-
-  /* NAV */
   .main-nav{position:fixed; bottom:0; left:0; width:100%; display:flex; justify-content:space-around; background:rgba(10,12,20,0.95); border-top:1px solid var(--border); padding:12px 10px max(12px,env(safe-area-inset-bottom)); z-index:90;}
   .nav-btn{flex:1; background:transparent; border:none; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer;}
   .nav-btn svg{width:24px; height:24px; transition:0.2s;}
@@ -87,12 +67,10 @@
         <div style="font-size:13px; color:var(--muted); margin-bottom:30px;">Login or create account</div>
         <input type="email" id="auth-email" class="auth-input" placeholder="Email Address">
         <input type="password" id="auth-password" class="auth-input" placeholder="Password">
-        
         <div id="ref-container" style="display:none;">
             <div style="font-size:11px; color:var(--muted); text-align:left; margin-bottom:5px;">Referral Code (Optional)</div>
             <input type="text" id="auth-ref" class="auth-input" style="text-transform:uppercase;" placeholder="e.g. A1B2C">
         </div>
-
         <button class="btn-main" id="auth-btn" onclick="handleAuth()">Login</button>
         <div style="font-size:13px; color:var(--accent); cursor:pointer; margin-top:20px;" id="auth-toggle" onclick="toggleAuthMode()">Don't have an account? Sign Up</div>
     </div>
@@ -168,12 +146,8 @@
         </div>
     </div>
 
-    <div id="page-orders" class="page"><h2 style="margin-bottom:15px;">Order History</h2><div id="orders-list"><div style="text-align:center; color:var(--muted);">Loading...</div></div></div>
-
-    <div id="page-notifications" class="page">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="back-btn-float" style="position:static;" onclick="navToMain('page-home')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h2 style="margin:0;">Notifications</h2></div>
-        <div id="noti-list"><div style="text-align:center; color:var(--muted);">No notifications.</div></div>
-    </div>
+    <div id="page-orders" class="page"><h2 style="margin-bottom:15px;">Order History</h2><div id="orders-list"></div></div>
+    <div id="page-notifications" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="back-btn-float" style="position:static;" onclick="navToMain('page-home')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h2 style="margin:0;">Notifications</h2></div><div id="noti-list"></div></div>
 
     <div id="page-profile" class="page">
         <h2 style="margin-bottom:20px;">Profile</h2>
@@ -192,7 +166,7 @@
         <div class="glass-card" style="padding:15px; margin-bottom:20px; text-align:center; background:rgba(79, 172, 254, 0.05);">
             <div style="font-size:12px; color:var(--muted);">Your Referral Code</div>
             <div style="font-size:24px; font-weight:900; color:var(--primary); letter-spacing:3px; margin:5px 0; font-family:monospace;" id="prof-ref" onclick="copyTxt(this.innerText)">------</div>
-            <div style="font-size:10px; color:var(--text);">Share code to get 500 Ks bonus for each new user!</div>
+            <div style="font-size:10px; color:var(--text);">Share code to get 500 Ks bonus!</div>
         </div>
         
         <h3 style="font-size:14px; color:var(--muted); margin-bottom:10px;">Menu</h3>
@@ -268,7 +242,7 @@
     let dynamicCats = []; let dynamicProds = []; let payMethods = []; let currentPromo = null;
     let tgBotToken = ""; let tgChatId = ""; let tgOrderTopicId = ""; let tgDepositTopicId = "";
 
-    // --- DYNAMIC DATA (Phase 6 Fetching) ---
+    // --- DYNAMIC DATA ---
     onSnapshot(doc(db, "settings", "app_config"), (d) => {
         if(d.exists()) { 
             if(d.data().homeBannerUrl) { document.getElementById('dyn-home-banner').src = d.data().homeBannerUrl; document.getElementById('dyn-home-banner').style.display = 'block'; }
@@ -314,14 +288,30 @@
     };
     function updatePriceDisplay() { let fPrice = currentOrder.basePrice; if(currentPromo && fPrice > 0) { fPrice = Math.max(0, fPrice - currentPromo); } currentOrder.price = fPrice; document.getElementById('display-total').innerText = fPrice.toLocaleString() + " Ks"; checkForm(); }
 
-    async function sendTgAlert(msg, threadIdStr) {
+    // 💡 ADVANCED TG ALERT SENDER (Sends Image + Custom Approve/Reject Buttons) 💡
+    async function sendTgAlert(msg, threadIdStr, imageUrl, actionData) {
         if(!tgBotToken || !tgChatId) return;
-        let payload = { chat_id: tgChatId, text: msg, parse_mode: "HTML" };
+        let endpoint = imageUrl ? "sendPhoto" : "sendMessage";
+        let payload = { chat_id: tgChatId, parse_mode: "HTML" };
         if(threadIdStr && !isNaN(parseInt(threadIdStr))) { payload.message_thread_id = parseInt(threadIdStr); }
-        try { await fetch(`https://api.telegram.org/bot${tgBotToken}/sendMessage`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); } catch(e) {}
+
+        // Inject Inline Keyboard Buttons for 1-Click Action
+        if(actionData) {
+            payload.reply_markup = {
+                inline_keyboard: [[
+                    { text: "✅ Approve", callback_data: "APP_" + actionData },
+                    { text: "❌ Reject", callback_data: "REJ_" + actionData }
+                ]]
+            };
+        }
+
+        if(imageUrl) { payload.photo = imageUrl; payload.caption = msg; } 
+        else { payload.text = msg; }
+
+        try { await fetch(`https://api.telegram.org/bot${tgBotToken}/${endpoint}`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); } catch(e) {}
     }
 
-    // --- AUTH & REFERRAL ---
+    // --- AUTH ---
     window.toggleAuthMode = () => { isLoginMode = !isLoginMode; document.getElementById('auth-btn').innerText = isLoginMode ? "Login" : "Sign Up"; document.getElementById('auth-toggle').innerText = isLoginMode ? "Sign Up" : "Login"; document.getElementById('ref-container').style.display = isLoginMode ? 'none' : 'block'; };
     window.handleAuth = async () => {
         const em = document.getElementById('auth-email').value.trim(); const pw = document.getElementById('auth-password').value.trim();
@@ -367,13 +357,8 @@
             onSnapshot(query(collection(db, "deposits"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'deposit', ...d.data()})); processData(a, true, false); });
             onSnapshot(query(collection(db, "withdrawals"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'withdraw', ...d.data()})); processData(a, false, true); });
             
-            // LEDGER
             onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid), orderBy("createdAt", "desc")), (s) => {
-                let html = "";
-                s.forEach(d => {
-                    let t = d.data(); let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = t.amount >= 0 ? '+' : '';
-                    html += `<div class="glass-card" style="padding:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700; font-size:14px; color:#fff;">${t.type}</div><div style="font-size:11px; color:var(--muted);">${t.desc}</div><div style="font-size:10px; color:var(--muted); margin-top:4px;">${formatDate(t.createdAt)}</div></div><div style="font-weight:800; font-size:16px; color:${color};">${sign}${t.amount.toLocaleString()} Ks</div></div>`;
-                });
+                let html = ""; s.forEach(d => { let t = d.data(); let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = t.amount >= 0 ? '+' : ''; html += `<div class="glass-card" style="padding:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700; font-size:14px; color:#fff;">${t.type}</div><div style="font-size:11px; color:var(--muted);">${t.desc}</div><div style="font-size:10px; color:var(--muted); margin-top:4px;">${formatDate(t.createdAt)}</div></div><div style="font-weight:800; font-size:16px; color:${color};">${sign}${t.amount.toLocaleString()} Ks</div></div>`; });
                 document.getElementById('ledger-list').innerHTML = html || "<div style='text-align:center; color:gray;'>No records yet.</div>";
             });
         } else { document.getElementById('main-app').style.display = 'none'; document.getElementById('auth-screen').classList.add('active'); }
@@ -401,22 +386,18 @@
     }
 
     // --- NAV ---
-    window.navToMain = (id) => { vibe(); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); navTo(id); };
-    window.navTo = (id) => { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); document.getElementById('main-nav').style.display = ['page-home','page-orders','page-profile'].includes(id) ? 'flex' : 'none'; };
+    window.navToMain = (id) => { vibe(); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); document.getElementById('main-nav').style.display = ['page-home','page-orders','page-profile'].includes(id) ? 'flex' : 'none'; };
 
-    // --- DYNAMIC DETAIL (Phase 6) ---
+    // --- DETAIL ---
     window.openGameDetail = (catId) => {
         vibe(); let c = dynamicCats.find(x => x.id === catId); if(!c) return;
         currentOrder.gameName = c.name; document.getElementById('detail-game-title').innerText = c.name; document.getElementById('detail-banner').src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
-        
-        // Render Form Inputs
         let formHtml = ""; let forms = c.forms || [];
         if(forms.includes('gameId')) formHtml += `<input type="text" id="dyn-uid" class="auth-input" style="flex:2; margin:0;" placeholder="Game ID" oninput="checkForm()">`;
         if(forms.includes('zoneId')) formHtml += `<input type="text" id="dyn-zone" class="auth-input" style="flex:1; margin:0;" placeholder="Server ID">`;
         if(forms.includes('email')) formHtml += `<input type="email" id="dyn-email" class="auth-input" style="width:100%; margin:0;" placeholder="Account Email" oninput="checkForm()">`;
         document.getElementById('dyn-form-inputs').innerHTML = formHtml || `<div style="font-size:11px; color:var(--muted);">No inputs required.</div>`;
 
-        // Render Products
         let prods = dynamicProds.filter(p => p.categoryId === c.id); prods.sort((a,b) => a.sellingPrice - b.sellingPrice);
         let pHtml = "";
         prods.forEach(p => {
@@ -424,7 +405,6 @@
             pHtml += `<div class="pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${displayPrice}, ${p.retailPrice||0})">${isReseller ? `<div class="reseller-badge">Seller</div>` : ''}<div style="display:flex; align-items:center; gap:10px;"><img src="${p.logoUrl||'https://cdn-icons-png.flaticon.com/128/1077/1077114.png'}" style="width:30px; height:30px; object-fit:cover; border-radius:6px;"><div style="font-weight:700; font-size:13px; display:flex; flex-direction:column;">${p.name} <span style="font-size:12px; color:var(--accent); font-weight:800; margin-top:2px;">${displayPrice.toLocaleString()} Ks</span></div></div></div>`;
         });
         document.getElementById('pack-container').innerHTML = pHtml || "<div style='font-size:12px; color:var(--muted);'>No products available.</div>";
-        
         currentOrder.item = ''; currentOrder.basePrice = 0; currentOrder.costPrice = 0; currentOrder.price = 0; currentOrder.uid = ''; currentPromo = null; document.getElementById('promo-msg').style.display='none'; document.getElementById('inp-promo').value=''; document.getElementById('display-total').innerText = "0 Ks"; switchPayTab('wallet', document.querySelector('.pay-tab')); navTo('page-detail');
     };
 
@@ -447,7 +427,7 @@
         try {
             let inputData = "";
             if(document.getElementById('dyn-uid')) inputData += document.getElementById('dyn-uid').value;
-            if(document.getElementById('dyn-zone')) inputData += " (" + document.getElementById('dyn-zone').value + ")";
+            if(document.getElementById('dyn-zone') && document.getElementById('dyn-zone').value) inputData += " (" + document.getElementById('dyn-zone').value + ")";
             if(document.getElementById('dyn-email')) inputData += " Email: " + document.getElementById('dyn-email').value;
             currentOrder.uid = inputData;
 
@@ -456,10 +436,13 @@
             else { if(myWallet < currentOrder.price) throw new Error("Insufficient Balance"); await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - currentOrder.price }); }
             
             let ordId = genID('ORD');
-            await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, costPrice: currentOrder.costPrice, playerId: currentOrder.uid, payMethod: finalMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
+            let docRef = await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, costPrice: currentOrder.costPrice, playerId: currentOrder.uid, payMethod: finalMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
             
             if(payMode === 'wallet') { await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Order', amount: -currentOrder.price, desc: `Bought ${currentOrder.item} (${currentOrder.gameName})`, createdAt: serverTimestamp() }); }
-            sendTgAlert(`📦 <b>NEW ORDER [${ordId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email} (${myRole})\n🎮 Game: ${currentOrder.gameName}\n💎 Item: ${currentOrder.item}\n🆔 ID: <code>${currentOrder.uid}</code>\n💰 Price: ${currentOrder.price.toLocaleString()} Ks\n💳 Method: ${finalMethod}`, tgOrderTopicId);
+            
+            // 💡 Pass Document ID for the Approve/Reject Buttons 💡
+            let tgActionData = `ORD_${docRef.id}`;
+            sendTgAlert(`📦 <b>NEW ORDER [${ordId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email} (${myRole})\n🎮 Game: ${currentOrder.gameName}\n💎 Item: ${currentOrder.item}\n🆔 ID: <code>${currentOrder.uid}</code>\n💰 Price: ${currentOrder.price.toLocaleString()} Ks\n💳 Method: ${finalMethod}`, tgOrderTopicId, slipUrl, tgActionData);
             
             toast("Order Placed!"); document.getElementById('preview-img').style.display = 'none'; document.getElementById('upload-placeholder').style.display = 'block'; currentOrder.slipFile = null; navToMain('page-orders');
         } catch (e) { toast(e.message); checkForm(); b.innerText="Pay Now"; }
@@ -471,8 +454,12 @@
         vibe(); const b = document.getElementById('btn-dep'); b.innerText = "Uploading..."; b.disabled = true;
         try {
             let slipUrl = await uploadImage(depFile); let depId = genID('DEP');
-            await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
-            sendTgAlert(`💸 <b>NEW DEPOSIT [${depId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n💳 Method: ${pMethod}`, tgDepositTopicId);
+            let docRef = await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
+            
+            // 💡 Pass Document ID for the Approve/Reject Buttons 💡
+            let tgActionData = `DEP_${docRef.id}`;
+            sendTgAlert(`💸 <b>NEW DEPOSIT [${depId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n💳 Method: ${pMethod}`, tgDepositTopicId, slipUrl, tgActionData);
+            
             toast("Deposit sent!"); document.getElementById('dep-amount').value = ""; document.getElementById('dep-img').style.display = "none"; document.getElementById('dep-placeholder').style.display = "block"; depFile = null; navToMain('page-profile');
         } catch(e) { toast(e.message); } b.innerText = "Submit Deposit"; b.disabled = false;
     };
@@ -492,7 +479,7 @@
     };
 
     window.playSpin = async () => {
-        if(mySpins <= 0) return toast("No tickets left! Top up 10,000 Ks to get 1 Ticket.");
+        if(mySpins <= 0) return toast("No tickets! Top up 10,000 Ks to get 1.");
         vibe(); let btn = document.getElementById('btn-spin'); btn.disabled = true; btn.innerText = "Spinning...";
         let resBox = document.getElementById('spin-result'); let fakePrizes = [0, 100, 500, 1000, 5000];
         let interval = setInterval(() => { resBox.innerText = fakePrizes[Math.floor(Math.random()*fakePrizes.length)] + " Ks"; }, 100);
