@@ -56,8 +56,7 @@
   .bg-active { background: rgba(16, 185, 129, 0.1); color: var(--ok); border: 1px solid rgba(16,185,129,0.2); }
   .bg-inactive { background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid rgba(245,158,11,0.2); }
   .bg-pill { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
-  .id-tag { font-family: monospace; color: var(--accent); background: rgba(79, 172, 254, 0.1); padding: 3px 6px; border-radius: 4px; font-size: 10px; }
-
+  
   .btn { padding: 8px 14px; border-radius: 6px; border: none; font-size: 11px; font-weight: 600; cursor: pointer; color: #fff; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap:4px; white-space: nowrap;}
   .btn:active { transform: scale(0.95); } 
   .btn-primary { background: linear-gradient(135deg,var(--accent),var(--primary)); } 
@@ -70,7 +69,6 @@
   .tab-pill { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 99px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: 0.2s; }
   .tab-pill.active { background: rgba(79, 172, 254, 0.15); color: var(--accent); border-color: var(--accent); }
 
-  .detail-card { padding: 20px; margin-bottom: 20px; }
   .input-box, .select-box { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 12px; margin-bottom: 10px;}
   .input-box:focus { border-color: var(--accent); }
   
@@ -84,6 +82,15 @@
 
   .toast { position: fixed; top: 20px; right: 20px; background: var(--primary); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 12px; opacity: 0; transition: 0.3s; z-index: 30000;}
   .toast.show { opacity: 1; }
+
+  /* Mobile menu logic */
+  @media (max-width: 768px) { 
+      .sidebar { position: fixed; left: -260px; height: 100%; box-shadow: 5px 0 20px rgba(0,0,0,0.5); } 
+      .sidebar.open { left: 0; } 
+      .sidebar-overlay.active { display: block; }
+      .menu-toggle { display: block; } 
+      .close-sidebar { display: block; } 
+  }
 </style>
 </head>
 <body>
@@ -147,59 +154,27 @@
             </div>
 
             <div id="v-users" class="view">
-                <div id="v-users-list">
-                    <div class="header-actions"><div class="page-title">Users Management</div></div>
-                    <div class="table-wrapper glass-card">
-                        <table>
-                            <thead><tr><th>Email</th><th>Referral Code</th><th>Balance</th><th>Spins</th><th>Action</th></tr></thead>
-                            <tbody id="tb-users"></tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div id="v-users-detail" style="display:none;">
-                    <div class="btn btn-dark mb-4" onclick="closeUserDetail()" style="margin-bottom:15px;">← Back to Users</div>
-                    <div class="detail-card glass-card">
-                        <div style="font-size:18px; font-weight:bold; margin-bottom:10px;" id="ud-email">--</div>
-                        <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:15px;">
-                            <div><div style="font-size:11px; color:var(--muted);">Balance</div><div style="color:var(--ok); font-weight:bold; font-size:16px;" id="ud-bal">0 Ks</div></div>
-                            <div><div style="font-size:11px; color:var(--muted);">Spins</div><div style="color:var(--warning); font-weight:bold; font-size:16px;" id="ud-spins">0</div></div>
-                        </div>
-                        <button class="btn btn-primary" onclick="editUserFromDetail()">Edit Balance/Spins</button>
-                    </div>
-                    <div class="page-title" style="margin-bottom:15px; font-size:14px;">Wallet Ledger</div>
-                    <div class="table-wrapper glass-card">
-                        <table>
-                            <thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Amount</th></tr></thead>
-                            <tbody id="tb-user-ledger"></tbody>
-                        </table>
-                    </div>
+                <div class="header-actions"><div class="page-title">Users Management</div></div>
+                <div class="table-wrapper glass-card">
+                    <table>
+                        <thead><tr><th>Email</th><th>Referral Code</th><th>Balance</th><th>Spins</th><th>Action</th></tr></thead>
+                        <tbody id="tb-users"></tbody>
+                    </table>
                 </div>
             </div>
 
             <div id="v-orders" class="view">
-                <div id="v-orders-list">
-                    <div class="tabs-container">
-                        <div class="tab-pill active" onclick="filterOrders('Pending', this)">Pending</div>
-                        <div class="tab-pill" onclick="filterOrders('Processing', this)">Processing</div>
-                        <div class="tab-pill" onclick="filterOrders('Completed', this)">Completed</div>
-                        <div class="tab-pill" onclick="filterOrders('Cancelled', this)">Cancelled</div>
-                    </div>
-                    <div class="table-wrapper glass-card">
-                        <table>
-                            <thead><tr><th>Order ID</th><th>Date</th><th>Product</th><th>Price</th><th>Status</th><th>Action</th></tr></thead>
-                            <tbody id="tb-orders-tabbed"></tbody>
-                        </table>
-                    </div>
+                <div class="tabs-container">
+                    <div class="tab-pill active" onclick="filterOrders('Pending', this)">Pending</div>
+                    <div class="tab-pill" onclick="filterOrders('Processing', this)">Processing</div>
+                    <div class="tab-pill" onclick="filterOrders('Completed', this)">Completed</div>
+                    <div class="tab-pill" onclick="filterOrders('Cancelled', this)">Cancelled</div>
                 </div>
-
-                <div id="v-orders-detail" style="display:none;">
-                    <div class="btn btn-dark" onclick="closeOrderDetail()" style="margin-bottom:15px;">← Back to Orders</div>
-                    <div class="detail-card glass-card">
-                        <h3 style="margin-bottom:15px; color:var(--accent); display:flex; justify-content:space-between;">Order Details <span id="od-badge"></span></h3>
-                        <div id="od-content" style="line-height:1.8; font-size:13px;"></div>
-                        <div style="margin-top:20px; display:flex; gap:10px; justify-content:flex-end;" id="od-actions"></div>
-                    </div>
+                <div class="table-wrapper glass-card">
+                    <table>
+                        <thead><tr><th>Order ID</th><th>Date</th><th>Product</th><th>Price</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody id="tb-orders-tabbed"></tbody>
+                    </table>
                 </div>
             </div>
 
@@ -262,9 +237,42 @@
     </div>
 </div>
 
+<div class="modal-bg" id="order-info-modal" onclick="if(event.target===this) closeModal('order-info-modal')">
+    <div class="modal-card">
+        <h3 style="margin-bottom:15px; color:var(--accent); display:flex; justify-content:space-between; align-items:center;">
+            Order Details <span id="od-badge"></span>
+        </h3>
+        <div id="od-content" style="line-height:1.8; font-size:13px; margin-bottom: 20px;"></div>
+        <div style="display:flex; gap:10px; justify-content:flex-end;" id="od-actions"></div>
+        <button class="btn btn-dark" style="width:100%; margin-top:15px; padding:10px;" onclick="closeModal('order-info-modal')">Close Window</button>
+    </div>
+</div>
+
+<div class="modal-bg" id="user-info-modal" onclick="if(event.target===this) closeModal('user-info-modal')">
+    <div class="modal-card" style="max-width: 600px;">
+        <h3 style="margin-bottom:15px; color:var(--accent);">User Details</h3>
+        <div style="font-size:18px; font-weight:bold; margin-bottom:10px;" id="ud-email">--</div>
+        
+        <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;">
+            <div><div style="font-size:11px; color:var(--muted);">Balance</div><div style="color:var(--ok); font-weight:bold; font-size:16px;" id="ud-bal">0 Ks</div></div>
+            <div><div style="font-size:11px; color:var(--muted);">Spins</div><div style="color:var(--warning); font-weight:bold; font-size:16px;" id="ud-spins">0</div></div>
+        </div>
+        <button class="btn btn-primary" style="margin-bottom: 20px; width: 100%;" id="ud-edit-btn">Edit Balance / Spins</button>
+        
+        <h4 style="margin-bottom:10px; font-size:14px; color:var(--muted);">Wallet Ledger</h4>
+        <div class="table-wrapper glass-card" style="max-height: 250px; overflow-y: auto; border:none;">
+            <table style="font-size: 11px;">
+                <thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Amount</th></tr></thead>
+                <tbody id="tb-user-ledger"></tbody>
+            </table>
+        </div>
+        <button class="btn btn-dark" style="width:100%; margin-top:10px; padding:10px;" onclick="closeModal('user-info-modal')">Close Window</button>
+    </div>
+</div>
+
 <div class="modal-bg" id="user-modal">
     <div class="modal-card">
-        <h3 style="margin-bottom:15px;">Edit User</h3><input type="hidden" id="um-id">
+        <h3 style="margin-bottom:15px;">Edit User Balance</h3><input type="hidden" id="um-id">
         <label style="font-size:11px; color:gray;">Wallet Balance</label><input type="number" id="um-wallet" class="input-box">
         <label style="font-size:11px; color:gray;">Spin Tickets</label><input type="number" id="um-spins" class="input-box">
         <label style="font-size:11px; color:gray;">Role</label><select id="um-role" class="select-box"><option value="Customer">Customer</option><option value="Seller">Seller</option><option value="Admin">Admin</option></select>
@@ -356,9 +364,12 @@
     window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
     window.formatDate = (ts) => { if(!ts) return "-"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString(); }
     window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('active'); }
-    window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard'; }
-    window.closeModal = (id) => document.getElementById(id).classList.remove('active');
-    window.viewSlip = (url) => { if(!url)return toast("No slip"); document.getElementById('modal-img-src').src = url; document.getElementById('slip-modal').classList.add('active'); };
+    window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard'; if(window.innerWidth <= 768) toggleSidebar(); }
+    
+    // Modal controls globally available
+    window.openModal = (id) => { document.getElementById(id).classList.add('active'); };
+    window.closeModal = (id) => { document.getElementById(id).classList.remove('active'); };
+    window.viewSlip = (url) => { if(!url)return toast("No slip"); document.getElementById('modal-img-src').src = url; openModal('slip-modal'); };
     
     // 💡 IMAGE UPLOAD LOGIC 💡
     async function uploadToImgBB(file) {
@@ -452,7 +463,7 @@
         onSnapshot(collection(db, "payment_methods"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${p.qrUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:cover;">${p.name}</div></td><td>${p.phone} (${p.accName})</td><td><button class="btn btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db,'payment_methods','${p.id}'))">Del</button></td></tr>`; }); document.getElementById('tb-payments').innerHTML=h; });
     }
 
-    // 💡 ORDER DETAILS & ACTIONS 💡
+    // 💡 ORDER DETAILS LOGIC 💡
     window.filterOrders = (status, el=null) => {
         if(el) { document.querySelectorAll('.tab-pill').forEach(t=>t.classList.remove('active')); el.classList.add('active'); }
         let h = ""; let filtered = globalOrders.filter(o => o.status === status);
@@ -460,41 +471,42 @@
             let cls = o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':'bg-pill');
             h+=`<tr><td>${o.orderId||o.id.substring(0,8)}</td><td>${formatDate(o.createdAt)}</td><td>${o.game} - ${o.item}<br><span style="font-size:10px;color:var(--accent);">ID: ${o.playerId}</span></td><td>${(o.price||0).toLocaleString()} Ks</td><td><span class="badge ${cls}">${o.status}</span></td><td><button class="btn btn-primary" onclick="showOrderDetail('${o.id}')">View Details</button></td></tr>`;
         });
-        document.getElementById('tb-orders-tabbed').innerHTML = h || "<tr><td colspan='6' style='text-align:center;'>No orders.</td></tr>";
+        document.getElementById('tb-orders-tabbed').innerHTML = h || "<tr><td colspan='6' style='text-align:center;'>No orders found.</td></tr>";
     };
 
     window.showOrderDetail = (id) => {
-        let o = globalOrders.find(x => x.id === id); if(!o) return;
-        document.getElementById('v-orders-list').style.display = 'none';
+        let o = globalOrders.find(x => x.id === id); if(!o) return toast("Order not found");
         
-        let cost = o.costPrice || (o.price * 0.85); let profit = o.price - cost;
+        let price = o.price || 0;
+        let cost = o.costPrice || (price * 0.85); 
+        let profit = price - cost;
         let cls = o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':'bg-pill'); 
         
         document.getElementById('od-badge').innerHTML = `<span class="badge ${cls}">${o.status}</span>`;
         let h = `
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:10px;">
-                <span style="color:var(--muted);">Order ID</span> <strong>${o.orderId || o.id}</strong>
+                <span style="color:var(--muted);">Order ID</span> <strong>${o.orderId || o.id.substring(0,8)}</strong>
             </div>
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:10px;">
-                <span style="color:var(--muted);">Date</span> <strong>${formatDate(o.createdAt)}</strong>
+                <span style="color:var(--muted);">Date & Time</span> <strong>${formatDate(o.createdAt)}</strong>
             </div>
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:10px;">
-                <span style="color:var(--muted);">Customer Email</span> <strong>${o.userEmail}</strong>
+                <span style="color:var(--muted);">Customer</span> <strong>${o.userEmail}</strong>
             </div>
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:10px;">
                 <span style="color:var(--muted);">Game & Item</span> <strong style="color:var(--accent);">${o.game} - ${o.item}</strong>
             </div>
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:10px;">
-                <span style="color:var(--muted);">Player Info</span> <strong style="background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:6px;">${o.playerId}</strong>
+                <span style="color:var(--muted);">Player ID</span> <strong style="background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:6px; font-family:monospace;">${o.playerId}</strong>
             </div>
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:10px;">
                 <span style="color:var(--muted);">Payment Method</span> <strong>${o.payMethod || 'Wallet'}</strong>
             </div>
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:10px;">
                 <span style="color:var(--muted);">Price & Profit</span> 
-                <strong style="color:var(--ok);">${o.price.toLocaleString()} Ks <span style="font-size:10px; color:var(--muted);">Profit: +${profit} Ks</span></strong>
+                <strong style="color:var(--ok);">${price.toLocaleString()} Ks <span style="font-size:10px; color:var(--muted); margin-left:10px;">Profit: +${profit} Ks</span></strong>
             </div>
-            ${o.slipImage ? `<button class="btn btn-dark" style="margin-top:10px;" onclick="viewSlip('${o.slipImage}')">View Slip Image</button>` : ''}
+            ${o.slipImage ? `<button class="btn btn-dark" style="margin-top:10px;" onclick="viewSlip('${o.slipImage}')">View Transfer Slip</button>` : ''}
         `;
         document.getElementById('od-content').innerHTML = h;
 
@@ -505,27 +517,30 @@
             actHtml = `<button class="btn btn-ok" onclick="updOrd('${o.id}','Completed', true)">Complete</button> <button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled', true)">Cancel</button>`;
         }
         document.getElementById('od-actions').innerHTML = actHtml;
-        document.getElementById('v-orders-detail').style.display = 'block';
+        openModal('order-info-modal'); // 💡 Popup အနေနဲ့ တက်လာမည် 💡
     };
 
-    window.closeOrderDetail = () => { document.getElementById('v-orders-detail').style.display = 'none'; document.getElementById('v-orders-list').style.display = 'block'; };
     window.updOrd = async (id, st, fromDetail=false) => { 
         if(confirm(`Mark as ${st}?`)) {
             await updateDoc(doc(db,"orders",id),{status:st}); 
-            if(fromDetail) { setTimeout(() => { showOrderDetail(id); }, 500); }
+            if(fromDetail) { closeModal('order-info-modal'); }
         }
     };
 
-    // 💡 USER DETAILS & LEDGER 💡
+    // 💡 USER DETAILS & LEDGER LOGIC 💡
     window.showUserDetail = (uid) => {
-        let u = globalUsers.find(x => x.id === uid); if(!u) return;
-        document.getElementById('v-users-list').style.display = 'none';
+        let u = globalUsers.find(x => x.id === uid); if(!u) return toast("User not found");
         document.getElementById('ud-email').innerText = u.email;
         document.getElementById('ud-bal').innerText = (u.walletBalance||0).toLocaleString() + " Ks";
         document.getElementById('ud-spins').innerText = u.spinCount || 0;
-        document.getElementById('v-users-detail').querySelector('.btn-primary').onclick = () => openUserModal(u.id, u.walletBalance||0, u.role||'Customer', u.spinCount||0);
+        
+        // Setup the Edit Button
+        document.getElementById('ud-edit-btn').onclick = () => { 
+            closeModal('user-info-modal'); 
+            openUserModal(u.id, u.walletBalance||0, u.role||'Customer', u.spinCount||0); 
+        };
 
-        // Populate Ledger
+        // Populate Ledger Table
         let uTrans = globalTransactions.filter(x => x.userId === uid);
         uTrans.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
         let lHtml = "";
@@ -534,15 +549,15 @@
             let sign = t.amount >= 0 ? '+' : '';
             lHtml += `<tr><td style="color:var(--muted);">${formatDate(t.createdAt)}</td><td><strong style="color:#fff;">${t.type}</strong></td><td>${t.desc}</td><td><strong style="color:${color};">${sign}${(t.amount||0).toLocaleString()} Ks</strong></td></tr>`;
         });
-        document.getElementById('tb-user-ledger').innerHTML = lHtml || "<tr><td colspan='4' style='text-align:center;'>No records.</td></tr>";
+        document.getElementById('tb-user-ledger').innerHTML = lHtml || "<tr><td colspan='4' style='text-align:center;'>No ledger records found.</td></tr>";
 
-        document.getElementById('v-users-detail').style.display = 'block';
+        openModal('user-info-modal'); // 💡 Popup အနေနဲ့ တက်လာမည် 💡
     };
-    window.closeUserDetail = () => { document.getElementById('v-users-detail').style.display = 'none'; document.getElementById('v-users-list').style.display = 'block'; };
-    window.openUserModal = (id, bal, role, spins) => { document.getElementById('um-id').value=id; document.getElementById('um-wallet').value=bal; document.getElementById('um-spins').value=spins; document.getElementById('um-role').value=role; document.getElementById('user-modal').classList.add('active'); };
-    window.saveUserEdit = async () => { let id=document.getElementById('um-id').value; let b=parseInt(document.getElementById('um-wallet').value); let s=parseInt(document.getElementById('um-spins').value); let r=document.getElementById('um-role').value; if(!isNaN(b)){ await updateDoc(doc(db,"users",id),{walletBalance:b, spinCount:s, role:r}); toast("User Updated!"); closeModal('user-modal'); setTimeout(()=>showUserDetail(id), 500); } };
 
     // --- OTHER CRUDS ---
+    window.openUserModal = (id, bal, role, spins) => { document.getElementById('um-id').value=id; document.getElementById('um-wallet').value=bal; document.getElementById('um-spins').value=spins; document.getElementById('um-role').value=role; openModal('user-modal'); };
+    window.saveUserEdit = async () => { let id=document.getElementById('um-id').value; let b=parseInt(document.getElementById('um-wallet').value); let s=parseInt(document.getElementById('um-spins').value); let r=document.getElementById('um-role').value; if(!isNaN(b)){ await updateDoc(doc(db,"users",id),{walletBalance:b, spinCount:s, role:r}); toast("User Updated!"); closeModal('user-modal'); } };
+
     window.saveAllSettings = async () => { await setDoc(doc(db,"settings","app_config"), { tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value }, {merge:true}); toast("Settings Saved!"); };
     window.apprDep = async (id, uid, amt) => { if(confirm(`Approve +${amt}?`)){ let u=await getDoc(doc(db,"users",uid)); let uData=u.data(); await updateDoc(doc(db,"users",uid),{walletBalance:(uData.walletBalance||0)+amt}); await updateDoc(doc(db,"deposits",id),{status:'Completed'}); await addDoc(collection(db,"transactions"),{userId:uid, type:'Deposit', amount:amt, desc:'Approved', createdAt:serverTimestamp()}); toast("Approved!"); } };
     window.updDep = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"deposits",id),{status:st}); };
@@ -559,7 +574,7 @@
         document.getElementById('cm-form-uid').checked=f.includes('gameId'); 
         document.getElementById('cm-form-zone').checked=f.includes('zoneId'); 
         document.getElementById('cm-title').innerText=c?"Edit Cat":"New Cat"; 
-        document.getElementById('cat-modal').classList.add('active'); 
+        openModal('cat-modal'); 
     };
     window.saveCategory = async () => { let id=document.getElementById('cm-id').value; let forms=[]; if(document.getElementById('cm-form-uid').checked)forms.push('gameId'); if(document.getElementById('cm-form-zone').checked)forms.push('zoneId'); let data={ name:document.getElementById('cm-name').value, slug:document.getElementById('cm-slug').value, logoUrl:document.getElementById('cm-img-url').value, forms:forms, isActive:true }; if(id) await updateDoc(doc(db,"categories",id),data); else await addDoc(collection(db,"categories"),data); closeModal('cat-modal'); toast("Saved!"); };
     
@@ -573,7 +588,7 @@
         document.getElementById('pm-img-preview').src=p?p.logoUrl:'';
         document.getElementById('pm-img-preview').style.display=p&&p.logoUrl?'block':'none';
         document.getElementById('pm-title').innerText=p?"Edit Prod":"New Prod"; 
-        document.getElementById('prod-modal').classList.add('active'); 
+        openModal('prod-modal'); 
     };
     window.saveProduct = async () => { let id=document.getElementById('pm-id').value; let data={ name:document.getElementById('pm-name').value, categoryId:document.getElementById('pm-cat').value, retailPrice:parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice:parseFloat(document.getElementById('pm-price').value)||0, logoUrl:document.getElementById('pm-img-url').value, isActive:true }; if(id) await updateDoc(doc(db,"products",id),data); else await addDoc(collection(db,"products"),data); closeModal('prod-modal'); toast("Saved!"); };
     
@@ -585,11 +600,11 @@
         document.getElementById('pay-qr-url').value=p?p.qrUrl:'';
         document.getElementById('pay-qr-preview').src=p?p.qrUrl:'';
         document.getElementById('pay-qr-preview').style.display=p&&p.qrUrl?'block':'none';
-        document.getElementById('pay-modal').classList.add('active'); 
+        openModal('pay-modal'); 
     };
     window.savePayment = async () => { let id=document.getElementById('pay-id').value; let data={name:document.getElementById('pay-name').value, phone:document.getElementById('pay-phone').value, accName:document.getElementById('pay-acc').value, qrUrl:document.getElementById('pay-qr-url').value}; if(id) await updateDoc(doc(db,"payment_methods",id),data); else await addDoc(collection(db,"payment_methods"),data); closeModal('pay-modal'); toast("Saved!"); };
     
-    window.openPromoModal = () => { document.getElementById('promo-code').value=''; document.getElementById('promo-amt').value=''; document.getElementById('promo-modal').classList.add('active'); };
+    window.openPromoModal = () => { document.getElementById('promo-code').value=''; document.getElementById('promo-amt').value=''; openModal('promo-modal'); };
     window.savePromo = async () => { let c=document.getElementById('promo-code').value.toUpperCase(); let a=parseInt(document.getElementById('promo-amt').value); if(c&&a){ await addDoc(collection(db,"promo_codes"),{code:c, discount:a}); closeModal('promo-modal'); toast("Saved!"); } };
 </script>
 </body>
