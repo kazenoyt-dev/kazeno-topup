@@ -8,137 +8,440 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
   :root { --bg: #020205; --surface: rgba(255,255,255,0.03); --border: rgba(255,255,255,0.1); --text: #e2e8f0; --muted: #94a3b8; --primary: #8a2be2; --accent: #4facfe; --ok: #10b981; --danger: #ef4444; --warning: #f59e0b; }
-  * { box-sizing: border-box; outline: none; margin: 0; padding: 0; font-family: 'Inter', sans-serif;}
+  * { box-sizing: border-box; outline: none; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent;}
   body { background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
-  .glass-card { background: var(--surface); backdrop-filter: blur(20px); border: 1px solid var(--border); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+  /* 💧 Glassmorphism Effects */
+  .glass-card { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); backdrop-filter: blur(20px); border: 1px solid var(--border); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); border-radius: 12px; }
+  .glass-nav { background: rgba(5,5,10,0.8); backdrop-filter: blur(20px); border-right: 1px solid var(--border); }
+  .glass-header { background: rgba(5,5,10,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
 
-  .sidebar { width: 250px; background: rgba(5,5,10,0.8); backdrop-filter: blur(20px); border-right: 1px solid var(--border); display: flex; flex-direction: column; transition: 0.3s; z-index: 10000; flex-shrink: 0; }
+  .sidebar { width: 250px; display: flex; flex-direction: column; transition: 0.3s; z-index: 10000; flex-shrink: 0; }
+  .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; backdrop-filter: blur(3px); }
   .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; z-index: 1; width: 100%;}
-  .top-header { height: 60px; background: rgba(5,5,10,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 20px; justify-content: space-between;}
-  .content-area { flex: 1; overflow-y: auto; padding: 20px; }
+  .top-header { height: 60px; display: flex; align-items: center; padding: 0 20px; justify-content: space-between;}
+  .content-area { flex: 1; overflow-y: auto; padding: 20px; -webkit-overflow-scrolling: touch; }
 
   .brand-area { height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid var(--border); }
-  .menu-wrap { flex: 1; overflow-y: auto; padding: 15px 0; }
-  .menu-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: var(--muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.2s; border-left: 3px solid transparent; }
-  .menu-item:hover, .menu-item.active { background: rgba(79,172,254,0.1); color: #fff; border-left-color: var(--accent); }
-
-  .view { display: none; } .view.active { display: block; }
-  .btn-primary { background: linear-gradient(135deg,var(--accent),var(--primary)); color: white; border:none; padding:10px 15px; border-radius:8px; cursor:pointer; font-weight:bold;}
+  .brand-logo { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; }
+  .brand-text { font-weight: 700; font-size: 16px; color: #fff; display: flex; align-items: center; gap: 10px; }
+  .close-sidebar { display: none; background: none; border: none; color: var(--text); font-size: 20px; cursor: pointer; }
   
-  /* Additional Styles kept minimal to save space, relies on inline styles and simple classes */
-  table { width: 100%; border-collapse: collapse; text-align: left; }
-  th, td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 13px;}
-  .badge { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; }
-  .bg-active { background: rgba(16, 185, 129, 0.1); color: var(--ok); }
-  .bg-inactive { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+  .menu-wrap { flex: 1; overflow-y: auto; padding: 15px 0; }
+  .menu-label { font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; margin: 15px 20px 5px; letter-spacing: 1px;}
+  .menu-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: var(--muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.2s; border-left: 3px solid transparent; }
+  .menu-item:hover, .menu-item.active { background: rgba(79, 172, 254, 0.1); color: #fff; border-left-color: var(--accent); }
+
+  .menu-toggle { background: none; border: none; color: #fff; cursor: pointer; display: none; font-size: 20px; }
+  .header-title { font-size: 16px; font-weight: 700; }
+
+  .view { display: none; animation: fadeIn 0.3s; } .view.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 20px; }
+  .stat-card { padding: 15px; }
+  .stat-val { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+  .stat-label { font-size: 11px; color: var(--muted); }
+
+  .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; position: relative; z-index: 10;}
+  .page-title { font-size: 18px; font-weight: 700; }
+  
+  .table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 20px; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; text-align: left; min-width: 500px; }
+  th { padding: 12px 15px; font-size: 11px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); white-space: nowrap;}
+  td { padding: 12px 15px; font-size: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover { background: rgba(255,255,255,0.03); }
+
+  .badge { padding: 4px 8px; border-radius: 99px; font-size: 10px; font-weight: 600; white-space: nowrap; display: inline-block;}
+  .bg-active { background: rgba(16, 185, 129, 0.1); color: var(--ok); border: 1px solid rgba(16,185,129,0.2); }
+  .bg-inactive { background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid rgba(245,158,11,0.2); }
+  .bg-pill { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
+  .id-tag { font-family: monospace; color: var(--accent); background: rgba(79, 172, 254, 0.1); padding: 3px 6px; border-radius: 4px; font-size: 10px; }
+
+  .btn { padding: 8px 14px; border-radius: 6px; border: none; font-size: 11px; font-weight: 600; cursor: pointer; color: #fff; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap:4px; white-space: nowrap;}
+  .btn:active { transform: scale(0.95); } 
+  .btn-primary { background: linear-gradient(135deg,var(--accent),var(--primary)); } 
+  .btn-ok { background: var(--ok); } 
+  .btn-warning { background: var(--warning); color: #000; }
+  .btn-danger { background: var(--danger); }
+  .btn-dark { background: rgba(255,255,255,0.1); border: 1px solid var(--border); }
+
+  .tabs-container { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+  .tab-pill { background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 99px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: 0.2s; }
+  .tab-pill.active { background: rgba(79, 172, 254, 0.15); color: var(--accent); border-color: var(--accent); }
+
+  .detail-card { padding: 20px; margin-bottom: 20px; }
+  .input-box, .select-box { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 12px;}
+  .input-box:focus { border-color: var(--accent); }
+  
+  .switch { position: relative; display: inline-block; width: 36px; height: 20px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border); transition: .4s; border-radius: 34px; }
+  .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+  input:checked + .slider { background-color: var(--primary); }
+  input:checked + .slider:before { transform: translateX(16px); }
+
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 20000; display: none; align-items: center; justify-content: center; padding: 15px; }
+  .modal-bg.active { display: flex; } 
+  .modal-card { background: rgba(10,10,15,0.95); border: 1px solid var(--border); border-radius: 16px; padding: 20px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.5);}
+
+  .toast { position: fixed; top: 20px; right: 20px; background: var(--primary); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 12px; opacity: 0; transition: 0.3s; z-index: 30000;}
+  .toast.show { opacity: 1; }
 </style>
 </head>
 <body>
+<div id="toast" class="toast">Success</div>
 
 <div id="auth-gate" style="position:fixed; inset:0; background:var(--bg); z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
     <div style="font-size:24px; font-weight:bold; margin-bottom:20px; color:var(--accent);">Admin System</div>
     <input type="password" id="admin-pin" placeholder="Enter PIN (1234)" style="padding:15px; border-radius:12px; border:1px solid var(--border); background:rgba(255,255,255,0.05); color:#fff; text-align:center; margin-bottom:15px; width:250px;">
-    <button class="btn-primary" style="width:250px; padding:15px;" onclick="checkPin()">Secure Login</button>
+    <button class="btn btn-primary" style="width:250px; padding:15px; font-size:14px;" onclick="checkPin()">Secure Login</button>
 </div>
 
 <div id="main-admin" style="display:none; width:100%; height:100%;">
-    <div class="sidebar" id="sidebar">
-        <div class="brand-area"><div style="font-weight:bold; color:white;">Kazeno Admin</div></div>
+    
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar glass-nav" id="sidebar">
+        <div class="brand-area"><div class="brand-text">Kazeno Admin</div><button class="close-sidebar" onclick="toggleSidebar()">✕</button></div>
         <div class="menu-wrap">
-            <div class="menu-item active" onclick="switchTab('v-orders', this)"><i class="fas fa-shopping-cart"></i> Orders</div>
-            <div class="menu-item" onclick="switchTab('v-users', this)"><i class="fas fa-users"></i> Users</div>
-            <div class="menu-item" style="color:var(--danger);" onclick="location.reload()"><i class="fas fa-sign-out-alt"></i> Logout</div>
+            <div class="menu-label">Main</div>
+            <div class="menu-item active" onclick="switchTab('v-dash', this)"> 📊 Dashboard </div>
+            <div class="menu-item" onclick="switchTab('v-users', this)"> 👥 Users & Roles </div>
+            
+            <div class="menu-label">Financials & Orders</div>
+            <div class="menu-item" onclick="switchTab('v-orders', this)"> 📦 Process Orders </div>
+            <div class="menu-item" onclick="switchTab('v-deposits', this)"> 📥 Deposits </div>
+            <div class="menu-item" onclick="switchTab('v-withdraws', this)"> 📤 Withdrawals </div>
+            
+            <div class="menu-label">Catalog</div>
+            <div class="menu-item" onclick="switchTab('v-categories', this)"> 🎮 Categories </div>
+            <div class="menu-item" onclick="switchTab('v-products', this)"> 💎 Products </div>
+            
+            <div class="menu-label">Marketing & Config</div>
+            <div class="menu-item" onclick="switchTab('v-promo', this)"> 🎁 Promo Codes </div>
+            <div class="menu-item" onclick="switchTab('v-payments', this)"> 💳 Payment Methods </div>
+            <div class="menu-item" onclick="switchTab('v-settings', this)"> ⚙️ Settings & API </div>
+            <div class="menu-item" style="color: var(--danger);" onclick="location.reload()"> 🚪 Logout </div>
         </div>
     </div>
 
     <div class="main-content">
-        <div class="top-header">
-            <div style="font-size:18px; font-weight:bold;" id="page-title">Orders Management</div>
-            <div style="width:30px; height:30px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center;">A</div>
+        <div class="top-header glass-header">
+            <div style="display:flex; align-items:center; gap:15px;"><button class="menu-toggle" onclick="toggleSidebar()">☰</button><div class="header-title" id="page-title">Dashboard</div></div>
+            <div style="width:30px; height:30px; background:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;">A</div>
         </div>
-        
+
         <div class="content-area">
-            <div id="v-orders" class="view active">
-                <div class="glass-card" style="padding:20px; overflow-x:auto;">
-                    <table>
-                        <thead><tr><th>Order ID</th><th>Game - Item</th><th>User</th><th>Status</th><th>Action</th></tr></thead>
-                        <tbody id="tb-orders"><tr><td colspan="5" style="text-align:center;">Loading...</td></tr></tbody>
-                    </table>
+            
+            <div id="v-dash" class="view active">
+                <div class="dash-grid">
+                    <div class="stat-card glass-card"><div class="stat-val" id="ds-users">0</div><div class="stat-label">Total Users</div></div>
+                    <div class="stat-card glass-card"><div class="stat-val" id="ds-orders">0</div><div class="stat-label">Completed Orders</div></div>
+                    <div class="stat-card glass-card"><div class="stat-val" id="ds-cat">0</div><div class="stat-label">Categories</div></div>
+                    <div class="stat-card glass-card"><div class="stat-val" id="ds-prod">0</div><div class="stat-label">Products</div></div>
+                </div>
+                <div class="dash-grid">
+                    <div class="stat-card glass-card" style="border-left:4px solid var(--ok);"><div class="stat-val" style="color:var(--ok);" id="ds-tot-dep">0 Ks</div><div class="stat-label">Total Deposits</div></div>
+                    <div class="stat-card glass-card" style="border-left:4px solid var(--primary);"><div class="stat-val" style="color:var(--primary);" id="ds-tot-sales">0 Ks</div><div class="stat-label">Total Sales Revenue</div></div>
+                    <div class="stat-card glass-card" style="border-left:4px solid var(--accent);"><div class="stat-val" style="color:var(--accent);" id="ds-tot-profit">0 Ks</div><div class="stat-label">Real Profit</div></div>
+                    <div class="stat-card glass-card" style="border-left:4px solid var(--danger);"><div class="stat-val" style="color:var(--danger);" id="ds-wal-left">0 Ks</div><div class="stat-label">User Wallets Liability</div></div>
                 </div>
             </div>
 
             <div id="v-users" class="view">
-                <div class="glass-card" style="padding:20px; overflow-x:auto;">
+                <div id="v-users-list">
+                    <div class="header-actions"><div class="page-title">Users Management</div></div>
+                    <div class="table-wrapper glass-card">
+                        <table>
+                            <thead><tr><th>Email</th><th>Referral Code</th><th>Balance</th><th>Spins</th><th>Action</th></tr></thead>
+                            <tbody id="tb-users"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="v-users-detail" style="display:none;">
+                    <div class="btn btn-dark mb-4" onclick="closeUserDetail()">← Back</div>
+                    <div class="detail-card glass-card">
+                        <div style="font-size:18px; font-weight:bold; margin-bottom:10px;" id="ud-email">--</div>
+                        <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:15px;">
+                            <div><div style="font-size:11px; color:var(--muted);">Balance</div><div style="color:var(--ok); font-weight:bold; font-size:16px;" id="ud-bal">0 Ks</div></div>
+                            <div><div style="font-size:11px; color:var(--muted);">Spins</div><div style="color:var(--warning); font-weight:bold; font-size:16px;" id="ud-spins">0</div></div>
+                        </div>
+                        <button class="btn btn-primary" onclick="editUserFromDetail()">Edit Balance/Spins</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="v-orders" class="view">
+                <div class="tabs-container">
+                    <div class="tab-pill active" onclick="filterOrders('Pending', this)">Pending</div>
+                    <div class="tab-pill" onclick="filterOrders('Processing', this)">Processing</div>
+                    <div class="tab-pill" onclick="filterOrders('Completed', this)">Completed</div>
+                    <div class="tab-pill" onclick="filterOrders('Cancelled', this)">Cancelled</div>
+                </div>
+                <div class="table-wrapper glass-card">
                     <table>
-                        <thead><tr><th>Email</th><th>Balance</th><th>Role</th></tr></thead>
-                        <tbody id="tb-users"><tr><td colspan="3" style="text-align:center;">Loading...</td></tr></tbody>
+                        <thead><tr><th>Order ID</th><th>Date</th><th>Product</th><th>Price</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody id="tb-orders-tabbed"></tbody>
                     </table>
                 </div>
             </div>
+
+            <div id="v-deposits" class="view">
+                <div class="header-actions"><div class="page-title">Deposits</div></div>
+                <div class="table-wrapper glass-card">
+                    <table>
+                        <thead><tr><th>ID & Status</th><th>User</th><th>Amount & Method</th><th>Action</th></tr></thead>
+                        <tbody id="tb-deposits"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="v-withdraws" class="view">
+                <div class="header-actions"><div class="page-title">Withdrawals</div></div>
+                <div class="table-wrapper glass-card">
+                    <table>
+                        <thead><tr><th>ID & Status</th><th>User</th><th>Amount & Method</th><th>Action</th></tr></thead>
+                        <tbody id="tb-withdraws"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="v-categories" class="view">
+                <div class="header-actions"><div class="page-title">Categories</div><button class="btn btn-primary" onclick="openCatModal()">+ New Category</button></div>
+                <div class="table-wrapper glass-card"><table><thead><tr><th>Name</th><th>Required Forms</th><th>Status</th><th>Action</th></tr></thead><tbody id="tb-categories"></tbody></table></div>
+            </div>
+
+            <div id="v-products" class="view">
+                <div class="header-actions"><div class="page-title">Products</div><button class="btn btn-primary" onclick="openProdModal()">+ New Product</button></div>
+                <div class="table-wrapper glass-card"><table><thead><tr><th>Product</th><th>Category</th><th>Prices (Cost/Sell)</th><th>Action</th></tr></thead><tbody id="tb-products"></tbody></table></div>
+            </div>
+
+            <div id="v-promo" class="view">
+                <div class="header-actions"><div class="page-title">Promo Codes</div><button class="btn btn-primary" onclick="openPromoModal()">+ Add Code</button></div>
+                <div class="table-wrapper glass-card"><table><thead><tr><th>Code</th><th>Discount Amount</th><th>Action</th></tr></thead><tbody id="tb-promos"></tbody></table></div>
+            </div>
+
+            <div id="v-payments" class="view">
+                <div class="header-actions"><div class="page-title">Payment Methods</div><button class="btn btn-primary" onclick="openPayModal()">+ Add Method</button></div>
+                <div class="table-wrapper glass-card"><table><thead><tr><th>Provider</th><th>Account Info</th><th>Action</th></tr></thead><tbody id="tb-payments"></tbody></table></div>
+            </div>
+
+            <div id="v-settings" class="view">
+                <div class="dash-grid" style="grid-template-columns: 1fr; max-width: 600px;">
+                    <div class="stat-card glass-card">
+                        <h3 style="margin-bottom:15px; font-size:14px; color:var(--accent);">🤖 Telegram Alerts</h3>
+                        <div style="margin-bottom:15px;"><label style="font-size:11px; color:gray;">Bot API Token</label><input type="text" id="inp-bot-token" class="input-box"></div>
+                        <div style="margin-bottom:15px;"><label style="font-size:11px; color:gray;">Group Chat ID</label><input type="text" id="inp-chat-id" class="input-box"></div>
+                        <div style="display:flex; gap:10px; margin-bottom:15px;">
+                            <div style="flex:1;"><label style="font-size:11px; color:gray;">Order Topic ID</label><input type="number" id="inp-tg-order-topic" class="input-box"></div>
+                            <div style="flex:1;"><label style="font-size:11px; color:gray;">Deposit Topic ID</label><input type="number" id="inp-tg-dep-topic" class="input-box"></div>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveAllSettings()">Save Settings</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
+    </div>
+</div>
+
+<div class="modal-bg" id="user-modal">
+    <div class="modal-card">
+        <h3 style="margin-bottom:15px;">Edit User</h3><input type="hidden" id="um-id">
+        <div style="margin-bottom:15px;"><label style="font-size:11px; color:gray;">Wallet Balance</label><input type="number" id="um-wallet" class="input-box"></div>
+        <div style="margin-bottom:15px;"><label style="font-size:11px; color:gray;">Spin Tickets</label><input type="number" id="um-spins" class="input-box"></div>
+        <div style="margin-bottom:15px;"><label style="font-size:11px; color:gray;">Role</label><select id="um-role" class="select-box"><option value="Customer">Customer</option><option value="Seller">Seller</option><option value="Admin">Admin</option></select></div>
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveUserEdit()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('user-modal')">Cancel</button></div>
+    </div>
+</div>
+
+<div class="modal-bg" id="cat-modal">
+    <div class="modal-card">
+        <h3 style="margin-bottom:15px;" id="cm-title">Category</h3><input type="hidden" id="cm-id">
+        <input type="text" id="cm-name" class="input-box" placeholder="Name" style="margin-bottom:10px;">
+        <input type="text" id="cm-slug" class="input-box" placeholder="Slug (e.g. mlbb)" style="margin-bottom:10px;">
+        <input type="text" id="cm-img-url" class="input-box" placeholder="Logo Image URL" style="margin-bottom:10px;">
+        <div style="font-size:12px; margin-bottom:10px; color:gray;">Required Fields:</div>
+        <div style="display:flex; gap:10px; margin-bottom:15px; font-size:12px;">
+            <label><input type="checkbox" id="cm-form-uid"> Game ID</label>
+            <label><input type="checkbox" id="cm-form-zone"> Server ID</label>
+        </div>
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveCategory()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('cat-modal')">Cancel</button></div>
+    </div>
+</div>
+
+<div class="modal-bg" id="prod-modal">
+    <div class="modal-card">
+        <h3 style="margin-bottom:15px;" id="pm-title">Product</h3><input type="hidden" id="pm-id">
+        <input type="text" id="pm-name" class="input-box" placeholder="Name (e.g. 11 Diamonds)" style="margin-bottom:10px;">
+        <select id="pm-cat" class="select-box" style="margin-bottom:10px;"></select>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+            <input type="number" id="pm-cost" class="input-box" placeholder="Cost Price">
+            <input type="number" id="pm-price" class="input-box" placeholder="Sell Price">
+        </div>
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveProduct()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('prod-modal')">Cancel</button></div>
+    </div>
+</div>
+
+<div class="modal-bg" id="pay-modal">
+    <div class="modal-card"><h3 style="margin-bottom:15px;">Payment Method</h3><input type="hidden" id="pay-id">
+        <input type="text" id="pay-name" class="input-box" placeholder="Provider (e.g. KPay)" style="margin-bottom:10px;">
+        <input type="text" id="pay-phone" class="input-box" placeholder="Phone Number" style="margin-bottom:10px;">
+        <input type="text" id="pay-acc" class="input-box" placeholder="Account Name" style="margin-bottom:15px;">
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePayment()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('pay-modal')">Cancel</button></div>
+    </div>
+</div>
+
+<div class="modal-bg" id="promo-modal">
+    <div class="modal-card"><h3 style="margin-bottom:15px;">Promo Code</h3>
+        <input type="text" id="promo-code" class="input-box" placeholder="CODE" style="margin-bottom:10px; text-transform:uppercase;">
+        <input type="number" id="promo-amt" class="input-box" placeholder="Discount Amount" style="margin-bottom:15px;">
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePromo()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('promo-modal')">Cancel</button></div>
+    </div>
+</div>
+
+<div class="modal-bg" id="slip-modal" onclick="if(event.target===this) closeModal('slip-modal')">
+    <div class="modal-card" style="text-align:center;">
+        <img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px;" src="">
+        <button class="btn btn-dark" style="width:100%; padding:12px;" onclick="closeModal('slip-modal')">Close</button>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc, setDoc, addDoc, deleteDoc, query, orderBy, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
+    // ⚠️ Firebase Keys အစားထိုးပါ ⚠️
+    const firebaseConfig = { apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT_ID.firebaseapp.com", projectId: "YOUR_PROJECT_ID", storageBucket: "YOUR_PROJECT_ID.appspot.com", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const db = getFirestore(app);
 
-    // ✅ FIXED: Authentication PIN logic attached to Window
+    // --- GLOBALS & UTILS ---
+    window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
+    window.formatDate = (ts) => { if(!ts) return "-"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString(); }
+    window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('active'); }
+    window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard'; }
+    window.closeModal = (id) => document.getElementById(id).classList.remove('active');
+    window.viewSlip = (url) => { if(!url)return toast("No slip"); document.getElementById('modal-img-src').src = url; document.getElementById('slip-modal').classList.add('active'); };
+    
+    // ✅ LOGIN FIX: Connected properly to window
     window.checkPin = () => { 
         if(document.getElementById('admin-pin').value === "1234") { 
             document.getElementById('auth-gate').style.display = "none"; 
             document.getElementById('main-admin').style.display = "flex"; 
             initAdmin(); 
-        } else { alert("Invalid PIN!"); }
+        } else { toast("Invalid PIN!"); }
     };
 
-    window.switchTab = (viewId, el) => { 
-        document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); el.classList.add('active'); 
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); 
-        document.getElementById('page-title').innerText = el.innerText.trim();
-    };
+    let globalOrders = []; let globalUsers = []; let allCats = [];
 
     function initAdmin() {
-        // Fetch Orders
-        onSnapshot(query(collection(db, "orders"), orderBy("createdAt", "desc")), (snap) => {
-            let h = "";
-            snap.forEach(d => {
-                let o = {id: d.id, ...d.data()};
-                let c = o.status==='Completed' ? 'bg-active' : (o.status==='Cancelled' ? 'bg-inactive' : 'badge');
-                h += `<tr>
-                    <td><strong style="color:var(--accent);">${o.orderId||o.id.substring(0,8)}</strong></td>
-                    <td>${o.game} - ${o.item}</td>
-                    <td>${o.userEmail}</td>
-                    <td><span class="badge ${c}" style="background:rgba(255,255,255,0.1); border:1px solid currentColor;">${o.status}</span></td>
-                    <td>
-                        ${o.status !== 'Completed' ? `<button class="btn-primary" style="padding:5px 10px; font-size:10px;" onclick="markDone('${o.id}')">Mark Complete</button>` : 'Done'}
-                    </td>
-                </tr>`;
-            });
-            document.getElementById('tb-orders').innerHTML = h || "<tr><td colspan='5' style='text-align:center;'>No orders.</td></tr>";
+        // Settings
+        onSnapshot(doc(db, "settings", "app_config"), (d) => {
+            if(d.exists()) {
+                document.getElementById('inp-bot-token').value = d.data().tgBotToken || '';
+                document.getElementById('inp-chat-id').value = d.data().tgChatId || '';
+                document.getElementById('inp-tg-order-topic').value = d.data().tgOrderTopicId || '';
+                document.getElementById('inp-tg-dep-topic').value = d.data().tgDepositTopicId || '';
+            }
         });
 
-        // Fetch Users
-        onSnapshot(collection(db, "users"), (snap) => {
-            let h = "";
-            snap.forEach(d => {
-                let u = d.data();
-                h += `<tr><td>${u.email}</td><td style="color:var(--ok); font-weight:bold;">${(u.walletBalance||0).toLocaleString()} Ks</td><td>${u.role||'Customer'}</td></tr>`;
-            });
-            document.getElementById('tb-users').innerHTML = h || "<tr><td colspan='3' style='text-align:center;'>No users.</td></tr>";
+        // Users
+        onSnapshot(collection(db, "users"), (s) => { 
+            globalUsers = []; let h="", t=0; document.getElementById('ds-users').innerText=s.size;
+            s.forEach(d=>{ 
+                let u={id:d.id, ...d.data()}; globalUsers.push(u); t+=(u.walletBalance||0); 
+                h+=`<tr><td>${u.email}</td><td>${u.refCode||'-'}</td><td style="color:var(--ok);">${(u.walletBalance||0).toLocaleString()} Ks</td><td>${u.spinCount||0}</td><td><button class="btn btn-primary" onclick="showUserDetail('${u.id}')">View</button></td></tr>`; 
+            }); 
+            document.getElementById('tb-users').innerHTML=h; document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
         });
+
+        // Categories
+        onSnapshot(collection(db, "categories"), (snap) => { 
+            allCats = []; let h="", opt="<option value=''>Select Cat</option>"; 
+            snap.forEach(s => { 
+                let c = {id: s.id, ...s.data()}; allCats.push(c); opt+=`<option value="${c.id}">${c.name}</option>`; 
+                h+=`<tr><td>${c.name}</td><td>${(c.forms||[]).join(', ')}</td><td>${c.isActive?'Active':'Inactive'}</td><td><button class="btn btn-dark" onclick='openCatModal(${JSON.stringify(c).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db,'categories','${c.id}'))">Del</button></td></tr>`; 
+            }); 
+            document.getElementById('tb-categories').innerHTML=h; document.getElementById('pm-cat').innerHTML=opt; document.getElementById('ds-cat').innerText=allCats.length;
+        });
+
+        // Products
+        onSnapshot(collection(db, "products"), (snap) => { 
+            let h=""; snap.forEach(s => { 
+                let p = {id: s.id, ...s.data()}; let cName = allCats.find(x=>x.id===p.categoryId)?.name || 'Unknown'; 
+                h+=`<tr><td>${p.name}</td><td>${cName}</td><td>${p.retailPrice||0} / ${p.sellingPrice||0}</td><td><button class="btn btn-dark" onclick='openProdModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db,'products','${p.id}'))">Del</button></td></tr>`; 
+            }); 
+            document.getElementById('tb-products').innerHTML=h; document.getElementById('ds-prod').innerText=snap.size; 
+        });
+
+        // Orders
+        onSnapshot(collection(db, "orders"), (s) => { 
+            globalOrders = []; let tS=0, tP=0; s.forEach(d=>{ let o={id:d.id, ...d.data()}; globalOrders.push(o); });
+            globalOrders.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
+            globalOrders.forEach(o=>{ if(o.status==='Completed'){ tS+=(o.price||0); let cost=o.costPrice||(o.price*0.85); tP+=(o.price-cost); }}); 
+            document.getElementById('ds-orders').innerText=globalOrders.filter(x=>x.status==='Completed').length; document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
+            filterOrders('Pending', document.querySelector('.tab-pill.active'));
+        });
+
+        // Deposits & Withdrawals
+        onSnapshot(collection(db, "deposits"), (s) => { let tD=0, h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(dp=>{ if(dp.status==='Completed')tD+=dp.amount; h+=`<tr><td>${dp.depId||dp.id.substring(0,8)} <span class="badge bg-pill">${dp.status}</span></td><td>${dp.userEmail}</td><td style="color:var(--ok);">+${(dp.amount||0).toLocaleString()} Ks (${dp.payMethod})</td><td><button class="btn btn-dark" onclick="viewSlip('${dp.slipImage}')">Slip</button>${dp.status==='Pending'?` <button class="btn btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})">Approve</button> <button class="btn btn-danger" onclick="updDep('${dp.id}','Cancelled')">Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-deposits').innerHTML=h; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
+        onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(w=>{ h+=`<tr><td>${w.wdId||w.id.substring(0,8)} <span class="badge bg-pill">${w.status}</span></td><td>${w.userEmail}</td><td style="color:var(--danger);">${(w.amount||0).toLocaleString()} Ks (${w.payMethod})</td><td>${w.status==='Pending'?`<button class="btn btn-ok" onclick="updWd('${w.id}','Completed')">Sent</button> <button class="btn btn-danger" onclick="updWd('${w.id}','Cancelled','${w.userId}',${w.amount})">Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-withdraws').innerHTML=h; });
+
+        // Promos & Payments
+        onSnapshot(collection(db, "promo_codes"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td>${p.code}</td><td>${p.discount} Ks</td><td><button class="btn btn-danger" onclick="deleteDoc(doc(db,'promo_codes','${p.id}'))">Del</button></td></tr>`; }); document.getElementById('tb-promos').innerHTML=h; });
+        onSnapshot(collection(db, "payment_methods"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td>${p.name}</td><td>${p.phone} (${p.accName})</td><td><button class="btn btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db,'payment_methods','${p.id}'))">Del</button></td></tr>`; }); document.getElementById('tb-payments').innerHTML=h; });
     }
 
-    // Mark Order as Completed
-    window.markDone = async (id) => {
-        if(confirm("Confirm order completion?")) {
-            await updateDoc(doc(db,"orders",id), {status: "Completed"});
-        }
+    // --- ORDERS LOGIC ---
+    window.filterOrders = (status, el=null) => {
+        if(el) { document.querySelectorAll('.tab-pill').forEach(t=>t.classList.remove('active')); el.classList.add('active'); }
+        let h = ""; let filtered = globalOrders.filter(o => o.status === status);
+        filtered.forEach(o => {
+            let cls = o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':'bg-pill');
+            let actHtml = "";
+            if(o.status === 'Pending') actHtml = `<button class="btn btn-warning" onclick="updOrd('${o.id}','Processing')">Process</button> <button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">Cancel</button>`;
+            else if(o.status === 'Processing') actHtml = `<button class="btn btn-ok" onclick="updOrd('${o.id}','Completed')">Complete</button> <button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">Cancel</button>`;
+            
+            h+=`<tr><td>${o.orderId||o.id.substring(0,8)}</td><td>${formatDate(o.createdAt)}</td><td>${o.game} - ${o.item}<br><span style="font-size:10px;color:var(--accent);">ID: ${o.playerId}</span></td><td>${(o.price||0).toLocaleString()} Ks</td><td><span class="badge ${cls}">${o.status}</span></td><td>${actHtml}</td></tr>`;
+        });
+        document.getElementById('tb-orders-tabbed').innerHTML = h || "<tr><td colspan='6' style='text-align:center;'>No orders.</td></tr>";
     };
+    window.updOrd = async (id, st) => { if(confirm(`Mark as ${st}?`)) { await updateDoc(doc(db,"orders",id),{status:st}); } };
+
+    // --- USER LOGIC ---
+    window.showUserDetail = (uid) => {
+        let u = globalUsers.find(x => x.id === uid); if(!u) return;
+        document.getElementById('v-users-list').style.display = 'none';
+        document.getElementById('ud-email').innerText = u.email;
+        document.getElementById('ud-bal').innerText = (u.walletBalance||0).toLocaleString() + " Ks";
+        document.getElementById('ud-spins').innerText = u.spinCount || 0;
+        document.getElementById('v-users-detail').querySelector('.btn-primary').onclick = () => openUserModal(u.id, u.walletBalance||0, u.role||'Customer', u.spinCount||0);
+        document.getElementById('v-users-detail').style.display = 'block';
+    };
+    window.closeUserDetail = () => { document.getElementById('v-users-detail').style.display = 'none'; document.getElementById('v-users-list').style.display = 'block'; };
+    window.openUserModal = (id, bal, role, spins) => { document.getElementById('um-id').value=id; document.getElementById('um-wallet').value=bal; document.getElementById('um-spins').value=spins; document.getElementById('um-role').value=role; document.getElementById('user-modal').classList.add('active'); };
+    window.saveUserEdit = async () => { let id=document.getElementById('um-id').value; let b=parseInt(document.getElementById('um-wallet').value); let s=parseInt(document.getElementById('um-spins').value); let r=document.getElementById('um-role').value; if(!isNaN(b)){ await updateDoc(doc(db,"users",id),{walletBalance:b, spinCount:s, role:r}); toast("User Updated!"); closeModal('user-modal'); setTimeout(()=>showUserDetail(id), 500); } };
+
+    // --- OTHER CRUDS ---
+    window.saveAllSettings = async () => { await setDoc(doc(db,"settings","app_config"), { tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value }, {merge:true}); toast("Settings Saved!"); };
+    window.apprDep = async (id, uid, amt) => { if(confirm(`Approve +${amt}?`)){ let u=await getDoc(doc(db,"users",uid)); let uData=u.data(); await updateDoc(doc(db,"users",uid),{walletBalance:(uData.walletBalance||0)+amt}); await updateDoc(doc(db,"deposits",id),{status:'Completed'}); await addDoc(collection(db,"transactions"),{userId:uid, type:'Deposit', amount:amt, desc:'Approved', createdAt:serverTimestamp()}); toast("Approved!"); } };
+    window.updDep = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"deposits",id),{status:st}); };
+    window.updWd = async (id, st, uid, amt) => { if(confirm(`Confirm ${st}?`)){ if(st==='Cancelled'&&uid&&amt){ let u=await getDoc(doc(db,"users",uid)); await updateDoc(doc(db,"users",uid),{walletBalance:(u.data().walletBalance||0)+amt}); } await updateDoc(doc(db,"withdrawals",id),{status:st}); toast(`Done!`); } };
+    
+    window.openCatModal = (c=null) => { document.getElementById('cm-id').value=c?c.id:''; document.getElementById('cm-name').value=c?c.name:''; document.getElementById('cm-slug').value=c?c.slug:''; document.getElementById('cm-img-url').value=c?c.logoUrl:''; let f=(c&&c.forms)?c.forms:[]; document.getElementById('cm-form-uid').checked=f.includes('gameId'); document.getElementById('cm-form-zone').checked=f.includes('zoneId'); document.getElementById('cm-title').innerText=c?"Edit Cat":"New Cat"; document.getElementById('cat-modal').classList.add('active'); };
+    window.saveCategory = async () => { let id=document.getElementById('cm-id').value; let forms=[]; if(document.getElementById('cm-form-uid').checked)forms.push('gameId'); if(document.getElementById('cm-form-zone').checked)forms.push('zoneId'); let data={ name:document.getElementById('cm-name').value, slug:document.getElementById('cm-slug').value, logoUrl:document.getElementById('cm-img-url').value, forms:forms, isActive:true }; if(id) await updateDoc(doc(db,"categories",id),data); else await addDoc(collection(db,"categories"),data); closeModal('cat-modal'); toast("Saved!"); };
+    
+    window.openProdModal = (p=null) => { document.getElementById('pm-id').value=p?p.id:''; document.getElementById('pm-name').value=p?p.name:''; document.getElementById('pm-cat').value=p?p.categoryId:''; document.getElementById('pm-cost').value=p?p.retailPrice:''; document.getElementById('pm-price').value=p?p.sellingPrice:''; document.getElementById('pm-title').innerText=p?"Edit Prod":"New Prod"; document.getElementById('prod-modal').classList.add('active'); };
+    window.saveProduct = async () => { let id=document.getElementById('pm-id').value; let data={ name:document.getElementById('pm-name').value, categoryId:document.getElementById('pm-cat').value, retailPrice:parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice:parseFloat(document.getElementById('pm-price').value)||0, isActive:true }; if(id) await updateDoc(doc(db,"products",id),data); else await addDoc(collection(db,"products"),data); closeModal('prod-modal'); toast("Saved!"); };
+    
+    window.openPayModal = (p=null) => { document.getElementById('pay-id').value=p?p.id:''; document.getElementById('pay-name').value=p?p.name:''; document.getElementById('pay-phone').value=p?p.phone:''; document.getElementById('pay-acc').value=p?p.accName:''; document.getElementById('pay-modal').classList.add('active'); };
+    window.savePayment = async () => { let id=document.getElementById('pay-id').value; let data={name:document.getElementById('pay-name').value, phone:document.getElementById('pay-phone').value, accName:document.getElementById('pay-acc').value}; if(id) await updateDoc(doc(db,"payment_methods",id),data); else await addDoc(collection(db,"payment_methods"),data); closeModal('pay-modal'); toast("Saved!"); };
+    
+    window.openPromoModal = () => { document.getElementById('promo-code').value=''; document.getElementById('promo-amt').value=''; document.getElementById('promo-modal').classList.add('active'); };
+    window.savePromo = async () => { let c=document.getElementById('promo-code').value.toUpperCase(); let a=parseInt(document.getElementById('promo-amt').value); if(c&&a){ await addDoc(collection(db,"promo_codes"),{code:c, discount:a}); closeModal('promo-modal'); toast("Saved!"); } };
 </script>
 </body>
 </html>
+
