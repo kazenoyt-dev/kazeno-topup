@@ -3,131 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kazeno Game Topup</title>
+    <title>Kazeno+ | Mobile Legends Topup</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
     <style>
-        body { background-color: #0f172a; color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .package-card.selected { border-color: #10b981; background-color: rgba(16, 185, 129, 0.1); transform: scale(1.02); }
-        .package-card { transition: all 0.3s ease; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
-        .package-card:hover { border-color: #3b82f6; }
+        body { background-color: #f3f4f6; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        .package-card { transition: all 0.2s ease; border: 2px solid #e5e7eb; background: #ffffff; }
+        .package-card.selected { border-color: #3b82f6; background-color: #eff6ff; }
+        .package-card:active { transform: scale(0.98); }
+        .loader { border: 3px solid #e5e7eb; border-top: 3px solid #ffffff; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: none; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="min-h-screen pb-20">
+<body class="pb-24">
 
-    <header class="bg-slate-900 sticky top-0 z-50 border-b border-slate-800 shadow-lg">
-        <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-center font-bold text-xl shadow-lg">K</div>
-                <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-300">Kazeno Topup</h1>
-            </div>
-            <button class="text-slate-300 hover:text-white"><i class="fas fa-bars text-xl"></i></button>
+    <div class="bg-blue-600 text-white rounded-b-[2rem] pt-6 pb-16 px-4 shadow-md relative">
+        <div class="max-w-md mx-auto text-center">
+            <h1 class="text-2xl font-bold flex items-center justify-center gap-2">
+                <i class="fas fa-gamepad"></i> Kazeno+
+            </h1>
+            <p class="text-blue-100 text-sm mt-1">Mobile Legends Topup</p>
         </div>
-    </header>
+    </div>
 
-    <main class="max-w-3xl mx-auto px-4 mt-6 space-y-6">
+    <main class="max-w-md mx-auto px-4 -mt-10 relative z-10 space-y-5">
         
-        <div class="glass-panel rounded-2xl p-4 flex gap-4 items-center">
-            <img src="https://i.ibb.co/L5QzX2b/mlbb-icon.png" alt="MLBB" class="w-20 h-20 rounded-xl shadow-md" onerror="this.src='https://via.placeholder.com/80x80/1e293b/ffffff?text=MLBB'">
-            <div>
-                <h2 class="text-2xl font-bold">Mobile Legends</h2>
-                <p class="text-sm text-slate-400 mt-1"><i class="fas fa-bolt text-yellow-400 mr-1"></i> Instant Delivery</p>
+        <div class="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
+            <h3 class="text-gray-800 font-semibold mb-3 flex items-center gap-2">
+                <span class="bg-blue-100 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                Player ID
+            </h3>
+            <div class="grid grid-cols-2 gap-3">
+                <input type="number" id="userId" placeholder="User ID" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+                <input type="number" id="zoneId" placeholder="Zone ID" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+            </div>
+            <p class="text-xs text-gray-400 mt-2 ml-1">eg. 178178050 (2911)</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
+            <h3 class="text-gray-800 font-semibold mb-3 flex items-center gap-2">
+                <span class="bg-blue-100 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                Diamond Packages
+            </h3>
+            <div class="grid grid-cols-3 gap-3">
+                <div class="package-card rounded-xl p-3 text-center cursor-pointer" onclick="selectPackage(this, '11', 1000)">
+                    <i class="far fa-gem text-blue-500 text-2xl mb-1"></i>
+                    <div class="font-bold text-gray-800 text-sm">11 Diamonds</div>
+                    <div class="text-blue-600 text-xs font-semibold mt-1">1,000 Ks</div>
+                </div>
+                <div class="package-card rounded-xl p-3 text-center cursor-pointer" onclick="selectPackage(this, '22', 2000)">
+                    <i class="far fa-gem text-blue-500 text-2xl mb-1"></i>
+                    <div class="font-bold text-gray-800 text-sm">22 Diamonds</div>
+                    <div class="text-blue-600 text-xs font-semibold mt-1">2,000 Ks</div>
+                </div>
+                <div class="package-card rounded-xl p-3 text-center cursor-pointer" onclick="selectPackage(this, '56', 5000)">
+                    <i class="far fa-gem text-blue-500 text-2xl mb-1"></i>
+                    <div class="font-bold text-gray-800 text-sm">56 Diamonds</div>
+                    <div class="text-blue-600 text-xs font-semibold mt-1">5,000 Ks</div>
+                </div>
+                <div class="package-card rounded-xl p-3 text-center cursor-pointer" onclick="selectPackage(this, '112', 10000)">
+                    <i class="far fa-gem text-blue-500 text-2xl mb-1"></i>
+                    <div class="font-bold text-gray-800 text-sm">112 Diamonds</div>
+                    <div class="text-blue-600 text-xs font-semibold mt-1">10,000 Ks</div>
+                </div>
             </div>
         </div>
 
-        <section class="glass-panel rounded-2xl p-5">
-            <div class="flex items-center gap-2 mb-4">
-                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">1</div>
-                <h3 class="text-lg font-semibold">Enter Player ID</h3>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <input type="number" id="userId" placeholder="User ID" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors">
-                </div>
-                <div>
-                    <input type="number" id="zoneId" placeholder="Zone ID" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors">
-                </div>
-            </div>
-            <p class="text-xs text-slate-400 mt-2 ml-1">Example: 12345678 (1234)</p>
-        </section>
-
-        <section class="glass-panel rounded-2xl p-5">
-            <div class="flex items-center gap-2 mb-4">
-                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">2</div>
-                <h3 class="text-lg font-semibold">Select Recharge</h3>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-3" id="packageList">
-                <div class="package-card bg-slate-800 rounded-xl p-3 relative overflow-hidden" onclick="selectPackage(this, 11, 1000)">
-                    <div class="absolute top-0 right-0 bg-gradient-to-l from-yellow-500 to-orange-400 text-[10px] font-bold px-2 py-1 rounded-bl-lg">HOT</div>
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-lg">11 <i class="far fa-gem text-cyan-400 text-sm"></i></span>
-                    </div>
-                    <div class="text-slate-400 text-sm">1,000 Ks</div>
-                </div>
-
-                <div class="package-card bg-slate-800 rounded-xl p-3" onclick="selectPackage(this, 22, 2000)">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-lg">22 <i class="far fa-gem text-cyan-400 text-sm"></i></span>
-                    </div>
-                    <div class="text-slate-400 text-sm">2,000 Ks</div>
-                </div>
-
-                <div class="package-card bg-slate-800 rounded-xl p-3" onclick="selectPackage(this, 56, 5000)">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-bold text-lg">56 <i class="far fa-gem text-cyan-400 text-sm"></i></span>
-                    </div>
-                    <div class="text-slate-400 text-sm">5,000 Ks</div>
-                </div>
-            </div>
-        </section>
-
+        <div class="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
+            <h3 class="text-gray-800 font-semibold mb-3 flex items-center gap-2">
+                <span class="bg-blue-100 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                Payment Method
+            </h3>
+            <select id="paymentMethod" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500">
+                <option value="KPay">KBZ Pay</option>
+                <option value="WavePay">Wave Pay</option>
+            </select>
+        </div>
     </main>
 
-    <div class="fixed bottom-0 left-0 w-full bg-slate-900 border-t border-slate-800 p-4 shadow-2xl z-50">
-        <div class="max-w-3xl mx-auto flex justify-between items-center">
+    <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 px-6 z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center">
             <div>
-                <p class="text-sm text-slate-400">Total Payment</p>
-                <p class="text-xl font-bold text-teal-400" id="totalPrice">0 Ks</p>
+                <p class="text-xs text-gray-500 uppercase font-semibold">Total Price</p>
+                <p class="text-xl font-bold text-blue-600" id="totalPrice">0 Ks</p>
             </div>
-            <button onclick="proceedToPayment()" class="bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-500 hover:to-teal-400 text-white font-bold py-3 px-8 rounded-xl shadow-lg transform transition active:scale-95">
-                Buy Now
+            <button id="buyBtn" onclick="submitOrder()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-md flex items-center gap-2 transition-colors">
+                <span>Order Now</span>
+                <div id="btnLoader" class="loader"></div>
             </button>
         </div>
     </div>
 
     <script>
+        // ⚠️ သင့်ရဲ့ Firebase Config ကို ဒီနေရာမှာ အစားထိုးပါ ⚠️
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         let selectedItem = null;
         let selectedPrice = 0;
 
         function selectPackage(element, item, price) {
-            // Remove 'selected' class from all cards
             document.querySelectorAll('.package-card').forEach(card => card.classList.remove('selected'));
-            // Add 'selected' class to clicked card
             element.classList.add('selected');
-            
             selectedItem = item;
             selectedPrice = price;
-            
-            // Update total price at bottom
             document.getElementById('totalPrice').innerText = price.toLocaleString() + ' Ks';
         }
 
-        function proceedToPayment() {
+        async function submitOrder() {
             const uid = document.getElementById('userId').value;
             const zid = document.getElementById('zoneId').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const btn = document.getElementById('buyBtn');
+            const loader = document.getElementById('btnLoader');
 
-            if(!uid || !zid) {
-                alert("Please enter Player ID and Zone ID!");
-                return;
-            }
-            if(!selectedItem) {
-                alert("Please select a diamond package!");
-                return;
-            }
+            if(!uid || !zid) return alert("User ID နှင့် Zone ID ကို ထည့်ပါ။");
+            if(!selectedItem) return alert("စိန်ပမာဏ ရွေးချယ်ပေးပါ။");
 
-            // ဒီနေရာမှာ Payment စာမျက်နှာ (သို့) ငွေလွှဲပြေစာ တင်ရမယ့် နေရာကို ဆက်သွားပါမယ်
-            alert(`Ready to pay ${selectedPrice} Ks for ${selectedItem} Diamonds!\nID: ${uid} (${zid})`);
+            btn.disabled = true;
+            loader.style.display = "block";
+            btn.querySelector('span').innerText = "Processing...";
+
+            const orderId = 'ORD-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            const fullPlayerId = `${uid} (${zid})`;
+
+            try {
+                await db.collection("orders").doc(orderId).set({
+                    orderId: orderId,
+                    item: selectedItem,
+                    playerId: fullPlayerId,
+                    price: selectedPrice,
+                    paymentMethod: paymentMethod,
+                    status: "Pending",
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                alert(`🎉 အော်ဒါတင်ခြင်း အောင်မြင်ပါသည်။\nOrder ID: ${orderId}`);
+                
+                document.getElementById('userId').value = "";
+                document.getElementById('zoneId').value = "";
+                document.querySelectorAll('.package-card').forEach(card => card.classList.remove('selected'));
+                document.getElementById('totalPrice').innerText = "0 Ks";
+                selectedItem = null;
+
+            } catch (error) {
+                alert("အမှားအယွင်းဖြစ်ပေါ်နေပါသည်။");
+            } finally {
+                btn.disabled = false;
+                loader.style.display = "none";
+                btn.querySelector('span').innerText = "Order Now";
+            }
         }
     </script>
 </body>
