@@ -1,534 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>Kazeno Shop</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root{ --bg:#050510; --glass:rgba(20,25,45,0.8); --border:rgba(255,255,255,0.08); --text:#ffffff; --muted:#9ca3af; --primary:#8a2be2; --accent:#4facfe; --ok:#10b981; --danger:#ef4444; --warning:#f59e0b; --card:rgba(255,255,255,0.04); }
-  *{box-sizing:border-box; outline:none; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
-  body{font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden;}
-  body::before{content:''; position:fixed; top:-20%; left:-10%; width:60%; height:60%; background:radial-gradient(circle,rgba(138,43,226,0.15) 0%,transparent 60%); z-index:-1;}
-  
-  .app-container{max-width:480px; margin:0 auto; min-height:100vh; position:relative; padding-bottom:90px;}
-  .glass-card{background:var(--glass); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:20px;}
-  .svg-icon{stroke:currentColor; stroke-width:2; fill:none;}
-
-  .page, #auth-screen{display:none; padding:16px; padding-bottom:130px; animation:fadeIn 0.3s ease forwards;}
-  .page.active, #auth-screen.active{display:block;}
-  @keyframes fadeIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
-
-  /* AUTH */
-  .auth-box{margin-top:10vh; padding:30px 20px; text-align:center;}
-  .auth-input{width:100%; background:rgba(0,0,0,0.4); border:1px solid var(--border); padding:15px; border-radius:14px; color:#fff; font-family:'Poppins'; margin-bottom:15px; font-size:14px;}
-  .auth-input:focus{border-color:var(--accent);}
-
-  /* COMMONS */
-  .btn-main{background:linear-gradient(135deg,var(--accent),var(--primary)); color:#fff; border:none; padding:14px 20px; border-radius:14px; font-weight:700; width:100%; font-family:'Poppins'; cursor:pointer; transition:0.2s;}
-  .btn-main:active{transform:scale(0.96);} .btn-main:disabled{background:rgba(255,255,255,0.1); color:var(--muted); cursor:not-allowed; transform:none;}
-  .toast{position:fixed; top:-100px; left:50%; transform:translateX(-50%); background:var(--ok); color:#000; padding:12px 24px; border-radius:999px; font-weight:800; font-size:13px; opacity:0; transition:0.4s cubic-bezier(0.2, 0.8, 0.2, 1); z-index:9999;}
-  .toast.show{opacity:1; top:20px;}
-  .badge{padding:4px 8px; border-radius:6px; font-size:10px; font-weight:800; text-transform:uppercase; display:inline-block;}
-  .badge.pending{color:var(--warning); background:rgba(245,158,11,0.1);} .badge.completed{color:var(--ok); background:rgba(16,185,129,0.1);} .badge.cancelled{color:var(--danger); background:rgba(239,68,68,0.1);} .badge.role{color:var(--primary); background:rgba(79,172,254,0.1); border:1px solid var(--primary);}
-  .id-tag{font-family:monospace; color:var(--accent); background:rgba(79,172,254,0.1); padding:4px 8px; border-radius:6px; font-size:11px; font-weight:bold; letter-spacing:1px;}
-
-  /* HOME */
-  .home-header{display:flex; justify-content:space-between; align-items:center; padding:15px 16px; position:sticky; top:0; z-index:50; background:rgba(5,5,16,0.9); backdrop-filter:blur(10px); margin:-16px -16px 15px -16px;}
-  .wallet-pill{display:flex; align-items:center; gap:6px; border:1px solid var(--border); padding:6px 12px; border-radius:999px; font-size:13px; font-weight:700; cursor:pointer;}
-  .bell-wrapper{position:relative; display:flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; border:1px solid var(--border); cursor:pointer;}
-  .bell-badge{position:absolute; top:6px; right:8px; width:8px; height:8px; background:var(--danger); border-radius:50%; display:none;}
-
-  .game-card{padding:12px; display:flex; align-items:center; justify-content:space-between; border-radius:16px; background:var(--card); border:1px solid var(--border); cursor:pointer; margin-bottom:12px; transition:0.2s;}
-  .game-card:active{transform:scale(0.98); border-color:var(--accent);}
-  .buy-btn{background:rgba(16,185,129,0.15); color:var(--ok); padding:6px 18px; border-radius:8px; font-size:13px; font-weight:700;}
-
-  /* DETAIL PAGE */
-  .detail-banner{width:100%; height:200px; object-fit:cover; margin:-16px -16px 20px -16px; width:calc(100% + 32px); border-radius:0 0 20px 20px; background:#111;}
-  .back-btn-float{position:absolute; top:15px; left:15px; background:rgba(0,0,0,0.5); backdrop-filter:blur(10px); border:1px solid var(--border); border-radius:50%; width:40px; height:40px; display:flex; justify-content:center; align-items:center; color:#fff; cursor:pointer; z-index:10;}
-  
-  .pack-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:25px;}
-  .pack-card{background:var(--card); border:1px solid var(--border); padding:15px; border-radius:14px; cursor:pointer; transition:0.2s; position:relative; overflow:hidden;}
-  .pack-card.selected{border-color:var(--accent); background:rgba(79,172,254,0.1);}
-  .reseller-badge{position:absolute; top:0; right:0; background:var(--primary); color:#fff; font-size:9px; padding:2px 6px; border-bottom-left-radius:8px; font-weight:bold;}
-  
-  .pay-tabs{display:flex; background:rgba(0,0,0,0.4); border-radius:12px; padding:4px; margin-bottom:15px;}
-  .pay-tab{flex:1; text-align:center; padding:10px; font-size:13px; font-weight:600; color:var(--muted); border-radius:8px; cursor:pointer; transition:0.3s;}
-  .pay-tab.active{background:rgba(255,255,255,0.15); color:#fff;}
-  .pay-view{display:none;} .pay-view.active{display:block;}
-
-  .dyn-pay-card { background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; display:flex; justify-content:space-between; align-items:center;}
-  .dyn-pay-card.selected { border-color: var(--ok); background: rgba(16, 185, 129, 0.1); }
-  .qr-box { width:40px; height:40px; border-radius:8px; object-fit:cover; border:1px solid var(--border); display:none;}
-
-  .bottom-bar{position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; background:rgba(10,12,20,0.95); backdrop-filter:blur(20px); border-top:1px solid var(--border); padding:15px 20px max(15px,env(safe-area-inset-bottom)); z-index:100; display:flex; justify-content:space-between; align-items:center;}
-
-  /* CS BUTTONS & SPIN */
-  .cs-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 14px; margin-bottom: 10px; color: #fff; font-weight: 600; text-decoration: none;}
-  .cs-btn.fb { color: #1877F2; border-color: rgba(24, 119, 242, 0.3); background: rgba(24, 119, 242, 0.05); }
-  .cs-btn.tg { color: #0088cc; border-color: rgba(0, 136, 204, 0.3); background: rgba(0, 136, 204, 0.05); }
-  
-  .spin-box { border: 2px dashed var(--primary); padding: 30px; text-align: center; border-radius: 20px; background: rgba(138, 43, 226, 0.05); margin-bottom: 20px;}
-  .spin-result { font-size: 40px; font-weight: 800; color: var(--accent); margin: 20px 0; text-shadow: 0 0 20px var(--primary); }
-
-  /* NAV */
-  .main-nav{position:fixed; bottom:0; left:0; width:100%; display:flex; justify-content:space-around; background:rgba(10,12,20,0.95); border-top:1px solid var(--border); padding:12px 10px max(12px,env(safe-area-inset-bottom)); z-index:90;}
-  .nav-btn{flex:1; background:transparent; border:none; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer;}
-  .nav-btn svg{width:24px; height:24px; transition:0.2s;}
-  .nav-btn.active{color:var(--accent);} .nav-btn.active svg{transform:scale(1.1);}
-
-  .upload-box-fixed { display:block; border:2px dashed var(--border); border-radius:16px; padding:25px; text-align:center; background:rgba(0,0,0,0.2); margin-top:20px; cursor:pointer; transition:0.2s; }
-  .upload-box-fixed:active { background: rgba(255,255,255,0.05); }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kazeno Game Topup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .package-card.selected { border-color: #10b981; background-color: rgba(16, 185, 129, 0.1); transform: scale(1.02); }
+        .package-card { transition: all 0.3s ease; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
+        .package-card:hover { border-color: #3b82f6; }
+    </style>
 </head>
-<body>
-<div id="toast" class="toast">Message</div>
+<body class="min-h-screen pb-20">
 
-<div id="auth-screen" class="app-container active">
-    <div class="glass-card auth-box">
-        <div style="font-size:26px; font-weight:800; margin-bottom:30px; color:#fff;">Kazeno Shop</div>
-        <input type="email" id="auth-email" class="auth-input" placeholder="Email Address">
-        <input type="password" id="auth-password" class="auth-input" placeholder="Password">
-        <div id="ref-container" style="display:none;">
-            <div style="font-size:11px; color:var(--muted); text-align:left; margin-bottom:5px;">Referral Code (Optional)</div>
-            <input type="text" id="auth-ref" class="auth-input" style="text-transform:uppercase;" placeholder="e.g. A1B2C">
+    <header class="bg-slate-900 sticky top-0 z-50 border-b border-slate-800 shadow-lg">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-center font-bold text-xl shadow-lg">K</div>
+                <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-300">Kazeno Topup</h1>
+            </div>
+            <button class="text-slate-300 hover:text-white"><i class="fas fa-bars text-xl"></i></button>
         </div>
-        <button class="btn-main" id="auth-btn" onclick="handleAuth()">Login</button>
-        <div style="font-size:13px; color:var(--accent); cursor:pointer; margin-top:20px;" onclick="toggleAuthMode()">Don't have an account? Sign Up</div>
-    </div>
-</div>
+    </header>
 
-<div id="main-app" class="app-container" style="display:none;">
+    <main class="max-w-3xl mx-auto px-4 mt-6 space-y-6">
+        
+        <div class="glass-panel rounded-2xl p-4 flex gap-4 items-center">
+            <img src="https://i.ibb.co/L5QzX2b/mlbb-icon.png" alt="MLBB" class="w-20 h-20 rounded-xl shadow-md" onerror="this.src='https://via.placeholder.com/80x80/1e293b/ffffff?text=MLBB'">
+            <div>
+                <h2 class="text-2xl font-bold">Mobile Legends</h2>
+                <p class="text-sm text-slate-400 mt-1"><i class="fas fa-bolt text-yellow-400 mr-1"></i> Instant Delivery</p>
+            </div>
+        </div>
 
-    <div id="page-home" class="page active">
-        <div class="home-header">
-            <div style="font-weight:800; font-size:20px;">Kazeno</div>
-            <div style="display:flex; gap:12px;">
-                <div class="wallet-pill" onclick="navToMain('page-profile');">
-                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <span id="home-wallet">0 Ks</span>
+        <section class="glass-panel rounded-2xl p-5">
+            <div class="flex items-center gap-2 mb-4">
+                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">1</div>
+                <h3 class="text-lg font-semibold">Enter Player ID</h3>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <input type="number" id="userId" placeholder="User ID" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors">
                 </div>
-                <div class="bell-wrapper" onclick="navToMain('page-notifications')">
-                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    <div class="bell-badge" id="bell-badge"></div>
+                <div>
+                    <input type="number" id="zoneId" placeholder="Zone ID" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors">
                 </div>
             </div>
-        </div>
-        <img id="dyn-home-banner" src="" style="width:100%; height:160px; object-fit:cover; border-radius:16px; margin-bottom:20px; display:none;">
-        <div id="dyn-game-list"><div style="text-align:center; padding:20px; color:var(--muted);">Loading catalogs...</div></div>
-    </div>
+            <p class="text-xs text-slate-400 mt-2 ml-1">Example: 12345678 (1234)</p>
+        </section>
 
-    <div id="page-detail" class="page" style="padding-top:0;">
-        <div class="back-btn-float" onclick="navToMain('page-home')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div>
-        <img id="detail-banner" class="detail-banner" src="">
-        <div style="font-weight:700; font-size:18px; margin-bottom:15px; color:#fff;" id="detail-game-title">Title</div>
-        
-        <div style="font-size:13px; font-weight:700; margin-bottom:10px;">1. Enter Account Info</div>
-        <div id="dyn-form-inputs" style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;"></div>
-
-        <div style="font-size:13px; font-weight:700; margin-bottom:10px;">2. Select Product</div>
-        <div class="pack-grid" id="pack-container"></div>
-
-        <div style="font-size:13px; font-weight:700; margin-bottom:10px;">3. Payment Method</div>
-        <div class="pay-tabs">
-            <div class="pay-tab active" onclick="switchPayTab('wallet', this)">Wallet</div>
-            <div class="pay-tab" onclick="switchPayTab('slip', this)">Bank Transfer</div>
-        </div>
-
-        <div id="pay-wallet" class="pay-view active">
-            <div style="background:var(--card); border:1px solid var(--border); padding:15px; border-radius:16px; display:flex; justify-content:space-between; align-items:center;">
-                <div style="font-size:12px; color:var(--muted);">Wallet Balance</div>
-                <div style="font-size:18px; font-weight:800; color:var(--ok);" id="detail-wallet-bal">0 Ks</div>
+        <section class="glass-panel rounded-2xl p-5">
+            <div class="flex items-center gap-2 mb-4">
+                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">2</div>
+                <h3 class="text-lg font-semibold">Select Recharge</h3>
             </div>
-            <div id="wallet-msg" style="font-size:12px; color:var(--danger); text-align:center; margin-top:10px;"></div>
-        </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3" id="packageList">
+                <div class="package-card bg-slate-800 rounded-xl p-3 relative overflow-hidden" onclick="selectPackage(this, 11, 1000)">
+                    <div class="absolute top-0 right-0 bg-gradient-to-l from-yellow-500 to-orange-400 text-[10px] font-bold px-2 py-1 rounded-bl-lg">HOT</div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-lg">11 <i class="far fa-gem text-cyan-400 text-sm"></i></span>
+                    </div>
+                    <div class="text-slate-400 text-sm">1,000 Ks</div>
+                </div>
 
-        <div id="pay-slip" class="pay-view">
-            <div id="chk-dyn-payments">Loading methods...</div>
-            <input type="hidden" id="selected-pay-method" value="">
-            <label for="file-input" class="upload-box-fixed">
-                <div id="upload-placeholder" style="font-size:13px; font-weight:600; color:var(--accent);">+ Upload Transfer Receipt</div>
-                <img id="preview-img" style="width:100%; border-radius:10px; display:none; margin-top:10px;">
-                <input type="file" id="file-input" style="display:none;" accept="image/*" onchange="handleFileUpload(this)">
-            </label>
-        </div>
+                <div class="package-card bg-slate-800 rounded-xl p-3" onclick="selectPackage(this, 22, 2000)">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-lg">22 <i class="far fa-gem text-cyan-400 text-sm"></i></span>
+                    </div>
+                    <div class="text-slate-400 text-sm">2,000 Ks</div>
+                </div>
 
-        <div style="margin-top:20px; padding-top:20px; border-top:1px dashed var(--border);">
-            <div style="font-size:12px; color:var(--muted); margin-bottom:5px;">Have a Promo Code?</div>
-            <div style="display:flex; gap:10px;">
-                <input type="text" id="inp-promo" class="auth-input" style="margin:0; text-transform:uppercase;" placeholder="Enter Code">
-                <button class="btn-main" style="width:auto;" onclick="applyPromo()">Apply</button>
+                <div class="package-card bg-slate-800 rounded-xl p-3" onclick="selectPackage(this, 56, 5000)">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold text-lg">56 <i class="far fa-gem text-cyan-400 text-sm"></i></span>
+                    </div>
+                    <div class="text-slate-400 text-sm">5,000 Ks</div>
+                </div>
             </div>
-            <div id="promo-msg" style="font-size:12px; color:var(--ok); font-weight:bold; margin-top:5px; display:none;"></div>
-        </div>
+        </section>
 
-        <div class="bottom-bar">
-            <div><div style="font-size:11px; color:var(--muted);">Total</div><div style="font-size:20px; font-weight:800; color:var(--accent);" id="display-total">0 Ks</div></div>
-            <button class="btn-main" style="width:auto; padding:12px 30px;" id="btn-submit" disabled onclick="submitOrder()">Pay Now</button>
-        </div>
-    </div>
+    </main>
 
-    <div id="page-orders" class="page"><h2 style="margin-bottom:15px;">Order History</h2><div id="orders-list"></div></div>
-    
-    <div id="page-notifications" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="back-btn-float" style="position:static;" onclick="navToMain('page-home')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h2 style="margin:0;">Notifications</h2></div><div id="noti-list"></div></div>
-
-    <div id="page-profile" class="page">
-        <h2 style="margin-bottom:20px;">Profile</h2>
-        <div class="glass-card" style="padding:20px; text-align:center; margin-bottom:20px;">
-            <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin-bottom:5px;">
-                <div style="font-size:16px; font-weight:700;">My Wallet</div>
-                <div id="prof-role" class="badge role">Customer</div>
+    <div class="fixed bottom-0 left-0 w-full bg-slate-900 border-t border-slate-800 p-4 shadow-2xl z-50">
+        <div class="max-w-3xl mx-auto flex justify-between items-center">
+            <div>
+                <p class="text-sm text-slate-400">Total Payment</p>
+                <p class="text-xl font-bold text-teal-400" id="totalPrice">0 Ks</p>
             </div>
-            <div style="font-size:30px; font-weight:800; color:var(--ok); margin-bottom:20px;" id="prof-wallet">0 Ks</div>
-            <div style="display:flex; gap:10px;">
-                <button class="btn-main" style="flex:1; padding:12px; font-size:13px;" onclick="navToMain('page-deposit')">📥 Top Up</button>
-                <button class="btn-main" style="flex:1; padding:12px; font-size:13px; background:transparent; border:1px solid var(--border); color:var(--danger);" onclick="navToMain('page-withdraw')">📤 Withdraw</button>
-            </div>
+            <button onclick="proceedToPayment()" class="bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-500 hover:to-teal-400 text-white font-bold py-3 px-8 rounded-xl shadow-lg transform transition active:scale-95">
+                Buy Now
+            </button>
         </div>
-
-        <div class="glass-card" style="padding:15px; margin-bottom:20px; text-align:center; background:rgba(79, 172, 254, 0.05);">
-            <div style="font-size:12px; color:var(--muted);">Your Referral Code</div>
-            <div style="font-size:24px; font-weight:900; color:var(--primary); letter-spacing:3px; margin:5px 0; font-family:monospace;" id="prof-ref" onclick="copyTxt(this.innerText)">------</div>
-            <div style="font-size:10px; color:var(--text);">Share code to get 500 Ks bonus for each new user!</div>
-        </div>
-        
-        <h3 style="font-size:14px; color:var(--muted); margin-bottom:10px;">Menu</h3>
-        <div class="glass-card" style="padding:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="navToMain('page-spin')">
-            <div><strong style="color:var(--warning);">🎰 Lucky Spin</strong><div style="font-size:10px; color:var(--muted); margin-top:3px;">Tickets: <span id="prof-spins" style="font-weight:bold; color:#fff;">0</span></div></div>
-            <div style="font-size:10px; background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px;">Play Now</div>
-        </div>
-        <div class="glass-card" style="padding:15px; margin-bottom:10px; cursor:pointer;" onclick="navToMain('page-ledger')"><strong style="color:var(--accent);">📖 Wallet Usage / Ledger</strong></div>
-        <div class="glass-card" style="padding:15px; margin-bottom:10px; cursor:pointer;" onclick="navToMain('page-orders')"><strong style="color:var(--ok);">🛍️ My Orders</strong></div>
-        <div class="glass-card" style="padding:15px; margin-bottom:20px; cursor:pointer;" onclick="logout()"><strong style="color:var(--danger);">🚪 Logout</strong></div>
     </div>
 
-    <div id="page-deposit" class="page">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="back-btn-float" style="position:static;" onclick="navToMain('page-profile')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h2 style="margin:0;">Top Up</h2></div>
-        <input type="number" id="dep-amount" class="auth-input" placeholder="Amount (e.g. 5000)">
-        <div style="font-size:12px; color:var(--muted); margin-bottom:5px;">Transfer To:</div>
-        <div id="dep-dyn-payments">Loading methods...</div><input type="hidden" id="selected-dep-method" value="">
-        <label for="dep-file" class="upload-box-fixed">
-            <div id="dep-placeholder" style="font-size:13px; font-weight:600; color:var(--accent);">+ Upload Transfer Slip</div>
-            <img id="dep-img" style="width:100%; border-radius:10px; display:none; margin-top:10px;">
-            <input type="file" id="dep-file" style="display:none;" accept="image/*" onchange="handleDepUpload(this)">
-        </label>
-        <div class="bottom-bar"><button class="btn-main" id="btn-dep" onclick="submitDeposit()">Submit Deposit</button></div>
-    </div>
+    <script>
+        let selectedItem = null;
+        let selectedPrice = 0;
 
-    <div id="page-withdraw" class="page">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="back-btn-float" style="position:static;" onclick="navToMain('page-profile')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h2 style="margin:0;">Withdraw Funds</h2></div>
-        <div style="font-size:12px; color:var(--muted); margin-bottom:15px; text-align:center;">Available Balance: <span style="color:var(--ok); font-weight:bold;" id="wd-avail">0 Ks</span></div>
-        <input type="number" id="wd-amount" class="auth-input" placeholder="Amount to withdraw (Ks)">
-        <select id="wd-method" class="auth-input" style="appearance:none;"><option value="KPay">KBZPay (KPay)</option><option value="WavePay">WavePay</option><option value="AYAPay">AYA Pay</option></select>
-        <input type="text" id="wd-phone" class="auth-input" placeholder="Account Phone Number">
-        <input type="text" id="wd-name" class="auth-input" placeholder="Account Name">
-        <div class="bottom-bar"><button class="btn-main" style="background:var(--danger);" id="btn-wd" onclick="submitWithdraw()">Submit Request</button></div>
-    </div>
-
-    <div id="page-spin" class="page">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="back-btn-float" style="position:static;" onclick="navToMain('page-profile')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h2 style="margin:0;">Lucky Spin</h2></div>
-        <div class="spin-box"><div style="font-size:14px; color:var(--muted);">Spin & Win up to 5000 Ks!</div><div class="spin-result" id="spin-result">0 Ks</div></div>
-        <div style="text-align:center; font-size:12px; margin-bottom:20px;">Tickets Available: <strong style="color:var(--warning); font-size:16px;" id="spin-tickets">0</strong></div>
-        <button class="btn-main" style="padding:15px; font-size:16px;" id="btn-spin" onclick="playSpin()">Spin Now (1 Ticket)</button>
-        <div style="font-size:10px; color:var(--muted); text-align:center; margin-top:20px;">Get 1 Spin Ticket for every 10,000 Ks deposited.</div>
-    </div>
-
-    <div id="page-ledger" class="page">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="back-btn-float" style="position:static;" onclick="navToMain('page-profile')"><svg viewBox="0 0 24 24" class="svg-icon" style="width:20px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></div><h2 style="margin:0;">Wallet Usage</h2></div>
-        <div id="ledger-list"><div style="text-align:center; color:var(--muted);">Loading transactions...</div></div>
-    </div>
-
-    <div class="main-nav" id="main-nav">
-        <button class="nav-btn active" id="nav-page-home" onclick="navToMain('page-home')"><svg viewBox="0 0 24 24" class="svg-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Shop</span></button>
-        <button class="nav-btn" id="nav-page-orders" onclick="navToMain('page-orders')"><svg viewBox="0 0 24 24" class="svg-icon"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg><span>Orders</span></button>
-        <button class="nav-btn" id="nav-page-profile" onclick="navToMain('page-profile')"><svg viewBox="0 0 24 24" class="svg-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span>Me</span></button>
-    </div>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, where, doc, setDoc, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-    const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
-    const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
-
-    window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
-    window.vibe = () => { if(navigator.vibrate) navigator.vibrate(40); }
-    function formatDate(ts) { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); }
-    function genID(prefix) { return prefix + '-' + Math.random().toString(36).substr(2, 6).toUpperCase(); }
-
-    let me = null; let myWallet = 0; let myRole = 'Customer'; let mySpins = 0; let myRefCode = ''; 
-    let isLoginMode = true; let payMode = 'wallet'; 
-    let currentOrder = { gameName: '', catId: '', item: '', price: 0, inputs: {} };
-    let depFile = null; let seenNotis = JSON.parse(localStorage.getItem('seenNotis') || '[]'); let allMyData = [];
-    let dynamicCats = []; let dynamicProds = []; let payMethods = []; let currentPromo = null;
-    let tgBotToken = ""; let tgChatId = ""; let tgOrderTopicId = ""; let tgDepositTopicId = "";
-
-    window.navToMain = (id) => { vibe(); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); navTo(id); };
-    window.navTo = (id) => { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); document.getElementById('main-nav').style.display = ['page-home','page-orders','page-profile'].includes(id) ? 'flex' : 'none'; };
-
-    onSnapshot(doc(db, "settings", "app_config"), (d) => {
-        if(d.exists()) { 
-            if(d.data().homeBannerUrl) { document.getElementById('dyn-home-banner').src = d.data().homeBannerUrl; document.getElementById('dyn-home-banner').style.display = 'block'; }
-            tgBotToken = d.data().tgBotToken || ""; tgChatId = d.data().tgChatId || ""; tgOrderTopicId = d.data().tgOrderTopicId || ""; tgDepositTopicId = d.data().tgDepositTopicId || "";
-        }
-    });
-
-    onSnapshot(collection(db, "categories"), (snap) => {
-        dynamicCats = []; let html = "";
-        snap.forEach(s => { let c = {id: s.id, ...s.data()}; dynamicCats.push(c); });
-        dynamicCats.sort((a,b) => (a.orderNum||1) - (b.orderNum||1));
-        dynamicCats.forEach(c => {
-            // 💡 BUG FIX 1: CSS style added for image sizing 💡
-            if(c.isActive) { html += `<div class="game-card" onclick="openGameDetail('${c.id}')"><div style="display:flex; align-items:center; gap:15px;"><img src="${c.logoUrl||'https://via.placeholder.com/60'}" style="width:50px; height:50px; border-radius:12px; object-fit:cover; flex-shrink:0;"><div><div style="font-weight:700; font-size:15px; color:#fff;">${c.name}</div><div style="font-size:11px; color:var(--muted); margin-top:4px;">Available</div></div></div><div class="buy-btn">Open</div></div>`; }
-        });
-        document.getElementById('dyn-game-list').innerHTML = html || "<div style='text-align:center; color:gray;'>No categories found.</div>";
-    });
-
-    onSnapshot(collection(db, "products"), (snap) => { dynamicProds = []; snap.forEach(s => { if(s.data().isActive) dynamicProds.push({id: s.id, ...s.data()}); }); });
-
-    onSnapshot(collection(db, "payment_methods"), (snap) => {
-        payMethods = []; let html = "";
-        snap.forEach(s => {
-            let p = {id: s.id, ...s.data()}; payMethods.push(p);
-            let imgHtml = p.qrUrl ? `<img src="${p.qrUrl}" class="qr-box" style="display:block;" onclick="window.open('${p.qrUrl}')">` : '';
-            html += `<div class="dyn-pay-card" id="paycard-${p.id}" onclick="selectDynPay('${p.id}')"><div><div style="font-weight:700; color:var(--accent);">${p.name}</div><div style="font-size:11px; font-family:monospace; margin:4px 0;">${p.phone}</div><div style="font-size:10px; color:var(--muted);">${p.accName}</div></div><div style="display:flex; flex-direction:column; gap:5px; align-items:flex-end;">${imgHtml}<div style="font-size:10px; background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;" onclick="copyTxt('${p.phone}'); event.stopPropagation();">Copy</div></div></div>`;
-        });
-        document.getElementById('chk-dyn-payments').innerHTML = html || "<p>No payment methods found.</p>";
-        document.getElementById('dep-dyn-payments').innerHTML = html || "<p>No payment methods found.</p>";
-    });
-
-    window.selectDynPay = (id) => { vibe(); document.querySelectorAll('.dyn-pay-card').forEach(c=>c.classList.remove('selected')); document.querySelectorAll(`#paycard-${id}`).forEach(c=>c.classList.add('selected')); document.getElementById('selected-pay-method').value = payMethods.find(x=>x.id===id)?.name || ''; document.getElementById('selected-dep-method').value = payMethods.find(x=>x.id===id)?.name || ''; checkForm(); };
-    window.copyTxt = (t) => { navigator.clipboard.writeText(t); toast("Copied!"); };
-
-    window.applyPromo = async () => {
-        vibe(); let code = document.getElementById('inp-promo').value.toUpperCase().trim();
-        if(!code) return toast("Enter a code!");
-        const q = query(collection(db, "promo_codes"), where("code", "==", code)); const snap = await getDocs(q);
-        if(snap.empty) { currentPromo = null; document.getElementById('promo-msg').style.display='none'; toast("Invalid Code!"); updatePriceDisplay(); return; }
-        let pData = snap.docs[0].data(); currentPromo = pData.discount; document.getElementById('promo-msg').innerText = `✅ Promo applied: -${currentPromo} Ks`; document.getElementById('promo-msg').style.display='block'; toast(`Applied: -${currentPromo} Ks`); updatePriceDisplay();
-    };
-    function updatePriceDisplay() { let fPrice = currentOrder.basePrice; if(currentPromo && fPrice > 0) { fPrice = Math.max(0, fPrice - currentPromo); } currentOrder.price = fPrice; document.getElementById('display-total').innerText = fPrice.toLocaleString() + " Ks"; checkForm(); }
-
-    // 💡 BUG FIX 2: Advanced TG Alert Sender with Auto-Fallback 💡
-    async function sendTgAlert(msg, threadIdStr, imageUrl, tabName) {
-        if(!tgBotToken || !tgChatId) return;
-        let endpoint = imageUrl ? "sendPhoto" : "sendMessage";
-        let payload = { chat_id: tgChatId, parse_mode: "HTML" };
-        
-        // Auto handle invalid/empty thread IDs
-        if(threadIdStr && threadIdStr.toString().trim() !== "") { 
-            payload.message_thread_id = parseInt(threadIdStr); 
+        function selectPackage(element, item, price) {
+            // Remove 'selected' class from all cards
+            document.querySelectorAll('.package-card').forEach(card => card.classList.remove('selected'));
+            // Add 'selected' class to clicked card
+            element.classList.add('selected');
+            
+            selectedItem = item;
+            selectedPrice = price;
+            
+            // Update total price at bottom
+            document.getElementById('totalPrice').innerText = price.toLocaleString() + ' Ks';
         }
 
-        let adminUrl = window.location.origin + window.location.pathname.replace('index.html', '') + "admin.html?tab=" + tabName;
-        if(!adminUrl.includes('http')) adminUrl = "https://kazenoyt-dev.github.io/admin.html?tab=" + tabName;
+        function proceedToPayment() {
+            const uid = document.getElementById('userId').value;
+            const zid = document.getElementById('zoneId').value;
 
-        payload.reply_markup = { inline_keyboard: [[ { text: "✅ Check in Admin Panel", url: adminUrl } ]] };
-
-        if(imageUrl) { payload.photo = imageUrl; payload.caption = msg; } 
-        else { payload.text = msg; }
-
-        try { 
-            let res = await fetch(`https://api.telegram.org/bot${tgBotToken}/${endpoint}`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); 
-            let data = await res.json();
-            
-            // If topic fails (e.g., topic deleted or wrong ID), send to Main chat!
-            if(!data.ok && data.description && data.description.includes("thread")) {
-                delete payload.message_thread_id;
-                await fetch(`https://api.telegram.org/bot${tgBotToken}/${endpoint}`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); 
+            if(!uid || !zid) {
+                alert("Please enter Player ID and Zone ID!");
+                return;
             }
-        } catch(e) {}
-    }
-
-    // --- AUTH & DATA SYNC ---
-    window.toggleAuthMode = () => { isLoginMode = !isLoginMode; document.getElementById('auth-btn').innerText = isLoginMode ? "Login" : "Sign Up"; document.getElementById('auth-toggle').innerText = isLoginMode ? "Sign Up" : "Login"; document.getElementById('ref-container').style.display = isLoginMode ? 'none' : 'block'; };
-    window.handleAuth = async () => {
-        const em = document.getElementById('auth-email').value.trim(); const pw = document.getElementById('auth-password').value.trim();
-        let refInp = document.getElementById('auth-ref') ? document.getElementById('auth-ref').value.toUpperCase().trim() : '';
-        if(pw.length < 6) return toast("Password min 6 chars");
-        document.getElementById('auth-btn').innerText = "Loading...";
-        try {
-            if(isLoginMode) { await signInWithEmailAndPassword(auth, em, pw); } 
-            else { 
-                const res = await createUserWithEmailAndPassword(auth, em, pw); 
-                let newCode = genID('K').substring(2,8).toUpperCase();
-                await setDoc(doc(db, "users", res.user.uid), { email:em, walletBalance:0, role: "Customer", refCode: newCode, spinCount: 0, createdAt:serverTimestamp() }); 
-                if(refInp) {
-                    const q = query(collection(db, "users"), where("refCode", "==", refInp)); const snap = await getDocs(q);
-                    if(!snap.empty) {
-                        let refOwner = snap.docs[0]; let refId = refOwner.id; let refBal = refOwner.data().walletBalance || 0;
-                        await updateDoc(doc(db, "users", refId), { walletBalance: refBal + 500 });
-                        await addDoc(collection(db, "transactions"), { userId: refId, type: 'Referral', amount: 500, desc: `Bonus for inviting ${em}`, createdAt: serverTimestamp() });
-                    }
-                }
+            if(!selectedItem) {
+                alert("Please select a diamond package!");
+                return;
             }
-        } catch(e) { toast(e.message); document.getElementById('auth-btn').innerText = isLoginMode ? "Login" : "Sign Up"; }
-    };
-    window.logout = () => { signOut(auth); vibe(); };
 
-    onAuthStateChanged(auth, async (user) => {
-        me = user;
-        if(me) {
-            document.getElementById('auth-screen').classList.remove('active'); document.getElementById('main-app').style.display = 'block';
-            
-            onSnapshot(doc(db, "users", me.uid), (ds) => {
-                if(ds.exists()) { 
-                    let dData = ds.data();
-                    myWallet = dData.walletBalance || 0; myRole = dData.role || 'Customer'; mySpins = dData.spinCount || 0; myRefCode = dData.refCode;
-                    if(!myRefCode) { myRefCode = genID('K').substring(2,8).toUpperCase(); updateDoc(doc(db, "users", me.uid), { refCode: myRefCode }); }
-                    document.getElementById('home-wallet').innerText = myWallet.toLocaleString() + " Ks"; 
-                    document.getElementById('prof-wallet').innerText = myWallet.toLocaleString() + " Ks"; 
-                    document.getElementById('detail-wallet-bal').innerText = myWallet.toLocaleString() + " Ks"; 
-                    document.getElementById('wd-avail').innerText = myWallet.toLocaleString() + " Ks"; 
-                    document.getElementById('prof-role').innerText = myRole; document.getElementById('prof-ref').innerText = myRefCode;
-                    document.getElementById('prof-spins').innerText = mySpins; document.getElementById('spin-tickets').innerText = mySpins;
-                    checkForm(); 
-                }
-            });
-            
-            onSnapshot(query(collection(db, "orders"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'order', ...d.data()})); processData(a, false); });
-            onSnapshot(query(collection(db, "deposits"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'deposit', ...d.data()})); processData(a, true, false); });
-            onSnapshot(query(collection(db, "withdrawals"), where("userId", "==", me.uid)), (s) => { let a=[]; s.forEach(d => a.push({id:d.id, type:'withdraw', ...d.data()})); processData(a, false, true); });
-            
-            onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid)), (s) => {
-                let tArr = []; s.forEach(d => tArr.push(d.data()));
-                tArr.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
-                let html = ""; 
-                tArr.forEach(t => { 
-                    let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; 
-                    let sign = t.amount >= 0 ? '+' : ''; 
-                    html += `<div class="glass-card" style="padding:15px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700; font-size:14px; color:#fff;">${t.type}</div><div style="font-size:11px; color:var(--muted);">${t.desc}</div><div style="font-size:10px; color:var(--muted); margin-top:4px;">${formatDate(t.createdAt)}</div></div><div style="font-weight:800; font-size:16px; color:${color};">${sign}${t.amount.toLocaleString()} Ks</div></div>`; 
-                });
-                document.getElementById('ledger-list').innerHTML = html || "<div style='text-align:center; color:gray;'>No records yet.</div>";
-            });
-            
-        } else { document.getElementById('main-app').style.display = 'none'; document.getElementById('auth-screen').classList.add('active'); }
-    });
-
-    function processData(newData, isDeposit = false, isWithdraw = false) {
-        if(isDeposit) allMyData = allMyData.filter(x => x.type !== 'deposit').concat(newData);
-        else if (isWithdraw) allMyData = allMyData.filter(x => x.type !== 'withdraw').concat(newData);
-        else allMyData = allMyData.filter(x => x.type !== 'order').concat(newData);
-        allMyData.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
-        let oHtml = "", nHtml = "", unread = 0;
-        allMyData.forEach(o => {
-            let cls = o.status==='Completed'?'completed':(o.status==='Cancelled'?'cancelled':'pending');
-            if(o.type === 'order') oHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px;"><div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span class="id-tag">${o.orderId || o.id.substring(0,8)}</span><span class="badge ${cls}">${o.status}</span></div><div style="font-weight:700; font-size:14px; margin-bottom:4px;">${o.game} - <span style="color:var(--accent);">${o.item}</span></div><div style="font-size:12px; color:var(--muted);">ID: ${o.playerId}</div><div style="font-size:14px; font-weight:800; margin-top:8px;">${o.price.toLocaleString()} Ks</div></div>`;
-            else if (o.type === 'withdraw') oHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px;"><div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span class="id-tag">${o.wdId || o.id.substring(0,8)}</span><span class="badge ${cls}">${o.status}</span></div><div style="font-weight:700; font-size:14px; margin-bottom:4px; color:var(--danger);">Withdrawal Request</div><div style="font-size:12px; color:var(--muted);">${o.payMethod}: ${o.accPhone}</div><div style="font-size:14px; font-weight:800; margin-top:8px; color:var(--danger);">- ${o.amount.toLocaleString()} Ks</div></div>`;
-            if(o.status !== 'Pending') {
-                if(!seenNotis.includes(o.id+o.status)) unread++;
-                let title = o.type === 'order' ? 'ORDER' : (o.type === 'deposit' ? 'TOP UP' : 'WITHDRAW');
-                nHtml += `<div class="glass-card" style="padding:15px; margin-bottom:10px; border-left:4px solid ${o.status==='Completed'?'var(--ok)':'var(--danger)'};"><div style="font-size:13px; font-weight:700; margin-bottom:6px;">${o.status==='Completed'?'✅':'❌'} ${title} ${o.status.toUpperCase()}</div><div style="font-size:12px; color:var(--muted);">${o.type==='order'?`Order: ${o.item}`:`Amount: ${o.amount} Ks`} is ${o.status.toLowerCase()}.</div><div style="font-size:10px; color:var(--muted); text-align:right; margin-top:5px;">${formatDate(o.createdAt)}</div></div>`;
-            }
-        });
-        document.getElementById('orders-list').innerHTML = oHtml || "<div style='text-align:center; color:gray;'>No history yet.</div>";
-        document.getElementById('noti-list').innerHTML = nHtml || "<div style='text-align:center; color:gray;'>No notifications.</div>";
-        document.getElementById('bell-badge').style.display = unread > 0 ? 'block' : 'none';
-    }
-
-    // --- DETAIL ---
-    window.openGameDetail = (catId) => {
-        vibe(); let c = dynamicCats.find(x => x.id === catId); if(!c) return;
-        currentOrder.gameName = c.name; document.getElementById('detail-game-title').innerText = c.name; document.getElementById('detail-banner').src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
-        
-        let formHtml = ""; let forms = c.forms || [];
-        if(forms.includes('gameId')) formHtml += `<input type="text" id="dyn-uid" class="auth-input" style="flex:2; margin:0;" placeholder="Game ID" oninput="checkForm()">`;
-        if(forms.includes('zoneId')) formHtml += `<input type="text" id="dyn-zone" class="auth-input" style="flex:1; margin:0;" placeholder="Server ID">`;
-        if(forms.includes('email')) formHtml += `<input type="email" id="dyn-email" class="auth-input" style="width:100%; margin:0;" placeholder="Account Email" oninput="checkForm()">`;
-        document.getElementById('dyn-form-inputs').innerHTML = formHtml || `<div style="font-size:11px; color:var(--muted);">No inputs required.</div>`;
-
-        let prods = dynamicProds.filter(p => p.categoryId === c.id); prods.sort((a,b) => a.sellingPrice - b.sellingPrice);
-        let pHtml = "";
-        prods.forEach(p => {
-            let displayPrice = p.sellingPrice; let isReseller = false; 
-            if(myRole === 'Seller' && p.resellerPrice && p.resellerPrice > 0) { displayPrice = p.resellerPrice; isReseller = true; }
-            pHtml += `<div class="pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${displayPrice}, ${p.retailPrice||0})">${isReseller ? `<div class="reseller-badge">Seller</div>` : ''}<div style="display:flex; align-items:center; gap:10px;"><img src="${p.logoUrl||'https://cdn-icons-png.flaticon.com/128/1077/1077114.png'}" style="width:30px; height:30px; object-fit:cover; border-radius:6px;"><div style="font-weight:700; font-size:13px; display:flex; flex-direction:column;">${p.name} <span style="font-size:12px; color:var(--accent); font-weight:800; margin-top:2px;">${displayPrice.toLocaleString()} Ks</span></div></div></div>`;
-        });
-        document.getElementById('pack-container').innerHTML = pHtml || "<div style='font-size:12px; color:var(--muted);'>No products available.</div>";
-        
-        currentOrder.item = ''; currentOrder.price = 0; document.getElementById('display-total').innerText = "0 Ks";
-        switchPayTab('wallet', document.querySelector('.pay-tab')); navToMain('page-detail');
-    };
-
-    window.selectPackage = (id, n, p) => { vibe(); document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('selected')); document.getElementById(`pkg-${id}`).classList.add('selected'); currentOrder.item = n; currentOrder.price = p; document.getElementById('display-total').innerText = p.toLocaleString() + " Ks"; checkForm(); };
-    window.switchPayTab = (m, el) => { vibe(); payMode = m; document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.pay-view').forEach(v => v.classList.remove('active')); el.classList.add('active'); document.getElementById('pay-'+m).classList.add('active'); checkForm(); };
-    window.checkForm = () => { 
-        let hasUid = document.getElementById('dyn-uid') ? document.getElementById('dyn-uid').value.length > 2 : true;
-        let hasEmail = document.getElementById('dyn-email') ? document.getElementById('dyn-email').value.includes('@') : true;
-        let isValid = hasUid && hasEmail && currentOrder.price > 0;
-        if(payMode === 'wallet') { if(myWallet < currentOrder.price) { document.getElementById('wallet-msg').innerText = "Insufficient Balance!"; isValid = false; } else document.getElementById('wallet-msg').innerText = ""; } else { let pMethod = document.getElementById('selected-pay-method').value; if(!currentOrder.slipFile || !pMethod) isValid = false; } document.getElementById('btn-submit').disabled = !isValid; 
-    };
-
-    window.handleFileUpload = (i) => { if(i.files[0]) { vibe(); currentOrder.slipFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('upload-placeholder').style.display='none'; document.getElementById('preview-img').src = e.target.result; document.getElementById('preview-img').style.display='block'; checkForm(); }; r.readAsDataURL(i.files[0]); } };
-    window.handleDepUpload = (i) => { if(i.files[0]) { vibe(); depFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('dep-placeholder').style.display='none'; document.getElementById('dep-img').src=e.target.result; document.getElementById('dep-img').style.display='block'; }; r.readAsDataURL(i.files[0]); } };
-    async function uploadImage(f) { let fd = new FormData(); fd.append("image", f); try { let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let d = await res.json(); if(d.success) return d.data.url; throw new Error(); } catch(e) { throw new Error("Upload failed"); } }
-
-    window.submitOrder = async () => {
-        vibe(); const b = document.getElementById('btn-submit'); b.innerText = "Processing..."; b.disabled = true;
-        try {
-            let inputData = "";
-            if(document.getElementById('dyn-uid')) inputData += document.getElementById('dyn-uid').value;
-            if(document.getElementById('dyn-zone') && document.getElementById('dyn-zone').value) inputData += " (" + document.getElementById('dyn-zone').value + ")";
-            if(document.getElementById('dyn-email')) inputData += " Email: " + document.getElementById('dyn-email').value;
-            currentOrder.uid = inputData;
-
-            let slipUrl = null; let finalMethod = 'wallet';
-            if(payMode === 'slip') { slipUrl = await uploadImage(currentOrder.slipFile); finalMethod = document.getElementById('selected-pay-method').value; } 
-            else { if(myWallet < currentOrder.price) throw new Error("Insufficient Balance"); await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - currentOrder.price }); }
-            
-            let ordId = genID('ORD');
-            await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, playerId: currentOrder.uid, payMethod: finalMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
-            if(payMode === 'wallet') { await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Order', amount: -currentOrder.price, desc: `Bought ${currentOrder.item} (${currentOrder.gameName})`, createdAt: serverTimestamp() }); }
-            sendTgAlert(`📦 <b>NEW ORDER [${ordId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email} (${myRole})\n🎮 Game: ${currentOrder.gameName}\n💎 Item: ${currentOrder.item}\n🆔 ID: <code>${currentOrder.uid}</code>\n💰 Price: ${currentOrder.price.toLocaleString()} Ks\n💳 Method: ${finalMethod}`, tgOrderTopicId, slipUrl, 'v-orders');
-            toast("Order Placed!"); document.getElementById('preview-img').style.display = 'none'; document.getElementById('upload-placeholder').style.display = 'block'; currentOrder.slipFile = null; navToMain('page-orders');
-        } catch (e) { toast(e.message); checkForm(); } b.innerText="Pay Now";
-    };
-
-    window.submitDeposit = async () => {
-        let amt = parseInt(document.getElementById('dep-amount').value); let pMethod = document.getElementById('selected-dep-method').value;
-        if(!amt || !depFile || !pMethod) return toast("Select method, enter amount and slip");
-        vibe(); const b = document.getElementById('btn-dep'); b.innerText = "Uploading..."; b.disabled = true;
-        try {
-            let slipUrl = await uploadImage(depFile); let depId = genID('DEP');
-            await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
-            sendTgAlert(`💸 <b>NEW DEPOSIT [${depId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n💳 Method: ${pMethod}`, tgDepositTopicId, slipUrl, 'v-deposits');
-            toast("Deposit sent!"); document.getElementById('dep-amount').value = ""; document.getElementById('dep-img').style.display = "none"; document.getElementById('dep-placeholder').style.display = "block"; depFile = null; navToMain('page-profile');
-        } catch(e) { toast(e.message); } b.innerText = "Submit Deposit"; b.disabled = false;
-    };
-
-    window.submitWithdraw = async () => {
-        let amt = parseInt(document.getElementById('wd-amount').value); let met = document.getElementById('wd-method').value; let ph = document.getElementById('wd-phone').value; let nm = document.getElementById('wd-name').value;
-        if(!amt || !ph || !nm) return toast("Fill all fields"); if(amt > myWallet) return toast("Insufficient balance!");
-        vibe(); const b = document.getElementById('btn-wd'); b.disabled = true; b.innerText = "Processing...";
-        try {
-            await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - amt });
-            let wdId = genID('WD');
-            await addDoc(collection(db, "withdrawals"), { wdId: wdId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: met, accPhone: ph, accName: nm, status: "Pending", createdAt: serverTimestamp() });
-            await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Withdrawal', amount: -amt, desc: `Requested withdraw via ${met}`, createdAt: serverTimestamp() });
-            sendTgAlert(`💳 <b>WITHDRAW REQUEST [${wdId}]</b>\n━━━━━━━━━━━━━━\n👤 User: ${me.email}\n💰 Amount: ${amt.toLocaleString()} Ks\n🏦 Method: ${met}\n📱 Acc: ${ph} (${nm})`, tgDepositTopicId, null, 'v-withdraws');
-            toast("Withdraw requested!"); navToMain('page-orders'); document.getElementById('wd-amount').value=''; document.getElementById('wd-phone').value=''; document.getElementById('wd-name').value='';
-        } catch(e) { toast(e.message); } b.disabled = false; b.innerText = "Submit Request";
-    };
-
-    window.playSpin = async () => {
-        if(mySpins <= 0) return toast("No tickets! Top up 10,000 Ks to get 1.");
-        vibe(); let btn = document.getElementById('btn-spin'); btn.disabled = true; btn.innerText = "Spinning...";
-        let resBox = document.getElementById('spin-result'); let fakePrizes = [0, 100, 500, 1000, 5000];
-        let interval = setInterval(() => { resBox.innerText = fakePrizes[Math.floor(Math.random()*fakePrizes.length)] + " Ks"; }, 100);
-        setTimeout(async () => {
-            clearInterval(interval); let rand = Math.random() * 100; let winAmt = 0;
-            if(rand < 60) winAmt = 0; else if(rand < 85) winAmt = 100; else if(rand < 96) winAmt = 500; else if(rand < 99) winAmt = 1000; else winAmt = 5000;
-            resBox.innerText = winAmt + " Ks";
-            try {
-                await updateDoc(doc(db, "users", me.uid), { spinCount: mySpins - 1, walletBalance: myWallet + winAmt });
-                if(winAmt > 0) { await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Reward', amount: winAmt, desc: `Lucky Spin Win`, createdAt: serverTimestamp() }); toast(`You won ${winAmt} Ks! 🎉`); } else { toast("Better luck next time!"); }
-            } catch(e) { toast("Error saving spin."); }
-            btn.disabled = false; btn.innerText = "Spin Again";
-        }, 2000);
-    };
-</script>
+            // ဒီနေရာမှာ Payment စာမျက်နှာ (သို့) ငွေလွှဲပြေစာ တင်ရမယ့် နေရာကို ဆက်သွားပါမယ်
+            alert(`Ready to pay ${selectedPrice} Ks for ${selectedItem} Diamonds!\nID: ${uid} (${zid})`);
+        }
+    </script>
 </body>
 </html>
 
