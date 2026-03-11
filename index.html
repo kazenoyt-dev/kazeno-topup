@@ -77,10 +77,9 @@
   .pack-card { padding:20px 10px; cursor:pointer; text-align:center; border:2px solid transparent; transition: 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 20px;}
   .pack-card.selected { border-color:var(--accent); background:rgba(14, 165, 233, 0.15); box-shadow:0 10px 30px rgba(14, 165, 233, 0.2), inset 0 0 15px rgba(14, 165, 233, 0.1); transform: translateY(-5px); border-top: 2px solid rgba(255,255,255,0.5);}
 
-  /* 💡 FIXED BOTTOM BAR (No Cut-off) 💡 */
   .buy-bottom-bar { position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; padding:20px 20px max(20px,env(safe-area-inset-bottom)); z-index:100; display:flex; justify-content:space-between; align-items:center; border-radius:30px 30px 0 0; background: var(--nav-bg); backdrop-filter: blur(30px) saturate(150%); border-top: 1px solid var(--glass-highlight); box-shadow: 0 -10px 40px rgba(0,0,0,0.8); }
 
-  .main-nav { position:fixed; bottom:15px; left:15px; right:15px; max-width:450px; margin:0 auto; display:flex; justify-content:space-around; background: var(--nav-bg); backdrop-filter:blur(30px) saturate(150%); border:1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 999px; padding:12px 10px max(12px,env(safe-area-inset-bottom)); z-index:90; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
+  .main-nav { position:fixed; bottom:15px; left:15px; right:15px; max-width:450px; margin:0 auto; display:flex; justify-content:space-around; background: var(--nav-bg); backdrop-filter:blur(30px) saturate(150%); -webkit-backdrop-filter:blur(30px) saturate(150%); border:1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 999px; padding:12px 10px max(12px,env(safe-area-inset-bottom)); z-index:90; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
   .nav-btn{flex:1; background:transparent; border:none; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; transition: 0.3s;}
   .nav-btn.active{color:var(--accent); text-shadow: 0 0 15px rgba(14,165,233,0.6);} 
 
@@ -102,7 +101,6 @@
         <div style="font-size:24px; font-weight:800; margin-bottom:30px; color:var(--text);" data-i18n="pls_login">ကျေးဇူးပြု၍ အကောင့်ဝင်ပါ</div>
         <input type="email" id="auth-email" class="glass-input" data-i18n-ph="email_ph" placeholder="အီးမေးလ်">
         <input type="password" id="auth-password" class="glass-input" data-i18n-ph="pass_ph" placeholder="စကားဝှက်">
-        <div id="ref-container" style="display:none;"><input type="text" id="auth-ref" class="glass-input" style="text-transform:uppercase;" placeholder="Referral Code"></div>
         <button class="btn-gel" id="auth-btn" onclick="handleAuth()" data-i18n="login_btn">အကောင့်ဝင်မည်</button>
         <div style="font-size:13px; color:var(--muted); cursor:pointer; margin-top:25px;" onclick="toggleAuthMode()" id="auth-toggle" data-i18n="go_signup">အကောင့်မရှိသေးဘူးလား? အသစ်ဖွင့်မည်</div>
     </div>
@@ -127,13 +125,14 @@
             </div>
         </div>
         
-        <img id="dyn-home-banner" src="https://img.freepik.com/free-vector/neon-gaming-youtube-channel-art_23-2148154817.jpg" style="width:100%; height:180px; object-fit:cover; border-radius:24px; margin-bottom:25px; display:block; border:1px solid var(--glass-highlight); box-shadow: var(--glass-shadow);">
+        <img id="dyn-home-banner" src="https://img.freepik.com/free-vector/neon-gaming-youtube-channel-art_23-2148154817.jpg" style="width:100%; height:180px; object-fit:cover; border-radius:24px; margin-bottom:25px; display:block; border:1px solid var(--glass-highlight); box-shadow: var(--glass-shadow); pointer-events: none;">
+        
         <div id="dyn-game-list" class="game-container grid-view"><div style="text-align:center; padding:20px; color:var(--muted);" data-i18n="loading">စောင့်ဆိုင်းပါ...</div></div>
     </div>
 
     <div id="page-detail" class="page" style="padding-top:0;">
         <div class="top-action-btn" style="position:absolute; top:15px; left:15px; z-index:10; width:45px; height:45px; border-radius:14px; background:rgba(0,0,0,0.5);" onclick="navBack()"><i class="fas fa-arrow-left"></i></div>
-        <img id="detail-banner" style="width:100%; height:220px; object-fit:cover; margin:-16px -16px 20px -16px; width:calc(100% + 32px); border-radius:0 0 30px 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" src="">
+        <img id="detail-banner" style="width:100%; height:220px; object-fit:cover; margin:-16px -16px 20px -16px; width:calc(100% + 32px); border-radius:0 0 30px 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); pointer-events: none;" src="">
         <div style="font-weight:800; font-size:24px; margin-bottom:25px;" id="detail-game-title">Title</div>
         
         <div style="font-size:13px; font-weight:700; margin-bottom:15px; color:var(--accent);"><i class="fas fa-id-card mr-2"></i> <span data-i18n="step1">အကောင့်အချက်အလက် ထည့်ပါ</span></div>
@@ -288,8 +287,8 @@
     const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
     const dict = {
-        my: { app_name:"Kazeno ဆိုင်", email_ph:"အီးမေးလ်", pass_ph:"စကားဝှက်", ref_opt:"ဖိတ်ခေါ်ကုဒ် (ရွေးချယ်ရန်)", login_btn:"အကောင့်ဝင်မည်", go_signup:"အကောင့်မရှိသေးဘူးလား? အသစ်ဖွင့်မည်", go_login:"အကောင့်ရှိပြီးသားလား? ဝင်မည်", forgot_pass:"စကားဝှက်မေ့နေပါသလား?", loading:"စောင့်ဆိုင်းပါ...", step1:"၁။ အကောင့်အချက်အလက် ထည့်ပါ", step2:"၂။ ပစ္စည်းရွေးချယ်ပါ", step3:"၃။ ငွေပေးချေမည့်နည်းလမ်း", wallet:"ပိုက်ဆံအိတ်", bank_tr:"ငွေလွှဲပြေစာ", avail_bal:"လက်ကျန်ငွေ", up_slip:"+ ငွေလွှဲပြေစာ ပုံတင်ရန်", total:"စုစုပေါင်း", pay_now:"ဝယ်ယူမည်", processing:"လုပ်ဆောင်နေပါသည်...", profile:"ပရိုဖိုင်", my_wallet:"လက်ကျန်ငွေ", topup:"ငွေသွင်း", withdraw:"ငွေထုတ်", change_pass:"စကားဝှက် ပြောင်းရန်", menu:"မီနူး", spin:"ကံစမ်းမဲ", ledger:"ပိုက်ဆံအိတ် မှတ်တမ်း", my_orders:"အော်ဒါမှတ်တမ်း", logout:"အကောင့်ထွက်မည်", noti:"အသိပေးချက်များ", shop:"ဆိုင်", orders:"မှတ်တမ်း", me:"ပရိုဖိုင်", guide:"အသုံးပြုနည်း လမ်းညွှန်", theme:"အလင်း/အမှောင်", order_proc: "အော်ဒါ လုပ်ဆောင်နေပါသည်", order_comp: "အော်ဒါ အောင်မြင်ပါသည်", order_canc: "အော်ဒါ ပယ်ဖျက်လိုက်ပါသည်", order_det: "အော်ဒါ အသေးစိတ်", order_id: "အော်ဒါ နံပါတ်", date: "နေ့ရက် နှင့် အချိန်", game: "ဂိမ်းအမည်", item: "ပစ္စည်း", player_id: "ပလေယာ ID", pay_method: "ပေးချေမှုစနစ်", amt_paid: "ကျသင့်ငွေ", status: "အခြေအနေ", close_btn: "ပိတ်မည်", before_bal: "ယခင် လက်ကျန်ငွေ", after_bal: "ယခု လက်ကျန်ငွေ", no_orders: "အော်ဒါ မှတ်တမ်း မရှိသေးပါ။", no_noti: "အသိပေးချက် မရှိပါ။", your_order: "သင်၏", is: "သည်", pls_login: "ကျေးဇူးပြု၍ အကောင့်ဝင်ပါ", back_shop: "ဆိုင်သို့ ပြန်သွားမည်", pending_dep_exist: "ယခင် ငွေသွင်းထားမှု (Pending) ရှိနေပါသည်။ ကျေးဇူးပြု၍ စောင့်ဆိုင်းပေးပါ။" },
-        en: { app_name:"Kazeno Shop", email_ph:"Email", pass_ph:"Password", ref_opt:"Referral Code (Optional)", login_btn:"Login", go_signup:"Don't have an account? Sign Up", go_login:"Already have an account? Login", forgot_pass:"Forgot Password?", loading:"Loading...", step1:"1. Account Info", step2:"2. Select Item", step3:"3. Payment Method", wallet:"Wallet", bank_tr:"Bank Transfer", avail_bal:"Available Balance", up_slip:"+ Upload Transfer Slip", total:"Total", pay_now:"Buy Now", processing:"Processing...", profile:"Profile", my_wallet:"Balance", topup:"Top Up", withdraw:"Withdraw", change_pass:"Change Password", menu:"Menu", spin:"Lucky Spin", ledger:"Wallet Ledger", my_orders:"Order History", logout:"Logout", noti:"Notifications", shop:"Shop", orders:"Orders", me:"Me", guide:"User Guide", theme:"Dark/Light Theme", order_proc: "Order Processing", order_comp: "Order Completed", order_canc: "Order Cancelled", order_det: "Order Details", order_id: "Order ID", date: "Date & Time", game: "Game", item: "Item", player_id: "Player ID", pay_method: "Payment", amt_paid: "Amount Paid", status: "STATUS", close_btn: "Close", before_bal: "Balance Before", after_bal: "Balance After", no_orders: "No order history yet.", no_noti: "No notifications.", your_order: "Your order for", is: "is", pls_login: "Please login first", back_shop: "Back to Shop", pending_dep_exist: "You already have a pending deposit! Please wait." }
+        my: { app_name:"Kazeno ဆိုင်", email_ph:"အီးမေးလ်", pass_ph:"စကားဝှက်", login_btn:"အကောင့်ဝင်မည်", go_signup:"အကောင့်မရှိသေးဘူးလား? အသစ်ဖွင့်မည်", go_login:"အကောင့်ရှိပြီးသားလား? ဝင်မည်", forgot_pass:"စကားဝှက်မေ့နေပါသလား?", loading:"စောင့်ဆိုင်းပါ...", step1:"၁။ အကောင့်အချက်အလက် ထည့်ပါ", step2:"၂။ ပစ္စည်းရွေးချယ်ပါ", step3:"၃။ ငွေပေးချေမည့်နည်းလမ်း", wallet:"ပိုက်ဆံအိတ်", bank_tr:"ငွေလွှဲပြေစာ", avail_bal:"လက်ကျန်ငွေ", up_slip:"+ ငွေလွှဲပြေစာ ပုံတင်ရန်", total:"စုစုပေါင်း", pay_now:"ဝယ်ယူမည်", processing:"လုပ်ဆောင်နေပါသည်...", profile:"ပရိုဖိုင်", my_wallet:"လက်ကျန်ငွေ", topup:"ငွေသွင်း", withdraw:"ငွေထုတ်", change_pass:"စကားဝှက် ပြောင်းရန်", menu:"မီနူး", spin:"ကံစမ်းမဲ", ledger:"ပိုက်ဆံအိတ် မှတ်တမ်း", my_orders:"အော်ဒါမှတ်တမ်း", logout:"အကောင့်ထွက်မည်", noti:"အသိပေးချက်များ", shop:"ဆိုင်", orders:"မှတ်တမ်း", me:"ပရိုဖိုင်", guide:"အသုံးပြုနည်း လမ်းညွှန်", theme:"အလင်း/အမှောင်", order_proc: "အော်ဒါ လုပ်ဆောင်နေပါသည်", order_comp: "အော်ဒါ အောင်မြင်ပါသည်", order_canc: "အော်ဒါ ပယ်ဖျက်လိုက်ပါသည်", order_det: "အော်ဒါ အသေးစိတ်", order_id: "အော်ဒါ နံပါတ်", date: "နေ့ရက် နှင့် အချိန်", game: "ဂိမ်းအမည်", item: "ပစ္စည်း", player_id: "ပလေယာ ID", pay_method: "ပေးချေမှုစနစ်", amt_paid: "ကျသင့်ငွေ", status: "အခြေအနေ", close_btn: "ပိတ်မည်", before_bal: "ယခင် လက်ကျန်ငွေ", after_bal: "ယခု လက်ကျန်ငွေ", no_orders: "အော်ဒါ မှတ်တမ်း မရှိသေးပါ။", no_noti: "အသိပေးချက် မရှိပါ။", your_order: "သင်၏", is: "သည်", pls_login: "ကျေးဇူးပြု၍ အကောင့်ဝင်ပါ", back_shop: "ဆိုင်သို့ ပြန်သွားမည်", pending_dep_exist: "ယခင် ငွေသွင်းထားမှု (Pending) ရှိနေပါသည်။ ကျေးဇူးပြု၍ စောင့်ဆိုင်းပေးပါ။", min_dep_err: "အနည်းဆုံး ၅၀၀ ကျပ် သွင်းရပါမည်", pass_err: "စကားဝှက်ဟောင်း မှားယွင်းနေပါသည်" },
+        en: { app_name:"Kazeno Shop", email_ph:"Email", pass_ph:"Password", login_btn:"Login", go_signup:"Don't have an account? Sign Up", go_login:"Already have an account? Login", forgot_pass:"Forgot Password?", loading:"Loading...", step1:"1. Account Info", step2:"2. Select Item", step3:"3. Payment Method", wallet:"Wallet", bank_tr:"Bank Transfer", avail_bal:"Available Balance", up_slip:"+ Upload Transfer Slip", total:"Total", pay_now:"Buy Now", processing:"Processing...", profile:"Profile", my_wallet:"Balance", topup:"Top Up", withdraw:"Withdraw", change_pass:"Change Password", menu:"Menu", spin:"Lucky Spin", ledger:"Wallet Ledger", my_orders:"Order History", logout:"Logout", noti:"Notifications", shop:"Shop", orders:"Orders", me:"Me", guide:"User Guide", theme:"Dark/Light Theme", order_proc: "Order Processing", order_comp: "Order Completed", order_canc: "Order Cancelled", order_det: "Order Details", order_id: "Order ID", date: "Date & Time", game: "Game", item: "Item", player_id: "Player ID", pay_method: "Payment", amt_paid: "Amount Paid", status: "STATUS", close_btn: "Close", before_bal: "Balance Before", after_bal: "Balance After", no_orders: "No order history yet.", no_noti: "No notifications.", your_order: "Your order for", is: "is", pls_login: "Please login first", back_shop: "Back to Shop", pending_dep_exist: "You already have a pending deposit! Please wait.", min_dep_err: "Minimum deposit is 500 Ks", pass_err: "Incorrect old password" }
     };
     
     window.curLang = localStorage.getItem('lang') || 'my'; window.curTheme = localStorage.getItem('theme') || 'dark'; window.isGridView = localStorage.getItem('view') === 'grid';
@@ -308,7 +307,6 @@
     window.vibe = () => { if(navigator.vibrate) navigator.vibrate(30); }
     window.formatDate = (ts) => { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString(); };
     
-    // 💡 HARDWARE BACK BUTTON (History API) 💡
     window.navToMain = (id) => { vibe(); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); navTo(id); };
     window.navTo = (id, pushState = true) => { 
         vibe();
@@ -329,16 +327,40 @@
 
     let me = null; let myWallet = 0; let myRole = 'Customer'; let mySpins = 0; 
     let allMyData = []; let dynamicCats = []; let dynamicProds = []; let payMethods = []; let currentOrder = {}; let depFile = null; let orderFile = null; let payMode = 'wallet';
+    let tgBotToken = ""; let tgChatId = ""; let tgDepositTopicId = ""; let tgOrderTopicId = "";
 
     window.switchPayTab = (m, el) => { vibe(); payMode = m; document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.pay-view').forEach(v => v.classList.remove('active')); el.classList.add('active'); let p = document.getElementById('pay-'+m); if(p) p.classList.add('active'); checkForm(); };
 
     // AUTH
     let isLoginMode = true;
-    window.toggleAuthMode = () => { vibe(); isLoginMode = !isLoginMode; document.getElementById('auth-btn').innerText = isLoginMode ? dict[curLang].login_btn : "Sign Up"; document.getElementById('auth-toggle').innerText = isLoginMode ? dict[curLang].go_signup : dict[curLang].go_login; let r = document.getElementById('ref-container'); if(r) r.style.display = isLoginMode ? 'none' : 'block';};
+    window.toggleAuthMode = () => { vibe(); isLoginMode = !isLoginMode; document.getElementById('auth-btn').innerText = isLoginMode ? dict[curLang].login_btn : "Sign Up"; document.getElementById('auth-toggle').innerText = isLoginMode ? dict[curLang].go_signup : dict[curLang].go_login; };
     window.handleAuth = async () => { vibe(); const em = document.getElementById('auth-email').value.trim(); const pw = document.getElementById('auth-password').value.trim(); if(pw.length < 6) return toast("Password min 6 chars"); document.getElementById('auth-btn').innerText = t('loading'); try { if(isLoginMode) await signInWithEmailAndPassword(auth, em, pw); else { const res = await createUserWithEmailAndPassword(auth, em, pw); await setDoc(doc(db, "users", res.user.uid), { email:em, walletBalance:0, spinCount:0, role: "Customer", createdAt:serverTimestamp() }); } } catch(e) { toast(e.message); document.getElementById('auth-btn').innerText = isLoginMode ? dict[curLang].login_btn : "Sign Up"; } };
     window.logout = () => { vibe(); signOut(auth); navToMain('page-home'); };
+    
+    // 🔥 PASSWORD CHANGE FIX 🔥
+    window.openPassModal = () => openModal('pass-modal');
+    window.changePassword = async () => { 
+        let oldP = document.getElementById('cp-old').value; let newP = document.getElementById('cp-new').value; 
+        if(!oldP || newP.length < 6) return toast("Password must be 6 chars."); 
+        try { 
+            const cred = EmailAuthProvider.credential(me.email, oldP); 
+            await reauthenticateWithCredential(me, cred); 
+            await updatePassword(me, newP); 
+            toast("Password Updated!"); closeModal('pass-modal'); 
+            document.getElementById('cp-old').value=''; document.getElementById('cp-new').value='';
+        } catch(e) { 
+            toast(t('pass_err')); console.error(e); 
+        } 
+    };
 
     // DATA SYNC
+    onSnapshot(doc(db, "settings", "app_config"), (d) => {
+        if(d.exists()) {
+            if(d.data().homeBannerUrl) document.getElementById('dyn-home-banner').src = d.data().homeBannerUrl;
+            tgBotToken = d.data().tgBotToken || ""; tgChatId = d.data().tgChatId || ""; tgDepositTopicId = d.data().tgDepositTopicId || ""; tgOrderTopicId = d.data().tgOrderTopicId || "";
+        }
+    });
+
     onSnapshot(collection(db, "categories"), (snap) => { dynamicCats = []; snap.forEach(s => { let c = {id: s.id, ...s.data()}; dynamicCats.push(c); }); dynamicCats.sort((a,b) => (a.orderNum||1) - (b.orderNum||1)); renderGames(dynamicCats); });
     onSnapshot(collection(db, "products"), (snap) => { dynamicProds = []; snap.forEach(s => { if(s.data().isActive) dynamicProds.push({id: s.id, ...s.data()}); }); });
     onSnapshot(collection(db, "payment_methods"), (snap) => { 
@@ -348,14 +370,13 @@
         let chkEl = document.getElementById('chk-dyn-payments'); if(chkEl) chkEl.innerHTML = html;
     });
     
-    // 💡 USER GUIDES SYNC 💡
     onSnapshot(collection(db, "guides"), (snap) => {
         let h = "";
         snap.forEach(s => {
             let g = s.data();
             h += `<div class="glass-card" style="padding:20px; margin-bottom:20px;"><h3 style="color:var(--accent); font-weight:800; margin-bottom:10px;">${g.title}</h3><div style="font-size:13px; color:var(--text); line-height:1.8; margin-bottom:15px;">${g.content}</div>${g.videoUrl ? `<iframe src="${g.videoUrl}" allowfullscreen style="border-radius:12px; width:100%; height:200px; border:none;"></iframe>` : ''}</div>`;
         });
-        let gl = document.getElementById('guide-list'); if(gl) gl.innerHTML = h || `<div style="text-align:center; padding:40px; color:gray;">No guides available yet.</div>`;
+        document.getElementById('guide-list').innerHTML = h || `<div style="text-align:center; padding:40px; color:gray;">No guides available yet.</div>`;
     });
 
     onAuthStateChanged(auth, async (user) => {
@@ -363,25 +384,13 @@
             me = user; closeAuthScreen(); let pe = document.getElementById('prof-email'); if(pe) pe.innerText = me.email;
             onSnapshot(doc(db, "users", me.uid), (ds) => { if(ds.exists()) { myWallet = ds.data().walletBalance || 0; myRole = ds.data().role || 'Customer'; mySpins = ds.data().spinCount || 0; let hw = document.getElementById('home-wallet'); if(hw) hw.innerText = myWallet.toLocaleString() + " Ks"; let pw = document.getElementById('prof-wallet'); if(pw) pw.innerText = myWallet.toLocaleString() + " Ks"; let wa = document.getElementById('wd-avail'); if(wa) wa.innerText = myWallet.toLocaleString() + " Ks"; let pr = document.getElementById('prof-role'); if(pr) pr.innerText = myRole; let st = document.getElementById('spin-tickets'); if(st) st.innerText = mySpins; let dwb = document.getElementById('detail-wallet-bal'); if(dwb) dwb.innerText = myWallet.toLocaleString() + " Ks";} });
             onSnapshot(query(collection(db, "orders"), where("userId", "==", me.uid)), (s) => { allMyData = []; s.forEach(d => { let obj = {id:d.id, type:'order', ...d.data()}; allMyData.push(obj); }); renderHistory(); });
-            
-            // 💡 PENDING DEPOSITS & TRANSACTIONS LOGIC 💡
-            onSnapshot(query(collection(db, "deposits"), where("userId", "==", me.uid)), (s) => {
-                window.myPendingDeps = [];
-                s.forEach(d => { let dep = d.data(); if(dep.status === 'Pending') window.myPendingDeps.push(dep); });
-                window.hasPendingDeposit = window.myPendingDeps.length > 0;
-                renderLedger(); // Refresh ledger to show pending deposits
-            });
-
-            onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid)), (s) => { 
-                window.myTransactions = []; s.forEach(d => window.myTransactions.push(d.data())); 
-                renderLedger(); // Refresh ledger
-            });
+            onSnapshot(query(collection(db, "deposits"), where("userId", "==", me.uid)), (s) => { window.myPendingDeps = []; s.forEach(d => { let dep = d.data(); if(dep.status === 'Pending') window.myPendingDeps.push(dep); }); window.hasPendingDeposit = window.myPendingDeps.length > 0; renderLedger(); });
+            onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid)), (s) => { window.myTransactions = []; s.forEach(d => window.myTransactions.push(d.data())); renderLedger(); });
         } else { me = null; let hw = document.getElementById('home-wallet'); if(hw) hw.innerText = "Login..."; allMyData = []; renderHistory(); let ll = document.getElementById('ledger-list'); if(ll) ll.innerHTML = ""; }
     });
 
     function renderGames(list) { let html = ""; list.forEach(c => { if(c.isActive) { html += `<div class="game-card glass-card" onclick="openGameDetail('${c.id}')"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div style="flex:1; margin:0 12px; text-align:left;"><div style="font-weight:800; font-size:16px; color:var(--text);">${c.name}</div><div style="font-size:12px; color:var(--ok); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-top:2px;">Available</div></div><div class="btn-gel" style="padding:10px; width:auto; border-radius:12px; font-size:12px;">Open</div></div>`; } }); let c = document.getElementById('dyn-game-list'); if(c) c.innerHTML = html || `<div style="text-align:center; color:gray; width:100%; padding:20px;">No games found.</div>`; }
 
-    // 💡 TINTED GLASS LISTS 💡
     function renderHistory() {
         if(!me) return; allMyData.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
         let oHtml = "", nHtml = "", unread = 0;
@@ -414,16 +423,11 @@
         let bc = document.getElementById('bell-count'); if(bc) bc.style.display = unread > 0 ? 'flex' : 'none';
     }
 
-    // 💡 RENDER LEDGER + PENDING DEPOSITS 💡
     function renderLedger() {
         let lHtml = "";
-        // Show Pending Deposits First
         if(window.myPendingDeps && window.myPendingDeps.length > 0) {
-            window.myPendingDeps.forEach(dep => {
-                lHtml += `<div class="glass-card glass-tint-warn" style="padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:800; font-size:14px; color:var(--warning);"><i class="fas fa-spinner fa-spin mr-1"></i> Pending Deposit</div><div style="font-size:11px; color:var(--text); margin-top:4px;">${dep.payMethod}</div></div><div style="font-weight:800; font-size:16px; color:var(--warning);">+${(dep.amount||0).toLocaleString()} Ks</div></div>`;
-            });
+            window.myPendingDeps.forEach(dep => { lHtml += `<div class="glass-card glass-tint-warn" style="padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:800; font-size:14px; color:var(--warning);"><i class="fas fa-spinner fa-spin mr-1"></i> Pending Deposit</div><div style="font-size:11px; color:var(--text); margin-top:4px;">${dep.payMethod}</div></div><div style="font-weight:800; font-size:16px; color:var(--warning);">+${(dep.amount||0).toLocaleString()} Ks</div></div>`; });
         }
-        // Show Transactions
         if(window.myTransactions) {
             window.myTransactions.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
             window.myTransactions.forEach(tx => { 
@@ -436,12 +440,9 @@
 
     window.showOrderDetails = (id) => { vibe(); let o = allMyData.find(x => x.id === id); if(!o) return; let c = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)'); let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc'); let bBalHtml = (o.beforeBalance !== undefined) ? `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-wallet mr-2"></i>${t('before_bal')}</span> <strong style="font-size:15px;">${o.beforeBalance.toLocaleString()} Ks</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hand-holding-usd mr-2"></i>${t('after_bal')}</span> <strong style="font-size:15px; color:var(--warning);">${o.afterBalance.toLocaleString()} Ks</strong></div>` : ''; let h = `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hashtag mr-2"></i>${t('order_id')}</span> <strong style="color:var(--accent); font-family:monospace; font-size:15px;">${o.orderId || o.id.substring(0,8)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="far fa-calendar-alt mr-2"></i>${t('date')}</span> <strong style="font-size:13px;">${formatDate(o.createdAt)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gamepad mr-2"></i>${t('game')}</span> <strong style="font-size:15px;">${o.game}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gem mr-2"></i>${t('item')}</span> <strong style="color:var(--accent); font-size:15px;">${o.item}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-id-card mr-2"></i>${t('player_id')}</span> <strong style="background:rgba(255,255,255,0.15); padding:6px 12px; border-radius:10px; font-family:monospace; font-size:15px;">${o.playerId}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-money-check-alt mr-2"></i>${t('pay_method')}</span> <strong><span class="badge" style="background:var(--primary); padding:6px 10px; border-radius:8px; font-size:12px;">${o.payMethod || 'Wallet'}</span></strong></div>${bBalHtml}<div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; margin-bottom:10px;"><span style="color:var(--text); font-weight:800; font-size:16px;">${t('amt_paid')}</span> <strong style="color:var(--ok); font-size:26px;">${o.price.toLocaleString()} Ks</strong></div><div style="text-align:center; margin-top:20px; font-weight:900; color:${c}; font-size:16px; background:rgba(255,255,255,0.05); padding:16px; border-radius:16px; border:1px solid ${c}50;">${t('status')}: ${t(statKey).toUpperCase()}</div>`; let omc = document.getElementById('order-modal-content'); if(omc) omc.innerHTML = h; openModal('order-modal'); };
 
-    // 💡 DYNAMIC PLACEHOLDERS 💡
     window.openGameDetail = (catId) => {
         vibe(); let c = dynamicCats.find(x => x.id === catId); if(!c) return;
-        currentOrder.gameName = c.name; 
-        let gt = document.getElementById('detail-game-title'); if(gt) gt.innerText = c.name; 
-        let dbn = document.getElementById('detail-banner'); if(dbn) dbn.src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
+        currentOrder.gameName = c.name; document.getElementById('detail-game-title').innerText = c.name; document.getElementById('detail-banner').src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
         
         let p1 = c.uidPlaceholder || "Player ID / Email";
         let p2 = c.zonePlaceholder || "Zone / Server ID / Password";
@@ -450,7 +451,7 @@
         if(forms.includes('gameId')) formHtml += `<input type="text" id="dyn-uid" class="glass-input" style="flex:2; margin:0;" placeholder="${p1}" oninput="checkForm()">`;
         if(forms.includes('zoneId')) formHtml += `<input type="text" id="dyn-zone" class="glass-input" style="flex:1; margin:0;" placeholder="${p2}" oninput="checkForm()">`;
         if(formHtml === '') formHtml = `<input type="text" id="dyn-uid" class="glass-input" style="flex:2; margin:0;" placeholder="${p1}" oninput="checkForm()">`;
-        let dfi = document.getElementById('dyn-form-inputs'); if(dfi) dfi.innerHTML = formHtml;
+        document.getElementById('dyn-form-inputs').innerHTML = formHtml;
 
         let prods = dynamicProds.filter(p => p.categoryId === c.id); prods.sort((a,b) => a.sellingPrice - b.sellingPrice);
         let pHtml = "";
@@ -458,8 +459,8 @@
             let imgHtml = p.logoUrl ? `<img src="${p.logoUrl}" style="width:45px; height:45px; object-fit:contain; margin-bottom:12px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">` : `<i class="fas fa-gem text-accent" style="font-size:30px; margin-bottom:12px; filter: drop-shadow(0 4px 10px rgba(14,165,233,0.5));"></i>`;
             pHtml += `<div class="glass-card pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${p.sellingPrice})">${imgHtml}<div style="font-weight:800; font-size:15px; color:var(--text);">${p.name}</div><div style="font-size:14px; color:var(--accent); font-weight:900; margin-top:8px;">${p.sellingPrice.toLocaleString()} Ks</div></div>`; 
         });
-        let pc = document.getElementById('pack-container'); if(pc) pc.innerHTML = pHtml;
-        currentOrder.item = ''; currentOrder.price = 0; let dt = document.getElementById('display-total'); if(dt) dt.innerText = "0 Ks"; 
+        document.getElementById('pack-container').innerHTML = pHtml;
+        currentOrder.item = ''; currentOrder.price = 0; document.getElementById('display-total').innerText = "0 Ks"; 
         
         switchPayTab('wallet', document.querySelector('.pay-tab')); 
         navTo('page-detail');
@@ -475,6 +476,8 @@
     };
 
     window.handleOrderUpload = (i) => { if(i.files[0]) { vibe(); orderFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { let up = document.getElementById('upload-placeholder'); if(up) up.style.display='none'; let pi = document.getElementById('preview-img'); if(pi){ pi.src=e.target.result; pi.style.display='block';} checkForm(); }; r.readAsDataURL(i.files[0]); } };
+
+    async function sendTgAlert(msg, threadIdStr, imageUrl) { if(!tgBotToken || !tgChatId) return; let endpoint = imageUrl ? "sendPhoto" : "sendMessage"; let payload = { chat_id: tgChatId, parse_mode: "HTML" }; if(threadIdStr) payload.message_thread_id = parseInt(threadIdStr); if(imageUrl) { payload.photo = imageUrl; payload.caption = msg; } else { payload.text = msg; } try { await fetch(`https://api.telegram.org/bot${tgBotToken}/${endpoint}`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); } catch(e) { console.log(e); } }
 
     window.submitOrder = async () => {
         vibe(); if(!me) { openAuthScreen(); toast(t('pls_login')); return; }
@@ -498,25 +501,36 @@
             }
 
             await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, playerId: finalId, payMethod: finalMethod, slipImage: slipUrl, beforeBalance: beforeBal, afterBalance: afterBal, status: "Pending", createdAt: serverTimestamp() });
+            
+            // 💡 SEND TG ALERT 💡
+            sendTgAlert(`📦 <b>NEW ORDER</b>\nGame: ${currentOrder.gameName}\nItem: ${currentOrder.item}\nPlayer ID: <code>${finalId}</code>\nPrice: ${currentOrder.price} Ks\nMethod: ${finalMethod}`, tgOrderTopicId, slipUrl);
+
             toast("Order Placed Successfully!"); 
             orderFile = null; let prevImg = document.getElementById('preview-img'); if(prevImg) prevImg.style.display='none'; let upPlace = document.getElementById('upload-placeholder'); if(upPlace) upPlace.style.display='block';
             navToMain('page-orders');
         } catch (e) { toast(e.message); checkForm(); } if(b) { b.innerText = t('pay_now'); b.disabled = false; }
     };
 
-    // UPLOADS & TRANSACTIONS
+    // 💡 MIN DEPOSIT 500 Ks & UPLOADS 💡
     window.handleDepUpload = (i) => { if(i.files[0]) { vibe(); depFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { let dp = document.getElementById('dep-placeholder'); if(dp) dp.style.display='none'; let di = document.getElementById('dep-img'); if(di) { di.src=e.target.result; di.style.display='block'; } }; r.readAsDataURL(i.files[0]); } };
     async function uploadImage(f) { let fd = new FormData(); fd.append("image", f); try { let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let d = await res.json(); if(d.success) return d.data.url; throw new Error(); } catch(e) { throw new Error("Upload failed"); } }
     
     window.submitDeposit = async () => { 
-        if(window.hasPendingDeposit) return toast(t('pending_dep_exist')); // 💡 PREVENT MULTIPLE PENDING DEPOSITS 💡
+        if(window.hasPendingDeposit) return toast(t('pending_dep_exist')); 
         let amtEl = document.getElementById('dep-amount'); let amt = amtEl ? parseInt(amtEl.value) : 0; 
         let sdm = document.getElementById('selected-dep-method'); let pMethod = sdm ? sdm.value : ''; 
+        
         if(!amt || !depFile || !pMethod) return toast("Enter amount, select method, and upload slip."); 
+        if(amt < 500) return toast(t('min_dep_err')); // 💡 500 Ks Limit Check 💡
+
         vibe(); const b = document.getElementById('btn-dep'); if(b){ b.innerText = "Uploading..."; b.disabled = true; }
         try { 
             let slipUrl = await uploadImage(depFile); let depId = 'DEP-' + Math.random().toString(36).substr(2, 6).toUpperCase(); 
             await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() }); 
+            
+            // 💡 SEND TG ALERT 💡
+            sendTgAlert(`💸 <b>NEW DEPOSIT</b>\nUser: ${me.email}\nAmount: ${amt} Ks\nMethod: ${pMethod}`, tgDepositTopicId, slipUrl);
+            
             toast("Deposit request sent!"); if(amtEl) amtEl.value = ""; let di = document.getElementById('dep-img'); if(di) di.style.display = "none"; let dp = document.getElementById('dep-placeholder'); if(dp) dp.style.display = "block"; depFile = null; navToMain('page-profile'); 
         } catch(e) { toast(e.message); } if(b){ b.innerText = "Submit Deposit"; b.disabled = false; }
     };
@@ -532,10 +546,16 @@
             await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - amt }); let wdId = 'WD-' + Math.random().toString(36).substr(2, 6).toUpperCase(); 
             await addDoc(collection(db, "withdrawals"), { wdId: wdId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: met, accPhone: ph, accName: nm, status: "Pending", createdAt: serverTimestamp() }); 
             await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Withdrawal', amount: -amt, desc: `Requested withdraw via ${met}`, createdAt: serverTimestamp() }); 
+            
+            // 💡 SEND TG ALERT 💡
+            sendTgAlert(`💳 <b>WITHDRAW REQUEST</b>\nUser: ${me.email}\nAmount: ${amt} Ks\nMethod: ${met}\nAcc: ${ph} (${nm})`, tgDepositTopicId, null);
+            
             toast("Withdraw requested!"); navToMain('page-profile'); if(wa) wa.value=''; if(wp) wp.value=''; if(wn) wn.value=''; 
         } catch(e) { toast(e.message); } if(b) { b.disabled = false; b.innerText = "Submit Request"; }
     };
     
+    // 💡 10K SPIN NOTE 💡
+    // Spin tickets are added by the Admin Panel when approving a deposit (e.g. 10000 = 1 ticket)
     window.playSpin = async () => { 
         if(mySpins <= 0) return toast("No tickets! Top up 10,000 Ks to get 1 ticket."); vibe(); 
         let btn = document.getElementById('btn-spin'); if(btn){ btn.disabled = true; btn.innerText = "Spinning..."; }
@@ -554,3 +574,4 @@
 </script>
 </body>
 </html>
+
