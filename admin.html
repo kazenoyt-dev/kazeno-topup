@@ -41,6 +41,9 @@
   .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 25px; color: var(--muted); font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.3s; border-left: 4px solid transparent; }
   .menu-item:hover, .menu-item.active { background: rgba(14, 165, 233, 0.15); color: #fff; border-left-color: var(--accent); text-shadow: 0 0 10px rgba(14,165,233,0.5);}
 
+  .menu-toggle { background: none; border: none; color: #fff; cursor: pointer; display: none; font-size: 20px; }
+  .header-title { font-size: 16px; font-weight: 700; }
+
   .view { display: none; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .view.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -243,6 +246,7 @@
                             <button class="btn-gel" style="flex:2;" onclick="saveAllSettings()">Save Settings</button>
                             <button class="btn-gel btn-dark" style="flex:1;" onclick="testTelegram()"><i class="fab fa-telegram"></i> Test TG</button>
                         </div>
+                        <div style="font-size:11px; color:var(--warning); margin-top:10px;"><i class="fas fa-info-circle"></i> "Test TG" ကို နှိပ်ပြီး Telegram ကို မက်ဆေ့ခ်ျဝင်မဝင် အရင်စမ်းသပ်ကြည့်ပါ။</div>
                     </div>
                 </div>
             </div>
@@ -266,13 +270,11 @@
     <div class="modal-card glass-card" style="max-width: 650px;">
         <h3 style="margin-bottom:15px; color:var(--accent);">User Data & Ledger</h3>
         <div style="font-size:20px; font-weight:800; margin-bottom:15px;" id="ud-email">--</div>
-        
         <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:20px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border:1px solid var(--glass-border);">
             <div style="flex:1;"><div style="font-size:12px; color:var(--muted); text-transform:uppercase;">Balance</div><div style="color:var(--ok); font-weight:900; font-size:22px;" id="ud-bal">0 Ks</div></div>
             <div style="flex:1;"><div style="font-size:12px; color:var(--muted); text-transform:uppercase;">Spins</div><div style="color:var(--warning); font-weight:900; font-size:22px;" id="ud-spins">0</div></div>
             <button class="btn-gel" style="width:100%; margin-top:10px;" id="ud-edit-btn">Edit Balance / Spins</button>
         </div>
-        
         <h4 style="margin-bottom:10px; font-size:15px; color:var(--muted);"><i class="fas fa-history"></i> Transaction Ledger</h4>
         <div class="table-wrapper" style="max-height: 300px; overflow-y: auto; border:1px solid var(--glass-border); border-radius:16px;">
             <table style="font-size: 12px; min-width: 400px;">
@@ -300,13 +302,11 @@
         <h3 style="margin-bottom:15px; color:var(--accent);" id="cm-title">Category</h3><input type="hidden" id="cm-id">
         <input type="text" id="cm-name" class="glass-input" placeholder="Game Name (e.g. MLBB)">
         <input type="text" id="cm-slug" class="glass-input" placeholder="Slug (e.g. mlbb)">
-        
         <label style="font-size:12px; color:var(--muted);">Category Logo</label>
         <img id="cm-img-preview" style="width:70px; height:70px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px; box-shadow:0 5px 15px rgba(0,0,0,0.5);">
         <div class="upload-box" onclick="document.getElementById('cm-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload Image</div>
         <input type="file" id="cm-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'cm-img')">
         <input type="hidden" id="cm-img-url">
-
         <div style="font-size:13px; margin-bottom:10px; font-weight:bold; color:var(--accent); border-top:1px solid var(--glass-border); padding-top:15px;">Input Fields Settings</div>
         <div style="display:flex; gap:15px; margin-bottom:15px; font-size:13px;">
             <label><input type="checkbox" id="cm-form-uid"> Field 1 (e.g. Player ID)</label>
@@ -314,7 +314,6 @@
         </div>
         <input type="text" id="cm-ph-uid" class="glass-input" placeholder="Placeholder for Field 1 (e.g. 'Enter Player ID' or 'Email')">
         <input type="text" id="cm-ph-zone" class="glass-input" placeholder="Placeholder for Field 2 (e.g. 'Enter Zone ID' or 'Password')">
-
         <div style="display:flex; gap:10px; margin-top:10px;"><button class="btn-gel" style="flex:1;" onclick="saveCategory()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="closeModal('cat-modal')">Cancel</button></div>
     </div>
 </div>
@@ -324,13 +323,11 @@
         <h3 style="margin-bottom:15px; color:var(--accent);" id="pm-title">Product</h3><input type="hidden" id="pm-id">
         <input type="text" id="pm-name" class="glass-input" placeholder="Name (e.g. 11 Diamonds)">
         <select id="pm-cat" class="glass-input" style="color:#000;"></select>
-        
         <label style="font-size:12px; color:var(--muted);">Product Icon (Optional)</label>
         <img id="pm-img-preview" style="width:70px; height:70px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px;">
         <div class="upload-box" onclick="document.getElementById('pm-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload Image</div>
         <input type="file" id="pm-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'pm-img')">
         <input type="hidden" id="pm-img-url">
-
         <div style="display:flex; gap:10px; margin-bottom:10px;">
             <input type="number" id="pm-cost" class="glass-input" placeholder="Cost Price">
             <input type="number" id="pm-price" class="glass-input" placeholder="Sell Price">
@@ -354,13 +351,11 @@
         <input type="text" id="pay-name" class="glass-input" placeholder="Provider (e.g. KPay)">
         <input type="text" id="pay-phone" class="glass-input" placeholder="Phone Number">
         <input type="text" id="pay-acc" class="glass-input" placeholder="Account Name">
-        
         <label style="font-size:12px; color:var(--muted);">QR Code (Optional)</label>
         <img id="pay-qr-preview" style="width:100px; height:100px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px;">
         <div class="upload-box" onclick="document.getElementById('pay-qr-file').click()"><i class="fas fa-qrcode text-2xl mb-2 block"></i><br>Upload QR</div>
         <input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'pay-qr')">
         <input type="hidden" id="pay-qr-url">
-
         <div style="display:flex; gap:10px;"><button class="btn-gel" style="flex:1;" onclick="savePayment()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="closeModal('pay-modal')">Cancel</button></div>
     </div>
 </div>
@@ -380,6 +375,28 @@
     </div>
 </div>
 
+<script>
+    window.toast = function(m) { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); };
+    window.toggleSidebar = function() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('active'); };
+    window.switchTab = function(viewId, el) { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard'; if(window.innerWidth <= 768) window.toggleSidebar(); };
+    window.openModal = function(id) { document.getElementById(id).classList.add('active'); };
+    window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
+    window.viewSlip = function(url) { if(!url)return window.toast("No slip uploaded"); document.getElementById('modal-img-src').src = url; window.openModal('slip-modal'); };
+    window.formatDate = function(ts) { if(!ts) return "-"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); };
+
+    // 💡 BULLETPROOF LOGIN GATE 💡
+    window.checkPin = function() {
+        let pin = document.getElementById('admin-pin').value;
+        if(pin === "1234") {
+            document.getElementById('auth-gate').style.display = "none";
+            document.getElementById('main-admin').style.display = "flex";
+            window.dispatchEvent(new Event('adminLoggedIn')); // Tells Firebase script to start
+        } else {
+            window.toast("Invalid PIN!");
+        }
+    };
+</script>
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc, setDoc, addDoc, deleteDoc, query, orderBy, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -395,23 +412,19 @@
     };
     const app = initializeApp(firebaseConfig); const db = getFirestore(app);
 
-    // --- GLOBALS & UTILS ---
-    window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
-    window.formatDate = (ts) => { if(!ts) return "-"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); }
-    window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('active'); }
-    window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard'; if(window.innerWidth <= 768) toggleSidebar(); }
-    
-    window.openModal = (id) => { document.getElementById(id).classList.add('active'); };
-    window.closeModal = (id) => { document.getElementById(id).classList.remove('active'); };
-    window.viewSlip = (url) => { if(!url)return toast("No slip uploaded"); document.getElementById('modal-img-src').src = url; openModal('slip-modal'); };
-    
-    // IMAGE UPLOAD (IMGBB)
+    let globalOrders = []; let globalUsers = []; let globalTransactions = []; let allCats = [];
+
+    // Triggered when PIN is correct
+    window.addEventListener('adminLoggedIn', () => {
+        initAdmin();
+    });
+
     async function uploadToImgBB(file) {
-        toast("Uploading Image...");
+        window.toast("Uploading Image...");
         let fd = new FormData(); fd.append("image", file);
         let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd });
         let data = await res.json();
-        if(data.success) { toast("Upload Done!"); return data.data.url; }
+        if(data.success) { window.toast("Upload Done!"); return data.data.url; }
         else throw new Error("Upload Failed");
     }
     window.uploadImg = async (input, prefix) => {
@@ -421,21 +434,10 @@
             document.getElementById(`${prefix}-url`).value = url;
             let preview = document.getElementById(`${prefix}-preview`);
             if(preview) { preview.src = url; preview.style.display = 'block'; }
-        } catch(e) { toast(e.message); }
+        } catch(e) { window.toast(e.message); }
     };
-
-    window.checkPin = () => { 
-        if(document.getElementById('admin-pin').value === "1234") { 
-            document.getElementById('auth-gate').style.display = "none"; 
-            document.getElementById('main-admin').style.display = "flex"; 
-            initAdmin(); 
-        } else { toast("Invalid PIN!"); }
-    };
-
-    let globalOrders = []; let globalUsers = []; let globalTransactions = []; let allCats = [];
 
     function initAdmin() {
-        // Settings
         onSnapshot(doc(db, "settings", "app_config"), (d) => {
             if(d.exists()) {
                 document.getElementById('inp-bot-token').value = d.data().tgBotToken || '';
@@ -446,10 +448,8 @@
             }
         });
 
-        // Transactions (For Ledger)
         onSnapshot(collection(db, "transactions"), (snap) => { globalTransactions = []; snap.forEach(s => globalTransactions.push({id: s.id, ...s.data()})); });
 
-        // Users
         onSnapshot(collection(db, "users"), (s) => { 
             globalUsers = []; let h="", t=0; document.getElementById('ds-users').innerText=s.size;
             s.forEach(d=>{ 
@@ -460,7 +460,6 @@
             document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
         });
 
-        // Categories
         onSnapshot(collection(db, "categories"), (snap) => { 
             allCats = []; let h="", opt="<option value=''>Select Cat</option>"; 
             snap.forEach(s => { 
@@ -474,7 +473,6 @@
             document.getElementById('pm-cat').innerHTML=opt; document.getElementById('ds-cat').innerText=allCats.length;
         });
 
-        // Products
         onSnapshot(collection(db, "products"), (snap) => { 
             let h=""; snap.forEach(s => { 
                 let p = {id: s.id, ...s.data()}; let cName = allCats.find(x=>x.id===p.categoryId)?.name || 'Unknown'; 
@@ -484,7 +482,6 @@
             document.getElementById('ds-prod').innerText=snap.size; 
         });
 
-        // Guides (New)
         onSnapshot(collection(db, "guides"), (snap) => { 
             let h=""; snap.forEach(s => { 
                 let g = {id: s.id, ...s.data()};
@@ -493,45 +490,39 @@
             document.getElementById('tb-guides').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No guides</td></tr>"; 
         });
 
-        // Orders
         onSnapshot(collection(db, "orders"), (s) => { 
             globalOrders = []; let tS=0, tP=0; s.forEach(d=>{ let o={id:d.id, ...d.data()}; globalOrders.push(o); });
             globalOrders.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); 
             globalOrders.forEach(o=>{ if(o.status==='Completed'){ tS+=(o.price||0); let cost=o.costPrice||(o.price*0.85); tP+=(o.price-cost); }}); 
             document.getElementById('ds-orders').innerText=globalOrders.filter(x=>x.status==='Completed').length; document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
-            
             let activeTab = document.querySelector('.tab-pill.active');
             let statusToFilter = activeTab ? activeTab.innerText.trim() : 'Pending';
-            filterOrders(statusToFilter, activeTab);
+            window.filterOrders(statusToFilter, activeTab);
         });
 
-        // Deposits
-        onSnapshot(collection(db, "deposits"), (s) => { let tD=0, h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(dp=>{ if(dp.status==='Completed')tD+=dp.amount; let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${dp.depId||dp.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${dp.status}</span></td><td><div style="font-size:13px; font-weight:bold;">${dp.userEmail}</div><div style="font-size:10px; color:var(--muted);">${formatDate(dp.createdAt)}</div></td><td><div style="color:var(--ok); font-weight:900; font-size:16px;">+${(dp.amount||0).toLocaleString()} Ks</div><div style="font-size:11px; color:var(--muted);">${dp.payMethod}</div></td><td><button class="btn-gel btn-dark" onclick="viewSlip('${dp.slipImage}')"><i class="fas fa-image"></i></button>${dp.status==='Pending'?` <button class="btn-gel btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})"><i class="fas fa-check"></i></button> <button class="btn-gel btn-danger" onclick="updDep('${dp.id}','Cancelled')"><i class="fas fa-times"></i></button>`:''}</td></tr>`; }); document.getElementById('tb-deposits').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No deposits</td></tr>"; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
-        // Withdrawals
-        onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(w=>{ let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${w.wdId||w.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${w.status}</span></td><td><div style="font-size:13px; font-weight:bold;">${w.userEmail}</div><div style="font-size:10px; color:var(--muted);">${formatDate(w.createdAt)}</div></td><td><div style="color:var(--danger); font-weight:900; font-size:16px;">-${(w.amount||0).toLocaleString()} Ks</div><div style="font-size:12px; color:var(--accent); font-weight:bold;">${w.payMethod}: ${w.accPhone}</div><div style="font-size:10px; color:var(--muted);">${w.accName}</div></td><td>${w.status==='Pending'?`<button class="btn-gel btn-ok" onclick="updWd('${w.id}','Completed')"><i class="fas fa-check"></i> Sent</button> <button class="btn-gel btn-danger" onclick="updWd('${w.id}','Cancelled','${w.userId}',${w.amount})"><i class="fas fa-times"></i> Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-withdraws').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No withdrawals</td></tr>"; });
+        onSnapshot(collection(db, "deposits"), (s) => { let tD=0, h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(dp=>{ if(dp.status==='Completed')tD+=dp.amount; let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${dp.depId||dp.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${dp.status}</span></td><td><div style="font-size:13px; font-weight:bold;">${dp.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatDate(dp.createdAt)}</div></td><td><div style="color:var(--ok); font-weight:900; font-size:16px;">+${(dp.amount||0).toLocaleString()} Ks</div><div style="font-size:11px; color:var(--muted);">${dp.payMethod}</div></td><td><button class="btn-gel btn-dark" onclick="viewSlip('${dp.slipImage}')"><i class="fas fa-image"></i></button>${dp.status==='Pending'?` <button class="btn-gel btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})"><i class="fas fa-check"></i></button> <button class="btn-gel btn-danger" onclick="updDep('${dp.id}','Cancelled')"><i class="fas fa-times"></i></button>`:''}</td></tr>`; }); document.getElementById('tb-deposits').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No deposits</td></tr>"; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
+        
+        onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>(y.createdAt?.toMillis()||0)-(x.createdAt?.toMillis()||0)); a.forEach(w=>{ let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${w.wdId||w.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${w.status}</span></td><td><div style="font-size:13px; font-weight:bold;">${w.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatDate(w.createdAt)}</div></td><td><div style="color:var(--danger); font-weight:900; font-size:16px;">-${(w.amount||0).toLocaleString()} Ks</div><div style="font-size:12px; color:var(--accent); font-weight:bold;">${w.payMethod}: ${w.accPhone}</div><div style="font-size:10px; color:var(--muted);">${w.accName}</div></td><td>${w.status==='Pending'?`<button class="btn-gel btn-ok" onclick="updWd('${w.id}','Completed')"><i class="fas fa-check"></i> Sent</button> <button class="btn-gel btn-danger" onclick="updWd('${w.id}','Cancelled','${w.userId}',${w.amount})"><i class="fas fa-times"></i> Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-withdraws').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No withdrawals</td></tr>"; });
 
-        // Promos & Payments
         onSnapshot(collection(db, "promo_codes"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><span class="badge bg-pill" style="font-size:14px; letter-spacing:2px; font-family:monospace;">${p.code}</span></td><td><strong style="color:var(--ok); font-size:15px;">-${p.discount} Ks</strong></td><td><button class="btn-gel btn-danger" onclick="deleteDoc(doc(db,'promo_codes','${p.id}'))"><i class="fas fa-trash"></i></button></td></tr>`; }); document.getElementById('tb-promos').innerHTML=h || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
         onSnapshot(collection(db, "payment_methods"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><div style="display:flex;align-items:center;gap:15px;"><img src="${p.qrUrl||'https://via.placeholder.com/40'}" style="width:40px;height:40px;border-radius:10px;object-fit:cover;"><strong>${p.name}</strong></div></td><td><div style="font-size:15px; font-weight:bold; font-family:monospace; color:var(--accent);">${p.phone}</div><div style="font-size:11px; color:var(--muted);">${p.accName}</div></td><td><button class="btn-gel btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="deleteDoc(doc(db,'payment_methods','${p.id}'))"><i class="fas fa-trash"></i></button></td></tr>`; }); document.getElementById('tb-payments').innerHTML=h || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
     }
 
-    // 💡 TG TEST FUNCTION 💡
     window.testTelegram = async () => {
         let token = document.getElementById('inp-bot-token').value;
         let chatId = document.getElementById('inp-chat-id').value;
-        if(!token || !chatId) return toast("Please fill Bot Token and Chat ID first!");
+        if(!token || !chatId) return window.toast("Please fill Bot Token and Chat ID first!");
         try {
-            toast("Sending test message...");
+            window.toast("Sending test message...");
             let res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
                 method: "POST", headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ chat_id: chatId, text: "✅ Kazeno Admin Panel Test Successful! Bot is connected." })
             });
             let data = await res.json();
-            if(data.ok) toast("Telegram connected successfully!"); else toast("Telegram Error: " + data.description);
-        } catch(e) { toast("Network error testing Telegram."); }
+            if(data.ok) window.toast("Telegram connected successfully!"); else window.toast("Telegram Error: " + data.description);
+        } catch(e) { window.toast("Network error testing Telegram."); }
     };
 
-    // 💡 ORDER DETAILS & COMPLETE/REFUND LOGIC 💡
     window.filterOrders = (status, el=null) => {
         if(el) { document.querySelectorAll('.tab-pill').forEach(t=>t.classList.remove('active')); el.classList.add('active'); }
         let h = ""; let filtered = globalOrders.filter(o => o.status === status);
@@ -539,7 +530,7 @@
             let cls = o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':'bg-pill');
             h+=`<tr>
                 <td><strong style="color:var(--accent); font-family:monospace;">${o.orderId||o.id.substring(0,8)}</strong></td>
-                <td><div style="font-size:11px; color:var(--muted);"><i class="far fa-clock"></i> ${formatDate(o.createdAt)}</div></td>
+                <td><div style="font-size:11px; color:var(--muted);"><i class="far fa-clock"></i> ${window.formatDate(o.createdAt)}</div></td>
                 <td><div style="font-weight:800; font-size:14px;">${o.game}</div><div style="font-size:12px; color:var(--accent);">${o.item}</div></td>
                 <td><strong style="color:var(--ok); font-size:15px;">${(o.price||0).toLocaleString()} Ks</strong></td>
                 <td><span class="badge ${cls}">${o.status}</span></td>
@@ -550,23 +541,23 @@
     };
 
     window.showOrderDetail = (id) => {
-        let o = globalOrders.find(x => x.id === id); if(!o) return toast("Order not found");
+        let o = globalOrders.find(x => x.id === id); if(!o) return window.toast("Order not found");
         let price = o.price || 0; let cost = o.costPrice || (price * 0.85); let profit = price - cost;
         let cls = o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':'bg-pill'); 
         
         document.getElementById('od-badge').innerHTML = `<span class="badge ${cls}" style="font-size:14px; padding:6px 15px;">${o.status.toUpperCase()}</span>`;
         let h = `
             <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Order ID</span> <strong style="color:var(--accent); font-family:monospace; font-size:16px;">${o.orderId || o.id}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Date & Time</span> <strong>${formatDate(o.createdAt)}</strong></div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Date & Time</span> <strong>${window.formatDate(o.createdAt)}</strong></div>
             <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Customer Email</span> <strong>${o.userEmail}</strong></div>
             <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Game & Item</span> <strong style="color:var(--accent); font-size:16px;">${o.game} - ${o.item}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Input Info (ID/Zone)</span> <strong style="background:rgba(255,255,255,0.1); padding:4px 12px; border-radius:10px; font-family:monospace; font-size:16px;">${o.playerId}</strong></div>
+            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Input Info</span> <strong style="background:rgba(255,255,255,0.1); padding:4px 12px; border-radius:10px; font-family:monospace; font-size:16px;">${o.playerId}</strong></div>
             <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Payment Method</span> <strong><span class="badge" style="background:var(--primary); font-size:12px;">${o.payMethod || 'Wallet'}</span></strong></div>
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;">
                 <span style="color:var(--muted);">Price Paid</span> <strong style="color:var(--ok); font-size:22px; text-shadow:0 0 15px rgba(16,185,129,0.5);">${price.toLocaleString()} Ks</strong>
             </div>
             <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span style="color:var(--muted);">Est. Profit</span> <strong style="color:var(--accent);">+${profit.toLocaleString()} Ks</strong></div>
-            ${o.slipImage ? `<button class="btn-gel btn-dark" style="margin-top:15px; width:100%;" onclick="viewSlip('${o.slipImage}')"><i class="fas fa-image"></i> View Transfer Slip</button>` : ''}
+            ${o.slipImage ? `<button class="btn-gel btn-dark" style="margin-top:15px; width:100%;" onclick="window.viewSlip('${o.slipImage}')"><i class="fas fa-image"></i> View Transfer Slip</button>` : ''}
         `;
         document.getElementById('od-content').innerHTML = h;
 
@@ -574,7 +565,7 @@
         if(o.status === 'Pending') { actHtml = `<button class="btn-gel btn-warning" onclick="updOrd('${o.id}','Processing', true)" style="flex:1;"><i class="fas fa-cogs"></i> Process</button> <button class="btn-gel btn-danger" onclick="updOrd('${o.id}','Cancelled', true)" style="flex:1;"><i class="fas fa-times"></i> Cancel</button>`; } 
         else if (o.status === 'Processing') { actHtml = `<button class="btn-gel btn-ok" onclick="updOrd('${o.id}','Completed', true)" style="flex:1;"><i class="fas fa-check-double"></i> Complete</button> <button class="btn-gel btn-danger" onclick="updOrd('${o.id}','Cancelled', true)" style="flex:1;"><i class="fas fa-times"></i> Cancel</button>`; }
         document.getElementById('od-actions').innerHTML = actHtml;
-        openModal('order-info-modal'); 
+        window.openModal('order-info-modal'); 
     };
 
     // 💡 REFUND LOGIC FIX IN ADMIN PANEL 💡
@@ -590,39 +581,38 @@
                             let currBal = uSnap.data().walletBalance || 0;
                             await updateDoc(doc(db, "users", ord.userId), { walletBalance: currBal + ord.price });
                             await addDoc(collection(db, "transactions"), { userId: ord.userId, type: 'Refund', amount: ord.price, desc: `Refund for Cancelled Order: ${ord.item}`, createdAt: serverTimestamp() });
-                            toast("Refunded " + ord.price + " Ks to user.");
+                            window.toast("Refunded " + ord.price + " Ks to user.");
                         }
                     }
                 }
             }
             await updateDoc(doc(db,"orders",id),{status:st}); 
-            if(fromDetail) { closeModal('order-info-modal'); }
+            if(fromDetail) { window.closeModal('order-info-modal'); }
         }
     };
 
-    // 💡 USER DETAILS & LEDGER LOGIC 💡
     window.showUserDetail = (uid) => {
-        let u = globalUsers.find(x => x.id === uid); if(!u) return toast("User not found");
+        let u = globalUsers.find(x => x.id === uid); if(!u) return window.toast("User not found");
         document.getElementById('ud-email').innerText = u.email;
         document.getElementById('ud-bal').innerText = (u.walletBalance||0).toLocaleString() + " Ks";
         document.getElementById('ud-spins').innerText = u.spinCount || 0;
-        document.getElementById('ud-edit-btn').onclick = () => { closeModal('user-info-modal'); openUserModal(u.id, u.walletBalance||0, u.role||'Customer', u.spinCount||0); };
+        document.getElementById('ud-edit-btn').onclick = () => { window.closeModal('user-info-modal'); openUserModal(u.id, u.walletBalance||0, u.role||'Customer', u.spinCount||0); };
 
         let uTrans = globalTransactions.filter(x => x.userId === uid);
         uTrans.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
         let lHtml = "";
         uTrans.forEach(t => {
             let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = t.amount >= 0 ? '+' : '';
-            lHtml += `<tr><td style="color:var(--muted);">${formatDate(t.createdAt)}</td><td><strong style="color:#fff;">${t.type}</strong></td><td>${t.desc}</td><td><strong style="color:${color}; font-size:14px;">${sign}${(t.amount||0).toLocaleString()} Ks</strong></td></tr>`;
+            lHtml += `<tr><td style="color:var(--muted);">${window.formatDate(t.createdAt)}</td><td><strong style="color:#fff;">${t.type}</strong></td><td>${t.desc}</td><td><strong style="color:${color}; font-size:14px;">${sign}${(t.amount||0).toLocaleString()} Ks</strong></td></tr>`;
         });
         document.getElementById('tb-user-ledger').innerHTML = lHtml || "<tr><td colspan='4' style='text-align:center; padding:20px;'>No ledger records found.</td></tr>";
-        openModal('user-info-modal'); 
+        window.openModal('user-info-modal'); 
     };
 
-    window.openUserModal = (id, bal, role, spins) => { document.getElementById('um-id').value=id; document.getElementById('um-wallet').value=bal; document.getElementById('um-spins').value=spins; document.getElementById('um-role').value=role; openModal('user-modal'); };
-    window.saveUserEdit = async () => { let id=document.getElementById('um-id').value; let b=parseInt(document.getElementById('um-wallet').value); let s=parseInt(document.getElementById('um-spins').value); let r=document.getElementById('um-role').value; if(!isNaN(b)){ await updateDoc(doc(db,"users",id),{walletBalance:b, spinCount:s, role:r}); toast("User Updated!"); closeModal('user-modal'); } };
+    window.openUserModal = (id, bal, role, spins) => { document.getElementById('um-id').value=id; document.getElementById('um-wallet').value=bal; document.getElementById('um-spins').value=spins; document.getElementById('um-role').value=role; window.openModal('user-modal'); };
+    window.saveUserEdit = async () => { let id=document.getElementById('um-id').value; let b=parseInt(document.getElementById('um-wallet').value); let s=parseInt(document.getElementById('um-spins').value); let r=document.getElementById('um-role').value; if(!isNaN(b)){ await updateDoc(doc(db,"users",id),{walletBalance:b, spinCount:s, role:r}); window.toast("User Updated!"); window.closeModal('user-modal'); } };
 
-    window.saveAllSettings = async () => { await setDoc(doc(db,"settings","app_config"), { tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value, homeBannerUrl: document.getElementById('inp-home-banner').value }, {merge:true}); toast("Settings Saved!"); };
+    window.saveAllSettings = async () => { await setDoc(doc(db,"settings","app_config"), { tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value, homeBannerUrl: document.getElementById('inp-home-banner').value }, {merge:true}); window.toast("Settings Saved!"); };
     
     // 💡 DEPOSIT APPROVAL (10000 Ks = 1 Spin Logic) 💡
     window.apprDep = async (id, uid, amt) => { 
@@ -635,12 +625,11 @@
             }); 
             await updateDoc(doc(db,"deposits",id),{status:'Completed'}); 
             await addDoc(collection(db,"transactions"),{userId:uid, type:'Deposit', amount:amt, desc:'Approved', createdAt:serverTimestamp()}); 
-            toast(`Approved! User got ${newSpins} spin ticket(s).`); 
+            window.toast(`Approved! User got ${newSpins} spin ticket(s).`); 
         } 
     };
     window.updDep = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"deposits",id),{status:st}); };
     
-    // 💡 WITHDRAWAL REJECT REFUND LOGIC 💡
     window.updWd = async (id, st, uid, amt) => { 
         if(confirm(`Confirm ${st}?`)){ 
             if(st==='Cancelled'&&uid&&amt){ 
@@ -648,18 +637,17 @@
                 await updateDoc(doc(db,"users",uid),{walletBalance:(u.data().walletBalance||0)+amt}); 
                 await addDoc(collection(db, "transactions"), { userId: uid, type: 'Refund', amount: amt, desc: `Rejected withdraw`, createdAt: serverTimestamp() });
             } 
-            await updateDoc(doc(db,"withdrawals",id),{status:st}); toast(`Done!`); 
+            await updateDoc(doc(db,"withdrawals",id),{status:st}); window.toast(`Done!`); 
         } 
     };
     
-    // 💡 DYNAMIC PLACEHOLDERS IN CATEGORY 💡
     window.openCatModal = (c=null) => { 
         document.getElementById('cm-id').value=c?c.id:''; document.getElementById('cm-name').value=c?c.name:''; document.getElementById('cm-slug').value=c?c.slug:''; 
         document.getElementById('cm-img-url').value=c?c.logoUrl:''; document.getElementById('cm-img-preview').src=c?c.logoUrl:''; document.getElementById('cm-img-preview').style.display=c&&c.logoUrl?'block':'none';
         let f=(c&&c.forms)?c.forms:[]; document.getElementById('cm-form-uid').checked=f.includes('gameId'); document.getElementById('cm-form-zone').checked=f.includes('zoneId'); 
         document.getElementById('cm-ph-uid').value=c&&c.uidPlaceholder ? c.uidPlaceholder : '';
         document.getElementById('cm-ph-zone').value=c&&c.zonePlaceholder ? c.zonePlaceholder : '';
-        document.getElementById('cm-title').innerText=c?"Edit Category":"New Category"; openModal('cat-modal'); 
+        document.getElementById('cm-title').innerText=c?"Edit Category":"New Category"; window.openModal('cat-modal'); 
     };
     window.saveCategory = async () => { 
         let id=document.getElementById('cm-id').value; let forms=[]; 
@@ -673,21 +661,21 @@
             isActive:true 
         }; 
         if(id) await updateDoc(doc(db,"categories",id),data); else await addDoc(collection(db,"categories"),data); 
-        closeModal('cat-modal'); toast("Category Saved!"); 
+        window.closeModal('cat-modal'); window.toast("Category Saved!"); 
     };
     
-    window.openProdModal = (p=null) => { document.getElementById('pm-id').value=p?p.id:''; document.getElementById('pm-name').value=p?p.name:''; document.getElementById('pm-cat').value=p?p.categoryId:''; document.getElementById('pm-cost').value=p?p.retailPrice:''; document.getElementById('pm-price').value=p?p.sellingPrice:''; document.getElementById('pm-img-url').value=p?p.logoUrl:''; document.getElementById('pm-img-preview').src=p?p.logoUrl:''; document.getElementById('pm-img-preview').style.display=p&&p.logoUrl?'block':'none'; document.getElementById('pm-title').innerText=p?"Edit Product":"New Product"; openModal('prod-modal'); };
-    window.saveProduct = async () => { let id=document.getElementById('pm-id').value; let data={ name:document.getElementById('pm-name').value, categoryId:document.getElementById('pm-cat').value, retailPrice:parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice:parseFloat(document.getElementById('pm-price').value)||0, logoUrl:document.getElementById('pm-img-url').value, isActive:true }; if(id) await updateDoc(doc(db,"products",id),data); else await addDoc(collection(db,"products"),data); closeModal('prod-modal'); toast("Product Saved!"); };
+    window.openProdModal = (p=null) => { document.getElementById('pm-id').value=p?p.id:''; document.getElementById('pm-name').value=p?p.name:''; document.getElementById('pm-cat').value=p?p.categoryId:''; document.getElementById('pm-cost').value=p?p.retailPrice:''; document.getElementById('pm-price').value=p?p.sellingPrice:''; document.getElementById('pm-img-url').value=p?p.logoUrl:''; document.getElementById('pm-img-preview').src=p?p.logoUrl:''; document.getElementById('pm-img-preview').style.display=p&&p.logoUrl?'block':'none'; document.getElementById('pm-title').innerText=p?"Edit Product":"New Product"; window.openModal('prod-modal'); };
+    window.saveProduct = async () => { let id=document.getElementById('pm-id').value; let data={ name:document.getElementById('pm-name').value, categoryId:document.getElementById('pm-cat').value, retailPrice:parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice:parseFloat(document.getElementById('pm-price').value)||0, logoUrl:document.getElementById('pm-img-url').value, isActive:true }; if(id) await updateDoc(doc(db,"products",id),data); else await addDoc(collection(db,"products"),data); window.closeModal('prod-modal'); window.toast("Product Saved!"); };
     
-    window.openPayModal = (p=null) => { document.getElementById('pay-id').value=p?p.id:''; document.getElementById('pay-name').value=p?p.name:''; document.getElementById('pay-phone').value=p?p.phone:''; document.getElementById('pay-acc').value=p?p.accName:''; document.getElementById('pay-qr-url').value=p?p.qrUrl:''; document.getElementById('pay-qr-preview').src=p?p.qrUrl:''; document.getElementById('pay-qr-preview').style.display=p&&p.qrUrl?'block':'none'; openModal('pay-modal'); };
-    window.savePayment = async () => { let id=document.getElementById('pay-id').value; let data={name:document.getElementById('pay-name').value, phone:document.getElementById('pay-phone').value, accName:document.getElementById('pay-acc').value, qrUrl:document.getElementById('pay-qr-url').value}; if(id) await updateDoc(doc(db,"payment_methods",id),data); else await addDoc(collection(db,"payment_methods"),data); closeModal('pay-modal'); toast("Payment Method Saved!"); };
+    window.openPayModal = (p=null) => { document.getElementById('pay-id').value=p?p.id:''; document.getElementById('pay-name').value=p?p.name:''; document.getElementById('pay-phone').value=p?p.phone:''; document.getElementById('pay-acc').value=p?p.accName:''; document.getElementById('pay-qr-url').value=p?p.qrUrl:''; document.getElementById('pay-qr-preview').src=p?p.qrUrl:''; document.getElementById('pay-qr-preview').style.display=p&&p.qrUrl?'block':'none'; window.openModal('pay-modal'); };
+    window.savePayment = async () => { let id=document.getElementById('pay-id').value; let data={name:document.getElementById('pay-name').value, phone:document.getElementById('pay-phone').value, accName:document.getElementById('pay-acc').value, qrUrl:document.getElementById('pay-qr-url').value}; if(id) await updateDoc(doc(db,"payment_methods",id),data); else await addDoc(collection(db,"payment_methods"),data); window.closeModal('pay-modal'); window.toast("Payment Method Saved!"); };
     
-    window.openPromoModal = () => { document.getElementById('promo-code').value=''; document.getElementById('promo-amt').value=''; openModal('promo-modal'); };
-    window.savePromo = async () => { let c=document.getElementById('promo-code').value.toUpperCase(); let a=parseInt(document.getElementById('promo-amt').value); if(c&&a){ await addDoc(collection(db,"promo_codes"),{code:c, discount:a}); closeModal('promo-modal'); toast("Promo Saved!"); } };
+    window.openPromoModal = () => { document.getElementById('promo-code').value=''; document.getElementById('promo-amt').value=''; window.openModal('promo-modal'); };
+    window.savePromo = async () => { let c=document.getElementById('promo-code').value.toUpperCase(); let a=parseInt(document.getElementById('promo-amt').value); if(c&&a){ await addDoc(collection(db,"promo_codes"),{code:c, discount:a}); window.closeModal('promo-modal'); window.toast("Promo Saved!"); } };
 
-    // 💡 GUIDE MODAL 💡
-    window.openGuideModal = (g=null) => { document.getElementById('gm-id').value=g?g.id:''; document.getElementById('gm-title-inp').value=g?g.title:''; document.getElementById('gm-content').value=g?g.content:''; document.getElementById('gm-video').value=g?g.videoUrl:''; document.getElementById('gm-title').innerText=g?"Edit Guide":"New Guide"; openModal('guide-modal'); };
-    window.saveGuide = async () => { let id = document.getElementById('gm-id').value; let data = { title: document.getElementById('gm-title-inp').value, content: document.getElementById('gm-content').value, videoUrl: document.getElementById('gm-video').value, createdAt: serverTimestamp() }; if(id) await updateDoc(doc(db,"guides",id), data); else await addDoc(collection(db,"guides"), data); closeModal('guide-modal'); toast("Guide Saved!"); };
+    window.openGuideModal = (g=null) => { document.getElementById('gm-id').value=g?g.id:''; document.getElementById('gm-title-inp').value=g?g.title:''; document.getElementById('gm-content').value=g?g.content:''; document.getElementById('gm-video').value=g?g.videoUrl:''; document.getElementById('gm-title').innerText=g?"Edit Guide":"New Guide"; window.openModal('guide-modal'); };
+    window.saveGuide = async () => { let id = document.getElementById('gm-id').value; let data = { title: document.getElementById('gm-title-inp').value, content: document.getElementById('gm-content').value, videoUrl: document.getElementById('gm-video').value, createdAt: serverTimestamp() }; if(id) await updateDoc(doc(db,"guides",id), data); else await addDoc(collection(db,"guides"), data); window.closeModal('guide-modal'); window.toast("Guide Saved!"); };
 </script>
 </body>
 </html>
+
