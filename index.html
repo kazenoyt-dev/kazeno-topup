@@ -7,108 +7,86 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
-  /* 🌗 Theme Variables */
   :root {
       --bg: #030308; --text: #ffffff; --muted: #a1a1aa; 
       --primary: #8b5cf6; --accent: #0ea5e9; --ok: #10b981; --danger: #ef4444; --warning: #f59e0b;
-      
-      /* 💧 True Liquid Glass Variables */
-      --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+      --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
       --glass-border: rgba(255, 255, 255, 0.15); 
-      --glass-highlight: rgba(255, 255, 255, 0.4); /* Shiny edge */
-      --glass-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
-      --nav-bg: rgba(5, 5, 12, 0.6);
+      --glass-highlight: rgba(255, 255, 255, 0.3);
+      --glass-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.03);
+      --nav-bg: rgba(5, 5, 12, 0.7);
   }
   
   [data-theme="light"] {
       --bg: #f8fafc; --text: #0f172a; --muted: #64748b; 
       --primary: #7e22ce; --accent: #0369a1;
-      --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.5) 100%);
-      --glass-border: rgba(255, 255, 255, 0.8); 
-      --glass-highlight: #ffffff;
+      --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%);
+      --glass-border: rgba(255, 255, 255, 0.8); --glass-highlight: #ffffff;
       --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.1), inset 0 0 20px rgba(255,255,255,0.8);
-      --nav-bg: rgba(255, 255, 255, 0.6);
+      --nav-bg: rgba(255, 255, 255, 0.7);
   }
 
   *{box-sizing:border-box; outline:none; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
-  body{font-family:'Poppins', sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; transition: background 0.4s ease, color 0.4s ease;}
+  body{font-family:'Poppins', sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; transition: background 0.4s ease;}
   
   /* 🌊 LIQUID AURORA BACKGROUND */
-  .liquid-bg { position: fixed; inset: 0; z-index: -3; background: radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.35), transparent 50%), radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.35), transparent 50%), radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.25), transparent 50%); filter: blur(60px); animation: liquidFlow 15s infinite alternate ease-in-out; }
+  .liquid-bg { position: fixed; inset: 0; z-index: -3; background: radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.25), transparent 50%), radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.25), transparent 50%), radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.15), transparent 50%); filter: blur(60px); animation: liquidFlow 15s infinite alternate ease-in-out; }
   @keyframes liquidFlow { 0% { transform: scale(1) translate(0, 0); } 50% { transform: scale(1.1) translate(5%, 5%); } 100% { transform: scale(1) translate(-5%, -5%); } }
-  .bg-depth { position: fixed; inset: 0; background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMiIvPjwvc3ZnPg=='); z-index: -2; opacity: 0.5; pointer-events: none; }
 
-  .app-container{max-width:480px; margin:0 auto; min-height:100vh; position:relative; padding-bottom:90px;}
+  .app-container{max-width:480px; margin:0 auto; min-height:100vh; position:relative; padding-bottom:100px;}
   
-  /* 🧊 TRUE LIQUID GLASS CARDS */
+  /* 🧊 TRUE LIQUID GLASS */
   .glass-card {
       background: var(--glass-bg); 
       backdrop-filter: blur(30px) saturate(150%); -webkit-backdrop-filter: blur(30px) saturate(150%);
       border: 1px solid var(--glass-border);
-      border-top: 1px solid var(--glass-highlight);
-      border-left: 1px solid var(--glass-highlight);
+      border-top: 1px solid var(--glass-highlight); border-left: 1px solid var(--glass-highlight);
       box-shadow: var(--glass-shadow); 
-      border-radius: 24px;
-      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
+      border-radius: 20px; transition: 0.3s;
   }
+
+  /* 💎 TINTED GLASS FOR LISTS (No more ugly side borders) */
+  .glass-tint-ok { background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(16,185,129,0.02)); border-color: rgba(16,185,129,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(16,185,129,0.1); }
+  .glass-tint-warn { background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.02)); border-color: rgba(245,158,11,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(245,158,11,0.1); }
+  .glass-tint-danger { background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(239,68,68,0.02)); border-color: rgba(239,68,68,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(239,68,68,0.1); }
   
-  .page, #auth-screen{display:none; padding:16px; padding-bottom:130px; animation:fadeInSlide 0.4s ease-out forwards;}
+  .page, #auth-screen{display:none; padding:16px; animation:fadeInSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
   .page.active, #auth-screen.active{display:block;}
   @keyframes fadeInSlide { from {opacity:0; transform:translateY(15px) scale(0.98);} to {opacity:1; transform:translateY(0) scale(1);}}
 
-  /* 🕳️ RECESSED GLASS INPUTS */
-  .glass-input {
-      width: 100%; font-family: 'Poppins'; font-size: 14px; padding: 16px; border-radius: 16px; margin-bottom: 15px; transition: 0.3s;
-      background: rgba(0, 0, 0, 0.25); color: var(--text);
-      border: 1px solid var(--glass-border);
-      border-top: 1px solid rgba(0,0,0,0.4);
-      box-shadow: inset 0 4px 10px rgba(0,0,0,0.3);
-      backdrop-filter: blur(10px);
-  }
-  .glass-input:focus { border-color: var(--accent); box-shadow: inset 0 4px 10px rgba(0,0,0,0.3), 0 0 15px rgba(14, 165, 233, 0.4); background: rgba(0, 0, 0, 0.4); }
-  [data-theme="light"] .glass-input { background: rgba(255, 255, 255, 0.5); border-top: 1px solid rgba(0,0,0,0.1); box-shadow: inset 0 4px 10px rgba(0,0,0,0.05); }
+  .glass-input { width: 100%; font-family: 'Poppins'; font-size: 14px; padding: 16px; border-radius: 16px; margin-bottom: 15px; transition: 0.3s; background: rgba(0, 0, 0, 0.25); color: var(--text); border: 1px solid var(--glass-border); border-top: 1px solid rgba(0,0,0,0.4); box-shadow: inset 0 4px 10px rgba(0,0,0,0.3); backdrop-filter: blur(10px); }
+  .glass-input:focus { border-color: var(--accent); box-shadow: inset 0 4px 10px rgba(0,0,0,0.3), 0 0 15px rgba(14, 165, 233, 0.3); background: rgba(0, 0, 0, 0.4); }
 
-  /* 🍬 GEL BUTTONS */
-  .btn-gel {
-      background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%), linear-gradient(135deg, var(--accent), var(--primary));
-      color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 16px 20px; border-radius: 18px; font-weight: 700; width: 100%; font-family: 'Poppins'; cursor: pointer; transition: 0.3s;
-      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5), inset 0 2px 5px rgba(255,255,255,0.5);
-  }
-  .btn-gel:active { transform: scale(0.94); box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4), inset 0 2px 5px rgba(255,255,255,0.5); } 
-  .btn-gel:disabled { background: rgba(128,128,128,0.3); border-color: transparent; color: var(--muted); box-shadow: none; cursor: not-allowed; transform: none; }
+  .btn-gel { background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%), linear-gradient(135deg, var(--accent), var(--primary)); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 16px 20px; border-radius: 16px; font-weight: 700; width: 100%; font-family: 'Poppins'; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4), inset 0 2px 5px rgba(255,255,255,0.5); }
+  .btn-gel:active { transform: scale(0.95); } .btn-gel:disabled { background: rgba(128,128,128,0.3); border-color: transparent; color: var(--muted); box-shadow: none; cursor: not-allowed; }
   
-  .toast{position:fixed; top:-100px; left:50%; transform:translateX(-50%); background:var(--ok); color:#fff; padding:14px 28px; border-radius:999px; font-weight:800; font-size:13px; opacity:0; transition:0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index:9999; box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4); border:1px solid rgba(255,255,255,0.3);}
+  .toast{position:fixed; top:-100px; left:50%; transform:translateX(-50%); background:var(--ok); color:#fff; padding:12px 24px; border-radius:999px; font-weight:800; font-size:13px; opacity:0; transition:0.5s; z-index:9999; box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4); border:1px solid rgba(255,255,255,0.3);}
   .toast.show{opacity:1; top:30px;}
   
-  .top-action-btn { background:var(--glass-bg); border:1px solid var(--glass-border); border-top:1px solid var(--glass-highlight); color:var(--text); border-radius:999px; padding:8px 14px; font-size:12px; font-weight:bold; cursor:pointer; display:flex; align-items:center; gap:6px; backdrop-filter: blur(15px); transition: 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
-  .top-action-btn:active { transform: scale(0.9); }
+  /* Compact Top Bar */
+  .compact-header { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; margin-bottom:15px; border-radius:18px; }
+  .compact-wallet { display:flex; align-items:center; gap:10px; cursor:pointer; }
+  .top-action-btn { background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); color:var(--text); border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition: 0.2s; backdrop-filter:blur(10px);}
   
-  .wallet-card { padding:20px; display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; position: relative; overflow: hidden; border-radius: 24px;}
-  .wallet-card::before { content: ''; position: absolute; top: -50px; right: -20px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(16,185,129,0.2), transparent); filter: blur(20px); z-index:-1;}
-
-  /* Games Grid/List */
-  .game-container { transition: 0.3s; }
-  .game-container.list-view .game-card { padding:14px; display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; cursor: pointer; border-radius: 20px;}
-  .game-container.list-view .game-img { width:50px; height:50px; border-radius:14px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.3);}
-  
-  .game-container.grid-view { display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; }
-  .game-container.grid-view .game-card { padding:18px; display:flex; flex-direction:column; align-items:center; text-align:center; margin-bottom:0; cursor: pointer; border-radius: 24px;}
+  .game-container.grid-view { display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; }
+  .game-container.grid-view .game-card { padding:18px; display:flex; flex-direction:column; align-items:center; text-align:center; cursor: pointer; border-radius: 24px;}
   .game-container.grid-view .game-img { width:80px; height:80px; border-radius:20px; margin-bottom:12px; object-fit: cover; box-shadow: 0 8px 25px rgba(0,0,0,0.4);}
-  .game-container.grid-view .buy-btn { width:100%; margin-top:12px; text-align:center; }
   .game-card:active { transform: scale(0.96); border-color: var(--accent); }
 
-  .buy-btn{background:linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.05)); color:var(--ok); border: 1px solid rgba(16,185,129,0.4); padding:8px 20px; border-radius:12px; font-size:13px; font-weight:700;}
+  /* Payment Tabs */
+  .pay-tabs { display:flex; background:rgba(0,0,0,0.3); border-radius:14px; padding:5px; margin-bottom:20px; border:1px solid var(--glass-border); }
+  .pay-tab { flex:1; text-align:center; padding:12px; font-size:13px; font-weight:700; color:var(--muted); border-radius:10px; cursor:pointer; transition:0.3s; }
+  .pay-tab.active { background:var(--glass-highlight); color:#fff; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+  .pay-view { display:none; animation:fadeInSlide 0.3s forwards; } .pay-view.active { display:block; }
+  .dyn-pay-card { background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 16px; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; display:flex; justify-content:space-between; align-items:center;}
+  .dyn-pay-card.selected { border-color: var(--ok); background: rgba(16, 185, 129, 0.15); box-shadow:inset 0 0 15px rgba(16,185,129,0.2);}
 
-  .fab { position: fixed; bottom: 100px; right: 20px; width: 55px; height: 55px; border-radius: 50%; background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; display: flex; justify-content: center; align-items: center; font-size: 24px; box-shadow: 0 10px 30px rgba(14, 165, 233, 0.5), inset 0 2px 5px rgba(255,255,255,0.5); cursor: pointer; z-index: 1000; transition: 0.2s; border: 1px solid rgba(255,255,255,0.4); }
-  .fab:active { transform: scale(0.9); }
-
-  /* 💎 BEAUTIFUL PACKAGE GRID */
-  .pack-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; margin-bottom:25px; }
-  .pack-card { padding:20px 10px; cursor:pointer; text-align:center; border:2px solid transparent; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 20px;}
-  .pack-card.selected { border-color:var(--accent); background:rgba(14, 165, 233, 0.15); box-shadow:0 10px 30px rgba(14, 165, 233, 0.3), inset 0 0 15px rgba(14, 165, 233, 0.2); transform: translateY(-5px); border-top: 2px solid rgba(255,255,255,0.5);}
+  .pack-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:25px; }
+  .pack-card { padding:20px 10px; cursor:pointer; text-align:center; border:2px solid transparent; transition: 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 20px;}
+  .pack-card.selected { border-color:var(--accent); background:rgba(14, 165, 233, 0.15); box-shadow:0 10px 30px rgba(14, 165, 233, 0.2), inset 0 0 15px rgba(14, 165, 233, 0.1); transform: translateY(-5px); border-top: 2px solid rgba(255,255,255,0.5);}
 
   /* Floating Bottom Nav */
-  .main-nav { position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto 15px; width: calc(100% - 30px); display:flex; justify-content:space-around; background: var(--nav-bg); backdrop-filter:blur(30px) saturate(150%); -webkit-backdrop-filter:blur(30px) saturate(150%); border:1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 999px; padding:12px 10px max(12px,env(safe-area-inset-bottom)); z-index:90; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
+  .main-nav { position:fixed; bottom:15px; left:15px; right:15px; max-width:450px; margin:0 auto; display:flex; justify-content:space-around; background: var(--nav-bg); backdrop-filter:blur(30px) saturate(150%); -webkit-backdrop-filter:blur(30px) saturate(150%); border:1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 999px; padding:12px 10px max(12px,env(safe-area-inset-bottom)); z-index:90; box-shadow: 0 20px 40px rgba(0,0,0,0.7); }
   .nav-btn{flex:1; background:transparent; border:none; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; transition: 0.3s;}
   .nav-btn.active{color:var(--accent); text-shadow: 0 0 15px rgba(14,165,233,0.6);} 
   .nav-btn.active i { transform: scale(1.15) translateY(-2px); color: var(--accent); }
@@ -117,193 +95,199 @@
   .modal-overlay.active { display:flex; opacity:1; }
   .modal-box { width:100%; max-width:400px; padding:24px; border-radius:28px; position:relative; transform:scale(0.95) translateY(20px); transition:0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
   .modal-overlay.active .modal-box { transform:scale(1) translateY(0); }
+
+  /* Guide Videos */
+  .guide-card { margin-bottom: 20px; border-radius: 20px; overflow: hidden; }
+  .guide-card iframe { width: 100%; height: 200px; border: none; }
 </style>
 </head>
 <body data-theme="dark">
 <div class="liquid-bg"></div>
-<div class="bg-depth"></div>
 
 <div id="toast" class="toast">Message</div>
-
-<div class="fab" onclick="window.open('https://t.me/kazeno_support', '_blank')">
-    <i class="fab fa-telegram-plane"></i>
-</div>
 
 <div id="auth-screen" class="modal-overlay">
     <div class="glass-card auth-box modal-box" style="margin-top:0; border:1px solid var(--accent);">
         <div style="text-align:left; margin-bottom:15px; cursor:pointer; color:var(--muted); font-size:13px;" onclick="closeAuthScreen()"><i class="fas fa-arrow-left"></i> <span data-i18n="back_shop">ဆိုင်သို့ ပြန်သွားမည်</span></div>
-        <div style="width:80px; height:80px; background:linear-gradient(135deg, var(--accent), var(--primary)); border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:40px; color:#fff; margin:0 auto 20px; box-shadow:0 15px 30px rgba(139,92,246,0.4), inset 0 2px 10px rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.4);">K</div>
+        <div style="width:80px; height:80px; background:linear-gradient(135deg, var(--accent), var(--primary)); border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:40px; color:#fff; margin:0 auto 20px; box-shadow:0 15px 30px rgba(139,92,246,0.4), inset 0 2px 10px rgba(255,255,255,0.5);">K</div>
         <div style="font-size:24px; font-weight:800; margin-bottom:30px; color:var(--text);" data-i18n="pls_login">ကျေးဇူးပြု၍ အကောင့်ဝင်ပါ</div>
-        
         <input type="email" id="auth-email" class="glass-input" data-i18n-ph="email_ph" placeholder="အီးမေးလ်">
         <input type="password" id="auth-password" class="glass-input" data-i18n-ph="pass_ph" placeholder="စကားဝှက်">
-        <div id="ref-container" style="display:none;">
-            <div style="font-size:11px; color:var(--muted); text-align:left; margin-bottom:5px; margin-left:5px;" data-i18n="ref_opt">ဖိတ်ခေါ်ကုဒ် (ရွေးချယ်ရန်)</div>
-            <input type="text" id="auth-ref" class="glass-input" style="text-transform:uppercase;" placeholder="e.g. A1B2C">
-        </div>
+        <div id="ref-container" style="display:none;"><input type="text" id="auth-ref" class="glass-input" style="text-transform:uppercase;" placeholder="Referral Code"></div>
         <button class="btn-gel" id="auth-btn" onclick="handleAuth()" data-i18n="login_btn">အကောင့်ဝင်မည်</button>
-        <div style="font-size:13px; color:var(--muted); cursor:pointer; margin-top:25px; transition:0.2s;" onclick="toggleAuthMode()" id="auth-toggle" data-i18n="go_signup">အကောင့်မရှိသေးဘူးလား? အသစ်ဖွင့်မည်</div>
-        <div style="font-size:12px; color:var(--accent); cursor:pointer; margin-top:15px; font-weight:600;" onclick="resetPassword()" data-i18n="forgot_pass">စကားဝှက်မေ့နေပါသလား?</div>
+        <div style="font-size:13px; color:var(--muted); cursor:pointer; margin-top:25px;" onclick="toggleAuthMode()" id="auth-toggle" data-i18n="go_signup">အကောင့်မရှိသေးဘူးလား? အသစ်ဖွင့်မည်</div>
     </div>
 </div>
 
 <div id="main-app" class="app-container active">
 
     <div id="page-home" class="page active">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-            <div style="font-weight:800; font-size:26px; background:linear-gradient(135deg, #fff, var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 2px 10px rgba(14,165,233,0.4));">Kazeno</div>
-            <div style="display:flex; gap:10px;">
-                <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn"><i class="fas fa-moon"></i></button>
-                <button class="top-action-btn" onclick="toggleLang()" id="langBtn">🇲🇲 MY</button>
-                <button class="top-action-btn" onclick="toggleView()" id="viewBtn"><i class="fas fa-th-large"></i></button>
+        <div class="glass-card compact-header">
+            <div class="compact-wallet" onclick="checkAuthAndGo('page-profile')">
+                <div style="width:36px; height:36px; border-radius:12px; background:rgba(16,185,129,0.2); display:flex; align-items:center; justify-content:center; border:1px solid rgba(16,185,129,0.4);"><i class="fas fa-wallet text-ok"></i></div>
+                <div>
+                    <div style="font-size:10px; color:var(--muted);" data-i18n="wallet">လက်ကျန်ငွေ</div>
+                    <div style="font-size:14px; font-weight:bold; color:var(--text);" id="home-wallet">Login...</div>
+                </div>
             </div>
-        </div>
-        <div class="glass-card wallet-card">
-            <div>
-                <div style="font-size:11px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:1px;" data-i18n="wallet">ပိုက်ဆံအိတ်</div>
-                <div style="font-size:22px; font-weight:800; color:var(--ok); text-shadow: 0 0 15px rgba(16,185,129,0.4);" id="home-wallet" onclick="checkAuthAndGo('page-profile')">Login Required</div>
-            </div>
-            <div class="top-action-btn" style="width:45px; height:45px; justify-content:center; border-radius:14px;" onclick="checkAuthAndGo('page-notifications')">
-                <i class="fas fa-bell" style="font-size:18px;"></i> <span id="bell-count" style="color:var(--danger); display:none; position:absolute; top:8px; right:10px; font-size:10px;">●</span>
+            <div style="display:flex; gap:8px;">
+                <div class="top-action-btn" onclick="toggleLang()" id="langBtn">MY</div>
+                <div class="top-action-btn" onclick="checkAuthAndGo('page-notifications')" style="position:relative;">
+                    <i class="fas fa-bell"></i><span id="bell-count" style="display:none; position:absolute; top:8px; right:8px; width:6px; height:6px; background:var(--danger); border-radius:50%;"></span>
+                </div>
             </div>
         </div>
         
-        <img id="dyn-home-banner" src="https://img.freepik.com/free-vector/neon-gaming-youtube-channel-art_23-2148154817.jpg" style="width:100%; height:180px; object-fit:cover; border-radius:24px; margin-bottom:20px; display:block; border:1px solid var(--glass-highlight); box-shadow: var(--glass-shadow);">
+        <img id="dyn-home-banner" src="https://img.freepik.com/free-vector/neon-gaming-youtube-channel-art_23-2148154817.jpg" style="width:100%; height:180px; object-fit:cover; border-radius:24px; margin-bottom:20px; box-shadow: var(--glass-shadow);">
         
-        <div class="glass-card" style="display:flex; align-items:center; gap:12px; padding:14px 18px; margin-bottom:24px; border-radius:18px;">
-            <i class="fas fa-search" style="color:var(--accent); font-size:18px;"></i>
-            <input type="text" id="gameSearch" placeholder="Search games..." style="background:transparent; border:none; color:var(--text); font-family:'Poppins'; font-size:15px; width:100%;" onkeyup="searchGames()">
-        </div>
-
-        <div id="dyn-game-list" class="game-container list-view"><div style="text-align:center; padding:20px; color:var(--muted);" data-i18n="loading">စောင့်ဆိုင်းပါ...</div></div>
+        <div id="dyn-game-list" class="game-container grid-view"><div style="text-align:center; padding:20px; color:var(--muted);" data-i18n="loading">စောင့်ဆိုင်းပါ...</div></div>
     </div>
 
     <div id="page-detail" class="page" style="padding-top:0;">
-        <div class="top-action-btn" style="position:absolute; top:15px; left:15px; z-index:10; width:45px; height:45px; justify-content:center; border-radius:16px; background:rgba(0,0,0,0.5); backdrop-filter:blur(20px);" onclick="navTo('page-home')"><i class="fas fa-arrow-left text-lg"></i></div>
-        <img id="detail-banner" style="width:100%; height:240px; object-fit:cover; margin:-16px -16px 20px -16px; width:calc(100% + 32px); border-radius:0 0 30px 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" src="">
-        <div style="font-weight:800; font-size:24px; margin-bottom:25px; text-shadow: 0 4px 10px rgba(0,0,0,0.5);" id="detail-game-title">Title</div>
+        <div class="top-action-btn" style="position:absolute; top:15px; left:15px; z-index:10; background:rgba(0,0,0,0.5);" onclick="navBack()"><i class="fas fa-arrow-left"></i></div>
+        <img id="detail-banner" style="width:100%; height:220px; object-fit:cover; margin:-16px -16px 20px -16px; width:calc(100% + 32px); border-radius:0 0 30px 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" src="">
+        <div style="font-weight:800; font-size:24px; margin-bottom:25px;" id="detail-game-title">Title</div>
         
-        <div style="font-size:14px; font-weight:700; margin-bottom:15px; color:var(--accent); display:flex; align-items:center; gap:10px;"><span style="background:linear-gradient(135deg, var(--accent), var(--primary)); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; box-shadow:0 4px 10px rgba(14,165,233,0.4);">1</span> <span data-i18n="step1">အကောင့်အချက်အလက် ထည့်ပါ</span></div>
+        <div style="font-size:13px; font-weight:700; margin-bottom:15px; color:var(--accent);"><i class="fas fa-id-card mr-2"></i> <span data-i18n="step1">အကောင့်အချက်အလက် ထည့်ပါ</span></div>
         <div id="dyn-form-inputs" style="display:flex; gap:12px; margin-bottom:30px; flex-wrap:wrap;"></div>
 
-        <div style="font-size:14px; font-weight:700; margin-bottom:15px; color:var(--accent); display:flex; align-items:center; gap:10px;"><span style="background:linear-gradient(135deg, var(--accent), var(--primary)); color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; box-shadow:0 4px 10px rgba(14,165,233,0.4);">2</span> <span data-i18n="step2">ပစ္စည်းရွေးချယ်ပါ</span></div>
+        <div style="font-size:13px; font-weight:700; margin-bottom:15px; color:var(--accent);"><i class="fas fa-gem mr-2"></i> <span data-i18n="step2">ပစ္စည်းရွေးချယ်ပါ</span></div>
         <div class="pack-grid" id="pack-container"></div>
 
-        <div class="glass-card" style="position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; padding:20px 20px max(20px,env(safe-area-inset-bottom)); z-index:100; display:flex; justify-content:space-between; align-items:center; border-radius:30px 30px 0 0; border-bottom:none;">
-            <div><div style="font-size:12px; color:var(--muted); font-weight:600; text-transform:uppercase;" data-i18n="total">စုစုပေါင်း</div><div style="font-size:24px; font-weight:800; color:var(--accent); text-shadow: 0 0 15px rgba(14,165,233,0.4);" id="display-total">0 Ks</div></div>
-            <button class="btn-gel" style="width:auto; padding:16px 40px; border-radius:20px; font-size:15px;" id="btn-submit" disabled onclick="submitOrder()" data-i18n="pay_now">ဝယ်ယူမည်</button>
+        <div style="font-size:13px; font-weight:700; margin-bottom:15px; color:var(--accent);"><i class="fas fa-money-check-alt mr-2"></i> <span data-i18n="step3">ငွေပေးချေမည့်နည်းလမ်း</span></div>
+        <div class="pay-tabs">
+            <div class="pay-tab active" onclick="switchPayTab('wallet', this)" data-i18n="wallet">ပိုက်ဆံအိတ်</div>
+            <div class="pay-tab" onclick="switchPayTab('slip', this)" data-i18n="bank_tr">ငွေလွှဲပြေစာ</div>
+        </div>
+
+        <div id="pay-wallet" class="pay-view active glass-card" style="padding:15px; display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+            <div style="font-size:12px; color:var(--muted);" data-i18n="avail_bal">လက်ကျန်ငွေ</div>
+            <div style="font-size:18px; font-weight:800; color:var(--ok);" id="detail-wallet-bal">0 Ks</div>
+        </div>
+
+        <div id="pay-slip" class="pay-view" style="margin-bottom:25px;">
+            <div id="chk-dyn-payments">Loading methods...</div>
+            <input type="hidden" id="selected-pay-method" value="">
+            <label for="order-file" class="glass-card" style="display:block; border:2px dashed var(--glass-highlight); padding:20px; text-align:center; cursor:pointer;">
+                <div id="upload-placeholder" style="font-size:13px; font-weight:700; color:var(--accent);"><i class="fas fa-cloud-upload-alt text-2xl mb-2 block"></i><br><span data-i18n="up_slip">+ ငွေလွှဲပြေစာ ပုံတင်ရန်</span></div>
+                <img id="preview-img" style="width:100%; border-radius:12px; display:none; margin-top:10px;">
+                <input type="file" id="order-file" style="display:none;" accept="image/*" onchange="handleOrderUpload(this)">
+            </label>
+        </div>
+
+        <div class="glass-card" style="position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; padding:20px; z-index:100; display:flex; justify-content:space-between; align-items:center; border-radius:30px 30px 0 0; border-bottom:none;">
+            <div><div style="font-size:12px; color:var(--muted); font-weight:600;" data-i18n="total">စုစုပေါင်း</div><div style="font-size:24px; font-weight:800; color:var(--accent);" id="display-total">0 Ks</div></div>
+            <button class="btn-gel" style="width:auto; padding:16px 40px; border-radius:20px;" id="btn-submit" disabled onclick="submitOrder()" data-i18n="pay_now">ဝယ်ယူမည်</button>
         </div>
     </div>
 
     <div id="page-profile" class="page">
         <h2 style="margin-bottom:20px; font-weight:800; font-size:24px;" data-i18n="profile">ပရိုဖိုင်</h2>
-        <div class="glass-card" style="padding:30px 20px; text-align:center; margin-bottom:25px; overflow:hidden;">
-            <div style="position:absolute; top:-30px; right:-30px; width:150px; height:150px; background:var(--primary); filter:blur(50px); opacity:0.3; border-radius:50%;"></div>
+        <div class="glass-card" style="padding:30px 20px; text-align:center; margin-bottom:25px;">
+            <div style="width:80px; height:80px; background:linear-gradient(135deg, var(--accent), var(--primary)); color:#fff; border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:35px; font-weight:bold; margin:0 auto 15px;">👤</div>
+            <div style="font-size:18px; font-weight:bold;" id="prof-email">--</div>
+            <div style="font-size:12px; color:var(--accent); font-weight:700; margin-bottom:25px;" id="prof-role">Customer</div>
             
-            <div style="width:80px; height:80px; background:linear-gradient(135deg, var(--accent), var(--primary)); color:#fff; border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:35px; font-weight:bold; margin:0 auto 15px; box-shadow:0 10px 25px rgba(138,43,226,0.4), inset 0 2px 5px rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.3);">👤</div>
-            <div style="font-size:18px; font-weight:bold; margin-bottom:2px;" id="prof-email">--</div>
-            <div style="font-size:12px; color:var(--accent); font-weight:700; text-transform:uppercase; margin-bottom:25px; letter-spacing:1.5px;" id="prof-role">Customer</div>
-            
-            <div style="font-size:13px; color:var(--muted); font-weight:600; text-transform:uppercase;" data-i18n="my_wallet">လက်ကျန်ငွေ</div>
-            <div style="font-size:36px; font-weight:800; color:var(--ok); margin-bottom:30px; text-shadow: 0 0 20px rgba(16,185,129,0.4);" id="prof-wallet">0 Ks</div>
-            
+            <div style="font-size:13px; color:var(--muted); font-weight:600;" data-i18n="my_wallet">လက်ကျန်ငွေ</div>
+            <div style="font-size:36px; font-weight:800; color:var(--ok); margin-bottom:30px;" id="prof-wallet">0 Ks</div>
             <div style="display:flex; gap:15px;">
-                <button class="btn-gel" style="flex:1; padding:14px; font-size:14px;" onclick="navTo('page-deposit')"><i class="fas fa-arrow-down mr-2"></i> <span data-i18n="topup">ငွေသွင်း</span></button>
-                <button class="btn-gel" style="flex:1; padding:14px; font-size:14px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.4); color:var(--danger); box-shadow:none;" onclick="navTo('page-withdraw')"><i class="fas fa-arrow-up mr-2"></i> <span data-i18n="withdraw">ငွေထုတ်</span></button>
+                <button class="btn-gel" style="flex:1;" onclick="navTo('page-deposit')"><i class="fas fa-arrow-down mr-2"></i> <span data-i18n="topup">ငွေသွင်း</span></button>
+                <button class="btn-gel" style="flex:1; background:rgba(239,68,68,0.1); border-color:rgba(239,68,68,0.4); color:var(--danger); box-shadow:none;" onclick="navTo('page-withdraw')"><i class="fas fa-arrow-up mr-2"></i> <span data-i18n="withdraw">ငွေထုတ်</span></button>
             </div>
         </div>
         
-        <h3 style="font-size:14px; color:var(--muted); margin-bottom:15px; font-weight:700; text-transform:uppercase; letter-spacing:1px;" data-i18n="menu">မီနူး</h3>
-        <div class="glass-card" style="padding:18px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="navTo('page-spin')">
-            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(245,158,11,0.15); color:var(--warning); display:flex; justify-content:center; align-items:center; font-size:20px; border:1px solid rgba(245,158,11,0.3);"><i class="fas fa-gift"></i></div><strong style="color:var(--text); font-weight:600; font-size:15px;" data-i18n="spin">ကံစမ်းမဲ</strong></div>
-            <i class="fas fa-chevron-right text-muted" style="color:var(--muted);"></i>
+        <div class="glass-card" style="padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="navTo('page-spin')">
+            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(245,158,11,0.15); color:var(--warning); display:flex; justify-content:center; align-items:center;"><i class="fas fa-gift"></i></div><strong style="font-weight:600;" data-i18n="spin">ကံစမ်းမဲ</strong></div>
+            <i class="fas fa-chevron-right text-muted"></i>
         </div>
-        <div class="glass-card" style="padding:18px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="navTo('page-ledger')">
-            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(14,165,233,0.15); color:var(--accent); display:flex; justify-content:center; align-items:center; font-size:20px; border:1px solid rgba(14,165,233,0.3);"><i class="fas fa-book"></i></div><strong style="color:var(--text); font-weight:600; font-size:15px;" data-i18n="ledger">ပိုက်ဆံအိတ် မှတ်တမ်း</strong></div>
-            <i class="fas fa-chevron-right text-muted" style="color:var(--muted);"></i>
+        <div class="glass-card" style="padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="navTo('page-guide')">
+            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(16,185,129,0.15); color:var(--ok); display:flex; justify-content:center; align-items:center;"><i class="fas fa-book-open"></i></div><strong style="font-weight:600;" data-i18n="guide">အသုံးပြုနည်း လမ်းညွှန်</strong></div>
+            <i class="fas fa-chevron-right text-muted"></i>
         </div>
-        <div class="glass-card" style="padding:18px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="openPassModal()">
-            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(139,92,246,0.15); color:var(--primary); display:flex; justify-content:center; align-items:center; font-size:20px; border:1px solid rgba(139,92,246,0.3);"><i class="fas fa-key"></i></div><strong style="color:var(--text); font-weight:600; font-size:15px;" data-i18n="change_pass">စကားဝှက် ပြောင်းရန်</strong></div>
-            <i class="fas fa-chevron-right text-muted" style="color:var(--muted);"></i>
+        <div class="glass-card" style="padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="navTo('page-ledger')">
+            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(14,165,233,0.15); color:var(--accent); display:flex; justify-content:center; align-items:center;"><i class="fas fa-book"></i></div><strong style="font-weight:600;" data-i18n="ledger">ပိုက်ဆံအိတ် မှတ်တမ်း</strong></div>
+            <i class="fas fa-chevron-right text-muted"></i>
         </div>
-        <div class="glass-card" style="padding:18px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="logout()">
-            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(239,68,68,0.15); color:var(--danger); display:flex; justify-content:center; align-items:center; font-size:20px; border:1px solid rgba(239,68,68,0.3);"><i class="fas fa-sign-out-alt"></i></div><strong style="color:var(--danger); font-weight:600; font-size:15px;" data-i18n="logout">အကောင့်ထွက်မည်</strong></div>
+        <div class="glass-card" style="padding:16px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="logout()">
+            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(239,68,68,0.15); color:var(--danger); display:flex; justify-content:center; align-items:center;"><i class="fas fa-sign-out-alt"></i></div><strong style="color:var(--danger); font-weight:600;" data-i18n="logout">အကောင့်ထွက်မည်</strong></div>
+        </div>
+    </div>
+
+    <div id="page-guide" class="page">
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="guide">အသုံးပြုနည်း လမ်းညွှန်</h2></div>
+        <div id="guide-list">
+            <div style="text-align:center; padding:40px; color:var(--muted);"><i class="fas fa-spinner fa-spin text-3xl mb-3"></i><br>Loading guides...</div>
         </div>
     </div>
 
     <div id="page-deposit" class="page">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" style="width:45px; height:45px; justify-content:center; border-radius:14px;" onclick="navToMain('page-profile')"><i class="fas fa-arrow-left text-lg"></i></div><h2 style="margin:0; font-weight:800; font-size:24px;" data-i18n="topup">ငွေသွင်း</h2></div>
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="topup">ငွေသွင်း</h2></div>
         <input type="number" id="dep-amount" class="glass-input" placeholder="Amount (e.g. 5000)" style="padding:20px; font-size:16px; font-weight:bold;">
-        <div style="font-size:13px; color:var(--muted); font-weight:600; margin-bottom:10px;">Transfer To:</div>
+        <div style="font-size:13px; color:var(--muted); margin-bottom:10px;">Transfer To:</div>
         <div id="dep-dyn-payments">Loading methods...</div><input type="hidden" id="selected-dep-method" value="">
-        <label for="dep-file" class="glass-card" style="display:block; border:2px dashed var(--glass-highlight); padding:30px; text-align:center; border-radius:20px; margin-bottom:25px; cursor:pointer;">
-            <div id="dep-placeholder" style="font-size:15px; font-weight:700; color:var(--accent);"><i class="fas fa-cloud-upload-alt text-2xl mb-2 block"></i><br>+ Upload Transfer Slip</div>
-            <img id="dep-img" style="width:100%; border-radius:12px; display:none; margin-top:15px; box-shadow:0 5px 15px rgba(0,0,0,0.5);">
+        <label for="dep-file" class="glass-card" style="display:block; border:2px dashed var(--glass-highlight); padding:30px; text-align:center; cursor:pointer; margin-bottom:20px;">
+            <div id="dep-placeholder" style="color:var(--accent); font-weight:bold;"><i class="fas fa-cloud-upload-alt text-2xl mb-2 block"></i><br>Upload Slip</div>
+            <img id="dep-img" style="width:100%; border-radius:12px; display:none; margin-top:15px;">
             <input type="file" id="dep-file" style="display:none;" accept="image/*" onchange="handleDepUpload(this)">
         </label>
-        <button class="btn-gel" style="font-size:16px;" id="btn-dep" onclick="submitDeposit()">Submit Deposit</button>
+        <button class="btn-gel" id="btn-dep" onclick="submitDeposit()">Submit Deposit</button>
     </div>
 
     <div id="page-withdraw" class="page">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" style="width:45px; height:45px; justify-content:center; border-radius:14px;" onclick="navToMain('page-profile')"><i class="fas fa-arrow-left text-lg"></i></div><h2 style="margin:0; font-weight:800; font-size:24px;" data-i18n="withdraw">ငွေထုတ်</h2></div>
-        <div class="glass-card" style="padding:25px; text-align:center; margin-bottom:25px; border:1px solid rgba(16,185,129,0.3);">
-            <div style="font-size:13px; color:var(--muted); font-weight:600; text-transform:uppercase;">Available Balance</div>
-            <div style="font-size:32px; font-weight:800; color:var(--ok); text-shadow:0 0 15px rgba(16,185,129,0.4); margin-top:5px;" id="wd-avail">0 Ks</div>
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="withdraw">ငွေထုတ်</h2></div>
+        <div class="glass-card" style="padding:25px; text-align:center; margin-bottom:20px;">
+            <div style="font-size:13px; color:var(--muted);">Available Balance</div>
+            <div style="font-size:32px; font-weight:800; color:var(--ok);" id="wd-avail">0 Ks</div>
         </div>
-        <input type="number" id="wd-amount" class="glass-input" placeholder="Amount to withdraw (Ks)" style="padding:20px; font-size:16px; font-weight:bold;">
-        <select id="wd-method" class="glass-input" style="appearance:none; padding:20px; font-size:16px; font-weight:bold; color:#000;"><option value="KPay">KBZPay (KPay)</option><option value="WavePay">WavePay</option><option value="AYAPay">AYA Pay</option></select>
-        <input type="text" id="wd-phone" class="glass-input" placeholder="Account Phone Number" style="padding:20px; font-size:16px;">
-        <input type="text" id="wd-name" class="glass-input" placeholder="Account Name" style="padding:20px; font-size:16px;">
-        <button class="btn-gel" style="background:linear-gradient(135deg, var(--danger), #991b1b); font-size:16px; margin-top:10px; box-shadow:0 10px 25px rgba(239,68,68,0.5);" id="btn-wd" onclick="submitWithdraw()">Submit Request</button>
+        <input type="number" id="wd-amount" class="glass-input" placeholder="Amount to withdraw (Ks)">
+        <select id="wd-method" class="glass-input" style="color:#000;"><option value="KPay">KBZPay (KPay)</option><option value="WavePay">WavePay</option></select>
+        <input type="text" id="wd-phone" class="glass-input" placeholder="Account Phone Number">
+        <input type="text" id="wd-name" class="glass-input" placeholder="Account Name">
+        <button class="btn-gel" style="background:linear-gradient(135deg, var(--danger), #991b1b);" id="btn-wd" onclick="submitWithdraw()">Submit Request</button>
     </div>
 
     <div id="page-spin" class="page">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" style="width:45px; height:45px; justify-content:center; border-radius:14px;" onclick="navToMain('page-profile')"><i class="fas fa-arrow-left text-lg"></i></div><h2 style="margin:0; font-weight:800; font-size:24px;" data-i18n="spin">ကံစမ်းမဲ</h2></div>
-        <div class="glass-card" style="border: 2px dashed rgba(139,92,246,0.5); padding: 40px 20px; text-align: center; margin-bottom: 25px; box-shadow: inset 0 0 30px rgba(139,92,246,0.1);">
-            <div style="font-size:15px; color:var(--text); font-weight:600;">Spin & Win up to 5000 Ks!</div>
-            <div id="spin-result" style="font-size: 48px; font-weight: 900; color: var(--accent); margin: 25px 0; text-shadow: 0 0 25px rgba(14,165,233,0.6);">0 Ks</div>
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="spin">ကံစမ်းမဲ</h2></div>
+        <div class="glass-card" style="border: 2px dashed rgba(139,92,246,0.5); padding: 40px 20px; text-align: center; margin-bottom: 25px;">
+            <div style="font-size:15px; font-weight:600;">Spin & Win up to 5000 Ks!</div>
+            <div id="spin-result" style="font-size: 48px; font-weight: 900; color: var(--accent); margin: 25px 0;">0 Ks</div>
         </div>
-        <div style="text-align:center; font-size:14px; margin-bottom:25px; font-weight:600;">Tickets Available: <strong style="color:var(--warning); font-size:24px; margin-left:5px; text-shadow:0 0 10px rgba(245,158,11,0.5);" id="spin-tickets">0</strong></div>
-        <button class="btn-gel" style="padding:18px; font-size:18px; border-radius:20px;" id="btn-spin" onclick="playSpin()"><i class="fas fa-sync-alt mr-2"></i> Spin Now (1 Ticket)</button>
-        <div style="font-size:12px; color:var(--muted); text-align:center; margin-top:25px; line-height:1.6;">Get 1 Spin Ticket for every 10,000 Ks deposited.</div>
+        <div style="text-align:center; font-size:14px; margin-bottom:25px; font-weight:600;">Tickets Available: <strong style="color:var(--warning); font-size:24px;" id="spin-tickets">0</strong></div>
+        <button class="btn-gel" style="padding:18px; font-size:18px;" id="btn-spin" onclick="playSpin()"><i class="fas fa-sync-alt mr-2"></i> Spin Now (1 Ticket)</button>
     </div>
 
-    <div id="page-orders" class="page"><h2 style="margin-bottom:20px; font-weight:800; font-size:24px;" data-i18n="my_orders">အော်ဒါမှတ်တမ်း</h2><div id="orders-list"></div></div>
-    <div id="page-notifications" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" style="width:45px; height:45px; justify-content:center; border-radius:14px;" onclick="navTo('page-home')"><i class="fas fa-arrow-left text-lg"></i></div><h2 style="margin:0; font-weight:800; font-size:24px;" data-i18n="noti">အသိပေးချက်များ</h2></div><div id="noti-list"></div></div>
-    <div id="page-ledger" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" style="width:45px; height:45px; justify-content:center; border-radius:14px;" onclick="navTo('page-profile')"><i class="fas fa-arrow-left text-lg"></i></div><h2 style="margin:0; font-weight:800; font-size:24px;" data-i18n="ledger">ပိုက်ဆံအိတ် မှတ်တမ်း</h2></div><div id="ledger-list"></div></div>
+    <div id="page-orders" class="page"><h2 style="margin-bottom:20px; font-weight:800;" data-i18n="my_orders">အော်ဒါမှတ်တမ်း</h2><div id="orders-list"></div></div>
+    <div id="page-notifications" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="noti">အသိပေးချက်များ</h2></div><div id="noti-list"></div></div>
+    <div id="page-ledger" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="ledger">ပိုက်ဆံအိတ် မှတ်တမ်း</h2></div><div id="ledger-list"></div></div>
 
     <div class="modal-overlay" id="order-modal" onclick="if(event.target===this) closeModal('order-modal')">
-        <div class="modal-box glass-card"><h3 style="margin-bottom:20px; color:var(--accent); font-weight:800; border-bottom:1px solid var(--glass-border); padding-bottom:15px; font-size:18px;" id="om-title">Order Details</h3><div id="order-modal-content" style="font-size:14px; line-height:2;"></div><button class="btn-gel" style="margin-top:25px; border-radius:16px; padding:14px;" onclick="closeModal('order-modal')" id="om-close">Close</button></div>
-    </div>
-
-    <div class="modal-overlay" id="pass-modal" onclick="if(event.target===this) closeModal('pass-modal')">
-        <div class="modal-box glass-card"><h3 style="margin-bottom:20px; color:var(--accent); font-weight:800; font-size:18px;" data-i18n="change_pass">စကားဝှက် ပြောင်းရန်</h3><input type="password" id="cp-old" class="glass-input" placeholder="Current Password"><input type="password" id="cp-new" class="glass-input" placeholder="New Password"><button class="btn-gel" onclick="changePassword()" style="margin-bottom:15px;">Change Password</button><button class="btn-gel" style="background:rgba(255,255,255,0.1); border:1px solid var(--glass-border); color:var(--text); box-shadow:none;" onclick="closeModal('pass-modal')">Cancel</button></div>
+        <div class="modal-box glass-card"><h3 style="margin-bottom:20px; color:var(--accent); font-weight:800; border-bottom:1px solid var(--glass-border); padding-bottom:15px; font-size:18px;" id="om-title">Order Details</h3><div id="order-modal-content" style="font-size:14px; line-height:2;"></div><button class="btn-gel" style="margin-top:25px;" onclick="closeModal('order-modal')" id="om-close">Close</button></div>
     </div>
 
     <div class="main-nav" id="main-nav">
-        <button class="nav-btn active" id="nav-page-home" onclick="navToMain('page-home')"><i class="fas fa-home mb-1" style="font-size:22px;"></i><span style="font-size:11px; font-weight:600; letter-spacing:0.5px;" data-i18n="shop">ဆိုင်</span></button>
-        <button class="nav-btn" id="nav-page-orders" onclick="checkAuthAndGo('page-orders')"><i class="fas fa-shopping-bag mb-1" style="font-size:22px;"></i><span style="font-size:11px; font-weight:600; letter-spacing:0.5px;" data-i18n="orders">မှတ်တမ်း</span></button>
-        <button class="nav-btn" id="nav-page-profile" onclick="checkAuthAndGo('page-profile')"><i class="fas fa-user mb-1" style="font-size:22px;"></i><span style="font-size:11px; font-weight:600; letter-spacing:0.5px;" data-i18n="me">ပရိုဖိုင်</span></button>
+        <button class="nav-btn active" id="nav-page-home" onclick="navToMain('page-home')"><i class="fas fa-home mb-1" style="font-size:22px;"></i><span style="font-size:11px; font-weight:600;" data-i18n="shop">ဆိုင်</span></button>
+        <button class="nav-btn" id="nav-page-orders" onclick="checkAuthAndGo('page-orders')"><i class="fas fa-shopping-bag mb-1" style="font-size:22px;"></i><span style="font-size:11px; font-weight:600;" data-i18n="orders">မှတ်တမ်း</span></button>
+        <button class="nav-btn" id="nav-page-profile" onclick="checkAuthAndGo('page-profile')"><i class="fas fa-user mb-1" style="font-size:22px;"></i><span style="font-size:11px; font-weight:600;" data-i18n="me">ပရိုဖိုင်</span></button>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, where, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
     const dict = {
-        my: { app_name:"Kazeno ဆိုင်", email_ph:"အီးမေးလ်", pass_ph:"စကားဝှက်", ref_opt:"ဖိတ်ခေါ်ကုဒ် (ရွေးချယ်ရန်)", login_btn:"အကောင့်ဝင်မည်", go_signup:"အကောင့်မရှိသေးဘူးလား? အသစ်ဖွင့်မည်", go_login:"အကောင့်ရှိပြီးသားလား? ဝင်မည်", forgot_pass:"စကားဝှက်မေ့နေပါသလား?", loading:"စောင့်ဆိုင်းပါ...", step1:"၁။ အကောင့်အချက်အလက် ထည့်ပါ", step2:"၂။ ပစ္စည်းရွေးချယ်ပါ", wallet:"ပိုက်ဆံအိတ်", total:"စုစုပေါင်း", pay_now:"ဝယ်ယူမည်", processing:"လုပ်ဆောင်နေပါသည်...", search_game:"ဂိမ်းရှာဖွေရန်...", profile:"ပရိုဖိုင်", my_wallet:"လက်ကျန်ငွေ", topup:"ငွေသွင်း", withdraw:"ငွေထုတ်", change_pass:"စကားဝှက် ပြောင်းရန်", menu:"မီနူး", spin:"ကံစမ်းမဲ", ledger:"ပိုက်ဆံအိတ် မှတ်တမ်း", my_orders:"အော်ဒါမှတ်တမ်း", logout:"အကောင့်ထွက်မည်", noti:"အသိပေးချက်များ", shop:"ဆိုင်", orders:"မှတ်တမ်း", me:"ပရိုဖိုင်", order_proc: "အော်ဒါ လုပ်ဆောင်နေပါသည်", order_comp: "အော်ဒါ အောင်မြင်ပါသည်", order_canc: "အော်ဒါ ပယ်ဖျက်လိုက်ပါသည်", order_det: "အော်ဒါ အသေးစိတ်", order_id: "အော်ဒါ နံပါတ်", date: "နေ့ရက် နှင့် အချိန်", game: "ဂိမ်းအမည်", item: "ပစ္စည်း", player_id: "ပလေယာ ID", pay_method: "ပေးချေမှုစနစ်", amt_paid: "ကျသင့်ငွေ", status: "အခြေအနေ", close_btn: "ပိတ်မည်", before_bal: "ယခင် လက်ကျန်ငွေ", after_bal: "ယခု လက်ကျန်ငွေ", no_orders: "အော်ဒါ မှတ်တမ်း မရှိသေးပါ။", no_noti: "အသိပေးချက် မရှိပါ။", your_order: "သင်၏", is: "သည်", pls_login: "ကျေးဇူးပြု၍ အကောင့်ဝင်ပါ", back_shop: "ဆိုင်သို့ ပြန်သွားမည်" },
-        en: { app_name:"Kazeno Shop", email_ph:"Email", pass_ph:"Password", ref_opt:"Referral Code (Optional)", login_btn:"Login", go_signup:"Don't have an account? Sign Up", go_login:"Already have an account? Login", forgot_pass:"Forgot Password?", loading:"Loading...", step1:"1. Account Info", step2:"2. Select Item", wallet:"Wallet", total:"Total", pay_now:"Buy Now", processing:"Processing...", search_game:"Search games...", profile:"Profile", my_wallet:"Balance", topup:"Top Up", withdraw:"Withdraw", change_pass:"Change Password", menu:"Menu", spin:"Lucky Spin", ledger:"Wallet Ledger", my_orders:"Order History", logout:"Logout", noti:"Notifications", shop:"Shop", orders:"Orders", me:"Me", order_proc: "Order Processing", order_comp: "Order Completed", order_canc: "Order Cancelled", order_det: "Order Details", order_id: "Order ID", date: "Date & Time", game: "Game", item: "Item", player_id: "Player ID", pay_method: "Payment", amt_paid: "Amount Paid", status: "STATUS", close_btn: "Close", before_bal: "Balance Before", after_bal: "Balance After", no_orders: "No order history yet.", no_noti: "No notifications.", your_order: "Your order for", is: "is", pls_login: "Please login first", back_shop: "Back to Shop" }
+        my: { app_name:"Kazeno ဆိုင်", email_ph:"အီးမေးလ်", pass_ph:"စကားဝှက်", ref_opt:"ဖိတ်ခေါ်ကုဒ် (ရွေးချယ်ရန်)", login_btn:"အကောင့်ဝင်မည်", go_signup:"အကောင့်မရှိသေးဘူးလား? အသစ်ဖွင့်မည်", go_login:"အကောင့်ရှိပြီးသားလား? ဝင်မည်", forgot_pass:"စကားဝှက်မေ့နေပါသလား?", loading:"စောင့်ဆိုင်းပါ...", step1:"၁။ အကောင့်အချက်အလက် ထည့်ပါ", step2:"၂။ ပစ္စည်းရွေးချယ်ပါ", step3:"၃။ ငွေပေးချေမည့်နည်းလမ်း", wallet:"ပိုက်ဆံအိတ်", bank_tr:"ငွေလွှဲပြေစာ", avail_bal:"လက်ကျန်ငွေ", up_slip:"+ ငွေလွှဲပြေစာ ပုံတင်ရန်", total:"စုစုပေါင်း", pay_now:"ဝယ်ယူမည်", processing:"လုပ်ဆောင်နေပါသည်...", profile:"ပရိုဖိုင်", my_wallet:"လက်ကျန်ငွေ", topup:"ငွေသွင်း", withdraw:"ငွေထုတ်", change_pass:"စကားဝှက် ပြောင်းရန်", menu:"မီနူး", spin:"ကံစမ်းမဲ", ledger:"ပိုက်ဆံအိတ် မှတ်တမ်း", my_orders:"အော်ဒါမှတ်တမ်း", logout:"အကောင့်ထွက်မည်", noti:"အသိပေးချက်များ", shop:"ဆိုင်", orders:"မှတ်တမ်း", me:"ပရိုဖိုင်", guide:"အသုံးပြုနည်း လမ်းညွှန်", order_proc: "အော်ဒါ လုပ်ဆောင်နေပါသည်", order_comp: "အော်ဒါ အောင်မြင်ပါသည်", order_canc: "အော်ဒါ ပယ်ဖျက်လိုက်ပါသည်", order_det: "အော်ဒါ အသေးစိတ်", order_id: "အော်ဒါ နံပါတ်", date: "နေ့ရက် နှင့် အချိန်", game: "ဂိမ်းအမည်", item: "ပစ္စည်း", player_id: "ပလေယာ ID", pay_method: "ပေးချေမှုစနစ်", amt_paid: "ကျသင့်ငွေ", status: "အခြေအနေ", close_btn: "ပိတ်မည်", before_bal: "ယခင် လက်ကျန်ငွေ", after_bal: "ယခု လက်ကျန်ငွေ", no_orders: "အော်ဒါ မှတ်တမ်း မရှိသေးပါ။", no_noti: "အသိပေးချက် မရှိပါ။", your_order: "သင်၏", is: "သည်", pls_login: "ကျေးဇူးပြု၍ အကောင့်ဝင်ပါ", back_shop: "ဆိုင်သို့ ပြန်သွားမည်" },
+        en: { app_name:"Kazeno Shop", email_ph:"Email", pass_ph:"Password", ref_opt:"Referral Code (Optional)", login_btn:"Login", go_signup:"Don't have an account? Sign Up", go_login:"Already have an account? Login", forgot_pass:"Forgot Password?", loading:"Loading...", step1:"1. Account Info", step2:"2. Select Item", step3:"3. Payment Method", wallet:"Wallet", bank_tr:"Bank Transfer", avail_bal:"Available Balance", up_slip:"+ Upload Transfer Slip", total:"Total", pay_now:"Buy Now", processing:"Processing...", profile:"Profile", my_wallet:"Balance", topup:"Top Up", withdraw:"Withdraw", change_pass:"Change Password", menu:"Menu", spin:"Lucky Spin", ledger:"Wallet Ledger", my_orders:"Order History", logout:"Logout", noti:"Notifications", shop:"Shop", orders:"Orders", me:"Me", guide:"User Guide", order_proc: "Order Processing", order_comp: "Order Completed", order_canc: "Order Cancelled", order_det: "Order Details", order_id: "Order ID", date: "Date & Time", game: "Game", item: "Item", player_id: "Player ID", pay_method: "Payment", amt_paid: "Amount Paid", status: "STATUS", close_btn: "Close", before_bal: "Balance Before", after_bal: "Balance After", no_orders: "No order history yet.", no_noti: "No notifications.", your_order: "Your order for", is: "is", pls_login: "Please login first", back_shop: "Back to Shop" }
     };
     
     window.curLang = localStorage.getItem('lang') || 'my'; window.curTheme = localStorage.getItem('theme') || 'dark'; window.isGridView = localStorage.getItem('view') === 'grid';
     const t = (key) => dict[curLang][key] || key;
 
-    window.applyLang = () => { document.getElementById('langBtn').innerText = curLang === 'my' ? '🇲🇲 MY' : '🇬🇧 EN'; document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = dict[curLang][el.getAttribute('data-i18n')] || el.innerHTML; }); document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = dict[curLang][el.getAttribute('data-i18n-ph')] || el.placeholder; }); };
+    window.applyLang = () => { document.getElementById('langBtn').innerText = curLang === 'my' ? 'MY' : 'EN'; document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = dict[curLang][el.getAttribute('data-i18n')] || el.innerHTML; }); document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = dict[curLang][el.getAttribute('data-i18n-ph')] || el.placeholder; }); };
     window.toggleLang = () => { vibe(); curLang = curLang === 'my' ? 'en' : 'my'; localStorage.setItem('lang', curLang); applyLang(); renderHistory(); };
     window.applyTheme = () => { document.body.setAttribute('data-theme', curTheme); document.getElementById('themeBtn').innerHTML = curTheme === 'dark' ? '<i class="fas fa-sun text-warning"></i>' : '<i class="fas fa-moon"></i>'; };
     window.toggleTheme = () => { vibe(); curTheme = curTheme === 'dark' ? 'light' : 'dark'; localStorage.setItem('theme', curTheme); applyTheme(); };
@@ -314,11 +298,21 @@
 
     window.toast = (m) => { vibe(); const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); };
     window.vibe = () => { if(navigator.vibrate) navigator.vibrate(30); }
-    window.formatDate = (ts) => { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); };
+    window.formatDate = (ts) => { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString(); };
     
-    // GUEST MODE NAV
+    // 💡 HARDWARE BACK BUTTON (History API) 💡
     window.navToMain = (id) => { vibe(); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); navTo(id); };
-    window.navTo = (id) => { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo({top:0, behavior:'smooth'}); document.getElementById('main-nav').style.display = ['page-home','page-orders','page-profile'].includes(id) ? 'flex' : 'none'; };
+    window.navTo = (id, pushState = true) => { 
+        vibe();
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
+        document.getElementById(id).classList.add('active'); 
+        window.scrollTo({top:0, behavior:'smooth'}); 
+        document.getElementById('main-nav').style.display = ['page-home','page-orders','page-profile'].includes(id) ? 'flex' : 'none'; 
+        if(pushState) history.pushState({page: id}, "", "#"+id);
+    };
+    window.navBack = () => { vibe(); history.back(); };
+    window.addEventListener('popstate', (e) => { if(e.state && e.state.page) navTo(e.state.page, false); else navTo('page-home', false); });
+
     window.checkAuthAndGo = (id) => { vibe(); if(!me) { openAuthScreen(); return; } navToMain(id); };
     window.openAuthScreen = () => { document.getElementById('auth-screen').classList.add('active'); };
     window.closeAuthScreen = () => { document.getElementById('auth-screen').classList.remove('active'); };
@@ -326,107 +320,110 @@
     window.closeModal = (id) => { document.getElementById(id).classList.remove('active'); };
 
     let me = null; let myWallet = 0; let myRole = 'Customer'; let mySpins = 0; 
-    let allMyData = []; let dynamicCats = []; let dynamicProds = []; let payMethods = []; let currentOrder = {}; let depFile = null;
-    let tgBotToken = ""; let tgChatId = ""; let tgDepositTopicId = ""; let tgOrderTopicId = "";
+    let allMyData = []; let dynamicCats = []; let dynamicProds = []; let payMethods = []; let currentOrder = {}; let depFile = null; let orderFile = null; let payMode = 'wallet';
+
+    window.switchPayTab = (m, el) => { vibe(); payMode = m; document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.pay-view').forEach(v => v.classList.remove('active')); el.classList.add('active'); document.getElementById('pay-'+m).classList.add('active'); checkForm(); };
 
     // AUTH
     let isLoginMode = true;
     window.toggleAuthMode = () => { vibe(); isLoginMode = !isLoginMode; document.getElementById('auth-btn').innerText = isLoginMode ? dict[curLang].login_btn : "Sign Up"; document.getElementById('auth-toggle').innerText = isLoginMode ? dict[curLang].go_signup : dict[curLang].go_login; document.getElementById('ref-container').style.display = isLoginMode ? 'none' : 'block';};
-    window.handleAuth = async () => {
-        vibe(); const em = document.getElementById('auth-email').value.trim(); const pw = document.getElementById('auth-password').value.trim();
-        if(pw.length < 6) return toast("Password min 6 chars");
-        document.getElementById('auth-btn').innerText = t('loading');
-        try { 
-            if(isLoginMode) await signInWithEmailAndPassword(auth, em, pw); 
-            else { const res = await createUserWithEmailAndPassword(auth, em, pw); await setDoc(doc(db, "users", res.user.uid), { email:em, walletBalance:0, spinCount:0, role: "Customer", createdAt:serverTimestamp() }); } 
-        } catch(e) { toast(e.message); document.getElementById('auth-btn').innerText = isLoginMode ? dict[curLang].login_btn : "Sign Up"; }
-    };
+    window.handleAuth = async () => { vibe(); const em = document.getElementById('auth-email').value.trim(); const pw = document.getElementById('auth-password').value.trim(); if(pw.length < 6) return toast("Password min 6 chars"); document.getElementById('auth-btn').innerText = t('loading'); try { if(isLoginMode) await signInWithEmailAndPassword(auth, em, pw); else { const res = await createUserWithEmailAndPassword(auth, em, pw); await setDoc(doc(db, "users", res.user.uid), { email:em, walletBalance:0, spinCount:0, role: "Customer", createdAt:serverTimestamp() }); } } catch(e) { toast(e.message); document.getElementById('auth-btn').innerText = isLoginMode ? dict[curLang].login_btn : "Sign Up"; } };
     window.logout = () => { vibe(); signOut(auth); navToMain('page-home'); };
-    window.resetPassword = async () => { const em = document.getElementById('auth-email').value.trim(); if(!em) return toast("Enter email first."); try { await sendPasswordResetEmail(auth, em); toast("Reset email sent!"); } catch(e) { toast(e.message); } };
-    window.openPassModal = () => openModal('pass-modal');
-    window.changePassword = async () => { let oldP = document.getElementById('cp-old').value; let newP = document.getElementById('cp-new').value; if(!oldP || newP.length < 6) return toast("Invalid passwords."); try { const cred = EmailAuthProvider.credential(me.email, oldP); await reauthenticateWithCredential(me, cred); await updatePassword(me, newP); toast("Password Updated!"); closeModal('pass-modal'); document.getElementById('cp-old').value=''; document.getElementById('cp-new').value='';} catch(e) { toast(e.message); } };
 
     // DATA SYNC
-    onSnapshot(doc(db, "settings", "app_config"), (d) => {
-        if(d.exists()) {
-            if(d.data().homeBannerUrl) document.getElementById('dyn-home-banner').src = d.data().homeBannerUrl;
-            tgBotToken = d.data().tgBotToken || ""; tgChatId = d.data().tgChatId || ""; tgDepositTopicId = d.data().tgDepositTopicId || ""; tgOrderTopicId = d.data().tgOrderTopicId || "";
-        }
-    });
-
     onSnapshot(collection(db, "categories"), (snap) => { dynamicCats = []; snap.forEach(s => { let c = {id: s.id, ...s.data()}; dynamicCats.push(c); }); dynamicCats.sort((a,b) => (a.orderNum||1) - (b.orderNum||1)); renderGames(dynamicCats); });
     onSnapshot(collection(db, "products"), (snap) => { dynamicProds = []; snap.forEach(s => { if(s.data().isActive) dynamicProds.push({id: s.id, ...s.data()}); }); });
     onSnapshot(collection(db, "payment_methods"), (snap) => { 
         payMethods = []; let html = "";
-        snap.forEach(s => { let p = {id: s.id, ...s.data()}; payMethods.push(p); html += `<div class="glass-card" onclick="document.getElementById('selected-dep-method').value='${p.name}'; toast('Selected ${p.name}')" style="padding:15px; margin-bottom:12px; cursor:pointer; border:1px solid rgba(14,165,233,0.3); transition:0.2s;" onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform='scale(1)'"><strong style="color:var(--accent); font-size:16px;">${p.name}</strong><br><span style="font-family:monospace; font-size:14px; font-weight:bold; color:var(--text);">${p.phone}</span> <span style="color:var(--muted); font-size:12px;">(${p.accName})</span></div>`; });
-        document.getElementById('dep-dyn-payments').innerHTML = html || "<p>No payment methods found.</p>";
+        snap.forEach(s => { let p = {id: s.id, ...s.data()}; payMethods.push(p); html += `<div class="glass-card dyn-pay-card" onclick="document.querySelectorAll('.dyn-pay-card').forEach(c=>c.classList.remove('selected')); this.classList.add('selected'); document.getElementById('selected-pay-method').value='${p.name}'; document.getElementById('selected-dep-method').value='${p.name}'; checkForm();"><strong style="color:var(--accent); font-size:15px;">${p.name}</strong><br><span style="font-family:monospace; font-weight:bold;">${p.phone}</span> <span style="font-size:11px;">(${p.accName})</span></div>`; });
+        document.getElementById('dep-dyn-payments').innerHTML = html; document.getElementById('chk-dyn-payments').innerHTML = html;
+    });
+    
+    // 💡 USER GUIDES SYNC 💡
+    onSnapshot(collection(db, "guides"), (snap) => {
+        let h = "";
+        snap.forEach(s => {
+            let g = s.data();
+            h += `<div class="glass-card guide-card" style="padding:20px; margin-bottom:20px;">
+                <h3 style="color:var(--accent); font-weight:800; margin-bottom:10px;">${g.title}</h3>
+                <div style="font-size:13px; color:var(--text); line-height:1.8; margin-bottom:15px;">${g.content}</div>
+                ${g.videoUrl ? `<iframe src="${g.videoUrl}" allowfullscreen style="border-radius:12px;"></iframe>` : ''}
+            </div>`;
+        });
+        document.getElementById('guide-list').innerHTML = h || `<div style="text-align:center; padding:40px; color:gray;">No guides available yet.</div>`;
     });
 
     onAuthStateChanged(auth, async (user) => {
         if(user) {
             me = user; closeAuthScreen(); document.getElementById('prof-email').innerText = me.email;
-            onSnapshot(doc(db, "users", me.uid), (ds) => {
-                if(ds.exists()) { 
-                    myWallet = ds.data().walletBalance || 0; myRole = ds.data().role || 'Customer'; mySpins = ds.data().spinCount || 0;
-                    document.getElementById('home-wallet').innerText = myWallet.toLocaleString() + " Ks"; 
-                    document.getElementById('prof-wallet').innerText = myWallet.toLocaleString() + " Ks"; 
-                    document.getElementById('wd-avail').innerText = myWallet.toLocaleString() + " Ks";
-                    document.getElementById('prof-role').innerText = myRole; document.getElementById('spin-tickets').innerText = mySpins;
-                }
-            });
+            onSnapshot(doc(db, "users", me.uid), (ds) => { if(ds.exists()) { myWallet = ds.data().walletBalance || 0; myRole = ds.data().role || 'Customer'; mySpins = ds.data().spinCount || 0; document.getElementById('home-wallet').innerText = myWallet.toLocaleString() + " Ks"; document.getElementById('prof-wallet').innerText = myWallet.toLocaleString() + " Ks"; document.getElementById('wd-avail').innerText = myWallet.toLocaleString() + " Ks"; document.getElementById('prof-role').innerText = myRole; document.getElementById('spin-tickets').innerText = mySpins; document.getElementById('detail-wallet-bal').innerText = myWallet.toLocaleString() + " Ks";} });
             onSnapshot(query(collection(db, "orders"), where("userId", "==", me.uid)), (s) => { allMyData = []; s.forEach(d => { let obj = {id:d.id, type:'order', ...d.data()}; allMyData.push(obj); }); renderHistory(); });
-            onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid)), (s) => {
-                let tArr = []; s.forEach(d => tArr.push(d.data())); tArr.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0)); let lHtml = "";
-                tArr.forEach(tx => { let color = tx.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = tx.amount >= 0 ? '+' : ''; lHtml += `<div class="glass-card" style="padding:16px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:800; font-size:15px;">${tx.type}</div><div style="font-size:12px; color:var(--muted); margin:4px 0;">${tx.desc}</div><div style="font-size:11px; color:var(--accent);"><i class="far fa-clock"></i> ${formatDate(tx.createdAt)}</div></div><div style="font-weight:900; font-size:18px; color:${color}; text-shadow:0 0 15px ${color}50;">${sign}${tx.amount.toLocaleString()} Ks</div></div>`; });
-                document.getElementById('ledger-list').innerHTML = lHtml || `<div style='text-align:center; color:gray; padding:40px;'><i class="fas fa-box-open text-4xl mb-3"></i><br>No records yet.</div>`;
-            });
-        } else { me = null; document.getElementById('home-wallet').innerText = "Login Required"; allMyData = []; renderHistory(); document.getElementById('ledger-list').innerHTML = ""; }
+            onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid)), (s) => { let tArr = []; s.forEach(d => tArr.push(d.data())); tArr.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0)); let lHtml = ""; tArr.forEach(tx => { let color = tx.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = tx.amount >= 0 ? '+' : ''; lHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700; font-size:14px;">${tx.type}</div><div style="font-size:11px; color:var(--muted);">${tx.desc}</div></div><div style="font-weight:800; font-size:16px; color:${color};">${sign}${tx.amount.toLocaleString()} Ks</div></div>`; }); document.getElementById('ledger-list').innerHTML = lHtml || `<div style='text-align:center; color:gray; padding:20px;'>No records yet.</div>`; });
+        } else { me = null; document.getElementById('home-wallet').innerText = "Login..."; allMyData = []; renderHistory(); document.getElementById('ledger-list').innerHTML = ""; }
     });
 
-    window.searchGames = () => { let input = document.getElementById('gameSearch').value.toLowerCase(); let filtered = dynamicCats.filter(c => c.name.toLowerCase().includes(input)); renderGames(filtered); };
-    function renderGames(list) { let html = ""; list.forEach(c => { if(c.isActive) { html += `<div class="game-card glass-card" onclick="openGameDetail('${c.id}')"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div style="flex:1; margin:0 12px; text-align:left;"><div style="font-weight:800; font-size:16px; color:var(--text);">${c.name}</div><div style="font-size:12px; color:var(--ok); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-top:2px;">Available</div></div><div class="buy-btn">Open</div></div>`; } }); document.getElementById('dyn-game-list').innerHTML = html || `<div style="text-align:center; color:gray; width:100%; padding:20px;">No games found.</div>`; }
+    function renderGames(list) { let html = ""; list.forEach(c => { if(c.isActive) { html += `<div class="game-card glass-card" onclick="openGameDetail('${c.id}')"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div style="flex:1; margin:0 12px; text-align:left;"><div style="font-weight:800; font-size:16px; color:var(--text);">${c.name}</div><div style="font-size:12px; color:var(--ok); font-weight:600; text-transform:uppercase; letter-spacing:1px;">Available</div></div><div class="buy-btn">Open</div></div>`; } }); document.getElementById('dyn-game-list').innerHTML = html || `<div style="text-align:center; color:gray; width:100%; padding:20px;">No games found.</div>`; }
 
+    // 💡 BEAUTIFUL GLASS LISTS 💡
     function renderHistory() {
-        if(!me) return;
-        allMyData.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
+        if(!me) return; allMyData.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
         let oHtml = "", nHtml = "", unread = 0;
         allMyData.forEach(o => {
-            let color = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)');
+            let colorCls = o.status==='Completed' ? 'glass-tint-ok' : (o.status==='Cancelled' ? 'glass-tint-danger' : 'glass-tint-warn');
+            let txtColor = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)');
             let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc');
-            if(o.type === 'order') { oHtml += `<div class="glass-card" style="padding:18px; margin-bottom:15px; cursor:pointer; position:relative; overflow:hidden;" onclick="showOrderDetails('${o.id}')"><div style="position:absolute; top:0; left:0; width:5px; height:100%; background:${color};"></div><div style="display:flex; justify-content:space-between; margin-bottom:12px;"><span style="font-family:monospace; color:var(--accent); font-weight:bold; font-size:13px;">${o.orderId || o.id.substring(0,8)}</span><span style="background:rgba(255,255,255,0.1); color:${color}; font-size:11px; padding:4px 12px; border-radius:8px; font-weight:800; border:1px solid ${color}40;">${t(statKey).toUpperCase()}</span></div><div style="font-weight:800; font-size:16px; color:var(--text);">${o.game} - <span style="color:var(--muted);">${o.item}</span></div><div style="font-size:18px; font-weight:900; margin-top:12px; color:var(--ok); text-shadow:0 0 15px rgba(16,185,129,0.4);">${o.price.toLocaleString()} Ks</div></div>`; }
-            if(o.status !== 'Pending' && o.type === 'order') { unread++; nHtml += `<div class="glass-card" style="padding:16px; margin-bottom:14px; border-left: 4px solid ${color};"><div style="font-weight:bold; font-size:14px; margin-bottom:8px; color:${color};">${t(statKey)}</div><div style="font-size:13px; color:var(--muted); line-height:1.6;">${t('your_order')} <span style="color:var(--text); font-weight:bold;">${o.item} (${o.game})</span> ${t('is')} ${t(statKey).toLowerCase()}.</div><div style="font-size:11px; text-align:right; margin-top:10px; color:var(--accent); font-weight:600;"><i class="far fa-clock"></i> ${formatDate(o.createdAt)}</div></div>`; }
+            
+            if(o.type === 'order') { 
+                oHtml += `<div class="glass-card ${colorCls}" style="padding:18px; margin-bottom:15px; cursor:pointer;" onclick="showOrderDetails('${o.id}')">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                        <span style="font-family:monospace; color:var(--text); font-weight:bold; font-size:13px;">${o.orderId || o.id.substring(0,8)}</span>
+                        <span style="background:rgba(255,255,255,0.1); color:${txtColor}; font-size:11px; padding:4px 12px; border-radius:8px; font-weight:800;">${t(statKey).toUpperCase()}</span>
+                    </div>
+                    <div style="font-weight:800; font-size:16px; color:var(--text);">${o.game} - <span style="color:var(--muted);">${o.item}</span></div>
+                    <div style="font-size:18px; font-weight:900; margin-top:12px; color:${txtColor};">${o.price.toLocaleString()} Ks</div>
+                </div>`; 
+            }
+            if(o.status !== 'Pending' && o.type === 'order') { 
+                unread++; 
+                nHtml += `<div class="glass-card ${colorCls}" style="padding:16px; margin-bottom:14px;">
+                    <div style="font-weight:bold; font-size:14px; margin-bottom:8px; color:${txtColor};">${t(statKey)}</div>
+                    <div style="font-size:13px; color:var(--text); line-height:1.6;">${t('your_order')} <span style="font-weight:bold;">${o.item} (${o.game})</span> ${t('is')} ${t(statKey).toLowerCase()}.</div>
+                    <div style="font-size:11px; text-align:right; margin-top:10px; color:var(--muted);"><i class="far fa-clock"></i> ${formatDate(o.createdAt)}</div>
+                </div>`; 
+            }
         });
         document.getElementById('orders-list').innerHTML = oHtml || `<div style='text-align:center; color:gray; padding:50px;'><i class="fas fa-box-open text-5xl mb-4"></i><br>${t('no_orders')}</div>`;
         document.getElementById('noti-list').innerHTML = nHtml || `<div style='text-align:center; color:gray; padding:50px;'><i class="fas fa-bell-slash text-5xl mb-4"></i><br>${t('no_noti')}</div>`;
         document.getElementById('bell-count').style.display = unread > 0 ? 'flex' : 'none';
     }
 
-    window.showOrderDetails = (id) => { vibe(); let o = allMyData.find(x => x.id === id); if(!o) return; let c = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)'); let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc'); let bBalHtml = (o.beforeBalance !== undefined) ? `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-wallet mr-2"></i>${t('before_bal')}</span> <strong style="font-size:15px;">${o.beforeBalance.toLocaleString()} Ks</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hand-holding-usd mr-2"></i>${t('after_bal')}</span> <strong style="font-size:15px; color:var(--warning);">${o.afterBalance.toLocaleString()} Ks</strong></div>` : ''; let h = `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hashtag mr-2"></i>${t('order_id')}</span> <strong style="color:var(--accent); font-family:monospace; font-size:15px;">${o.orderId || o.id.substring(0,8)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="far fa-calendar-alt mr-2"></i>${t('date')}</span> <strong style="font-size:13px;">${formatDate(o.createdAt)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gamepad mr-2"></i>${t('game')}</span> <strong style="font-size:15px;">${o.game}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gem mr-2"></i>${t('item')}</span> <strong style="color:var(--accent); font-size:15px;">${o.item}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-id-card mr-2"></i>${t('player_id')}</span> <strong style="background:rgba(255,255,255,0.15); padding:6px 12px; border-radius:10px; font-family:monospace; font-size:15px; border:1px solid rgba(255,255,255,0.2);">${o.playerId}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-money-check-alt mr-2"></i>${t('pay_method')}</span> <strong><span class="badge" style="background:var(--primary); padding:6px 10px; border-radius:8px; font-size:12px;">${o.payMethod || 'Wallet'}</span></strong></div>${bBalHtml}<div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; margin-bottom:10px;"><span style="color:var(--text); font-weight:800; font-size:16px;">${t('amt_paid')}</span> <strong style="color:var(--ok); font-size:26px; text-shadow:0 0 15px rgba(16,185,129,0.5);">${o.price.toLocaleString()} Ks</strong></div><div style="text-align:center; margin-top:20px; font-weight:900; color:${c}; font-size:16px; background:rgba(255,255,255,0.05); padding:16px; border-radius:16px; border:1px solid ${c}50; letter-spacing:1px; text-shadow:0 0 10px ${c}40;">${t('status')}: ${t(statKey).toUpperCase()}</div>`; document.getElementById('order-modal-content').innerHTML = h; openModal('order-modal'); };
+    window.showOrderDetails = (id) => { vibe(); let o = allMyData.find(x => x.id === id); if(!o) return; let c = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)'); let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc'); let bBalHtml = (o.beforeBalance !== undefined) ? `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-wallet mr-2"></i>${t('before_bal')}</span> <strong style="font-size:15px;">${o.beforeBalance.toLocaleString()} Ks</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hand-holding-usd mr-2"></i>${t('after_bal')}</span> <strong style="font-size:15px; color:var(--warning);">${o.afterBalance.toLocaleString()} Ks</strong></div>` : ''; let h = `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hashtag mr-2"></i>${t('order_id')}</span> <strong style="color:var(--accent); font-family:monospace; font-size:15px;">${o.orderId || o.id.substring(0,8)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="far fa-calendar-alt mr-2"></i>${t('date')}</span> <strong style="font-size:13px;">${formatDate(o.createdAt)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gamepad mr-2"></i>${t('game')}</span> <strong style="font-size:15px;">${o.game}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gem mr-2"></i>${t('item')}</span> <strong style="color:var(--accent); font-size:15px;">${o.item}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-id-card mr-2"></i>${t('player_id')}</span> <strong style="background:rgba(255,255,255,0.15); padding:6px 12px; border-radius:10px; font-family:monospace; font-size:15px;">${o.playerId}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-money-check-alt mr-2"></i>${t('pay_method')}</span> <strong><span class="badge" style="background:var(--primary); padding:6px 10px; border-radius:8px; font-size:12px;">${o.payMethod || 'Wallet'}</span></strong></div>${bBalHtml}<div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; margin-bottom:10px;"><span style="color:var(--text); font-weight:800; font-size:16px;">${t('amt_paid')}</span> <strong style="color:var(--ok); font-size:26px;">${o.price.toLocaleString()} Ks</strong></div><div style="text-align:center; margin-top:20px; font-weight:900; color:${c}; font-size:16px; background:rgba(255,255,255,0.05); padding:16px; border-radius:16px; border:1px solid ${c}50;">${t('status')}: ${t(statKey).toUpperCase()}</div>`; document.getElementById('order-modal-content').innerHTML = h; openModal('order-modal'); };
 
-    // 💡 DYNAMIC INPUTS (ID & ZONE ID) FIX 💡
+    // 💡 DYNAMIC PLACEHOLDERS 💡
     window.openGameDetail = (catId) => {
         vibe(); let c = dynamicCats.find(x => x.id === catId); if(!c) return;
         currentOrder.gameName = c.name; document.getElementById('detail-game-title').innerText = c.name; document.getElementById('detail-banner').src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
         
+        let p1 = c.uidPlaceholder || "Player ID";
+        let p2 = c.zonePlaceholder || "Zone / Server ID";
+
         let formHtml = ''; let forms = c.forms || [];
-        if(forms.includes('gameId')) formHtml += `<input type="text" id="dyn-uid" class="glass-input" style="flex:2; margin:0;" placeholder="Player ID / Game ID" oninput="checkForm()">`;
-        if(forms.includes('zoneId')) formHtml += `<input type="text" id="dyn-zone" class="glass-input" style="flex:1; margin:0;" placeholder="Zone / Server ID" oninput="checkForm()">`;
-        if(formHtml === '') formHtml = `<input type="text" id="dyn-uid" class="glass-input" style="flex:2; margin:0;" placeholder="Player ID" oninput="checkForm()">`;
+        if(forms.includes('gameId')) formHtml += `<input type="text" id="dyn-uid" class="glass-input" style="flex:2; margin:0;" placeholder="${p1}" oninput="checkForm()">`;
+        if(forms.includes('zoneId')) formHtml += `<input type="text" id="dyn-zone" class="glass-input" style="flex:1; margin:0;" placeholder="${p2}" oninput="checkForm()">`;
+        if(formHtml === '') formHtml = `<input type="text" id="dyn-uid" class="glass-input" style="flex:2; margin:0;" placeholder="${p1}" oninput="checkForm()">`;
         document.getElementById('dyn-form-inputs').innerHTML = formHtml;
 
         let prods = dynamicProds.filter(p => p.categoryId === c.id); prods.sort((a,b) => a.sellingPrice - b.sellingPrice);
         let pHtml = "";
         prods.forEach(p => { 
-            // 💡 PRODUCT IMAGES LOGIC 💡
-            let imgHtml = p.logoUrl ? `<img src="${p.logoUrl}" style="width:40px; height:40px; object-fit:contain; margin-bottom:10px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));">` : `<i class="fas fa-gem text-accent" style="font-size:28px; margin-bottom:10px; filter: drop-shadow(0 4px 10px rgba(14,165,233,0.5));"></i>`;
-            pHtml += `<div class="glass-card pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${p.sellingPrice})">
-                ${imgHtml}
-                <div style="font-weight:800; font-size:15px; color:var(--text);">${p.name}</div>
-                <div style="font-size:14px; color:var(--accent); font-weight:900; margin-top:8px;">${p.sellingPrice.toLocaleString()} Ks</div>
-            </div>`; 
+            let imgHtml = p.logoUrl ? `<img src="${p.logoUrl}" style="width:45px; height:45px; object-fit:contain; margin-bottom:12px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">` : `<i class="fas fa-gem text-accent" style="font-size:30px; margin-bottom:12px; filter: drop-shadow(0 4px 10px rgba(14,165,233,0.5));"></i>`;
+            pHtml += `<div class="glass-card pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${p.sellingPrice})">${imgHtml}<div style="font-weight:800; font-size:15px; color:var(--text);">${p.name}</div><div style="font-size:14px; color:var(--accent); font-weight:900; margin-top:8px;">${p.sellingPrice.toLocaleString()} Ks</div></div>`; 
         });
         document.getElementById('pack-container').innerHTML = pHtml;
-        currentOrder.item = ''; currentOrder.price = 0; document.getElementById('display-total').innerText = "0 Ks"; navTo('page-detail');
+        currentOrder.item = ''; currentOrder.price = 0; document.getElementById('display-total').innerText = "0 Ks"; 
+        
+        switchPayTab('wallet', document.querySelector('.pay-tab')); // Default to wallet
+        navTo('page-detail');
     };
 
     window.selectPackage = (id, n, p) => { vibe(); document.querySelectorAll('.pack-card').forEach(c => {c.style.borderColor = 'transparent'; c.style.transform='translateY(0)'; c.style.boxShadow='var(--glass-shadow)';}); let el = document.getElementById(`pkg-${id}`); el.style.borderColor = 'var(--accent)'; el.style.transform='translateY(-5px)'; el.style.boxShadow='0 15px 30px rgba(14,165,233,0.4), inset 0 0 20px rgba(14,165,233,0.2)'; currentOrder.item = n; currentOrder.price = p; document.getElementById('display-total').innerText = p.toLocaleString() + " Ks"; checkForm(); };
@@ -434,76 +431,48 @@
         let uidEl = document.getElementById('dyn-uid'); let zoneEl = document.getElementById('dyn-zone');
         let hasUid = uidEl ? uidEl.value.length > 2 : true; let hasZone = zoneEl ? zoneEl.value.length > 0 : true;
         let isValid = hasUid && hasZone && currentOrder.price > 0; 
+        if(payMode === 'slip') { let pMethod = document.getElementById('selected-pay-method').value; if(!orderFile || !pMethod) isValid = false; }
         document.getElementById('btn-submit').disabled = !isValid; 
     };
 
+    window.handleOrderUpload = (i) => { if(i.files[0]) { vibe(); orderFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('upload-placeholder').style.display='none'; document.getElementById('preview-img').src=e.target.result; document.getElementById('preview-img').style.display='block'; checkForm(); }; r.readAsDataURL(i.files[0]); } };
+
     window.submitOrder = async () => {
         vibe(); if(!me) { openAuthScreen(); toast(t('pls_login')); return; }
-        if(myWallet < currentOrder.price) return toast("Insufficient Balance! Please Top up.");
         const b = document.getElementById('btn-submit'); b.innerText = t('processing'); b.disabled = true;
         try {
-            let beforeBal = myWallet; let afterBal = myWallet - currentOrder.price;
-            await updateDoc(doc(db, "users", me.uid), { walletBalance: afterBal });
-            
-            // 💡 DYNAMIC ID FORMATTING 💡
             let uid = document.getElementById('dyn-uid') ? document.getElementById('dyn-uid').value : '';
             let zone = document.getElementById('dyn-zone') ? document.getElementById('dyn-zone').value : '';
             let finalId = zone ? `${uid} (${zone})` : uid;
-
             let ordId = 'ORD-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-            await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, playerId: finalId, payMethod: 'Wallet', beforeBalance: beforeBal, afterBalance: afterBal, status: "Pending", createdAt: serverTimestamp() });
-            await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Order', amount: -currentOrder.price, desc: `Bought ${currentOrder.item} (${currentOrder.gameName})`, createdAt: serverTimestamp() });
             
-            toast("Order Placed Successfully!"); navToMain('page-orders');
+            let beforeBal = myWallet; let afterBal = myWallet;
+            let slipUrl = null; let finalMethod = 'Wallet';
+
+            if(payMode === 'slip') {
+                slipUrl = await uploadImage(orderFile); finalMethod = document.getElementById('selected-pay-method').value;
+            } else {
+                if(myWallet < currentOrder.price) throw new Error("Insufficient Balance!");
+                afterBal = myWallet - currentOrder.price;
+                await updateDoc(doc(db, "users", me.uid), { walletBalance: afterBal });
+                await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Order', amount: -currentOrder.price, desc: `Bought ${currentOrder.item} (${currentOrder.gameName})`, createdAt: serverTimestamp() });
+            }
+
+            await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, playerId: finalId, payMethod: finalMethod, slipImage: slipUrl, beforeBalance: beforeBal, afterBalance: afterBal, status: "Pending", createdAt: serverTimestamp() });
+            toast("Order Placed Successfully!"); 
+            orderFile = null; document.getElementById('preview-img').style.display='none'; document.getElementById('upload-placeholder').style.display='block';
+            navToMain('page-orders');
         } catch (e) { toast(e.message); checkForm(); } b.innerText = t('pay_now');
     };
 
-    // 💡 RESTORED: DEPOSIT, WITHDRAW, SPIN LOGIC 💡
+    // UPLOADS & TRANSACTIONS
     window.handleDepUpload = (i) => { if(i.files[0]) { vibe(); depFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('dep-placeholder').style.display='none'; document.getElementById('dep-img').src=e.target.result; document.getElementById('dep-img').style.display='block'; }; r.readAsDataURL(i.files[0]); } };
     async function uploadImage(f) { let fd = new FormData(); fd.append("image", f); try { let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let d = await res.json(); if(d.success) return d.data.url; throw new Error(); } catch(e) { throw new Error("Upload failed"); } }
-    async function sendTgAlert(msg, threadIdStr, imageUrl) { if(!tgBotToken || !tgChatId) return; let endpoint = imageUrl ? "sendPhoto" : "sendMessage"; let payload = { chat_id: tgChatId, parse_mode: "HTML" }; if(threadIdStr) payload.message_thread_id = parseInt(threadIdStr); if(imageUrl) { payload.photo = imageUrl; payload.caption = msg; } else { payload.text = msg; } try { await fetch(`https://api.telegram.org/bot${tgBotToken}/${endpoint}`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); } catch(e) {} }
-
-    window.submitDeposit = async () => {
-        let amt = parseInt(document.getElementById('dep-amount').value); let pMethod = document.getElementById('selected-dep-method').value;
-        if(!amt || !depFile || !pMethod) return toast("Enter amount, select method, and upload slip.");
-        vibe(); const b = document.getElementById('btn-dep'); b.innerText = "Uploading..."; b.disabled = true;
-        try {
-            let slipUrl = await uploadImage(depFile); let depId = 'DEP-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-            await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
-            sendTgAlert(`💸 <b>NEW DEPOSIT</b>\nUser: ${me.email}\nAmount: ${amt} Ks\nMethod: ${pMethod}`, tgDepositTopicId, slipUrl);
-            toast("Deposit request sent!"); document.getElementById('dep-amount').value = ""; document.getElementById('dep-img').style.display = "none"; document.getElementById('dep-placeholder').style.display = "block"; depFile = null; navToMain('page-profile');
-        } catch(e) { toast(e.message); } b.innerText = "Submit Deposit"; b.disabled = false;
-    };
-
-    window.submitWithdraw = async () => {
-        let amt = parseInt(document.getElementById('wd-amount').value); let met = document.getElementById('wd-method').value; let ph = document.getElementById('wd-phone').value; let nm = document.getElementById('wd-name').value;
-        if(!amt || !ph || !nm) return toast("Fill all fields"); if(amt > myWallet) return toast("Insufficient balance!");
-        vibe(); const b = document.getElementById('btn-wd'); b.disabled = true; b.innerText = "Processing...";
-        try {
-            await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - amt }); let wdId = 'WD-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-            await addDoc(collection(db, "withdrawals"), { wdId: wdId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: met, accPhone: ph, accName: nm, status: "Pending", createdAt: serverTimestamp() });
-            await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Withdrawal', amount: -amt, desc: `Requested withdraw via ${met}`, createdAt: serverTimestamp() });
-            sendTgAlert(`💳 <b>WITHDRAW REQUEST</b>\nUser: ${me.email}\nAmount: ${amt} Ks\nMethod: ${met}\nAcc: ${ph} (${nm})`, tgDepositTopicId, null);
-            toast("Withdraw requested!"); navToMain('page-profile'); document.getElementById('wd-amount').value=''; document.getElementById('wd-phone').value=''; document.getElementById('wd-name').value='';
-        } catch(e) { toast(e.message); } b.disabled = false; b.innerText = "Submit Request";
-    };
-
-    window.playSpin = async () => {
-        if(mySpins <= 0) return toast("No tickets! Top up 10,000 Ks to get 1 ticket.");
-        vibe(); let btn = document.getElementById('btn-spin'); btn.disabled = true; btn.innerText = "Spinning...";
-        let resBox = document.getElementById('spin-result'); let fakePrizes = [0, 100, 500, 1000, 5000];
-        let interval = setInterval(() => { resBox.innerText = fakePrizes[Math.floor(Math.random()*fakePrizes.length)] + " Ks"; vibe(); }, 100);
-        setTimeout(async () => {
-            clearInterval(interval); let rand = Math.random() * 100; let winAmt = 0;
-            if(rand < 60) winAmt = 0; else if(rand < 85) winAmt = 100; else if(rand < 96) winAmt = 500; else if(rand < 99) winAmt = 1000; else winAmt = 5000;
-            resBox.innerText = winAmt + " Ks"; resBox.style.transform = 'scale(1.2)'; setTimeout(()=>resBox.style.transform = 'scale(1)', 300);
-            try {
-                await updateDoc(doc(db, "users", me.uid), { spinCount: mySpins - 1, walletBalance: myWallet + winAmt });
-                if(winAmt > 0) { await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Reward', amount: winAmt, desc: `Lucky Spin Win`, createdAt: serverTimestamp() }); toast(`You won ${winAmt} Ks! 🎉`); } else { toast("Better luck next time!"); }
-            } catch(e) { toast("Error saving spin."); }
-            btn.disabled = false; btn.innerText = "Spin Again (1 Ticket)";
-        }, 2000);
-    };
+    
+    window.submitDeposit = async () => { let amt = parseInt(document.getElementById('dep-amount').value); let pMethod = document.getElementById('selected-dep-method').value; if(!amt || !depFile || !pMethod) return toast("Enter amount, select method, and upload slip."); vibe(); const b = document.getElementById('btn-dep'); b.innerText = "Uploading..."; b.disabled = true; try { let slipUrl = await uploadImage(depFile); let depId = 'DEP-' + Math.random().toString(36).substr(2, 6).toUpperCase(); await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() }); toast("Deposit request sent!"); document.getElementById('dep-amount').value = ""; document.getElementById('dep-img').style.display = "none"; document.getElementById('dep-placeholder').style.display = "block"; depFile = null; navToMain('page-profile'); } catch(e) { toast(e.message); } b.innerText = "Submit Deposit"; b.disabled = false; };
+    window.submitWithdraw = async () => { let amt = parseInt(document.getElementById('wd-amount').value); let met = document.getElementById('wd-method').value; let ph = document.getElementById('wd-phone').value; let nm = document.getElementById('wd-name').value; if(!amt || !ph || !nm) return toast("Fill all fields"); if(amt > myWallet) return toast("Insufficient balance!"); vibe(); const b = document.getElementById('btn-wd'); b.disabled = true; b.innerText = "Processing..."; try { await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - amt }); let wdId = 'WD-' + Math.random().toString(36).substr(2, 6).toUpperCase(); await addDoc(collection(db, "withdrawals"), { wdId: wdId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: met, accPhone: ph, accName: nm, status: "Pending", createdAt: serverTimestamp() }); await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Withdrawal', amount: -amt, desc: `Requested withdraw via ${met}`, createdAt: serverTimestamp() }); toast("Withdraw requested!"); navToMain('page-profile'); document.getElementById('wd-amount').value=''; document.getElementById('wd-phone').value=''; document.getElementById('wd-name').value=''; } catch(e) { toast(e.message); } b.disabled = false; b.innerText = "Submit Request"; };
+    
+    window.playSpin = async () => { if(mySpins <= 0) return toast("No tickets! Top up 10,000 Ks to get 1 ticket."); vibe(); let btn = document.getElementById('btn-spin'); btn.disabled = true; btn.innerText = "Spinning..."; let resBox = document.getElementById('spin-result'); let fakePrizes = [0, 100, 500, 1000, 5000]; let interval = setInterval(() => { resBox.innerText = fakePrizes[Math.floor(Math.random()*fakePrizes.length)] + " Ks"; vibe(); }, 100); setTimeout(async () => { clearInterval(interval); let rand = Math.random() * 100; let winAmt = 0; if(rand < 60) winAmt = 0; else if(rand < 85) winAmt = 100; else if(rand < 96) winAmt = 500; else if(rand < 99) winAmt = 1000; else winAmt = 5000; resBox.innerText = winAmt + " Ks"; resBox.style.transform = 'scale(1.2)'; setTimeout(()=>resBox.style.transform = 'scale(1)', 300); try { await updateDoc(doc(db, "users", me.uid), { spinCount: mySpins - 1, walletBalance: myWallet + winAmt }); if(winAmt > 0) { await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Reward', amount: winAmt, desc: `Lucky Spin Win`, createdAt: serverTimestamp() }); toast(`You won ${winAmt} Ks! 🎉`); } else { toast("Better luck next time!"); } } catch(e) { toast("Error saving spin."); } btn.disabled = false; btn.innerText = "Spin Again (1 Ticket)"; }, 2000); };
 </script>
 </body>
 </html>
