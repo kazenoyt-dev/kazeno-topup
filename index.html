@@ -42,15 +42,10 @@
       border: 1px solid var(--glass-border);
       border-top: 1px solid var(--glass-highlight); border-left: 1px solid var(--glass-highlight);
       box-shadow: var(--glass-shadow); 
-      border-radius: 20px; transition: 0.3s;
+      border-radius: 20px; transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
-
-  /* 💎 TINTED GLASS FOR LISTS (No more ugly side borders) */
-  .glass-tint-ok { background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(16,185,129,0.02)); border-color: rgba(16,185,129,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(16,185,129,0.1); }
-  .glass-tint-warn { background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.02)); border-color: rgba(245,158,11,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(245,158,11,0.1); }
-  .glass-tint-danger { background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(239,68,68,0.02)); border-color: rgba(239,68,68,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(239,68,68,0.1); }
   
-  .page, #auth-screen{display:none; padding:16px; animation:fadeInSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
+  .page, #auth-screen{display:none; padding:16px; animation:fadeInSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
   .page.active, #auth-screen.active{display:block;}
   @keyframes fadeInSlide { from {opacity:0; transform:translateY(15px) scale(0.98);} to {opacity:1; transform:translateY(0) scale(1);}}
 
@@ -63,10 +58,7 @@
   .toast{position:fixed; top:-100px; left:50%; transform:translateX(-50%); background:var(--ok); color:#fff; padding:12px 24px; border-radius:999px; font-weight:800; font-size:13px; opacity:0; transition:0.5s; z-index:9999; box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4); border:1px solid rgba(255,255,255,0.3);}
   .toast.show{opacity:1; top:30px;}
   
-  /* Compact Top Bar */
-  .compact-header { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; margin-bottom:15px; border-radius:18px; }
-  .compact-wallet { display:flex; align-items:center; gap:10px; cursor:pointer; }
-  .top-action-btn { background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); color:var(--text); border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition: 0.2s; backdrop-filter:blur(10px);}
+  .top-action-btn { background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); color:var(--text); border-radius:50%; width:38px; height:38px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition: 0.2s; backdrop-filter:blur(10px);}
   
   .game-container.grid-view { display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; }
   .game-container.grid-view .game-card { padding:18px; display:flex; flex-direction:column; align-items:center; text-align:center; cursor: pointer; border-radius: 24px;}
@@ -95,10 +87,6 @@
   .modal-overlay.active { display:flex; opacity:1; }
   .modal-box { width:100%; max-width:400px; padding:24px; border-radius:28px; position:relative; transform:scale(0.95) translateY(20px); transition:0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
   .modal-overlay.active .modal-box { transform:scale(1) translateY(0); }
-
-  /* Guide Videos */
-  .guide-card { margin-bottom: 20px; border-radius: 20px; overflow: hidden; }
-  .guide-card iframe { width: 100%; height: 200px; border: none; }
 </style>
 </head>
 <body data-theme="dark">
@@ -107,9 +95,9 @@
 <div id="toast" class="toast">Message</div>
 
 <div id="auth-screen" class="modal-overlay">
-    <div class="glass-card auth-box modal-box" style="margin-top:0; border:1px solid var(--accent);">
+    <div class="glass-card auth-box modal-box" style="margin-top:0; border:1px solid var(--accent); text-align:center;">
         <div style="text-align:left; margin-bottom:15px; cursor:pointer; color:var(--muted); font-size:13px;" onclick="closeAuthScreen()"><i class="fas fa-arrow-left"></i> <span data-i18n="back_shop">ဆိုင်သို့ ပြန်သွားမည်</span></div>
-        <div style="width:80px; height:80px; background:linear-gradient(135deg, var(--accent), var(--primary)); border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:40px; color:#fff; margin:0 auto 20px; box-shadow:0 15px 30px rgba(139,92,246,0.4), inset 0 2px 10px rgba(255,255,255,0.5);">K</div>
+        <div style="width:80px; height:80px; background:linear-gradient(135deg, var(--accent), var(--primary)); border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:40px; color:#fff; margin:0 auto 20px; box-shadow:0 15px 30px rgba(139,92,246,0.4), inset 0 2px 10px rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.4);">K</div>
         <div style="font-size:24px; font-weight:800; margin-bottom:30px; color:var(--text);" data-i18n="pls_login">ကျေးဇူးပြု၍ အကောင့်ဝင်ပါ</div>
         <input type="email" id="auth-email" class="glass-input" data-i18n-ph="email_ph" placeholder="အီးမေးလ်">
         <input type="password" id="auth-password" class="glass-input" data-i18n-ph="pass_ph" placeholder="စကားဝှက်">
@@ -122,23 +110,29 @@
 <div id="main-app" class="app-container active">
 
     <div id="page-home" class="page active">
-        <div class="glass-card compact-header">
-            <div class="compact-wallet" onclick="checkAuthAndGo('page-profile')">
-                <div style="width:36px; height:36px; border-radius:12px; background:rgba(16,185,129,0.2); display:flex; align-items:center; justify-content:center; border:1px solid rgba(16,185,129,0.4);"><i class="fas fa-wallet text-ok"></i></div>
-                <div>
-                    <div style="font-size:10px; color:var(--muted);" data-i18n="wallet">လက်ကျန်ငွေ</div>
-                    <div style="font-size:14px; font-weight:bold; color:var(--text);" id="home-wallet">Login...</div>
-                </div>
-            </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; padding: 0 5px;">
+            <div style="font-weight:900; font-size:26px; background:linear-gradient(135deg, #fff, var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 2px 5px rgba(14,165,233,0.3));">Kazeno</div>
             <div style="display:flex; gap:8px;">
-                <div class="top-action-btn" onclick="toggleLang()" id="langBtn">MY</div>
-                <div class="top-action-btn" onclick="checkAuthAndGo('page-notifications')" style="position:relative;">
-                    <i class="fas fa-bell"></i><span id="bell-count" style="display:none; position:absolute; top:8px; right:8px; width:6px; height:6px; background:var(--danger); border-radius:50%;"></span>
-                </div>
+                <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn"><i class="fas fa-moon"></i></button>
+                <button class="top-action-btn" onclick="toggleLang()" id="langBtn" style="font-size:11px;">MY</button>
+                <button class="top-action-btn" onclick="checkAuthAndGo('page-notifications')" style="position:relative;">
+                    <i class="fas fa-bell"></i><span id="bell-count" style="display:none; position:absolute; top:8px; right:8px; width:8px; height:8px; background:var(--danger); border-radius:50%;"></span>
+                </button>
             </div>
         </div>
         
-        <img id="dyn-home-banner" src="https://img.freepik.com/free-vector/neon-gaming-youtube-channel-art_23-2148154817.jpg" style="width:100%; height:180px; object-fit:cover; border-radius:24px; margin-bottom:20px; box-shadow: var(--glass-shadow);">
+        <div class="glass-card" style="padding:15px 20px; display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; cursor:pointer;" onclick="checkAuthAndGo('page-profile')">
+            <div style="display:flex; align-items:center; gap:15px;">
+                <div style="width:42px; height:42px; border-radius:14px; background:linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.05)); display:flex; align-items:center; justify-content:center; border:1px solid rgba(16,185,129,0.3); box-shadow: 0 4px 10px rgba(0,0,0,0.2);"><i class="fas fa-wallet" style="color:var(--ok); font-size:18px;"></i></div>
+                <div>
+                    <div style="font-size:11px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px;" data-i18n="wallet">လက်ကျန်ငွေ</div>
+                    <div style="font-size:18px; font-weight:800; color:var(--text); text-shadow: 0 0 10px rgba(255,255,255,0.2);" id="home-wallet">Loading...</div>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right" style="color:var(--muted);"></i>
+        </div>
+        
+        <img id="dyn-home-banner" src="https://img.freepik.com/free-vector/neon-gaming-youtube-channel-art_23-2148154817.jpg" style="width:100%; height:180px; object-fit:cover; border-radius:24px; margin-bottom:25px; display:block; border:1px solid var(--glass-highlight); box-shadow: var(--glass-shadow);">
         
         <div id="dyn-game-list" class="game-container grid-view"><div style="text-align:center; padding:20px; color:var(--muted);" data-i18n="loading">စောင့်ဆိုင်းပါ...</div></div>
     </div>
@@ -196,20 +190,25 @@
             </div>
         </div>
         
+        <h3 style="font-size:14px; color:var(--muted); margin-bottom:15px; font-weight:700; text-transform:uppercase; letter-spacing:1px;" data-i18n="menu">မီနူး</h3>
         <div class="glass-card" style="padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="navTo('page-spin')">
-            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(245,158,11,0.15); color:var(--warning); display:flex; justify-content:center; align-items:center;"><i class="fas fa-gift"></i></div><strong style="font-weight:600;" data-i18n="spin">ကံစမ်းမဲ</strong></div>
+            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(245,158,11,0.15); color:var(--warning); display:flex; justify-content:center; align-items:center; font-size:20px; border:1px solid rgba(245,158,11,0.3);"><i class="fas fa-gift"></i></div><strong style="font-weight:600;" data-i18n="spin">ကံစမ်းမဲ</strong></div>
             <i class="fas fa-chevron-right text-muted"></i>
         </div>
         <div class="glass-card" style="padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="navTo('page-guide')">
-            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(16,185,129,0.15); color:var(--ok); display:flex; justify-content:center; align-items:center;"><i class="fas fa-book-open"></i></div><strong style="font-weight:600;" data-i18n="guide">အသုံးပြုနည်း လမ်းညွှန်</strong></div>
+            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(16,185,129,0.15); color:var(--ok); display:flex; justify-content:center; align-items:center; font-size:20px; border:1px solid rgba(16,185,129,0.3);"><i class="fas fa-book-open"></i></div><strong style="font-weight:600;" data-i18n="guide">အသုံးပြုနည်း လမ်းညွှန်</strong></div>
             <i class="fas fa-chevron-right text-muted"></i>
         </div>
         <div class="glass-card" style="padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="navTo('page-ledger')">
-            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(14,165,233,0.15); color:var(--accent); display:flex; justify-content:center; align-items:center;"><i class="fas fa-book"></i></div><strong style="font-weight:600;" data-i18n="ledger">ပိုက်ဆံအိတ် မှတ်တမ်း</strong></div>
+            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(14,165,233,0.15); color:var(--accent); display:flex; justify-content:center; align-items:center; font-size:20px; border:1px solid rgba(14,165,233,0.3);"><i class="fas fa-book"></i></div><strong style="font-weight:600;" data-i18n="ledger">ပိုက်ဆံအိတ် မှတ်တမ်း</strong></div>
+            <i class="fas fa-chevron-right text-muted"></i>
+        </div>
+        <div class="glass-card" style="padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="openPassModal()">
+            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(139,92,246,0.15); color:var(--primary); display:flex; justify-content:center; align-items:center; font-size:20px; border:1px solid rgba(139,92,246,0.3);"><i class="fas fa-key"></i></div><strong style="font-weight:600;" data-i18n="change_pass">စကားဝှက် ပြောင်းရန်</strong></div>
             <i class="fas fa-chevron-right text-muted"></i>
         </div>
         <div class="glass-card" style="padding:16px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="logout()">
-            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(239,68,68,0.15); color:var(--danger); display:flex; justify-content:center; align-items:center;"><i class="fas fa-sign-out-alt"></i></div><strong style="color:var(--danger); font-weight:600;" data-i18n="logout">အကောင့်ထွက်မည်</strong></div>
+            <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(239,68,68,0.15); color:var(--danger); display:flex; justify-content:center; align-items:center; font-size:20px; border:1px solid rgba(239,68,68,0.3);"><i class="fas fa-sign-out-alt"></i></div><strong style="color:var(--danger); font-weight:600;" data-i18n="logout">အကောင့်ထွက်မည်</strong></div>
         </div>
     </div>
 
@@ -256,7 +255,7 @@
         <button class="btn-gel" style="padding:18px; font-size:18px;" id="btn-spin" onclick="playSpin()"><i class="fas fa-sync-alt mr-2"></i> Spin Now (1 Ticket)</button>
     </div>
 
-    <div id="page-orders" class="page"><h2 style="margin-bottom:20px; font-weight:800;" data-i18n="my_orders">အော်ဒါမှတ်တမ်း</h2><div id="orders-list"></div></div>
+    <div id="page-orders" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="my_orders">အော်ဒါမှတ်တမ်း</h2></div><div id="orders-list"></div></div>
     <div id="page-notifications" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="noti">အသိပေးချက်များ</h2></div><div id="noti-list"></div></div>
     <div id="page-ledger" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="ledger">ပိုက်ဆံအိတ် မှတ်တမ်း</h2></div><div id="ledger-list"></div></div>
 
@@ -273,8 +272,8 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, where, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, where, doc, setDoc, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
@@ -298,7 +297,7 @@
 
     window.toast = (m) => { vibe(); const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); };
     window.vibe = () => { if(navigator.vibrate) navigator.vibrate(30); }
-    window.formatDate = (ts) => { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString(); };
+    window.formatDate = (ts) => { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); };
     
     // 💡 HARDWARE BACK BUTTON (History API) 💡
     window.navToMain = (id) => { vibe(); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); navTo(id); };
@@ -336,7 +335,8 @@
     onSnapshot(collection(db, "payment_methods"), (snap) => { 
         payMethods = []; let html = "";
         snap.forEach(s => { let p = {id: s.id, ...s.data()}; payMethods.push(p); html += `<div class="glass-card dyn-pay-card" onclick="document.querySelectorAll('.dyn-pay-card').forEach(c=>c.classList.remove('selected')); this.classList.add('selected'); document.getElementById('selected-pay-method').value='${p.name}'; document.getElementById('selected-dep-method').value='${p.name}'; checkForm();"><strong style="color:var(--accent); font-size:15px;">${p.name}</strong><br><span style="font-family:monospace; font-weight:bold;">${p.phone}</span> <span style="font-size:11px;">(${p.accName})</span></div>`; });
-        document.getElementById('dep-dyn-payments').innerHTML = html; document.getElementById('chk-dyn-payments').innerHTML = html;
+        let depEl = document.getElementById('dep-dyn-payments'); if(depEl) depEl.innerHTML = html; 
+        let chkEl = document.getElementById('chk-dyn-payments'); if(chkEl) chkEl.innerHTML = html;
     });
     
     // 💡 USER GUIDES SYNC 💡
@@ -347,7 +347,7 @@
             h += `<div class="glass-card guide-card" style="padding:20px; margin-bottom:20px;">
                 <h3 style="color:var(--accent); font-weight:800; margin-bottom:10px;">${g.title}</h3>
                 <div style="font-size:13px; color:var(--text); line-height:1.8; margin-bottom:15px;">${g.content}</div>
-                ${g.videoUrl ? `<iframe src="${g.videoUrl}" allowfullscreen style="border-radius:12px;"></iframe>` : ''}
+                ${g.videoUrl ? `<iframe src="${g.videoUrl}" allowfullscreen style="border-radius:12px; width:100%; height:200px; border:none;"></iframe>` : ''}
             </div>`;
         });
         document.getElementById('guide-list').innerHTML = h || `<div style="text-align:center; padding:40px; color:gray;">No guides available yet.</div>`;
@@ -362,32 +362,31 @@
         } else { me = null; document.getElementById('home-wallet').innerText = "Login..."; allMyData = []; renderHistory(); document.getElementById('ledger-list').innerHTML = ""; }
     });
 
-    function renderGames(list) { let html = ""; list.forEach(c => { if(c.isActive) { html += `<div class="game-card glass-card" onclick="openGameDetail('${c.id}')"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div style="flex:1; margin:0 12px; text-align:left;"><div style="font-weight:800; font-size:16px; color:var(--text);">${c.name}</div><div style="font-size:12px; color:var(--ok); font-weight:600; text-transform:uppercase; letter-spacing:1px;">Available</div></div><div class="buy-btn">Open</div></div>`; } }); document.getElementById('dyn-game-list').innerHTML = html || `<div style="text-align:center; color:gray; width:100%; padding:20px;">No games found.</div>`; }
+    function renderGames(list) { let html = ""; list.forEach(c => { if(c.isActive) { html += `<div class="game-card glass-card" onclick="openGameDetail('${c.id}')"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div style="flex:1; margin:0 12px; text-align:left;"><div style="font-weight:800; font-size:16px; color:var(--text);">${c.name}</div><div style="font-size:12px; color:var(--ok); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-top:2px;">Available</div></div><div class="buy-btn">Open</div></div>`; } }); document.getElementById('dyn-game-list').innerHTML = html || `<div style="text-align:center; color:gray; width:100%; padding:20px;">No games found.</div>`; }
 
     // 💡 BEAUTIFUL GLASS LISTS 💡
     function renderHistory() {
         if(!me) return; allMyData.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
         let oHtml = "", nHtml = "", unread = 0;
         allMyData.forEach(o => {
-            let colorCls = o.status==='Completed' ? 'glass-tint-ok' : (o.status==='Cancelled' ? 'glass-tint-danger' : 'glass-tint-warn');
             let txtColor = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)');
             let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc');
             
             if(o.type === 'order') { 
-                oHtml += `<div class="glass-card ${colorCls}" style="padding:18px; margin-bottom:15px; cursor:pointer;" onclick="showOrderDetails('${o.id}')">
+                oHtml += `<div class="glass-card" style="padding:18px; margin-bottom:15px; cursor:pointer;" onclick="showOrderDetails('${o.id}')">
                     <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
                         <span style="font-family:monospace; color:var(--text); font-weight:bold; font-size:13px;">${o.orderId || o.id.substring(0,8)}</span>
-                        <span style="background:rgba(255,255,255,0.1); color:${txtColor}; font-size:11px; padding:4px 12px; border-radius:8px; font-weight:800;">${t(statKey).toUpperCase()}</span>
+                        <span style="background:rgba(255,255,255,0.1); color:${txtColor}; font-size:11px; padding:4px 12px; border-radius:8px; font-weight:800; border:1px solid ${txtColor}40;">${t(statKey).toUpperCase()}</span>
                     </div>
                     <div style="font-weight:800; font-size:16px; color:var(--text);">${o.game} - <span style="color:var(--muted);">${o.item}</span></div>
-                    <div style="font-size:18px; font-weight:900; margin-top:12px; color:${txtColor};">${o.price.toLocaleString()} Ks</div>
+                    <div style="font-size:18px; font-weight:900; margin-top:12px; color:${txtColor}; text-shadow:0 0 10px ${txtColor}40;">${o.price.toLocaleString()} Ks</div>
                 </div>`; 
             }
             if(o.status !== 'Pending' && o.type === 'order') { 
                 unread++; 
-                nHtml += `<div class="glass-card ${colorCls}" style="padding:16px; margin-bottom:14px;">
+                nHtml += `<div class="glass-card" style="padding:16px; margin-bottom:14px; border-left:3px solid ${txtColor};">
                     <div style="font-weight:bold; font-size:14px; margin-bottom:8px; color:${txtColor};">${t(statKey)}</div>
-                    <div style="font-size:13px; color:var(--text); line-height:1.6;">${t('your_order')} <span style="font-weight:bold;">${o.item} (${o.game})</span> ${t('is')} ${t(statKey).toLowerCase()}.</div>
+                    <div style="font-size:13px; color:var(--text); line-height:1.6;">${t('your_order')} <span style="font-weight:bold; color:var(--accent);">${o.item} (${o.game})</span> ${t('is')} ${t(statKey).toLowerCase()}.</div>
                     <div style="font-size:11px; text-align:right; margin-top:10px; color:var(--muted);"><i class="far fa-clock"></i> ${formatDate(o.createdAt)}</div>
                 </div>`; 
             }
@@ -404,7 +403,7 @@
         vibe(); let c = dynamicCats.find(x => x.id === catId); if(!c) return;
         currentOrder.gameName = c.name; document.getElementById('detail-game-title').innerText = c.name; document.getElementById('detail-banner').src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
         
-        let p1 = c.uidPlaceholder || "Player ID";
+        let p1 = c.uidPlaceholder || "Player ID / Game ID";
         let p2 = c.zonePlaceholder || "Zone / Server ID";
 
         let formHtml = ''; let forms = c.forms || [];
@@ -460,9 +459,9 @@
 
             await addDoc(collection(db, "orders"), { orderId: ordId, userId: me.uid, userEmail: me.email, game: currentOrder.gameName, item: currentOrder.item, price: currentOrder.price, playerId: finalId, payMethod: finalMethod, slipImage: slipUrl, beforeBalance: beforeBal, afterBalance: afterBal, status: "Pending", createdAt: serverTimestamp() });
             toast("Order Placed Successfully!"); 
-            orderFile = null; document.getElementById('preview-img').style.display='none'; document.getElementById('upload-placeholder').style.display='block';
+            orderFile = null; let prevImg = document.getElementById('preview-img'); if(prevImg) prevImg.style.display='none'; let upPlace = document.getElementById('upload-placeholder'); if(upPlace) upPlace.style.display='block';
             navToMain('page-orders');
-        } catch (e) { toast(e.message); checkForm(); } b.innerText = t('pay_now');
+        } catch (e) { toast(e.message); checkForm(); } b.innerText = t('pay_now'); b.disabled = false;
     };
 
     // UPLOADS & TRANSACTIONS
@@ -476,3 +475,4 @@
 </script>
 </body>
 </html>
+
