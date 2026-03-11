@@ -3,91 +3,103 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>Kazeno Admin - Premium</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Admin - Kazeno Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
-  :root {
+  /* 🌗 LIQUID GLASS THEME VARIABLES 🌗 */
+  :root { 
       --bg: #030308; --text: #ffffff; --muted: #a1a1aa; 
-      --primary: #8b5cf6; --accent: #0ea5e9; --ok: #10b981; --danger: #ef4444; --warning: #f59e0b;
-      --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+      --primary: #8b5cf6; --accent: #0ea5e9; --ok: #10b981; --danger: #ef4444; --warning: #f59e0b; 
+      --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%);
       --glass-border: rgba(255, 255, 255, 0.15); 
       --glass-highlight: rgba(255, 255, 255, 0.3);
       --glass-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.03);
       --input-bg: rgba(0, 0, 0, 0.3);
   }
   
-  * { box-sizing: border-box; outline: none; margin: 0; padding: 0; font-family: 'Poppins', sans-serif;}
+  * { box-sizing: border-box; outline: none; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent;}
   body { background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
-  /* Liquid Aurora Background */
-  .liquid-bg { position: fixed; inset: 0; z-index: -3; background: radial-gradient(circle at 20% 40%, rgba(14, 165, 233, 0.2), transparent 50%), radial-gradient(circle at 80% 60%, rgba(139, 92, 246, 0.2), transparent 50%); filter: blur(60px); animation: liquidFlow 15s infinite alternate ease-in-out; }
+  /* 🌊 LIQUID AURORA BACKGROUND */
+  .liquid-bg { position: fixed; inset: 0; z-index: -3; background: radial-gradient(circle at 20% 40%, rgba(14, 165, 233, 0.2), transparent 50%), radial-gradient(circle at 80% 60%, rgba(139, 92, 246, 0.2), transparent 50%); filter: blur(60px); animation: liquidFlow 15s infinite alternate ease-in-out; pointer-events: none;}
   @keyframes liquidFlow { 0% { transform: scale(1) translate(0, 0); } 100% { transform: scale(1.1) translate(5%, 5%); } }
 
-  .glass-card { background: var(--glass-bg); backdrop-filter: blur(25px) saturate(150%); border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-left: 1px solid var(--glass-highlight); box-shadow: var(--glass-shadow); border-radius: 20px; transition: 0.3s; }
-  .glass-nav { background: rgba(5,5,12,0.8); backdrop-filter: blur(25px); border-right: 1px solid var(--glass-border); }
-  .glass-header { background: rgba(5,5,12,0.8); backdrop-filter: blur(25px); border-bottom: 1px solid var(--glass-border); z-index: 50; }
+  /* 🧊 LIQUID GLASS CARDS (Replacing old glass-card) */
+  .glass-card { background: var(--glass-bg); backdrop-filter: blur(25px) saturate(150%); border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-left: 1px solid var(--glass-highlight); box-shadow: var(--glass-shadow); border-radius: 16px; transition: 0.3s; }
+  .glass-nav { background: rgba(5,5,12,0.7); backdrop-filter: blur(25px); border-right: 1px solid var(--glass-border); }
+  .glass-header { background: rgba(5,5,12,0.7); backdrop-filter: blur(25px); border-bottom: 1px solid var(--glass-border); z-index: 50;}
 
-  .sidebar { width: 260px; display: flex; flex-direction: column; transition: 0.3s; z-index: 10000; flex-shrink: 0; }
+  /* LAYOUT */
+  .sidebar { width: 250px; display: flex; flex-direction: column; transition: 0.3s; z-index: 10000; flex-shrink: 0; }
   .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; backdrop-filter: blur(5px); }
   .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; z-index: 1; width: 100%;}
-  .top-header { height: 70px; display: flex; align-items: center; padding: 0 25px; justify-content: space-between;}
-  .content-area { flex: 1; overflow-y: auto; padding: 25px; }
+  .top-header { height: 65px; display: flex; align-items: center; padding: 0 20px; justify-content: space-between;}
+  .content-area { flex: 1; overflow-y: auto; padding: 20px; -webkit-overflow-scrolling: touch; }
 
-  .brand-area { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 25px; border-bottom: 1px solid var(--glass-border); }
-  .brand-text { font-weight: 800; font-size: 20px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+  .brand-area { height: 65px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid var(--glass-border); }
+  .brand-text { font-weight: 800; font-size: 18px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
   .close-sidebar { display: none; background: none; border: none; color: var(--text); font-size: 20px; cursor: pointer; }
   
   .menu-wrap { flex: 1; overflow-y: auto; padding: 15px 0; }
-  .menu-label { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; margin: 15px 25px 5px; letter-spacing: 1px;}
-  .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 25px; color: var(--muted); font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.3s; border-left: 4px solid transparent; }
+  .menu-label { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; margin: 15px 20px 5px; letter-spacing: 1px;}
+  .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: var(--muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.3s; border-left: 4px solid transparent; }
   .menu-item:hover, .menu-item.active { background: rgba(14, 165, 233, 0.15); color: #fff; border-left-color: var(--accent); text-shadow: 0 0 10px rgba(14,165,233,0.5);}
-  .menu-toggle { background: none; border: none; color: #fff; cursor: pointer; display: none; font-size: 20px; }
 
-  .view { display: none; animation: fadeIn 0.4s ease; } .view.active { display: block; }
+  .menu-toggle { background: none; border: none; color: #fff; cursor: pointer; display: none; font-size: 20px; }
+  .header-title { font-size: 18px; font-weight: 700; }
+
+  .view { display: none; animation: fadeIn 0.3s; } .view.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 25px; }
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px; }
   .stat-card { padding: 20px; }
-  .stat-val { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 5px; text-shadow: 0 0 15px rgba(255,255,255,0.3); }
+  .stat-val { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 5px; text-shadow: 0 0 10px rgba(255,255,255,0.2);}
   .stat-label { font-size: 12px; color: var(--muted); }
+
+  .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; position: relative; z-index: 10;}
+  .page-title { font-size: 20px; font-weight: 800; }
   
-  .table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 25px; border-radius: 20px; border: 1px solid var(--glass-border); }
+  .table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 20px; border-radius: 16px; border: 1px solid var(--glass-border); }
   table { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; }
-  th { padding: 15px 20px; font-size: 12px; font-weight: 700; color: var(--muted); border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); white-space: nowrap; text-transform: uppercase;}
-  td { padding: 15px 20px; font-size: 13px; border-bottom: 1px solid var(--glass-border); vertical-align: middle; }
+  th { padding: 15px; font-size: 12px; font-weight: 700; color: var(--muted); border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); white-space: nowrap; text-transform: uppercase;}
+  td { padding: 15px; font-size: 13px; border-bottom: 1px solid var(--glass-border); vertical-align: middle; }
   tr:hover { background: rgba(255,255,255,0.05); }
 
-  .badge { padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; white-space: nowrap; display: inline-block; border: 1px solid transparent;}
-  .bg-active { background: rgba(16, 185, 129, 0.15); color: var(--ok); border-color: rgba(16,185,129,0.3); }
-  .bg-inactive { background: rgba(245, 158, 11, 0.15); color: var(--warning); border-color: rgba(245,158,11,0.3); }
-  .bg-pill { background: rgba(255,255,255,0.1); color: var(--muted); border-color: var(--glass-border); }
+  .badge { padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; white-space: nowrap; display: inline-block;}
+  .bg-active { background: rgba(16, 185, 129, 0.15); color: var(--ok); border: 1px solid rgba(16, 185, 129, 0.3);}
+  .bg-inactive { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3);}
+  .bg-pill { background: rgba(255,255,255,0.1); color: var(--muted); border: 1px solid var(--glass-border); }
+  
+  /* 🍬 GEL BUTTONS & INPUTS */
+  .btn { padding: 12px 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.3); font-size: 13px; font-weight: 600; cursor: pointer; color: #fff; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; gap:6px; white-space: nowrap;}
+  .btn:active { transform: scale(0.95); } 
+  .btn-primary { background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%), linear-gradient(135deg, var(--accent), var(--primary)); box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4), inset 0 2px 5px rgba(255,255,255,0.5); } 
+  .btn-ok { background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%), var(--ok); box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3); } 
+  .btn-warning { background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%), var(--warning); color: #000; border-color: rgba(0,0,0,0.2);}
+  .btn-danger { background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%), linear-gradient(135deg, #ef4444, #b91c1c); box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);}
+  .btn-dark { background: rgba(0,0,0,0.4); border-color: var(--glass-border); box-shadow: none; }
 
-  .btn-gel { background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%), linear-gradient(135deg, var(--accent), var(--primary)); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 10px 16px; border-radius: 12px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4), inset 0 2px 5px rgba(255,255,255,0.5); display: inline-flex; align-items: center; justify-content: center; gap:6px;}
-  .btn-gel:active { transform: scale(0.95); } 
-  .btn-danger { background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%), linear-gradient(135deg, #ef4444, #b91c1c); box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4); }
-  .btn-dark { background: rgba(0,0,0,0.5); border-color: var(--glass-border); box-shadow: none; }
-
-  .tabs-container { display: flex; gap: 12px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+  .tabs-container { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
   .tab-pill { background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: var(--muted); padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; }
   .tab-pill.active { background: rgba(14, 165, 233, 0.2); color: var(--accent); border-color: var(--accent); box-shadow: 0 0 15px rgba(14,165,233,0.3);}
 
-  .glass-input { width: 100%; font-family: 'Poppins'; font-size: 13px; padding: 14px; border-radius: 12px; margin-bottom: 15px; transition: 0.3s; background: var(--input-bg); color: var(--text); border: 1px solid var(--glass-border); box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); }
-  .glass-input:focus { border-color: var(--accent); box-shadow: inset 0 2px 5px rgba(0,0,0,0.3), 0 0 15px rgba(14, 165, 233, 0.3); }
+  .input-box, .select-box { width: 100%; background: var(--input-bg); border: 1px solid var(--glass-border); padding: 14px; border-radius: 12px; color: #fff; font-size: 13px; margin-bottom: 15px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);}
+  .input-box:focus { border-color: var(--accent); box-shadow: inset 0 2px 5px rgba(0,0,0,0.3), 0 0 15px rgba(14, 165, 233, 0.3);}
   
-  .upload-box { border: 2px dashed var(--glass-highlight); border-radius: 16px; padding: 20px; text-align: center; color: var(--accent); font-weight:bold; cursor: pointer; font-size: 13px; background: rgba(0,0,0,0.2); transition: 0.3s; margin-bottom: 15px;}
+  .upload-box { border: 2px dashed var(--glass-highlight); border-radius: 16px; padding: 20px; text-align: center; color: var(--accent); cursor: pointer; font-size: 13px; font-weight: 600; background: rgba(0,0,0,0.2); transition: 0.3s; margin-bottom: 15px;}
   .upload-box:hover { background: rgba(14,165,233,0.1); border-color: var(--accent); }
 
   .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index: 20000; display: none; align-items: center; justify-content: center; padding: 15px; }
   .modal-bg.active { display: flex; } 
-  .modal-card { width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; padding: 30px; transform: scale(0.95); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+  .modal-card { width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; padding: 30px; transform: scale(0.95); transition: 0.3s; }
   .modal-bg.active .modal-card { transform: scale(1); }
 
-  .toast { position: fixed; top: 20px; right: 20px; background: var(--ok); color: #fff; padding: 12px 25px; border-radius: 10px; font-weight: 700; font-size: 13px; opacity: 0; transition: 0.4s; z-index: 30000; box-shadow: 0 5px 20px rgba(16,185,129,0.5); transform: translateY(-20px);}
+  .toast { position: fixed; top: 20px; right: 20px; background: var(--ok); color: #fff; padding: 15px 25px; border-radius: 12px; font-weight: 700; font-size: 13px; opacity: 0; transition: 0.4s; z-index: 30000; box-shadow: 0 5px 20px rgba(16,185,129,0.5); transform: translateY(-20px);}
   .toast.show { opacity: 1; transform: translateY(0); }
 
   @media (max-width: 768px) { 
-      .sidebar { position: fixed; left: -280px; height: 100%; box-shadow: 5px 0 25px rgba(0,0,0,0.7); } 
+      .sidebar { position: fixed; left: -260px; height: 100%; box-shadow: 5px 0 25px rgba(0,0,0,0.7); } 
       .sidebar.open { left: 0; } 
       .sidebar-overlay.active { display: block; }
       .menu-toggle { display: block; } 
@@ -101,44 +113,43 @@
 
 <div id="auth-gate" style="position:fixed; inset:0; background:var(--bg); z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
     <div style="font-size:28px; font-weight:800; margin-bottom:30px; background:linear-gradient(135deg, #fff, var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Kazeno Admin</div>
-    <div class="glass-card" style="padding: 30px; text-align: center;">
-        <input type="password" id="admin-pin" class="glass-input" placeholder="Enter Admin PIN" style="text-align:center; font-size: 18px; letter-spacing: 5px; width: 250px;">
-        <button class="btn-gel" style="width:250px; font-size:15px;" onclick="window.checkPin()">Secure Login</button>
+    <div class="glass-card" style="padding: 30px; text-align: center; width: 90%; max-width: 350px;">
+        <input type="password" id="admin-pin" class="input-box" placeholder="Enter PIN" style="text-align:center; font-size: 18px; letter-spacing: 5px;">
+        <button class="btn btn-primary" style="width:100%; font-size:15px;" onclick="checkPin()">Secure Login</button>
     </div>
 </div>
 
 <div id="main-admin" style="display:none; width:100%; height:100%;">
     
-    <div class="sidebar-overlay" id="sidebar-overlay" onclick="window.toggleSidebar()"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
     <div class="sidebar glass-nav" id="sidebar">
-        <div class="brand-area"><div class="brand-text">Kazeno Panel</div><button class="close-sidebar" onclick="window.toggleSidebar()"><i class="fas fa-times"></i></button></div>
+        <div class="brand-area"><div class="brand-text">Kazeno Panel</div><button class="close-sidebar" onclick="toggleSidebar()"><i class="fas fa-times"></i></button></div>
         <div class="menu-wrap">
             <div class="menu-label">Main</div>
-            <div class="menu-item active" onclick="window.switchTab('v-dash', this)"><i class="fas fa-chart-pie"></i> Dashboard </div>
-            <div class="menu-item" onclick="window.switchTab('v-users', this)"><i class="fas fa-users"></i> Users & Ledger </div>
+            <div class="menu-item active" onclick="switchTab('v-dash', this)"><i class="fas fa-chart-pie"></i> Dashboard </div>
+            <div class="menu-item" onclick="switchTab('v-users', this)"><i class="fas fa-users"></i> Users </div>
             
             <div class="menu-label">Financials & Orders</div>
-            <div class="menu-item" onclick="window.switchTab('v-orders', this)"><i class="fas fa-box-open"></i> Process Orders </div>
-            <div class="menu-item" onclick="window.switchTab('v-deposits', this)"><i class="fas fa-arrow-down text-ok"></i> Deposits </div>
-            <div class="menu-item" onclick="window.switchTab('v-withdraws', this)"><i class="fas fa-arrow-up text-danger"></i> Withdrawals </div>
+            <div class="menu-item" onclick="switchTab('v-orders', this)"><i class="fas fa-box-open"></i> Orders </div>
+            <div class="menu-item" onclick="switchTab('v-deposits', this)"><i class="fas fa-arrow-down text-ok"></i> Deposits </div>
+            <div class="menu-item" onclick="switchTab('v-withdraws', this)"><i class="fas fa-arrow-up text-danger"></i> Withdrawals </div>
             
-            <div class="menu-label">Catalog & Content</div>
-            <div class="menu-item" onclick="window.switchTab('v-categories', this)"><i class="fas fa-gamepad"></i> Categories </div>
-            <div class="menu-item" onclick="window.switchTab('v-products', this)"><i class="fas fa-gem"></i> Products </div>
-            <div class="menu-item" onclick="window.switchTab('v-guides', this)"><i class="fas fa-book-open"></i> User Guides </div>
+            <div class="menu-label">Catalog</div>
+            <div class="menu-item" onclick="switchTab('v-categories', this)"><i class="fas fa-gamepad"></i> Categories </div>
+            <div class="menu-item" onclick="switchTab('v-products', this)"><i class="fas fa-gem"></i> Products </div>
             
             <div class="menu-label">Marketing & Config</div>
-            <div class="menu-item" onclick="window.switchTab('v-promo', this)"><i class="fas fa-ticket-alt"></i> Promo Codes </div>
-            <div class="menu-item" onclick="window.switchTab('v-payments', this)"><i class="fas fa-money-check"></i> Payment Methods </div>
-            <div class="menu-item" onclick="window.switchTab('v-settings', this)"><i class="fas fa-cog"></i> Settings </div>
+            <div class="menu-item" onclick="switchTab('v-promo', this)"><i class="fas fa-ticket-alt"></i> Promo Codes </div>
+            <div class="menu-item" onclick="switchTab('v-payments', this)"><i class="fas fa-money-check"></i> Payments </div>
+            <div class="menu-item" onclick="switchTab('v-settings', this)"><i class="fas fa-cog"></i> Settings </div>
             <div class="menu-item" style="color: var(--danger);" onclick="location.reload()"><i class="fas fa-sign-out-alt"></i> Logout </div>
         </div>
     </div>
 
     <div class="main-content">
         <div class="top-header glass-header">
-            <div style="display:flex; align-items:center; gap:15px;"><button class="menu-toggle" onclick="window.toggleSidebar()"><i class="fas fa-bars"></i></button><div class="header-title" id="page-title">Dashboard</div></div>
+            <div style="display:flex; align-items:center; gap:15px;"><button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button><div class="header-title" id="page-title">Dashboard</div></div>
             <div style="width:40px; height:40px; background:linear-gradient(135deg, var(--accent), var(--primary)); border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:bold; box-shadow: 0 5px 15px rgba(138,43,226,0.5);">A</div>
         </div>
 
@@ -160,25 +171,25 @@
             </div>
 
             <div id="v-users" class="view">
-                <div class="header-actions"><div class="page-title">Users Management</div></div>
+                <div class="header-actions"><div class="page-title">Users</div></div>
                 <div class="table-wrapper glass-card">
                     <table>
-                        <thead><tr><th>Email</th><th>Balance</th><th>Spins</th><th>Action</th></tr></thead>
-                        <tbody id="tb-users"><tr><td colspan="4" style="text-align:center; padding:30px;"><i class="fas fa-spinner fa-spin text-2xl"></i> Loading...</td></tr></tbody>
+                        <thead><tr><th>Email</th><th>Role</th><th>Balance</th><th>Spins</th><th>Action</th></tr></thead>
+                        <tbody id="tb-users"></tbody>
                     </table>
                 </div>
             </div>
 
             <div id="v-orders" class="view">
                 <div class="tabs-container">
-                    <div class="tab-pill active" onclick="window.filterOrders('Pending', this)">Pending</div>
-                    <div class="tab-pill" onclick="window.filterOrders('Processing', this)">Processing</div>
-                    <div class="tab-pill" onclick="window.filterOrders('Completed', this)">Completed</div>
-                    <div class="tab-pill" onclick="window.filterOrders('Cancelled', this)">Cancelled</div>
+                    <div class="tab-pill active" onclick="filterOrders('Pending', this)">Pending</div>
+                    <div class="tab-pill" onclick="filterOrders('Processing', this)">Processing</div>
+                    <div class="tab-pill" onclick="filterOrders('Completed', this)">Completed</div>
+                    <div class="tab-pill" onclick="filterOrders('Cancelled', this)">Cancelled</div>
                 </div>
                 <div class="table-wrapper glass-card">
                     <table>
-                        <thead><tr><th>Order ID</th><th>Date</th><th>Game/Item</th><th>Price</th><th>Status</th><th>Action</th></tr></thead>
+                        <thead><tr><th>Order ID</th><th>Date</th><th>Product</th><th>Price</th><th>Status</th><th>Action</th></tr></thead>
                         <tbody id="tb-orders-tabbed"></tbody>
                     </table>
                 </div>
@@ -205,52 +216,43 @@
             </div>
 
             <div id="v-categories" class="view">
-                <div class="header-actions"><div class="page-title">Categories</div><button class="btn-gel" onclick="window.openCatModal()">+ New Category</button></div>
-                <div class="table-wrapper glass-card"><table><thead><tr><th>Name</th><th>Input Placeholders</th><th>Status</th><th>Action</th></tr></thead><tbody id="tb-categories"></tbody></table></div>
+                <div class="header-actions"><div class="page-title">Categories</div><button class="btn btn-primary" onclick="openCatModal()">+ New Category</button></div>
+                <div class="table-wrapper glass-card"><table><thead><tr><th>Name</th><th>Required Forms</th><th>Status</th><th>Action</th></tr></thead><tbody id="tb-categories"></tbody></table></div>
             </div>
 
             <div id="v-products" class="view">
-                <div class="header-actions"><div class="page-title">Products</div><button class="btn-gel" onclick="window.openProdModal()">+ New Product</button></div>
+                <div class="header-actions"><div class="page-title">Products</div><button class="btn btn-primary" onclick="openProdModal()">+ New Product</button></div>
                 <div class="table-wrapper glass-card"><table><thead><tr><th>Product</th><th>Category</th><th>Prices (Cost/Sell)</th><th>Action</th></tr></thead><tbody id="tb-products"></tbody></table></div>
-            </div>
-            
-            <div id="v-guides" class="view">
-                <div class="header-actions"><div class="page-title">User Guides</div><button class="btn-gel" onclick="window.openGuideModal()">+ Add Guide</button></div>
-                <div class="table-wrapper glass-card"><table><thead><tr><th>Title</th><th>Content Snippet</th><th>Video Embed</th><th>Action</th></tr></thead><tbody id="tb-guides"></tbody></table></div>
             </div>
 
             <div id="v-promo" class="view">
-                <div class="header-actions"><div class="page-title">Promo Codes</div><button class="btn-gel" onclick="window.openPromoModal()">+ Add Code</button></div>
+                <div class="header-actions"><div class="page-title">Promo Codes</div><button class="btn btn-primary" onclick="openPromoModal()">+ Add Code</button></div>
                 <div class="table-wrapper glass-card"><table><thead><tr><th>Code</th><th>Discount Amount</th><th>Action</th></tr></thead><tbody id="tb-promos"></tbody></table></div>
             </div>
 
             <div id="v-payments" class="view">
-                <div class="header-actions"><div class="page-title">Payment Methods</div><button class="btn-gel" onclick="window.openPayModal()">+ Add Method</button></div>
+                <div class="header-actions"><div class="page-title">Payment Methods</div><button class="btn btn-primary" onclick="openPayModal()">+ Add Method</button></div>
                 <div class="table-wrapper glass-card"><table><thead><tr><th>Provider</th><th>Account Info</th><th>Action</th></tr></thead><tbody id="tb-payments"></tbody></table></div>
             </div>
 
             <div id="v-settings" class="view">
                 <div class="dash-grid" style="grid-template-columns: 1fr; max-width: 600px;">
                     <div class="stat-card glass-card">
-                        <h3 style="margin-bottom:15px; font-size:16px; color:var(--accent);"><i class="fas fa-home"></i> App Settings</h3>
-                        
+                        <h3 style="margin-bottom:15px; font-size:16px; color:var(--accent);">App Settings</h3>
                         <label style="font-size:12px; color:var(--muted);">Home Banner Image</label>
                         <img id="set-banner-preview" style="width:100%; height:120px; object-fit:cover; border-radius:12px; display:none; margin-bottom:10px; box-shadow:0 5px 15px rgba(0,0,0,0.5);">
-                        <div class="upload-box" onclick="document.getElementById('set-banner-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload New Banner</div>
-                        <input type="file" id="set-banner-file" style="display:none;" accept="image/*" onchange="window.uploadImg(this, 'set-banner')">
+                        <div class="upload-box" onclick="document.getElementById('set-banner-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload Banner</div>
+                        <input type="file" id="set-banner-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'set-banner')">
                         <input type="hidden" id="inp-home-banner">
-                        
-                        <h3 style="margin-top:20px; margin-bottom:15px; font-size:16px; color:var(--primary);"><i class="fas fa-robot"></i> Telegram Alerts</h3>
-                        <label style="font-size:12px; color:var(--muted);">Bot API Token</label><input type="text" id="inp-bot-token" class="glass-input" placeholder="123456:ABC-DEF...">
-                        <label style="font-size:12px; color:var(--muted);">Group Chat ID</label><input type="text" id="inp-chat-id" class="glass-input" placeholder="-100123456789">
+
+                        <h3 style="margin-top:20px; margin-bottom:15px; font-size:16px; color:var(--accent);">Telegram Alerts</h3>
+                        <label style="font-size:11px; color:gray;">Bot API Token</label><input type="text" id="inp-bot-token" class="input-box">
+                        <label style="font-size:11px; color:gray;">Group Chat ID</label><input type="text" id="inp-chat-id" class="input-box">
                         <div style="display:flex; gap:10px; margin-bottom:15px;">
-                            <div style="flex:1;"><label style="font-size:12px; color:var(--muted);">Order Topic ID (Optional)</label><input type="number" id="inp-tg-order-topic" class="glass-input"></div>
-                            <div style="flex:1;"><label style="font-size:12px; color:var(--muted);">Deposit Topic ID (Optional)</label><input type="number" id="inp-tg-dep-topic" class="glass-input"></div>
+                            <div style="flex:1;"><label style="font-size:11px; color:gray;">Order Topic ID</label><input type="number" id="inp-tg-order-topic" class="input-box"></div>
+                            <div style="flex:1;"><label style="font-size:11px; color:gray;">Deposit Topic ID</label><input type="number" id="inp-tg-dep-topic" class="input-box"></div>
                         </div>
-                        <div style="display:flex; gap:10px;">
-                            <button class="btn-gel" style="flex:2;" onclick="window.saveAllSettings()">Save Settings</button>
-                            <button class="btn-gel btn-dark" style="flex:1;" onclick="window.testTelegram()"><i class="fab fa-telegram"></i> Test TG</button>
-                        </div>
+                        <button class="btn btn-primary" style="width:100%;" onclick="saveAllSettings()">Save Settings</button>
                     </div>
                 </div>
             </div>
@@ -259,396 +261,281 @@
     </div>
 </div>
 
-<div class="modal-bg" id="order-info-modal" onclick="if(event.target===this) window.closeModal('order-info-modal')">
-    <div class="modal-card glass-card">
-        <h3 style="margin-bottom:20px; color:var(--accent); display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--glass-border); padding-bottom:15px;">
-            Order Details <span id="od-badge"></span>
-        </h3>
-        <div id="od-content" style="line-height:2; font-size:14px; margin-bottom: 25px;"></div>
-        <div style="display:flex; gap:10px; justify-content:flex-end;" id="od-actions"></div>
-        <button class="btn-gel btn-dark" style="width:100%; margin-top:15px; padding:12px;" onclick="window.closeModal('order-info-modal')">Close Window</button>
-    </div>
-</div>
-
-<div class="modal-bg" id="user-info-modal" onclick="if(event.target===this) window.closeModal('user-info-modal')">
-    <div class="modal-card glass-card" style="max-width: 650px;">
-        <h3 style="margin-bottom:15px; color:var(--accent);">User Data & Ledger</h3>
-        <div style="font-size:20px; font-weight:800; margin-bottom:15px;" id="ud-email">--</div>
-        <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:20px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border:1px solid var(--glass-border);">
-            <div style="flex:1;"><div style="font-size:12px; color:var(--muted); text-transform:uppercase;">Balance</div><div style="color:var(--ok); font-weight:900; font-size:22px;" id="ud-bal">0 Ks</div></div>
-            <div style="flex:1;"><div style="font-size:12px; color:var(--muted); text-transform:uppercase;">Spins</div><div style="color:var(--warning); font-weight:900; font-size:22px;" id="ud-spins">0</div></div>
-            <button class="btn-gel" style="width:100%; margin-top:10px;" id="ud-edit-btn">Edit Balance / Spins</button>
-        </div>
-        <h4 style="margin-bottom:10px; font-size:15px; color:var(--muted);"><i class="fas fa-history"></i> Transaction Ledger</h4>
-        <div class="table-wrapper" style="max-height: 300px; overflow-y: auto; border:1px solid var(--glass-border); border-radius:16px;">
-            <table style="font-size: 12px; min-width: 400px;">
-                <thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Amount</th></tr></thead>
-                <tbody id="tb-user-ledger"></tbody>
-            </table>
-        </div>
-        <button class="btn-gel btn-dark" style="width:100%; margin-top:15px; padding:12px;" onclick="window.closeModal('user-info-modal')">Close Window</button>
-    </div>
-</div>
-
 <div class="modal-bg" id="user-modal">
     <div class="modal-card glass-card">
-        <h3 style="margin-bottom:20px; color:var(--accent);">Edit User Profile</h3><input type="hidden" id="um-id">
-        <label style="font-size:12px; color:var(--muted);">Wallet Balance</label><input type="number" id="um-wallet" class="glass-input">
-        <label style="font-size:12px; color:var(--muted);">Spin Tickets</label><input type="number" id="um-spins" class="glass-input">
-        <label style="font-size:12px; color:var(--muted);">Role</label>
-        <select id="um-role" class="glass-input" style="color:#000;"><option value="Customer">Customer</option><option value="Seller">Seller</option><option value="Admin">Admin</option></select>
-        <div style="display:flex; gap:10px;"><button class="btn-gel" style="flex:1;" onclick="window.saveUserEdit()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="window.closeModal('user-modal')">Cancel</button></div>
+        <h3 style="margin-bottom:15px;">Edit User</h3><input type="hidden" id="um-id">
+        <div style="margin-bottom:15px;"><label style="font-size:11px; color:gray;">Wallet Balance</label><input type="number" id="um-wallet" class="input-box"></div>
+        <div style="margin-bottom:15px;"><label style="font-size:11px; color:gray;">Spin Tickets</label><input type="number" id="um-spins" class="input-box"></div>
+        <div style="margin-bottom:15px;"><label style="font-size:11px; color:gray;">Role</label><select id="um-role" class="select-box" style="color:#000;"><option value="Customer">Customer</option><option value="Seller">Seller</option><option value="Admin">Admin</option></select></div>
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveUserEdit()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('user-modal')">Cancel</button></div>
     </div>
 </div>
 
 <div class="modal-bg" id="cat-modal">
     <div class="modal-card glass-card">
-        <h3 style="margin-bottom:15px; color:var(--accent);" id="cm-title">Category</h3><input type="hidden" id="cm-id">
-        <input type="text" id="cm-name" class="glass-input" placeholder="Game Name (e.g. MLBB)">
-        <input type="text" id="cm-slug" class="glass-input" placeholder="Slug (e.g. mlbb)">
+        <h3 style="margin-bottom:15px;" id="cm-title">Category</h3><input type="hidden" id="cm-id">
+        <input type="text" id="cm-name" class="input-box" placeholder="Name" style="margin-bottom:10px;">
+        <input type="text" id="cm-slug" class="input-box" placeholder="Slug (e.g. mlbb)" style="margin-bottom:10px;">
         
         <label style="font-size:12px; color:var(--muted);">Category Logo</label>
-        <img id="cm-img-preview" style="width:70px; height:70px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px; box-shadow:0 5px 15px rgba(0,0,0,0.5);">
-        <div class="upload-box" onclick="document.getElementById('cm-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload Image</div>
-        <input type="file" id="cm-file" style="display:none;" accept="image/*" onchange="window.uploadImg(this, 'cm-img')">
+        <img id="cm-img-preview" style="width:60px; height:60px; border-radius:12px; object-fit:cover; display:none; margin-bottom:10px;">
+        <div class="upload-box" onclick="document.getElementById('cm-file').click()">📸 Upload Image</div>
+        <input type="file" id="cm-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'cm-img')">
         <input type="hidden" id="cm-img-url">
 
-        <div style="font-size:13px; margin-bottom:10px; font-weight:bold; color:var(--accent); border-top:1px solid var(--glass-border); padding-top:15px;">Input Fields Settings</div>
-        <div style="display:flex; gap:15px; margin-bottom:15px; font-size:13px;">
-            <label><input type="checkbox" id="cm-form-uid"> Field 1 (e.g. ID)</label>
-            <label><input type="checkbox" id="cm-form-zone"> Field 2 (e.g. Server)</label>
+        <div style="font-size:12px; margin-bottom:10px; color:gray;">Required Fields:</div>
+        <div style="display:flex; gap:10px; margin-bottom:15px; font-size:12px;">
+            <label><input type="checkbox" id="cm-form-uid"> Game ID</label>
+            <label><input type="checkbox" id="cm-form-zone"> Server ID</label>
         </div>
-        <input type="text" id="cm-ph-uid" class="glass-input" placeholder="Placeholder 1 (e.g. 'Enter Player ID')">
-        <input type="text" id="cm-ph-zone" class="glass-input" placeholder="Placeholder 2 (e.g. 'Enter Zone ID')">
-        <div style="display:flex; gap:10px; margin-top:10px;"><button class="btn-gel" style="flex:1;" onclick="window.saveCategory()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="window.closeModal('cat-modal')">Cancel</button></div>
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveCategory()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('cat-modal')">Cancel</button></div>
     </div>
 </div>
 
 <div class="modal-bg" id="prod-modal">
     <div class="modal-card glass-card">
-        <h3 style="margin-bottom:15px; color:var(--accent);" id="pm-title">Product</h3><input type="hidden" id="pm-id">
-        <input type="text" id="pm-name" class="glass-input" placeholder="Name (e.g. 11 Diamonds)">
-        <select id="pm-cat" class="glass-input" style="color:#000;"></select>
+        <h3 style="margin-bottom:15px;" id="pm-title">Product</h3><input type="hidden" id="pm-id">
+        <input type="text" id="pm-name" class="input-box" placeholder="Name (e.g. 11 Diamonds)" style="margin-bottom:10px;">
+        <select id="pm-cat" class="select-box" style="margin-bottom:10px; color:#000;"></select>
         
         <label style="font-size:12px; color:var(--muted);">Product Icon (Optional)</label>
-        <img id="pm-img-preview" style="width:70px; height:70px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px;">
-        <div class="upload-box" onclick="document.getElementById('pm-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload Image</div>
-        <input type="file" id="pm-file" style="display:none;" accept="image/*" onchange="window.uploadImg(this, 'pm-img')">
+        <img id="pm-img-preview" style="width:60px; height:60px; border-radius:12px; object-fit:cover; display:none; margin-bottom:10px;">
+        <div class="upload-box" onclick="document.getElementById('pm-file').click()">📸 Upload Image</div>
+        <input type="file" id="pm-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'pm-img')">
         <input type="hidden" id="pm-img-url">
 
         <div style="display:flex; gap:10px; margin-bottom:10px;">
-            <input type="number" id="pm-cost" class="glass-input" placeholder="Cost Price">
-            <input type="number" id="pm-price" class="glass-input" placeholder="Sell Price">
+            <input type="number" id="pm-cost" class="input-box" placeholder="Cost Price">
+            <input type="number" id="pm-price" class="input-box" placeholder="Sell Price">
         </div>
-        <div style="display:flex; gap:10px;"><button class="btn-gel" style="flex:1;" onclick="window.saveProduct()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="window.closeModal('prod-modal')">Cancel</button></div>
-    </div>
-</div>
-
-<div class="modal-bg" id="guide-modal">
-    <div class="modal-card glass-card">
-        <h3 style="margin-bottom:15px; color:var(--accent);" id="gm-title">User Guide</h3><input type="hidden" id="gm-id">
-        <input type="text" id="gm-title-inp" class="glass-input" placeholder="Guide Title (e.g. How to buy)">
-        <textarea id="gm-content" class="glass-input" rows="4" placeholder="Text Content..."></textarea>
-        <input type="text" id="gm-video" class="glass-input" placeholder="YouTube Embed URL (Optional)">
-        <div style="display:flex; gap:10px;"><button class="btn-gel" style="flex:1;" onclick="window.saveGuide()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="window.closeModal('guide-modal')">Cancel</button></div>
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="saveProduct()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('prod-modal')">Cancel</button></div>
     </div>
 </div>
 
 <div class="modal-bg" id="pay-modal">
-    <div class="modal-card glass-card"><h3 style="margin-bottom:15px; color:var(--accent);">Payment Method</h3><input type="hidden" id="pay-id">
-        <input type="text" id="pay-name" class="glass-input" placeholder="Provider (e.g. KPay)">
-        <input type="text" id="pay-phone" class="glass-input" placeholder="Phone Number">
-        <input type="text" id="pay-acc" class="glass-input" placeholder="Account Name">
+    <div class="modal-card glass-card"><h3 style="margin-bottom:15px;">Payment Method</h3><input type="hidden" id="pay-id">
+        <input type="text" id="pay-name" class="input-box" placeholder="Provider (e.g. KPay)" style="margin-bottom:10px;">
+        <input type="text" id="pay-phone" class="input-box" placeholder="Phone Number" style="margin-bottom:10px;">
+        <input type="text" id="pay-acc" class="input-box" placeholder="Account Name" style="margin-bottom:15px;">
         
         <label style="font-size:12px; color:var(--muted);">QR Code (Optional)</label>
-        <img id="pay-qr-preview" style="width:100px; height:100px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px;">
-        <div class="upload-box" onclick="document.getElementById('pay-qr-file').click()"><i class="fas fa-qrcode text-2xl mb-2 block"></i><br>Upload QR</div>
-        <input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="window.uploadImg(this, 'pay-qr')">
+        <img id="pay-qr-preview" style="width:80px; height:80px; border-radius:12px; object-fit:cover; display:none; margin-bottom:10px;">
+        <div class="upload-box" onclick="document.getElementById('pay-qr-file').click()">📸 Upload QR</div>
+        <input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'pay-qr')">
         <input type="hidden" id="pay-qr-url">
 
-        <div style="display:flex; gap:10px;"><button class="btn-gel" style="flex:1;" onclick="window.savePayment()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="window.closeModal('pay-modal')">Cancel</button></div>
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePayment()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('pay-modal')">Cancel</button></div>
     </div>
 </div>
 
 <div class="modal-bg" id="promo-modal">
-    <div class="modal-card glass-card"><h3 style="margin-bottom:15px; color:var(--accent);">Promo Code</h3>
-        <input type="text" id="promo-code" class="glass-input" placeholder="CODE" style="text-transform:uppercase;">
-        <input type="number" id="promo-amt" class="glass-input" placeholder="Discount Amount (Ks)">
-        <div style="display:flex; gap:10px;"><button class="btn-gel" style="flex:1;" onclick="window.savePromo()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="window.closeModal('promo-modal')">Cancel</button></div>
+    <div class="modal-card glass-card"><h3 style="margin-bottom:15px;">Promo Code</h3>
+        <input type="text" id="promo-code" class="input-box" placeholder="CODE" style="margin-bottom:10px; text-transform:uppercase;">
+        <input type="number" id="promo-amt" class="input-box" placeholder="Discount Amount" style="margin-bottom:15px;">
+        <div style="display:flex; gap:10px;"><button class="btn btn-primary" style="flex:1;" onclick="savePromo()">Save</button><button class="btn btn-dark" style="flex:1;" onclick="closeModal('promo-modal')">Cancel</button></div>
     </div>
 </div>
 
-<div class="modal-bg" id="slip-modal" onclick="if(event.target===this) window.closeModal('slip-modal')">
+<div class="modal-bg" id="slip-modal" onclick="if(event.target===this) closeModal('slip-modal')">
     <div class="modal-card glass-card" style="text-align:center;">
-        <img id="modal-img-src" style="width:100%; border-radius:16px; margin-bottom:20px; box-shadow:0 10px 30px rgba(0,0,0,0.6);" src="">
-        <button class="btn-gel btn-dark" style="width:100%; padding:14px;" onclick="window.closeModal('slip-modal')">Close Image</button>
+        <img id="modal-img-src" style="width:100%; border-radius:12px; margin-bottom:15px;" src="">
+        <button class="btn btn-dark" style="width:100%; padding:12px;" onclick="closeModal('slip-modal')">Close</button>
     </div>
 </div>
+
+<script>
+    window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
+    window.formatDate = (ts) => { if(!ts) return "-"; let d; if(ts.toDate) d = ts.toDate(); else if(ts.seconds) d = new Date(ts.seconds * 1000); else d = new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); }
+    window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('active'); }
+    window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard'; if(window.innerWidth <= 768) toggleSidebar(); }
+    window.closeModal = (id) => document.getElementById(id).classList.remove('active');
+    window.openModal = (id) => document.getElementById(id).classList.add('active');
+    window.viewSlip = (url) => { if(!url)return toast("No slip"); document.getElementById('modal-img-src').src = url; document.getElementById('slip-modal').classList.add('active'); };
+    
+    // SAFE LOGIN GATE
+    window.checkPin = () => { 
+        if(document.getElementById('admin-pin').value === "1234") { 
+            document.getElementById('auth-gate').style.display = "none"; 
+            document.getElementById('main-admin').style.display = "flex"; 
+            if(typeof window.triggerAdminInit === 'function') {
+                window.triggerAdminInit(); 
+            } else {
+                toast("Loading...");
+                setTimeout(() => { if(typeof window.triggerAdminInit === 'function') window.triggerAdminInit(); }, 1500);
+            }
+        } else { toast("Invalid PIN!"); }
+    };
+</script>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc, setDoc, addDoc, deleteDoc, query, orderBy, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     // ⚠️ Firebase Keys ⚠️
-    const firebaseConfig = { 
-        apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", 
-        authDomain: "kazeno-diamond-shop.firebaseapp.com", 
-        projectId: "kazeno-diamond-shop", 
-        storageBucket: "kazeno-diamond-shop.firebasestorage.app", 
-        messagingSenderId: "1209500360", 
-        appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" 
-    };
+    const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const db = getFirestore(app);
 
-    let globalOrders = []; let globalUsers = []; let globalTransactions = []; let allCats = [];
+    let globalOrders = []; let globalUsers = []; let allCats = [];
 
-    // --- UI HELPERS ---
-    window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); };
-    window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('active'); };
-    window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard'; if(window.innerWidth <= 768) window.toggleSidebar(); };
-    window.openModal = (id) => { document.getElementById(id).classList.add('active'); };
-    window.closeModal = (id) => { document.getElementById(id).classList.remove('active'); };
-    window.viewSlip = (url) => { if(!url)return window.toast("No slip uploaded"); document.getElementById('modal-img-src').src = url; window.openModal('slip-modal'); };
-
-    // --- SAFE DATE FORMATTERS ---
-    window.formatD = (ts) => { if(!ts) return "-"; let d; if(ts.toDate) d = ts.toDate(); else if(ts.seconds) d = new Date(ts.seconds * 1000); else d = new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); };
-    window.getM = (ts) => { if(!ts) return 0; if(typeof ts.toMillis === 'function') return ts.toMillis(); if(ts.seconds) return ts.seconds * 1000; return new Date(ts).getTime() || 0; };
-
-    // --- LOGIN ---
-    window.checkPin = () => {
-        if(document.getElementById('admin-pin').value === "1234") {
-            document.getElementById('auth-gate').style.display = "none";
-            document.getElementById('main-admin').style.display = "flex";
-            initAdmin();
-        } else {
-            window.toast("Invalid PIN!");
-        }
-    };
-
-    // --- IMAGE UPLOAD ---
-    window.uploadToImgBB = async (file) => {
-        window.toast("Uploading Image...");
-        let fd = new FormData(); fd.append("image", file);
-        let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd });
-        let data = await res.json();
-        if(data.success) { window.toast("Upload Done!"); return data.data.url; }
-        else throw new Error("Upload Failed");
-    };
-    window.uploadImg = async (input, prefix) => {
-        if(!input.files[0]) return;
-        try {
-            let url = await window.uploadToImgBB(input.files[0]);
-            document.getElementById(`${prefix}-url`).value = url;
-            let preview = document.getElementById(`${prefix}-preview`);
-            if(preview) { preview.src = url; preview.style.display = 'block'; }
-        } catch(e) { window.toast(e.message); }
-    };
-
-    // --- MAIN ADMIN INIT ---
-    function initAdmin() {
+    // Make init function globally accessible
+    window.triggerAdminInit = function() {
+        // Settings
         onSnapshot(doc(db, "settings", "app_config"), (d) => {
             if(d.exists()) {
                 document.getElementById('inp-bot-token').value = d.data().tgBotToken || '';
                 document.getElementById('inp-chat-id').value = d.data().tgChatId || '';
                 document.getElementById('inp-tg-order-topic').value = d.data().tgOrderTopicId || '';
                 document.getElementById('inp-tg-dep-topic').value = d.data().tgDepositTopicId || '';
-                let bUrl = d.data().homeBannerUrl || '';
-                document.getElementById('inp-home-banner').value = bUrl;
-                if(bUrl) { document.getElementById('set-banner-preview').src = bUrl; document.getElementById('set-banner-preview').style.display = 'block'; }
+                document.getElementById('inp-home-banner').value = d.data().homeBannerUrl || '';
+                if(d.data().homeBannerUrl) { document.getElementById('set-banner-preview').src = d.data().homeBannerUrl; document.getElementById('set-banner-preview').style.display = 'block'; }
             }
         });
 
-        onSnapshot(collection(db, "transactions"), (snap) => { globalTransactions = []; snap.forEach(s => globalTransactions.push({id: s.id, ...s.data()})); });
-
+        // Users
         onSnapshot(collection(db, "users"), (s) => { 
             globalUsers = []; let h="", t=0; document.getElementById('ds-users').innerText=s.size;
             s.forEach(d=>{ 
-                let u={id:d.id, ...d.data()}; globalUsers.push(u); let b = parseInt(u.walletBalance)||0; t+=b; 
-                h+=`<tr><td><div style="font-weight:bold; font-size:14px;">${u.email||'No Email'}</div><span class="badge bg-pill">${u.role||'Customer'}</span></td><td style="color:var(--ok); font-weight:800; font-size:15px;">${b.toLocaleString()} Ks</td><td style="color:var(--warning); font-weight:bold;">${u.spinCount||0}</td><td><button class="btn-gel" onclick="window.showUserDetail('${u.id}')"><i class="fas fa-eye"></i> View</button></td></tr>`; 
+                let u={id:d.id, ...d.data()}; globalUsers.push(u); let wBal = parseInt(u.walletBalance)||0; t+=wBal; 
+                h+=`<tr><td>${u.email}</td><td>${u.role||'Customer'}</td><td style="color:var(--ok); font-weight:bold;">${wBal.toLocaleString()} Ks</td><td>${u.spinCount||0}</td><td><button class="btn btn-primary" onclick="showUserDetail('${u.id}')">Edit</button></td></tr>`; 
             }); 
-            document.getElementById('tb-users').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No users</td></tr>"; 
-            document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
+            document.getElementById('tb-users').innerHTML=h; document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
         });
 
+        // Categories
         onSnapshot(collection(db, "categories"), (snap) => { 
             allCats = []; let h="", opt="<option value=''>Select Cat</option>"; 
             snap.forEach(s => { 
                 let c = {id: s.id, ...s.data()}; allCats.push(c); opt+=`<option value="${c.id}">${c.name}</option>`; 
-                let phText = "";
-                if((c.forms||[]).includes('gameId')) phText += `F1: ${c.uidPlaceholder||'Default'}<br>`;
-                if((c.forms||[]).includes('zoneId')) phText += `F2: ${c.zonePlaceholder||'Default'}`;
-                h+=`<tr><td><div style="display:flex;align-items:center;gap:15px;"><img src="${c.logoUrl||'https://via.placeholder.com/40'}" style="width:40px;height:40px;border-radius:10px;object-fit:cover;box-shadow:0 4px 10px rgba(0,0,0,0.5);"><strong>${c.name}</strong></div></td><td><div style="font-size:11px; color:var(--muted);">${phText||'None'}</div></td><td><span class="badge ${c.isActive?'bg-active':'bg-inactive'}">${c.isActive?'Active':'Inactive'}</span></td><td><button class="btn-gel btn-dark" onclick='window.openCatModal(${JSON.stringify(c).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delCat('${c.id}')"><i class="fas fa-trash"></i></button></td></tr>`; 
+                h+=`<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${c.logoUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:cover;">${c.name}</div></td><td>${(c.forms||[]).join(', ')}</td><td>${c.isActive?'Active':'Inactive'}</td><td><button class="btn btn-dark" onclick='openCatModal(${JSON.stringify(c).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db,'categories','${c.id}'))">Del</button></td></tr>`; 
             }); 
-            document.getElementById('tb-categories').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No categories</td></tr>"; 
-            document.getElementById('pm-cat').innerHTML=opt; document.getElementById('ds-cat').innerText=allCats.length;
+            document.getElementById('tb-categories').innerHTML=h; document.getElementById('pm-cat').innerHTML=opt; document.getElementById('ds-cat').innerText=allCats.length;
         });
 
+        // Products
         onSnapshot(collection(db, "products"), (snap) => { 
             let h=""; snap.forEach(s => { 
                 let p = {id: s.id, ...s.data()}; let cName = allCats.find(x=>x.id===p.categoryId)?.name || 'Unknown'; 
-                h+=`<tr><td><div style="display:flex;align-items:center;gap:15px;"><img src="${p.logoUrl||'https://via.placeholder.com/40'}" style="width:40px;height:40px;border-radius:10px;object-fit:contain;"><strong>${p.name}</strong></div></td><td>${cName}</td><td><div style="font-size:11px; color:var(--muted);">Cost: ${p.retailPrice||0} Ks</div><div style="font-weight:bold; color:var(--accent);">Sell: ${p.sellingPrice||0} Ks</div></td><td><button class="btn-gel btn-dark" onclick='window.openProdModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delProd('${p.id}')"><i class="fas fa-trash"></i></button></td></tr>`; 
+                h+=`<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${p.logoUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:cover;">${p.name}</div></td><td>${cName}</td><td>${p.retailPrice||0} / ${p.sellingPrice||0}</td><td><button class="btn btn-dark" onclick='openProdModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db,'products','${p.id}'))">Del</button></td></tr>`; 
             }); 
-            document.getElementById('tb-products').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No products</td></tr>"; 
-            document.getElementById('ds-prod').innerText=snap.size; 
+            document.getElementById('tb-products').innerHTML=h; document.getElementById('ds-prod').innerText=snap.size; 
         });
 
-        onSnapshot(collection(db, "guides"), (snap) => { 
-            let h=""; snap.forEach(s => { 
-                let g = {id: s.id, ...s.data()};
-                h+=`<tr><td><strong>${g.title}</strong></td><td><div style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:11px; color:gray;">${g.content}</div></td><td>${g.videoUrl ? '<span class="text-ok"><i class="fas fa-check"></i> Yes</span>' : '<span class="text-muted">No</span>'}</td><td><button class="btn-gel btn-dark" onclick='window.openGuideModal(${JSON.stringify(g).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delGuide('${g.id}')"><i class="fas fa-trash"></i></button></td></tr>`; 
-            }); 
-            document.getElementById('tb-guides').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No guides</td></tr>"; 
-        });
-
+        // Orders
         onSnapshot(collection(db, "orders"), (s) => { 
             globalOrders = []; let tS=0, tP=0; s.forEach(d=>{ let o={id:d.id, ...d.data()}; globalOrders.push(o); });
-            globalOrders.sort((a,b) => window.getM(b.createdAt) - window.getM(a.createdAt)); 
-            globalOrders.forEach(o=>{ if(o.status==='Completed'){ let p = parseInt(o.price)||0; tS+=p; let cost=parseInt(o.costPrice)||(p*0.85); tP+=(p-cost); }}); 
+            // Sort safely
+            globalOrders.sort((a,b) => { let at=a.createdAt?.seconds||0; let bt=b.createdAt?.seconds||0; return bt-at; }); 
+            globalOrders.forEach(o=>{ if(o.status==='Completed'){ let p=parseInt(o.price)||0; let cp=parseInt(o.costPrice)||0; tS+=p; tP+=(p-cp); }}); 
             document.getElementById('ds-orders').innerText=globalOrders.filter(x=>x.status==='Completed').length; document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
-            let activeTab = document.querySelector('.tab-pill.active'); let statusToFilter = activeTab ? activeTab.innerText.trim() : 'Pending';
-            window.filterOrders(statusToFilter, activeTab);
+            filterOrders('Pending', document.querySelector('.tab-pill.active'));
         });
 
-        onSnapshot(collection(db, "deposits"), (s) => { let tD=0, h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((a,b) => window.getM(b.createdAt) - window.getM(a.createdAt)); a.forEach(dp=>{ let amt=parseInt(dp.amount)||0; if(dp.status==='Completed')tD+=amt; let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${dp.depId||dp.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${dp.status}</span></td><td><div style="font-size:13px; font-weight:bold;">${dp.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatD(dp.createdAt)}</div></td><td><div style="color:var(--ok); font-weight:900; font-size:16px;">+${amt.toLocaleString()} Ks</div><div style="font-size:11px; color:var(--muted);">${dp.payMethod}</div></td><td><button class="btn-gel btn-dark" onclick="window.viewSlip('${dp.slipImage}')"><i class="fas fa-image"></i></button>${dp.status==='Pending'?` <button class="btn-gel btn-ok" onclick="window.apprDep('${dp.id}','${dp.userId}',${amt})"><i class="fas fa-check"></i></button> <button class="btn-gel btn-danger" onclick="window.updDep('${dp.id}','Cancelled')"><i class="fas fa-times"></i></button>`:''}</td></tr>`; }); document.getElementById('tb-deposits').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No deposits</td></tr>"; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
-        
-        onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((a,b) => window.getM(b.createdAt) - window.getM(a.createdAt)); a.forEach(w=>{ let amt=parseInt(w.amount)||0; let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${w.wdId||w.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${w.status}</span></td><td><div style="font-size:13px; font-weight:bold;">${w.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatD(w.createdAt)}</div></td><td><div style="color:var(--danger); font-weight:900; font-size:16px;">-${amt.toLocaleString()} Ks</div><div style="font-size:12px; color:var(--accent); font-weight:bold;">${w.payMethod}: ${w.accPhone}</div><div style="font-size:10px; color:var(--muted);">${w.accName}</div></td><td>${w.status==='Pending'?`<button class="btn-gel btn-ok" onclick="window.updWd('${w.id}','Completed')"><i class="fas fa-check"></i> Sent</button> <button class="btn-gel btn-danger" onclick="window.updWd('${w.id}','Cancelled','${w.userId}',${amt})"><i class="fas fa-times"></i> Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-withdraws').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No withdrawals</td></tr>"; });
+        // Deposits & Withdrawals
+        onSnapshot(collection(db, "deposits"), (s) => { let tD=0, h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>{let at=x.createdAt?.seconds||0; let bt=y.createdAt?.seconds||0; return bt-at;}); a.forEach(dp=>{ if(dp.status==='Completed')tD+=(parseInt(dp.amount)||0); let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td>${dp.depId||dp.id.substring(0,8)} <span class="badge ${cls}">${dp.status}</span></td><td>${dp.userEmail}</td><td style="color:var(--ok);">+${(parseInt(dp.amount)||0).toLocaleString()} Ks (${dp.payMethod})</td><td><button class="btn btn-dark" onclick="viewSlip('${dp.slipImage}')">Slip</button>${dp.status==='Pending'?` <button class="btn btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})">Approve</button> <button class="btn btn-danger" onclick="updDep('${dp.id}','Cancelled')">Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-deposits').innerHTML=h; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
+        onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>{let at=x.createdAt?.seconds||0; let bt=y.createdAt?.seconds||0; return bt-at;}); a.forEach(w=>{ let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td>${w.wdId||w.id.substring(0,8)} <span class="badge ${cls}">${w.status}</span></td><td>${w.userEmail}</td><td style="color:var(--danger);">${(parseInt(w.amount)||0).toLocaleString()} Ks (${w.payMethod})</td><td>${w.status==='Pending'?`<button class="btn btn-ok" onclick="updWd('${w.id}','Completed')">Sent</button> <button class="btn btn-danger" onclick="updWd('${w.id}','Cancelled','${w.userId}',${w.amount})">Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-withdraws').innerHTML=h; });
 
-        onSnapshot(collection(db, "promo_codes"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><span class="badge bg-pill" style="font-size:14px; letter-spacing:2px; font-family:monospace;">${p.code}</span></td><td><strong style="color:var(--ok); font-size:15px;">-${p.discount} Ks</strong></td><td><button class="btn-gel btn-danger" onclick="window.delPromo('${p.id}')"><i class="fas fa-trash"></i></button></td></tr>`; }); document.getElementById('tb-promos').innerHTML=h || "<tr><td colspan='3' style='text-align:center; padding:30px;'>No data</td></tr>"; });
-        onSnapshot(collection(db, "payment_methods"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><div style="display:flex;align-items:center;gap:15px;"><img src="${p.qrUrl||'https://via.placeholder.com/40'}" style="width:40px;height:40px;border-radius:10px;object-fit:cover;"><strong>${p.name}</strong></div></td><td><div style="font-size:15px; font-weight:bold; font-family:monospace; color:var(--accent);">${p.phone}</div><div style="font-size:11px; color:var(--muted);">${p.accName}</div></td><td><button class="btn-gel btn-dark" onclick='window.openPayModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delPay('${p.id}')"><i class="fas fa-trash"></i></button></td></tr>`; }); document.getElementById('tb-payments').innerHTML=h || "<tr><td colspan='3' style='text-align:center; padding:30px;'>No data</td></tr>"; });
-    }
-
-    // --- ACTIONS ---
-    window.testTelegram = async () => {
-        let token = document.getElementById('inp-bot-token').value; let chatId = document.getElementById('inp-chat-id').value;
-        if(!token || !chatId) return window.toast("Please fill Bot Token and Chat ID first!");
-        try { window.toast("Sending test message..."); let res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ chat_id: chatId, text: "✅ Kazeno Admin Panel Test Successful!" }) }); let data = await res.json(); if(data.ok) window.toast("Telegram connected successfully!"); else window.toast("Telegram Error: " + data.description); } catch(e) { window.toast("Network error testing Telegram."); }
+        // Promos & Payments
+        onSnapshot(collection(db, "promo_codes"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td>${p.code}</td><td>${p.discount} Ks</td><td><button class="btn btn-danger" onclick="deleteDoc(doc(db,'promo_codes','${p.id}'))">Del</button></td></tr>`; }); document.getElementById('tb-promos').innerHTML=h; });
+        onSnapshot(collection(db, "payment_methods"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${p.qrUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:cover;">${p.name}</div></td><td>${p.phone} (${p.accName})</td><td><button class="btn btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn btn-danger" onclick="deleteDoc(doc(db,'payment_methods','${p.id}'))">Del</button></td></tr>`; }); document.getElementById('tb-payments').innerHTML=h; });
     };
 
+    // ImgBB Upload Function
+    window.uploadToImgBB = async function(file) {
+        toast("Uploading Image...");
+        let fd = new FormData(); fd.append("image", file);
+        let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd });
+        let data = await res.json();
+        if(data.success) { toast("Upload Done!"); return data.data.url; }
+        else throw new Error("Upload Failed");
+    }
+    window.uploadImg = async (input, prefix) => {
+        if(!input.files[0]) return;
+        try {
+            let url = await uploadToImgBB(input.files[0]);
+            document.getElementById(`${prefix}-url`).value = url;
+            let preview = document.getElementById(`${prefix}-preview`);
+            if(preview) { preview.src = url; preview.style.display = 'block'; }
+        } catch(e) { toast(e.message); }
+    };
+
+    // --- ORDERS LOGIC ---
     window.filterOrders = (status, el=null) => {
         if(el) { document.querySelectorAll('.tab-pill').forEach(t=>t.classList.remove('active')); el.classList.add('active'); }
         let h = ""; let filtered = globalOrders.filter(o => o.status === status);
         filtered.forEach(o => {
             let cls = o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':'bg-pill');
-            h+=`<tr><td><strong style="color:var(--accent); font-family:monospace;">${o.orderId||o.id.substring(0,8)}</strong></td><td><div style="font-size:11px; color:var(--muted);"><i class="far fa-clock"></i> ${window.formatD(o.createdAt)}</div></td><td><div style="font-weight:800; font-size:14px;">${o.game}</div><div style="font-size:12px; color:var(--accent);">${o.item}</div></td><td><strong style="color:var(--ok); font-size:15px;">${(o.price||0).toLocaleString()} Ks</strong></td><td><span class="badge ${cls}">${o.status}</span></td><td><button class="btn-gel" onclick="window.showOrderDetail('${o.id}')"><i class="fas fa-eye"></i> View</button></td></tr>`;
+            let actHtml = "";
+            if(o.status === 'Pending') actHtml = `<button class="btn btn-warning" onclick="updOrd('${o.id}','Processing')">Process</button> <button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">Cancel</button>`;
+            else if(o.status === 'Processing') actHtml = `<button class="btn btn-ok" onclick="updOrd('${o.id}','Completed')">Complete</button> <button class="btn btn-danger" onclick="updOrd('${o.id}','Cancelled')">Cancel</button>`;
+            
+            h+=`<tr><td>${o.orderId||o.id.substring(0,8)}</td><td>${formatDate(o.createdAt)}</td><td>${o.game} - ${o.item}<br><span style="font-size:10px;color:var(--accent);">ID: ${o.playerId}</span></td><td>${(o.price||0).toLocaleString()} Ks</td><td><span class="badge ${cls}">${o.status}</span></td><td>${actHtml}</td></tr>`;
         });
-        document.getElementById('tb-orders-tabbed').innerHTML = h || "<tr><td colspan='6' style='text-align:center; padding: 40px;'><i class="fas fa-box-open text-4xl mb-3 block"></i>No orders found.</td></tr>";
+        document.getElementById('tb-orders-tabbed').innerHTML = h || "<tr><td colspan='6' style='text-align:center;'>No orders.</td></tr>";
     };
 
-    window.showOrderDetail = (id) => {
-        let o = globalOrders.find(x => x.id === id); if(!o) return window.toast("Order not found");
-        let price = parseInt(o.price) || 0; let cost = parseInt(o.costPrice) || (price * 0.85); let profit = price - cost;
-        let cls = o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':'bg-pill'); 
-        
-        document.getElementById('od-badge').innerHTML = `<span class="badge ${cls}" style="font-size:14px; padding:6px 15px;">${o.status.toUpperCase()}</span>`;
-        let h = `
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Order ID</span> <strong style="color:var(--accent); font-family:monospace; font-size:16px;">${o.orderId || o.id}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Date & Time</span> <strong>${window.formatD(o.createdAt)}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Customer Email</span> <strong>${o.userEmail}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Game & Item</span> <strong style="color:var(--accent); font-size:16px;">${o.game} - ${o.item}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Input Info</span> <strong style="background:rgba(255,255,255,0.1); padding:4px 12px; border-radius:10px; font-family:monospace; font-size:16px;">${o.playerId}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Payment Method</span> <strong><span class="badge" style="background:var(--primary); font-size:12px;">${o.payMethod || 'Wallet'}</span></strong></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);">Price Paid</span> <strong style="color:var(--ok); font-size:22px; text-shadow:0 0 15px rgba(16,185,129,0.5);">${price.toLocaleString()} Ks</strong></div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span style="color:var(--muted);">Est. Profit</span> <strong style="color:var(--accent);">+${profit.toLocaleString()} Ks</strong></div>
-            ${o.slipImage ? `<button class="btn-gel btn-dark" style="margin-top:15px; width:100%;" onclick="window.viewSlip('${o.slipImage}')"><i class="fas fa-image"></i> View Transfer Slip</button>` : ''}
-        `;
-        document.getElementById('od-content').innerHTML = h;
-        let actHtml = "";
-        if(o.status === 'Pending') { actHtml = `<button class="btn-gel btn-warning" onclick="window.updOrd('${o.id}','Processing', true)" style="flex:1;"><i class="fas fa-cogs"></i> Process</button> <button class="btn-gel btn-danger" onclick="window.updOrd('${o.id}','Cancelled', true)" style="flex:1;"><i class="fas fa-times"></i> Cancel</button>`; } 
-        else if (o.status === 'Processing') { actHtml = `<button class="btn-gel btn-ok" onclick="window.updOrd('${o.id}','Completed', true)" style="flex:1;"><i class="fas fa-check-double"></i> Complete</button> <button class="btn-gel btn-danger" onclick="window.updOrd('${o.id}','Cancelled', true)" style="flex:1;"><i class="fas fa-times"></i> Cancel</button>`; }
-        document.getElementById('od-actions').innerHTML = actHtml; window.openModal('order-info-modal'); 
-    };
-
-    window.updOrd = async (id, st, fromDetail=false) => { 
-        if(confirm(`Mark as ${st}?`)) {
-            try {
-                if(st === 'Cancelled') {
-                    let ordSnap = await getDoc(doc(db, "orders", id));
-                    if(ordSnap.exists()) {
-                        let ord = ordSnap.data();
-                        if(ord.payMethod === 'Wallet' && ord.status !== 'Cancelled') {
-                            let uSnap = await getDoc(doc(db, "users", ord.userId));
-                            if(uSnap.exists()) {
-                                let currBal = parseInt(uSnap.data().walletBalance) || 0;
-                                let ordPrice = parseInt(ord.price) || 0;
-                                await updateDoc(doc(db, "users", ord.userId), { walletBalance: currBal + ordPrice });
-                                await addDoc(collection(db, "transactions"), { userId: ord.userId, type: 'Refund', amount: ordPrice, desc: `Refund for Cancelled Order: ${ord.item}`, createdAt: serverTimestamp() });
-                                window.toast("Refunded " + ordPrice + " Ks to user.");
-                            }
+    // REFUND LOGIC INTEGRATED
+    window.updOrd = async (id, st) => { 
+        if(confirm(`Mark as ${st}?`)) { 
+            if(st === 'Cancelled') {
+                let ordSnap = await getDoc(doc(db, "orders", id));
+                if(ordSnap.exists()) {
+                    let ord = ordSnap.data();
+                    if(ord.payMethod === 'Wallet' && ord.status !== 'Cancelled') {
+                        let uSnap = await getDoc(doc(db, "users", ord.userId));
+                        if(uSnap.exists()) {
+                            let currBal = parseInt(uSnap.data().walletBalance) || 0;
+                            let ordPrice = parseInt(ord.price) || 0;
+                            await updateDoc(doc(db, "users", ord.userId), { walletBalance: currBal + ordPrice });
+                            await addDoc(collection(db, "transactions"), { userId: ord.userId, type: 'Refund', amount: ordPrice, desc: `Refund for Cancelled Order: ${ord.item}`, createdAt: serverTimestamp() });
+                            toast("Refunded " + ordPrice + " Ks to user.");
                         }
                     }
                 }
-                await updateDoc(doc(db,"orders",id),{status:st}); if(fromDetail) window.closeModal('order-info-modal'); 
-            } catch(e) { window.toast(e.message); }
-        }
+            }
+            await updateDoc(doc(db,"orders",id),{status:st}); 
+        } 
     };
 
+    // --- USER LOGIC ---
     window.showUserDetail = (uid) => {
-        let u = globalUsers.find(x => x.id === uid); if(!u) return window.toast("User not found");
-        document.getElementById('ud-email').innerText = u.email;
-        document.getElementById('ud-bal').innerText = (parseInt(u.walletBalance)||0).toLocaleString() + " Ks";
-        document.getElementById('ud-spins').innerText = u.spinCount || 0;
-        document.getElementById('ud-edit-btn').onclick = () => { window.closeModal('user-info-modal'); window.openUserModal(u.id, u.walletBalance||0, u.role||'Customer', u.spinCount||0); };
-
-        let uTrans = globalTransactions.filter(x => x.userId === uid);
-        uTrans.sort((a,b) => window.getM(b.createdAt) - window.getM(a.createdAt));
-        let lHtml = "";
-        uTrans.forEach(t => {
-            let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = t.amount >= 0 ? '+' : '';
-            lHtml += `<tr><td style="color:var(--muted);">${window.formatD(t.createdAt)}</td><td><strong style="color:#fff;">${t.type}</strong></td><td>${t.desc}</td><td><strong style="color:${color}; font-size:14px;">${sign}${(parseInt(t.amount)||0).toLocaleString()} Ks</strong></td></tr>`;
-        });
-        document.getElementById('tb-user-ledger').innerHTML = lHtml || "<tr><td colspan='4' style='text-align:center; padding:20px;'>No ledger records found.</td></tr>";
-        window.openModal('user-info-modal'); 
+        let u = globalUsers.find(x => x.id === uid); if(!u) return;
+        document.getElementById('um-id').value=u.id; 
+        document.getElementById('um-wallet').value=u.walletBalance||0; 
+        document.getElementById('um-spins').value=u.spinCount||0; 
+        document.getElementById('um-role').value=u.role||'Customer'; 
+        openModal('user-modal');
     };
+    window.saveUserEdit = async () => { let id=document.getElementById('um-id').value; let b=parseInt(document.getElementById('um-wallet').value); let s=parseInt(document.getElementById('um-spins').value); let r=document.getElementById('um-role').value; if(!isNaN(b)){ await updateDoc(doc(db,"users",id),{walletBalance:b, spinCount:s, role:r}); toast("User Updated!"); closeModal('user-modal'); } };
 
-    window.openUserModal = (id, bal, role, spins) => { document.getElementById('um-id').value=id; document.getElementById('um-wallet').value=bal; document.getElementById('um-spins').value=spins; document.getElementById('um-role').value=role; window.openModal('user-modal'); };
-    window.saveUserEdit = async () => { let id=document.getElementById('um-id').value; let b=parseInt(document.getElementById('um-wallet').value); let s=parseInt(document.getElementById('um-spins').value); let r=document.getElementById('um-role').value; if(!isNaN(b)){ await updateDoc(doc(db,"users",id),{walletBalance:b, spinCount:s, role:r}); window.toast("User Updated!"); window.closeModal('user-modal'); } };
-
-    window.saveAllSettings = async () => { try { await setDoc(doc(db,"settings","app_config"), { tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value, homeBannerUrl: document.getElementById('inp-home-banner').value }, {merge:true}); window.toast("Settings Saved!"); } catch(e) { window.toast("Error saving settings."); } };
+    // --- OTHER CRUDS ---
+    window.saveAllSettings = async () => { await setDoc(doc(db,"settings","app_config"), { tgBotToken: document.getElementById('inp-bot-token').value, tgChatId: document.getElementById('inp-chat-id').value, tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value, homeBannerUrl: document.getElementById('inp-home-banner').value }, {merge:true}); toast("Settings Saved!"); };
     
+    // SPIN LOGIC INTEGRATED
     window.apprDep = async (id, uid, amt) => { 
-        if(confirm(`Approve +${amt} Ks?`)){ 
-            try {
-                let u=await getDoc(doc(db,"users",uid)); let uData=u.data(); 
-                let newSpins = Math.floor(parseInt(amt) / 10000); 
-                await updateDoc(doc(db,"users",uid), { walletBalance: (parseInt(uData.walletBalance)||0) + parseInt(amt), spinCount: (parseInt(uData.spinCount)||0) + newSpins }); 
-                await updateDoc(doc(db,"deposits",id),{status:'Completed'}); 
-                await addDoc(collection(db,"transactions"),{userId:uid, type:'Deposit', amount:parseInt(amt), desc:'Approved', createdAt:serverTimestamp()}); 
-                window.toast(`Approved! User got ${newSpins} spin ticket(s).`); 
-            } catch(e) { window.toast(e.message); }
+        if(confirm(`Approve +${amt}?`)){ 
+            let u=await getDoc(doc(db,"users",uid)); let uData=u.data(); 
+            let newSpins = Math.floor(parseInt(amt) / 10000);
+            await updateDoc(doc(db,"users",uid),{walletBalance:(parseInt(uData.walletBalance)||0)+parseInt(amt), spinCount: (parseInt(uData.spinCount)||0) + newSpins}); 
+            await updateDoc(doc(db,"deposits",id),{status:'Completed'}); 
+            await addDoc(collection(db,"transactions"),{userId:uid, type:'Deposit', amount:parseInt(amt), desc:'Approved', createdAt:serverTimestamp()}); 
+            toast(`Approved! Added ${newSpins} Spin(s)`); 
         } 
     };
     window.updDep = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"deposits",id),{status:st}); };
-    window.updWd = async (id, st, uid, amt) => { 
-        if(confirm(`Confirm ${st}?`)){ 
-            try {
-                if(st==='Cancelled'&&uid&&amt){ 
-                    let u=await getDoc(doc(db,"users",uid)); await updateDoc(doc(db,"users",uid),{walletBalance:(parseInt(u.data().walletBalance)||0)+parseInt(amt)}); 
-                    await addDoc(collection(db, "transactions"), { userId: uid, type: 'Refund', amount: parseInt(amt), desc: `Rejected withdraw`, createdAt: serverTimestamp() });
-                } 
-                await updateDoc(doc(db,"withdrawals",id),{status:st}); window.toast(`Done!`); 
-            } catch(e) { window.toast(e.message); }
-        } 
-    };
+    window.updWd = async (id, st, uid, amt) => { if(confirm(`Confirm ${st}?`)){ if(st==='Cancelled'&&uid&&amt){ let u=await getDoc(doc(db,"users",uid)); await updateDoc(doc(db,"users",uid),{walletBalance:(parseInt(u.data().walletBalance)||0)+parseInt(amt)}); } await updateDoc(doc(db,"withdrawals",id),{status:st}); toast(`Done!`); } };
     
-    window.delCat = async (id) => { if(confirm('Delete Category?')) { await deleteDoc(doc(db,'categories',id)); window.toast("Deleted!"); } };
-    window.openCatModal = (c=null) => { document.getElementById('cm-id').value=c?c.id:''; document.getElementById('cm-name').value=c?c.name:''; document.getElementById('cm-slug').value=c?c.slug:''; document.getElementById('cm-img-url').value=c?c.logoUrl:''; document.getElementById('cm-img-preview').src=c?c.logoUrl:''; document.getElementById('cm-img-preview').style.display=c&&c.logoUrl?'block':'none'; let f=(c&&c.forms)?c.forms:[]; document.getElementById('cm-form-uid').checked=f.includes('gameId'); document.getElementById('cm-form-zone').checked=f.includes('zoneId'); document.getElementById('cm-ph-uid').value=c&&c.uidPlaceholder ? c.uidPlaceholder : ''; document.getElementById('cm-ph-zone').value=c&&c.zonePlaceholder ? c.zonePlaceholder : ''; document.getElementById('cm-title').innerText=c?"Edit Category":"New Category"; window.openModal('cat-modal'); };
-    window.saveCategory = async () => { try { let id=document.getElementById('cm-id').value; let forms=[]; if(document.getElementById('cm-form-uid').checked)forms.push('gameId'); if(document.getElementById('cm-form-zone').checked)forms.push('zoneId'); let data={ name:document.getElementById('cm-name').value, slug:document.getElementById('cm-slug').value, logoUrl:document.getElementById('cm-img-url').value, forms:forms, uidPlaceholder: document.getElementById('cm-ph-uid').value, zonePlaceholder: document.getElementById('cm-ph-zone').value, isActive:true }; if(id) await updateDoc(doc(db,"categories",id),data); else await addDoc(collection(db,"categories"),data); window.closeModal('cat-modal'); window.toast("Category Saved!"); } catch(e) { window.toast(e.message); } };
+    // UPLOADS INTEGRATED INTO CRUDS
+    window.openCatModal = (c=null) => { document.getElementById('cm-id').value=c?c.id:''; document.getElementById('cm-name').value=c?c.name:''; document.getElementById('cm-slug').value=c?c.slug:''; document.getElementById('cm-img-url').value=c?c.logoUrl:''; document.getElementById('cm-img-preview').src=c?c.logoUrl:''; document.getElementById('cm-img-preview').style.display=c&&c.logoUrl?'block':'none'; let f=(c&&c.forms)?c.forms:[]; document.getElementById('cm-form-uid').checked=f.includes('gameId'); document.getElementById('cm-form-zone').checked=f.includes('zoneId'); document.getElementById('cm-title').innerText=c?"Edit Cat":"New Cat"; openModal('cat-modal'); };
+    window.saveCategory = async () => { let id=document.getElementById('cm-id').value; let forms=[]; if(document.getElementById('cm-form-uid').checked)forms.push('gameId'); if(document.getElementById('cm-form-zone').checked)forms.push('zoneId'); let data={ name:document.getElementById('cm-name').value, slug:document.getElementById('cm-slug').value, logoUrl:document.getElementById('cm-img-url').value, forms:forms, isActive:true }; if(id) await updateDoc(doc(db,"categories",id),data); else await addDoc(collection(db,"categories"),data); closeModal('cat-modal'); toast("Saved!"); };
     
-    window.delProd = async (id) => { if(confirm('Delete Product?')) { await deleteDoc(doc(db,'products',id)); window.toast("Deleted!"); } };
-    window.openProdModal = (p=null) => { document.getElementById('pm-id').value=p?p.id:''; document.getElementById('pm-name').value=p?p.name:''; document.getElementById('pm-cat').value=p?p.categoryId:''; document.getElementById('pm-cost').value=p?p.retailPrice:''; document.getElementById('pm-price').value=p?p.sellingPrice:''; document.getElementById('pm-img-url').value=p?p.logoUrl:''; document.getElementById('pm-img-preview').src=p?p.logoUrl:''; document.getElementById('pm-img-preview').style.display=p&&p.logoUrl?'block':'none'; document.getElementById('pm-title').innerText=p?"Edit Product":"New Product"; window.openModal('prod-modal'); };
-    window.saveProduct = async () => { try { let id=document.getElementById('pm-id').value; let data={ name:document.getElementById('pm-name').value, categoryId:document.getElementById('pm-cat').value, retailPrice:parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice:parseFloat(document.getElementById('pm-price').value)||0, logoUrl:document.getElementById('pm-img-url').value, isActive:true }; if(id) await updateDoc(doc(db,"products",id),data); else await addDoc(collection(db,"products"),data); window.closeModal('prod-modal'); window.toast("Product Saved!"); } catch(e) { window.toast(e.message); } };
+    window.openProdModal = (p=null) => { document.getElementById('pm-id').value=p?p.id:''; document.getElementById('pm-name').value=p?p.name:''; document.getElementById('pm-cat').value=p?p.categoryId:''; document.getElementById('pm-cost').value=p?p.retailPrice:''; document.getElementById('pm-price').value=p?p.sellingPrice:''; document.getElementById('pm-img-url').value=p?p.logoUrl:''; document.getElementById('pm-img-preview').src=p?p.logoUrl:''; document.getElementById('pm-img-preview').style.display=p&&p.logoUrl?'block':'none'; document.getElementById('pm-title').innerText=p?"Edit Prod":"New Prod"; openModal('prod-modal'); };
+    window.saveProduct = async () => { let id=document.getElementById('pm-id').value; let data={ name:document.getElementById('pm-name').value, categoryId:document.getElementById('pm-cat').value, retailPrice:parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice:parseFloat(document.getElementById('pm-price').value)||0, logoUrl:document.getElementById('pm-img-url').value, isActive:true }; if(id) await updateDoc(doc(db,"products",id),data); else await addDoc(collection(db,"products"),data); closeModal('prod-modal'); toast("Saved!"); };
     
-    window.delPay = async (id) => { if(confirm('Delete Payment Method?')) { await deleteDoc(doc(db,'payment_methods',id)); window.toast("Deleted!"); } };
-    window.openPayModal = (p=null) => { document.getElementById('pay-id').value=p?p.id:''; document.getElementById('pay-name').value=p?p.name:''; document.getElementById('pay-phone').value=p?p.phone:''; document.getElementById('pay-acc').value=p?p.accName:''; document.getElementById('pay-qr-url').value=p?p.qrUrl:''; document.getElementById('pay-qr-preview').src=p?p.qrUrl:''; document.getElementById('pay-qr-preview').style.display=p&&p.qrUrl?'block':'none'; window.openModal('pay-modal'); };
-    window.savePayment = async () => { try { let id=document.getElementById('pay-id').value; let data={name:document.getElementById('pay-name').value, phone:document.getElementById('pay-phone').value, accName:document.getElementById('pay-acc').value, qrUrl:document.getElementById('pay-qr-url').value}; if(id) await updateDoc(doc(db,"payment_methods",id),data); else await addDoc(collection(db,"payment_methods"),data); window.closeModal('pay-modal'); window.toast("Payment Method Saved!"); } catch(e) { window.toast(e.message); } };
+    window.openPayModal = (p=null) => { document.getElementById('pay-id').value=p?p.id:''; document.getElementById('pay-name').value=p?p.name:''; document.getElementById('pay-phone').value=p?p.phone:''; document.getElementById('pay-acc').value=p?p.accName:''; document.getElementById('pay-qr-url').value=p?p.qrUrl:''; document.getElementById('pay-qr-preview').src=p?p.qrUrl:''; document.getElementById('pay-qr-preview').style.display=p&&p.qrUrl?'block':'none'; openModal('pay-modal'); };
+    window.savePayment = async () => { let id=document.getElementById('pay-id').value; let data={name:document.getElementById('pay-name').value, phone:document.getElementById('pay-phone').value, accName:document.getElementById('pay-acc').value, qrUrl:document.getElementById('pay-qr-url').value}; if(id) await updateDoc(doc(db,"payment_methods",id),data); else await addDoc(collection(db,"payment_methods"),data); closeModal('pay-modal'); toast("Saved!"); };
     
-    window.delPromo = async (id) => { if(confirm('Delete Promo?')) { await deleteDoc(doc(db,'promo_codes',id)); window.toast("Deleted!"); } };
-    window.openPromoModal = () => { document.getElementById('promo-code').value=''; document.getElementById('promo-amt').value=''; window.openModal('promo-modal'); };
-    window.savePromo = async () => { try { let c=document.getElementById('promo-code').value.toUpperCase(); let a=parseInt(document.getElementById('promo-amt').value); if(c&&a){ await addDoc(collection(db,"promo_codes"),{code:c, discount:a}); window.closeModal('promo-modal'); window.toast("Promo Saved!"); } } catch(e) { window.toast(e.message); } };
-
-    window.delGuide = async (id) => { if(confirm('Delete Guide?')) { await deleteDoc(doc(db,'guides',id)); window.toast("Deleted!"); } };
-    window.openGuideModal = (g=null) => { document.getElementById('gm-id').value=g?g.id:''; document.getElementById('gm-title-inp').value=g?g.title:''; document.getElementById('gm-content').value=g?g.content:''; document.getElementById('gm-video').value=g?g.videoUrl:''; document.getElementById('gm-title').innerText=g?"Edit Guide":"New Guide"; window.openModal('guide-modal'); };
-    window.saveGuide = async () => { try { let id = document.getElementById('gm-id').value; let data = { title: document.getElementById('gm-title-inp').value, content: document.getElementById('gm-content').value, videoUrl: document.getElementById('gm-video').value, createdAt: serverTimestamp() }; if(id) await updateDoc(doc(db,"guides",id), data); else await addDoc(collection(db,"guides"), data); window.closeModal('guide-modal'); window.toast("Guide Saved!"); } catch(e) { window.toast(e.message); } };
+    window.openPromoModal = () => { document.getElementById('promo-code').value=''; document.getElementById('promo-amt').value=''; openModal('promo-modal'); };
+    window.savePromo = async () => { let c=document.getElementById('promo-code').value.toUpperCase(); let a=parseInt(document.getElementById('promo-amt').value); if(c&&a){ await addDoc(collection(db,"promo_codes"),{code:c, discount:a}); closeModal('promo-modal'); toast("Saved!"); } };
 </script>
 </body>
 </html>
