@@ -7,15 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
-  /* 🌗 Theme Variables */
   :root {
       --bg: #030308; --text: #ffffff; --muted: #a1a1aa; 
       --primary: #8b5cf6; --accent: #0ea5e9; --ok: #10b981; --danger: #ef4444; --warning: #f59e0b;
       --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%);
       --glass-border: rgba(255, 255, 255, 0.1); 
       --glass-highlight: rgba(255, 255, 255, 0.25);
-      --glass-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.02);
-      --nav-bg: rgba(5, 5, 12, 0.8);
+      --glass-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.03);
+      --nav-bg: rgba(5, 5, 12, 0.85);
       --input-bg: rgba(0, 0, 0, 0.3);
   }
   
@@ -26,7 +25,7 @@
       --glass-border: rgba(255, 255, 255, 0.8); 
       --glass-highlight: #ffffff;
       --glass-shadow: 0 8px 30px rgba(31, 38, 135, 0.1), inset 0 0 20px rgba(255,255,255,0.6);
-      --nav-bg: rgba(255, 255, 255, 0.8);
+      --nav-bg: rgba(255, 255, 255, 0.85);
       --input-bg: rgba(255, 255, 255, 0.5);
   }
 
@@ -49,7 +48,7 @@
       border-radius: 20px; transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Tinted Glass for Lists (No ugly side borders) */
+  /* Tinted Glass for Lists */
   .glass-tint-ok { background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.02)); border-color: rgba(16,185,129,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(16,185,129,0.1); }
   .glass-tint-warn { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.02)); border-color: rgba(245,158,11,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(245,158,11,0.1); }
   .glass-tint-danger { background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.02)); border-color: rgba(239,68,68,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(239,68,68,0.1); }
@@ -58,7 +57,6 @@
   .page.active, #auth-screen.active{display:block;}
   @keyframes fadeInSlide { from {opacity:0; transform:translateY(15px) scale(0.98);} to {opacity:1; transform:translateY(0) scale(1);}}
 
-  /* Inputs & Buttons */
   .glass-input { width: 100%; font-family: 'Poppins'; font-size: 14px; padding: 16px; border-radius: 16px; margin-bottom: 15px; transition: 0.3s; background: var(--input-bg); color: var(--text); border: 1px solid var(--glass-border); border-top: 1px solid rgba(0,0,0,0.4); box-shadow: inset 0 4px 10px rgba(0,0,0,0.3); backdrop-filter: blur(10px); }
   .glass-input:focus { border-color: var(--accent); box-shadow: inset 0 4px 10px rgba(0,0,0,0.3), 0 0 15px rgba(14, 165, 233, 0.3); }
 
@@ -68,18 +66,15 @@
   .toast{position:fixed; top:-100px; left:50%; transform:translateX(-50%); background:var(--ok); color:#fff; padding:12px 24px; border-radius:999px; font-weight:800; font-size:13px; opacity:0; transition:0.5s; z-index:9999; box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4); border:1px solid rgba(255,255,255,0.3);}
   .toast.show{opacity:1; top:30px;}
   
-  /* Compact Header Elements */
   .compact-header { display:flex; justify-content:space-between; align-items:center; padding:10px 15px; margin-bottom:20px; border-radius:20px; background:var(--glass-bg); backdrop-filter:blur(25px); border:1px solid var(--glass-border); box-shadow:var(--glass-shadow); }
   .top-action-btn { background:rgba(255,255,255,0.05); border:1px solid var(--glass-border); color:var(--text); border-radius:12px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition: 0.2s;}
   .top-action-btn:active { transform: scale(0.9); }
   
-  /* Games Grid */
   .game-container { display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; }
   .game-card { padding:18px; display:flex; flex-direction:column; align-items:center; text-align:center; cursor: pointer; border-radius: 24px;}
   .game-img { width:80px; height:80px; border-radius:20px; margin-bottom:12px; object-fit: cover; box-shadow: 0 8px 25px rgba(0,0,0,0.4);}
   .game-card:active { transform: scale(0.96); border-color: var(--accent); }
 
-  /* Payment Tabs */
   .pay-tabs { display:flex; background:rgba(0,0,0,0.3); border-radius:14px; padding:5px; margin-bottom:20px; border:1px solid var(--glass-border); }
   .pay-tab { flex:1; text-align:center; padding:12px; font-size:13px; font-weight:700; color:var(--muted); border-radius:10px; cursor:pointer; transition:0.3s; }
   .pay-tab.active { background:var(--glass-highlight); color:var(--text); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
@@ -92,7 +87,6 @@
   .pack-card { padding:20px 10px; cursor:pointer; text-align:center; border:2px solid transparent; transition: 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 20px;}
   .pack-card.selected { border-color:var(--accent); background:rgba(14, 165, 233, 0.15); box-shadow:0 10px 30px rgba(14, 165, 233, 0.2), inset 0 0 15px rgba(14, 165, 233, 0.1); transform: translateY(-5px); border-top: 2px solid rgba(255,255,255,0.5);}
 
-  /* Floating Bottom Nav */
   .main-nav { position:fixed; bottom:15px; left:15px; right:15px; max-width:450px; margin:0 auto; display:flex; justify-content:space-around; background: var(--nav-bg); backdrop-filter:blur(30px) saturate(150%); -webkit-backdrop-filter:blur(30px) saturate(150%); border:1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 999px; padding:12px 10px max(12px,env(safe-area-inset-bottom)); z-index:90; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
   .nav-btn{flex:1; background:transparent; border:none; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; transition: 0.3s;}
   .nav-btn.active{color:var(--accent); text-shadow: 0 0 15px rgba(14,165,233,0.6);} 
@@ -126,8 +120,10 @@
 
     <div id="page-home" class="page active">
         <div class="compact-header">
-            <div style="font-weight:900; font-size:22px; background:linear-gradient(135deg, #fff, var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 2px 4px rgba(14,165,233,0.3));">Kazeno</div>
             <div style="display:flex; gap:10px; align-items:center;">
+                <div style="font-weight:900; font-size:22px; background:linear-gradient(135deg, #fff, var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 2px 4px rgba(14,165,233,0.3));">Kazeno</div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
                 <div onclick="checkAuthAndGo('page-profile')" style="display:flex; align-items:center; gap:8px; background:rgba(16,185,129,0.15); padding:6px 12px; border-radius:12px; border:1px solid rgba(16,185,129,0.3); cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.2);">
                     <i class="fas fa-wallet" style="color:var(--ok); font-size:14px;"></i>
                     <span id="home-wallet" style="font-weight:bold; font-size:13px; color:var(--text);">Login...</span>
@@ -141,7 +137,7 @@
         
         <img id="dyn-home-banner" src="https://img.freepik.com/free-vector/neon-gaming-youtube-channel-art_23-2148154817.jpg" style="width:100%; height:180px; object-fit:cover; border-radius:24px; margin-bottom:25px; display:block; border:1px solid var(--glass-highlight); box-shadow: var(--glass-shadow);">
         
-        <div id="dyn-game-list" class="game-container"><div style="text-align:center; padding:20px; color:var(--muted);" data-i18n="loading">စောင့်ဆိုင်းပါ...</div></div>
+        <div id="dyn-game-list" class="game-container grid-view"><div style="text-align:center; padding:20px; color:var(--muted);" data-i18n="loading">စောင့်ဆိုင်းပါ...</div></div>
     </div>
 
     <div id="page-detail" class="page" style="padding-top:0;">
@@ -176,7 +172,9 @@
             </label>
         </div>
 
-        <div class="glass-card" style="position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; padding:20px; z-index:100; display:flex; justify-content:space-between; align-items:center; border-radius:30px 30px 0 0; border-bottom:none;">
+        <div style="height: 120px;"></div>
+
+        <div style="position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; padding:20px 20px max(20px,env(safe-area-inset-bottom)); z-index:100; display:flex; justify-content:space-between; align-items:center; border-radius:30px 30px 0 0; background: var(--nav-bg); backdrop-filter: blur(30px) saturate(150%); border: 1px solid var(--glass-border); border-bottom: none; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);">
             <div><div style="font-size:12px; color:var(--muted); font-weight:600;" data-i18n="total">စုစုပေါင်း</div><div style="font-size:24px; font-weight:800; color:var(--accent);" id="display-total">0 Ks</div></div>
             <button class="btn-gel" style="width:auto; padding:16px 40px; border-radius:20px;" id="btn-submit" disabled onclick="submitOrder()" data-i18n="pay_now">ဝယ်ယူမည်</button>
         </div>
@@ -210,11 +208,12 @@
             <div style="display:flex; align-items:center; gap:15px;"><div style="width:40px; height:40px; border-radius:12px; background:rgba(14,165,233,0.15); color:var(--accent); display:flex; justify-content:center; align-items:center;"><i class="fas fa-book"></i></div><strong style="font-weight:600;" data-i18n="ledger">ပိုက်ဆံအိတ် မှတ်တမ်း</strong></div>
             <i class="fas fa-chevron-right text-muted"></i>
         </div>
+        
         <div style="display:flex; gap:12px; margin-bottom:12px;">
-            <div class="glass-card" style="flex:1; padding:16px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="toggleTheme()">
+            <div class="glass-card" style="flex:1; padding:16px; display:flex; justify-content:center; align-items:center; cursor:pointer;" onclick="toggleTheme()">
                 <div style="display:flex; align-items:center; gap:10px;"><i class="fas fa-adjust text-muted"></i><strong style="font-size:13px;" data-i18n="theme">အလင်း/အမှောင်</strong></div>
             </div>
-            <div class="glass-card" style="flex:1; padding:16px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="toggleLang()">
+            <div class="glass-card" style="flex:1; padding:16px; display:flex; justify-content:center; align-items:center; cursor:pointer;" onclick="toggleLang()">
                 <div style="display:flex; align-items:center; gap:10px;"><i class="fas fa-language text-muted"></i><strong style="font-size:13px;" id="langBtn2">MY/EN</strong></div>
             </div>
         </div>
@@ -302,19 +301,21 @@
         en: { app_name:"Kazeno Shop", email_ph:"Email", pass_ph:"Password", ref_opt:"Referral Code (Optional)", login_btn:"Login", go_signup:"Don't have an account? Sign Up", go_login:"Already have an account? Login", forgot_pass:"Forgot Password?", loading:"Loading...", step1:"1. Account Info", step2:"2. Select Item", step3:"3. Payment Method", wallet:"Wallet", bank_tr:"Bank Transfer", avail_bal:"Available Balance", up_slip:"+ Upload Transfer Slip", total:"Total", pay_now:"Buy Now", processing:"Processing...", profile:"Profile", my_wallet:"Balance", topup:"Top Up", withdraw:"Withdraw", change_pass:"Change Password", menu:"Menu", spin:"Lucky Spin", ledger:"Wallet Ledger", my_orders:"Order History", logout:"Logout", noti:"Notifications", shop:"Shop", orders:"Orders", me:"Me", guide:"User Guide", theme:"Dark/Light Theme", order_proc: "Order Processing", order_comp: "Order Completed", order_canc: "Order Cancelled", order_det: "Order Details", order_id: "Order ID", date: "Date & Time", game: "Game", item: "Item", player_id: "Player ID", pay_method: "Payment", amt_paid: "Amount Paid", status: "STATUS", close_btn: "Close", before_bal: "Balance Before", after_bal: "Balance After", no_orders: "No order history yet.", no_noti: "No notifications.", your_order: "Your order for", is: "is", pls_login: "Please login first", back_shop: "Back to Shop" }
     };
     
-    window.curLang = localStorage.getItem('lang') || 'my'; window.curTheme = localStorage.getItem('theme') || 'dark';
+    window.curLang = localStorage.getItem('lang') || 'my'; window.curTheme = localStorage.getItem('theme') || 'dark'; window.isGridView = localStorage.getItem('view') === 'grid';
     const t = (key) => dict[curLang][key] || key;
 
     window.applyLang = () => { let lBtn = document.getElementById('langBtn'); if(lBtn) lBtn.innerText = curLang === 'my' ? 'MY' : 'EN'; let lBtn2 = document.getElementById('langBtn2'); if(lBtn2) lBtn2.innerText = curLang === 'my' ? 'MY/EN' : 'EN/MY'; document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = dict[curLang][el.getAttribute('data-i18n')] || el.innerHTML; }); document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = dict[curLang][el.getAttribute('data-i18n-ph')] || el.placeholder; }); };
     window.toggleLang = () => { vibe(); curLang = curLang === 'my' ? 'en' : 'my'; localStorage.setItem('lang', curLang); applyLang(); renderHistory(); };
     window.applyTheme = () => { document.body.setAttribute('data-theme', curTheme); };
     window.toggleTheme = () => { vibe(); curTheme = curTheme === 'dark' ? 'light' : 'dark'; localStorage.setItem('theme', curTheme); applyTheme(); };
+    window.applyView = () => { let cont = document.getElementById('dyn-game-list'); if(isGridView) { cont.classList.add('grid-view'); cont.classList.remove('list-view'); let vBtn = document.getElementById('viewBtn'); if(vBtn) vBtn.innerHTML = '<i class="fas fa-list"></i>'; } else { cont.classList.add('list-view'); cont.classList.remove('grid-view'); let vBtn = document.getElementById('viewBtn'); if(vBtn) vBtn.innerHTML = '<i class="fas fa-th-large"></i>'; } };
+    window.toggleView = () => { vibe(); isGridView = !isGridView; localStorage.setItem('view', isGridView ? 'grid' : 'list'); applyView(); };
 
-    applyLang(); applyTheme();
+    applyLang(); applyTheme(); applyView();
 
     window.toast = (m) => { vibe(); const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); };
     window.vibe = () => { if(navigator.vibrate) navigator.vibrate(30); }
-    window.formatDate = (ts) => { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString(); };
+    window.formatDate = (ts) => { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); };
     
     // 💡 HARDWARE BACK BUTTON (History API) 💡
     window.navToMain = (id) => { vibe(); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); navTo(id); };
@@ -338,7 +339,7 @@
     let me = null; let myWallet = 0; let myRole = 'Customer'; let mySpins = 0; 
     let allMyData = []; let dynamicCats = []; let dynamicProds = []; let payMethods = []; let currentOrder = {}; let depFile = null; let orderFile = null; let payMode = 'wallet';
 
-    window.switchPayTab = (m, el) => { vibe(); payMode = m; document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.pay-view').forEach(v => v.classList.remove('active')); el.classList.add('active'); document.getElementById('pay-'+m).classList.add('active'); checkForm(); };
+    window.switchPayTab = (m, el) => { vibe(); payMode = m; document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.pay-view').forEach(v => v.classList.remove('active')); el.classList.add('active'); let p = document.getElementById('pay-'+m); if(p) p.classList.add('active'); checkForm(); };
 
     // AUTH
     let isLoginMode = true;
@@ -356,16 +357,11 @@
         let chkEl = document.getElementById('chk-dyn-payments'); if(chkEl) chkEl.innerHTML = html;
     });
     
-    // 💡 USER GUIDES SYNC 💡
     onSnapshot(collection(db, "guides"), (snap) => {
         let h = "";
         snap.forEach(s => {
             let g = s.data();
-            h += `<div class="glass-card" style="padding:20px; margin-bottom:20px;">
-                <h3 style="color:var(--accent); font-weight:800; margin-bottom:10px;">${g.title}</h3>
-                <div style="font-size:13px; color:var(--text); line-height:1.8; margin-bottom:15px;">${g.content}</div>
-                ${g.videoUrl ? `<iframe src="${g.videoUrl}" allowfullscreen style="border-radius:12px; width:100%; height:200px; border:none;"></iframe>` : ''}
-            </div>`;
+            h += `<div class="glass-card" style="padding:20px; margin-bottom:20px;"><h3 style="color:var(--accent); font-weight:800; margin-bottom:10px;">${g.title}</h3><div style="font-size:13px; color:var(--text); line-height:1.8; margin-bottom:15px;">${g.content}</div>${g.videoUrl ? `<iframe src="${g.videoUrl}" allowfullscreen style="border-radius:12px; width:100%; height:200px; border:none;"></iframe>` : ''}</div>`;
         });
         document.getElementById('guide-list').innerHTML = h || `<div style="text-align:center; padding:40px; color:gray;">No guides available yet.</div>`;
     });
@@ -404,7 +400,7 @@
                 unread++; 
                 nHtml += `<div class="glass-card ${colorCls}" style="padding:16px; margin-bottom:14px;">
                     <div style="font-weight:bold; font-size:14px; margin-bottom:8px; color:${txtColor};">${t(statKey)}</div>
-                    <div style="font-size:13px; color:var(--text); line-height:1.6;">${t('your_order')} <span style="font-weight:bold;">${o.item} (${o.game})</span> ${t('is')} ${t(statKey).toLowerCase()}.</div>
+                    <div style="font-size:13px; color:var(--text); line-height:1.6;">${t('your_order')} <span style="font-weight:bold; color:var(--accent);">${o.item} (${o.game})</span> ${t('is')} ${t(statKey).toLowerCase()}.</div>
                     <div style="font-size:11px; text-align:right; margin-top:10px; color:var(--muted);"><i class="far fa-clock"></i> ${formatDate(o.createdAt)}</div>
                 </div>`; 
             }
@@ -414,7 +410,7 @@
         let bc = document.getElementById('bell-count'); if(bc) bc.style.display = unread > 0 ? 'flex' : 'none';
     }
 
-    window.showOrderDetails = (id) => { vibe(); let o = allMyData.find(x => x.id === id); if(!o) return; let c = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)'); let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc'); let bBalHtml = (o.beforeBalance !== undefined) ? `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-wallet mr-2"></i>${t('before_bal')}</span> <strong style="font-size:15px;">${o.beforeBalance.toLocaleString()} Ks</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hand-holding-usd mr-2"></i>${t('after_bal')}</span> <strong style="font-size:15px; color:var(--warning);">${o.afterBalance.toLocaleString()} Ks</strong></div>` : ''; let h = `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hashtag mr-2"></i>${t('order_id')}</span> <strong style="color:var(--accent); font-family:monospace; font-size:15px;">${o.orderId || o.id.substring(0,8)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="far fa-calendar-alt mr-2"></i>${t('date')}</span> <strong style="font-size:13px;">${formatDate(o.createdAt)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gamepad mr-2"></i>${t('game')}</span> <strong style="font-size:15px;">${o.game}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gem mr-2"></i>${t('item')}</span> <strong style="color:var(--accent); font-size:15px;">${o.item}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-id-card mr-2"></i>${t('player_id')}</span> <strong style="background:rgba(255,255,255,0.15); padding:6px 12px; border-radius:10px; font-family:monospace; font-size:15px;">${o.playerId}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-money-check-alt mr-2"></i>${t('pay_method')}</span> <strong><span style="background:var(--primary); padding:6px 10px; border-radius:8px; font-size:12px;">${o.payMethod || 'Wallet'}</span></strong></div>${bBalHtml}<div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; margin-bottom:10px;"><span style="color:var(--text); font-weight:800; font-size:16px;">${t('amt_paid')}</span> <strong style="color:var(--ok); font-size:26px;">${o.price.toLocaleString()} Ks</strong></div><div style="text-align:center; margin-top:20px; font-weight:900; color:${c}; font-size:16px; background:rgba(255,255,255,0.05); padding:16px; border-radius:16px; border:1px solid ${c}50;">${t('status')}: ${t(statKey).toUpperCase()}</div>`; document.getElementById('order-modal-content').innerHTML = h; openModal('order-modal'); };
+    window.showOrderDetails = (id) => { vibe(); let o = allMyData.find(x => x.id === id); if(!o) return; let c = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)'); let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc'); let bBalHtml = (o.beforeBalance !== undefined) ? `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-wallet mr-2"></i>${t('before_bal')}</span> <strong style="font-size:15px;">${o.beforeBalance.toLocaleString()} Ks</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hand-holding-usd mr-2"></i>${t('after_bal')}</span> <strong style="font-size:15px; color:var(--warning);">${o.afterBalance.toLocaleString()} Ks</strong></div>` : ''; let h = `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hashtag mr-2"></i>${t('order_id')}</span> <strong style="color:var(--accent); font-family:monospace; font-size:15px;">${o.orderId || o.id.substring(0,8)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="far fa-calendar-alt mr-2"></i>${t('date')}</span> <strong style="font-size:13px;">${formatDate(o.createdAt)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gamepad mr-2"></i>${t('game')}</span> <strong style="font-size:15px;">${o.game}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gem mr-2"></i>${t('item')}</span> <strong style="color:var(--accent); font-size:15px;">${o.item}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-id-card mr-2"></i>${t('player_id')}</span> <strong style="background:rgba(255,255,255,0.15); padding:6px 12px; border-radius:10px; font-family:monospace; font-size:15px;">${o.playerId}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-money-check-alt mr-2"></i>${t('pay_method')}</span> <strong><span class="badge" style="background:var(--primary); padding:6px 10px; border-radius:8px; font-size:12px;">${o.payMethod || 'Wallet'}</span></strong></div>${bBalHtml}<div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; margin-bottom:10px;"><span style="color:var(--text); font-weight:800; font-size:16px;">${t('amt_paid')}</span> <strong style="color:var(--ok); font-size:26px;">${o.price.toLocaleString()} Ks</strong></div><div style="text-align:center; margin-top:20px; font-weight:900; color:${c}; font-size:16px; background:rgba(255,255,255,0.05); padding:16px; border-radius:16px; border:1px solid ${c}50;">${t('status')}: ${t(statKey).toUpperCase()}</div>`; document.getElementById('order-modal-content').innerHTML = h; openModal('order-modal'); };
 
     // 💡 DYNAMIC PLACEHOLDERS 💡
     window.openGameDetail = (catId) => {
