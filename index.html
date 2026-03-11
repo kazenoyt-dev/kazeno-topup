@@ -32,23 +32,13 @@
   *{box-sizing:border-box; outline:none; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
   body{font-family:'Poppins', sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; transition: background 0.4s ease, color 0.4s ease;}
   
-  /* 🌊 LIQUID AURORA BACKGROUND */
   .liquid-bg { position: fixed; inset: 0; z-index: -3; background: radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.25), transparent 50%), radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.25), transparent 50%), radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.15), transparent 50%); filter: blur(60px); animation: liquidFlow 15s infinite alternate ease-in-out; }
   @keyframes liquidFlow { 0% { transform: scale(1) translate(0, 0); } 50% { transform: scale(1.1) translate(5%, 5%); } 100% { transform: scale(1) translate(-5%, -5%); } }
 
   .app-container{max-width:480px; margin:0 auto; min-height:100vh; position:relative; padding-bottom:100px;}
   
-  /* 🧊 TRUE LIQUID GLASS CARDS */
-  .glass-card {
-      background: var(--glass-bg); 
-      backdrop-filter: blur(25px) saturate(150%); -webkit-backdrop-filter: blur(25px) saturate(150%);
-      border: 1px solid var(--glass-border);
-      border-top: 1px solid var(--glass-highlight); border-left: 1px solid var(--glass-highlight);
-      box-shadow: var(--glass-shadow); 
-      border-radius: 20px; transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+  .glass-card { background: var(--glass-bg); backdrop-filter: blur(25px) saturate(150%); -webkit-backdrop-filter: blur(25px) saturate(150%); border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-left: 1px solid var(--glass-highlight); box-shadow: var(--glass-shadow); border-radius: 20px; transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
 
-  /* Tinted Glass for Lists */
   .glass-tint-ok { background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.02)); border-color: rgba(16,185,129,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(16,185,129,0.1); }
   .glass-tint-warn { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.02)); border-color: rgba(245,158,11,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(245,158,11,0.1); }
   .glass-tint-danger { background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.02)); border-color: rgba(239,68,68,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(239,68,68,0.1); }
@@ -87,10 +77,12 @@
   .pack-card { padding:20px 10px; cursor:pointer; text-align:center; border:2px solid transparent; transition: 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 20px;}
   .pack-card.selected { border-color:var(--accent); background:rgba(14, 165, 233, 0.15); box-shadow:0 10px 30px rgba(14, 165, 233, 0.2), inset 0 0 15px rgba(14, 165, 233, 0.1); transform: translateY(-5px); border-top: 2px solid rgba(255,255,255,0.5);}
 
-  .main-nav { position:fixed; bottom:15px; left:15px; right:15px; max-width:450px; margin:0 auto; display:flex; justify-content:space-around; background: var(--nav-bg); backdrop-filter:blur(30px) saturate(150%); -webkit-backdrop-filter:blur(30px) saturate(150%); border:1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 999px; padding:12px 10px max(12px,env(safe-area-inset-bottom)); z-index:90; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
+  /* 💡 FIXED BOTTOM BAR (No Cut-off) 💡 */
+  .buy-bottom-bar { position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; padding:20px 20px max(20px,env(safe-area-inset-bottom)); z-index:100; display:flex; justify-content:space-between; align-items:center; border-radius:30px 30px 0 0; background: var(--nav-bg); backdrop-filter: blur(30px) saturate(150%); border-top: 1px solid var(--glass-highlight); box-shadow: 0 -10px 40px rgba(0,0,0,0.8); }
+
+  .main-nav { position:fixed; bottom:15px; left:15px; right:15px; max-width:450px; margin:0 auto; display:flex; justify-content:space-around; background: var(--nav-bg); backdrop-filter:blur(30px) saturate(150%); border:1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-radius: 999px; padding:12px 10px max(12px,env(safe-area-inset-bottom)); z-index:90; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
   .nav-btn{flex:1; background:transparent; border:none; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; transition: 0.3s;}
   .nav-btn.active{color:var(--accent); text-shadow: 0 0 15px rgba(14,165,233,0.6);} 
-  .nav-btn.active i { transform: scale(1.15) translateY(-2px); color: var(--accent); }
 
   .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(15px); display:none; align-items:center; justify-content:center; z-index:9000; padding:20px; opacity:0; transition:0.3s; }
   .modal-overlay.active { display:flex; opacity:1; }
@@ -136,7 +128,6 @@
         </div>
         
         <img id="dyn-home-banner" src="https://img.freepik.com/free-vector/neon-gaming-youtube-channel-art_23-2148154817.jpg" style="width:100%; height:180px; object-fit:cover; border-radius:24px; margin-bottom:25px; display:block; border:1px solid var(--glass-highlight); box-shadow: var(--glass-shadow);">
-        
         <div id="dyn-game-list" class="game-container grid-view"><div style="text-align:center; padding:20px; color:var(--muted);" data-i18n="loading">စောင့်ဆိုင်းပါ...</div></div>
     </div>
 
@@ -174,7 +165,7 @@
 
         <div style="height: 120px;"></div>
 
-        <div style="position:fixed; bottom:0; left:0; right:0; max-width:480px; margin:0 auto; padding:20px 20px max(20px,env(safe-area-inset-bottom)); z-index:100; display:flex; justify-content:space-between; align-items:center; border-radius:30px 30px 0 0; background: var(--nav-bg); backdrop-filter: blur(30px) saturate(150%); border: 1px solid var(--glass-border); border-bottom: none; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);">
+        <div class="buy-bottom-bar">
             <div><div style="font-size:12px; color:var(--muted); font-weight:600;" data-i18n="total">စုစုပေါင်း</div><div style="font-size:24px; font-weight:800; color:var(--accent);" id="display-total">0 Ks</div></div>
             <button class="btn-gel" style="width:auto; padding:16px 40px; border-radius:20px;" id="btn-submit" disabled onclick="submitOrder()" data-i18n="pay_now">ဝယ်ယူမည်</button>
         </div>
@@ -229,7 +220,7 @@
 
     <div id="page-guide" class="page">
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="guide">အသုံးပြုနည်း လမ်းညွှန်</h2></div>
-        <div id="guide-list"><div style="text-align:center; padding:40px; color:var(--muted);"><i class="fas fa-spinner fa-spin text-3xl mb-3"></i><br>Loading guides...</div></div>
+        <div id="guide-list"><div style="text-align:center; padding:40px; color:var(--muted);">Loading guides...</div></div>
     </div>
 
     <div id="page-deposit" class="page">
@@ -268,9 +259,9 @@
         <button class="btn-gel" style="padding:18px; font-size:18px;" id="btn-spin" onclick="playSpin()"><i class="fas fa-sync-alt mr-2"></i> Spin Now (1 Ticket)</button>
     </div>
 
-    <div id="page-orders" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="my_orders">အော်ဒါမှတ်တမ်း</h2></div><div id="orders-list"></div></div>
-    <div id="page-notifications" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="noti">အသိပေးချက်များ</h2></div><div id="noti-list"></div></div>
-    <div id="page-ledger" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="ledger">ပိုက်ဆံအိတ် မှတ်တမ်း</h2></div><div id="ledger-list"></div></div>
+    <div id="page-orders" class="page" style="padding-bottom:120px;"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="my_orders">အော်ဒါမှတ်တမ်း</h2></div><div id="orders-list"></div></div>
+    <div id="page-notifications" class="page" style="padding-bottom:120px;"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="noti">အသိပေးချက်များ</h2></div><div id="noti-list"></div></div>
+    <div id="page-ledger" class="page" style="padding-bottom:120px;"><div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;"><div class="top-action-btn" onclick="navBack()"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="ledger">ပိုက်ဆံအိတ် မှတ်တမ်း</h2></div><div id="ledger-list"></div></div>
 
     <div class="modal-overlay" id="order-modal" onclick="if(event.target===this) closeModal('order-modal')">
         <div class="modal-box glass-card"><h3 style="margin-bottom:20px; color:var(--accent); font-weight:800; border-bottom:1px solid var(--glass-border); padding-bottom:15px; font-size:18px;" id="om-title">Order Details</h3><div id="order-modal-content" style="font-size:14px; line-height:2;"></div><button class="btn-gel" style="margin-top:25px;" onclick="closeModal('order-modal')" id="om-close">Close</button></div>
@@ -297,8 +288,8 @@
     const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
     const dict = {
-        my: { app_name:"Kazeno ဆိုင်", email_ph:"အီးမေးလ်", pass_ph:"စကားဝှက်", ref_opt:"ဖိတ်ခေါ်ကုဒ် (ရွေးချယ်ရန်)", login_btn:"အကောင့်ဝင်မည်", go_signup:"အကောင့်မရှိသေးဘူးလား? အသစ်ဖွင့်မည်", go_login:"အကောင့်ရှိပြီးသားလား? ဝင်မည်", forgot_pass:"စကားဝှက်မေ့နေပါသလား?", loading:"စောင့်ဆိုင်းပါ...", step1:"၁။ အကောင့်အချက်အလက် ထည့်ပါ", step2:"၂။ ပစ္စည်းရွေးချယ်ပါ", step3:"၃။ ငွေပေးချေမည့်နည်းလမ်း", wallet:"ပိုက်ဆံအိတ်", bank_tr:"ငွေလွှဲပြေစာ", avail_bal:"လက်ကျန်ငွေ", up_slip:"+ ငွေလွှဲပြေစာ ပုံတင်ရန်", total:"စုစုပေါင်း", pay_now:"ဝယ်ယူမည်", processing:"လုပ်ဆောင်နေပါသည်...", profile:"ပရိုဖိုင်", my_wallet:"လက်ကျန်ငွေ", topup:"ငွေသွင်း", withdraw:"ငွေထုတ်", change_pass:"စကားဝှက် ပြောင်းရန်", menu:"မီနူး", spin:"ကံစမ်းမဲ", ledger:"ပိုက်ဆံအိတ် မှတ်တမ်း", my_orders:"အော်ဒါမှတ်တမ်း", logout:"အကောင့်ထွက်မည်", noti:"အသိပေးချက်များ", shop:"ဆိုင်", orders:"မှတ်တမ်း", me:"ပရိုဖိုင်", guide:"အသုံးပြုနည်း လမ်းညွှန်", theme:"အလင်း/အမှောင်", order_proc: "အော်ဒါ လုပ်ဆောင်နေပါသည်", order_comp: "အော်ဒါ အောင်မြင်ပါသည်", order_canc: "အော်ဒါ ပယ်ဖျက်လိုက်ပါသည်", order_det: "အော်ဒါ အသေးစိတ်", order_id: "အော်ဒါ နံပါတ်", date: "နေ့ရက် နှင့် အချိန်", game: "ဂိမ်းအမည်", item: "ပစ္စည်း", player_id: "ပလေယာ ID", pay_method: "ပေးချေမှုစနစ်", amt_paid: "ကျသင့်ငွေ", status: "အခြေအနေ", close_btn: "ပိတ်မည်", before_bal: "ယခင် လက်ကျန်ငွေ", after_bal: "ယခု လက်ကျန်ငွေ", no_orders: "အော်ဒါ မှတ်တမ်း မရှိသေးပါ။", no_noti: "အသိပေးချက် မရှိပါ။", your_order: "သင်၏", is: "သည်", pls_login: "ကျေးဇူးပြု၍ အကောင့်ဝင်ပါ", back_shop: "ဆိုင်သို့ ပြန်သွားမည်" },
-        en: { app_name:"Kazeno Shop", email_ph:"Email", pass_ph:"Password", ref_opt:"Referral Code (Optional)", login_btn:"Login", go_signup:"Don't have an account? Sign Up", go_login:"Already have an account? Login", forgot_pass:"Forgot Password?", loading:"Loading...", step1:"1. Account Info", step2:"2. Select Item", step3:"3. Payment Method", wallet:"Wallet", bank_tr:"Bank Transfer", avail_bal:"Available Balance", up_slip:"+ Upload Transfer Slip", total:"Total", pay_now:"Buy Now", processing:"Processing...", profile:"Profile", my_wallet:"Balance", topup:"Top Up", withdraw:"Withdraw", change_pass:"Change Password", menu:"Menu", spin:"Lucky Spin", ledger:"Wallet Ledger", my_orders:"Order History", logout:"Logout", noti:"Notifications", shop:"Shop", orders:"Orders", me:"Me", guide:"User Guide", theme:"Dark/Light Theme", order_proc: "Order Processing", order_comp: "Order Completed", order_canc: "Order Cancelled", order_det: "Order Details", order_id: "Order ID", date: "Date & Time", game: "Game", item: "Item", player_id: "Player ID", pay_method: "Payment", amt_paid: "Amount Paid", status: "STATUS", close_btn: "Close", before_bal: "Balance Before", after_bal: "Balance After", no_orders: "No order history yet.", no_noti: "No notifications.", your_order: "Your order for", is: "is", pls_login: "Please login first", back_shop: "Back to Shop" }
+        my: { app_name:"Kazeno ဆိုင်", email_ph:"အီးမေးလ်", pass_ph:"စကားဝှက်", ref_opt:"ဖိတ်ခေါ်ကုဒ် (ရွေးချယ်ရန်)", login_btn:"အကောင့်ဝင်မည်", go_signup:"အကောင့်မရှိသေးဘူးလား? အသစ်ဖွင့်မည်", go_login:"အကောင့်ရှိပြီးသားလား? ဝင်မည်", forgot_pass:"စကားဝှက်မေ့နေပါသလား?", loading:"စောင့်ဆိုင်းပါ...", step1:"၁။ အကောင့်အချက်အလက် ထည့်ပါ", step2:"၂။ ပစ္စည်းရွေးချယ်ပါ", step3:"၃။ ငွေပေးချေမည့်နည်းလမ်း", wallet:"ပိုက်ဆံအိတ်", bank_tr:"ငွေလွှဲပြေစာ", avail_bal:"လက်ကျန်ငွေ", up_slip:"+ ငွေလွှဲပြေစာ ပုံတင်ရန်", total:"စုစုပေါင်း", pay_now:"ဝယ်ယူမည်", processing:"လုပ်ဆောင်နေပါသည်...", profile:"ပရိုဖိုင်", my_wallet:"လက်ကျန်ငွေ", topup:"ငွေသွင်း", withdraw:"ငွေထုတ်", change_pass:"စကားဝှက် ပြောင်းရန်", menu:"မီနူး", spin:"ကံစမ်းမဲ", ledger:"ပိုက်ဆံအိတ် မှတ်တမ်း", my_orders:"အော်ဒါမှတ်တမ်း", logout:"အကောင့်ထွက်မည်", noti:"အသိပေးချက်များ", shop:"ဆိုင်", orders:"မှတ်တမ်း", me:"ပရိုဖိုင်", guide:"အသုံးပြုနည်း လမ်းညွှန်", theme:"အလင်း/အမှောင်", order_proc: "အော်ဒါ လုပ်ဆောင်နေပါသည်", order_comp: "အော်ဒါ အောင်မြင်ပါသည်", order_canc: "အော်ဒါ ပယ်ဖျက်လိုက်ပါသည်", order_det: "အော်ဒါ အသေးစိတ်", order_id: "အော်ဒါ နံပါတ်", date: "နေ့ရက် နှင့် အချိန်", game: "ဂိမ်းအမည်", item: "ပစ္စည်း", player_id: "ပလေယာ ID", pay_method: "ပေးချေမှုစနစ်", amt_paid: "ကျသင့်ငွေ", status: "အခြေအနေ", close_btn: "ပိတ်မည်", before_bal: "ယခင် လက်ကျန်ငွေ", after_bal: "ယခု လက်ကျန်ငွေ", no_orders: "အော်ဒါ မှတ်တမ်း မရှိသေးပါ။", no_noti: "အသိပေးချက် မရှိပါ။", your_order: "သင်၏", is: "သည်", pls_login: "ကျေးဇူးပြု၍ အကောင့်ဝင်ပါ", back_shop: "ဆိုင်သို့ ပြန်သွားမည်", pending_dep_exist: "ယခင် ငွေသွင်းထားမှု (Pending) ရှိနေပါသည်။ ကျေးဇူးပြု၍ စောင့်ဆိုင်းပေးပါ။" },
+        en: { app_name:"Kazeno Shop", email_ph:"Email", pass_ph:"Password", ref_opt:"Referral Code (Optional)", login_btn:"Login", go_signup:"Don't have an account? Sign Up", go_login:"Already have an account? Login", forgot_pass:"Forgot Password?", loading:"Loading...", step1:"1. Account Info", step2:"2. Select Item", step3:"3. Payment Method", wallet:"Wallet", bank_tr:"Bank Transfer", avail_bal:"Available Balance", up_slip:"+ Upload Transfer Slip", total:"Total", pay_now:"Buy Now", processing:"Processing...", profile:"Profile", my_wallet:"Balance", topup:"Top Up", withdraw:"Withdraw", change_pass:"Change Password", menu:"Menu", spin:"Lucky Spin", ledger:"Wallet Ledger", my_orders:"Order History", logout:"Logout", noti:"Notifications", shop:"Shop", orders:"Orders", me:"Me", guide:"User Guide", theme:"Dark/Light Theme", order_proc: "Order Processing", order_comp: "Order Completed", order_canc: "Order Cancelled", order_det: "Order Details", order_id: "Order ID", date: "Date & Time", game: "Game", item: "Item", player_id: "Player ID", pay_method: "Payment", amt_paid: "Amount Paid", status: "STATUS", close_btn: "Close", before_bal: "Balance Before", after_bal: "Balance After", no_orders: "No order history yet.", no_noti: "No notifications.", your_order: "Your order for", is: "is", pls_login: "Please login first", back_shop: "Back to Shop", pending_dep_exist: "You already have a pending deposit! Please wait." }
     };
     
     window.curLang = localStorage.getItem('lang') || 'my'; window.curTheme = localStorage.getItem('theme') || 'dark'; window.isGridView = localStorage.getItem('view') === 'grid';
@@ -308,14 +299,14 @@
     window.toggleLang = () => { vibe(); curLang = curLang === 'my' ? 'en' : 'my'; localStorage.setItem('lang', curLang); applyLang(); renderHistory(); };
     window.applyTheme = () => { document.body.setAttribute('data-theme', curTheme); };
     window.toggleTheme = () => { vibe(); curTheme = curTheme === 'dark' ? 'light' : 'dark'; localStorage.setItem('theme', curTheme); applyTheme(); };
-    window.applyView = () => { let cont = document.getElementById('dyn-game-list'); if(isGridView) { cont.classList.add('grid-view'); cont.classList.remove('list-view'); let vBtn = document.getElementById('viewBtn'); if(vBtn) vBtn.innerHTML = '<i class="fas fa-list"></i>'; } else { cont.classList.add('list-view'); cont.classList.remove('grid-view'); let vBtn = document.getElementById('viewBtn'); if(vBtn) vBtn.innerHTML = '<i class="fas fa-th-large"></i>'; } };
+    window.applyView = () => { let cont = document.getElementById('dyn-game-list'); if(!cont) return; if(isGridView) { cont.classList.add('grid-view'); cont.classList.remove('list-view'); let vBtn = document.getElementById('viewBtn'); if(vBtn) vBtn.innerHTML = '<i class="fas fa-list"></i>'; } else { cont.classList.add('list-view'); cont.classList.remove('grid-view'); let vBtn = document.getElementById('viewBtn'); if(vBtn) vBtn.innerHTML = '<i class="fas fa-th-large"></i>'; } };
     window.toggleView = () => { vibe(); isGridView = !isGridView; localStorage.setItem('view', isGridView ? 'grid' : 'list'); applyView(); };
 
     applyLang(); applyTheme(); applyView();
 
     window.toast = (m) => { vibe(); const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); };
     window.vibe = () => { if(navigator.vibrate) navigator.vibrate(30); }
-    window.formatDate = (ts) => { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); };
+    window.formatDate = (ts) => { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString(); };
     
     // 💡 HARDWARE BACK BUTTON (History API) 💡
     window.navToMain = (id) => { vibe(); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); navTo(id); };
@@ -343,7 +334,7 @@
 
     // AUTH
     let isLoginMode = true;
-    window.toggleAuthMode = () => { vibe(); isLoginMode = !isLoginMode; document.getElementById('auth-btn').innerText = isLoginMode ? dict[curLang].login_btn : "Sign Up"; document.getElementById('auth-toggle').innerText = isLoginMode ? dict[curLang].go_signup : dict[curLang].go_login; document.getElementById('ref-container').style.display = isLoginMode ? 'none' : 'block';};
+    window.toggleAuthMode = () => { vibe(); isLoginMode = !isLoginMode; document.getElementById('auth-btn').innerText = isLoginMode ? dict[curLang].login_btn : "Sign Up"; document.getElementById('auth-toggle').innerText = isLoginMode ? dict[curLang].go_signup : dict[curLang].go_login; let r = document.getElementById('ref-container'); if(r) r.style.display = isLoginMode ? 'none' : 'block';};
     window.handleAuth = async () => { vibe(); const em = document.getElementById('auth-email').value.trim(); const pw = document.getElementById('auth-password').value.trim(); if(pw.length < 6) return toast("Password min 6 chars"); document.getElementById('auth-btn').innerText = t('loading'); try { if(isLoginMode) await signInWithEmailAndPassword(auth, em, pw); else { const res = await createUserWithEmailAndPassword(auth, em, pw); await setDoc(doc(db, "users", res.user.uid), { email:em, walletBalance:0, spinCount:0, role: "Customer", createdAt:serverTimestamp() }); } } catch(e) { toast(e.message); document.getElementById('auth-btn').innerText = isLoginMode ? dict[curLang].login_btn : "Sign Up"; } };
     window.logout = () => { vibe(); signOut(auth); navToMain('page-home'); };
 
@@ -357,22 +348,35 @@
         let chkEl = document.getElementById('chk-dyn-payments'); if(chkEl) chkEl.innerHTML = html;
     });
     
+    // 💡 USER GUIDES SYNC 💡
     onSnapshot(collection(db, "guides"), (snap) => {
         let h = "";
         snap.forEach(s => {
             let g = s.data();
             h += `<div class="glass-card" style="padding:20px; margin-bottom:20px;"><h3 style="color:var(--accent); font-weight:800; margin-bottom:10px;">${g.title}</h3><div style="font-size:13px; color:var(--text); line-height:1.8; margin-bottom:15px;">${g.content}</div>${g.videoUrl ? `<iframe src="${g.videoUrl}" allowfullscreen style="border-radius:12px; width:100%; height:200px; border:none;"></iframe>` : ''}</div>`;
         });
-        document.getElementById('guide-list').innerHTML = h || `<div style="text-align:center; padding:40px; color:gray;">No guides available yet.</div>`;
+        let gl = document.getElementById('guide-list'); if(gl) gl.innerHTML = h || `<div style="text-align:center; padding:40px; color:gray;">No guides available yet.</div>`;
     });
 
     onAuthStateChanged(auth, async (user) => {
         if(user) {
-            me = user; closeAuthScreen(); document.getElementById('prof-email').innerText = me.email;
-            onSnapshot(doc(db, "users", me.uid), (ds) => { if(ds.exists()) { myWallet = ds.data().walletBalance || 0; myRole = ds.data().role || 'Customer'; mySpins = ds.data().spinCount || 0; document.getElementById('home-wallet').innerText = myWallet.toLocaleString() + " Ks"; document.getElementById('prof-wallet').innerText = myWallet.toLocaleString() + " Ks"; document.getElementById('wd-avail').innerText = myWallet.toLocaleString() + " Ks"; document.getElementById('prof-role').innerText = myRole; document.getElementById('spin-tickets').innerText = mySpins; document.getElementById('detail-wallet-bal').innerText = myWallet.toLocaleString() + " Ks";} });
+            me = user; closeAuthScreen(); let pe = document.getElementById('prof-email'); if(pe) pe.innerText = me.email;
+            onSnapshot(doc(db, "users", me.uid), (ds) => { if(ds.exists()) { myWallet = ds.data().walletBalance || 0; myRole = ds.data().role || 'Customer'; mySpins = ds.data().spinCount || 0; let hw = document.getElementById('home-wallet'); if(hw) hw.innerText = myWallet.toLocaleString() + " Ks"; let pw = document.getElementById('prof-wallet'); if(pw) pw.innerText = myWallet.toLocaleString() + " Ks"; let wa = document.getElementById('wd-avail'); if(wa) wa.innerText = myWallet.toLocaleString() + " Ks"; let pr = document.getElementById('prof-role'); if(pr) pr.innerText = myRole; let st = document.getElementById('spin-tickets'); if(st) st.innerText = mySpins; let dwb = document.getElementById('detail-wallet-bal'); if(dwb) dwb.innerText = myWallet.toLocaleString() + " Ks";} });
             onSnapshot(query(collection(db, "orders"), where("userId", "==", me.uid)), (s) => { allMyData = []; s.forEach(d => { let obj = {id:d.id, type:'order', ...d.data()}; allMyData.push(obj); }); renderHistory(); });
-            onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid)), (s) => { let tArr = []; s.forEach(d => tArr.push(d.data())); tArr.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0)); let lHtml = ""; tArr.forEach(tx => { let color = tx.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = tx.amount >= 0 ? '+' : ''; lHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700; font-size:14px;">${tx.type}</div><div style="font-size:11px; color:var(--muted);">${tx.desc}</div></div><div style="font-weight:800; font-size:16px; color:${color};">${sign}${tx.amount.toLocaleString()} Ks</div></div>`; }); document.getElementById('ledger-list').innerHTML = lHtml || `<div style='text-align:center; color:gray; padding:20px;'>No records yet.</div>`; });
-        } else { me = null; document.getElementById('home-wallet').innerText = "Login..."; allMyData = []; renderHistory(); document.getElementById('ledger-list').innerHTML = ""; }
+            
+            // 💡 PENDING DEPOSITS & TRANSACTIONS LOGIC 💡
+            onSnapshot(query(collection(db, "deposits"), where("userId", "==", me.uid)), (s) => {
+                window.myPendingDeps = [];
+                s.forEach(d => { let dep = d.data(); if(dep.status === 'Pending') window.myPendingDeps.push(dep); });
+                window.hasPendingDeposit = window.myPendingDeps.length > 0;
+                renderLedger(); // Refresh ledger to show pending deposits
+            });
+
+            onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid)), (s) => { 
+                window.myTransactions = []; s.forEach(d => window.myTransactions.push(d.data())); 
+                renderLedger(); // Refresh ledger
+            });
+        } else { me = null; let hw = document.getElementById('home-wallet'); if(hw) hw.innerText = "Login..."; allMyData = []; renderHistory(); let ll = document.getElementById('ledger-list'); if(ll) ll.innerHTML = ""; }
     });
 
     function renderGames(list) { let html = ""; list.forEach(c => { if(c.isActive) { html += `<div class="game-card glass-card" onclick="openGameDetail('${c.id}')"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div style="flex:1; margin:0 12px; text-align:left;"><div style="font-weight:800; font-size:16px; color:var(--text);">${c.name}</div><div style="font-size:12px; color:var(--ok); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-top:2px;">Available</div></div><div class="btn-gel" style="padding:10px; width:auto; border-radius:12px; font-size:12px;">Open</div></div>`; } }); let c = document.getElementById('dyn-game-list'); if(c) c.innerHTML = html || `<div style="text-align:center; color:gray; width:100%; padding:20px;">No games found.</div>`; }
@@ -410,21 +414,43 @@
         let bc = document.getElementById('bell-count'); if(bc) bc.style.display = unread > 0 ? 'flex' : 'none';
     }
 
-    window.showOrderDetails = (id) => { vibe(); let o = allMyData.find(x => x.id === id); if(!o) return; let c = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)'); let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc'); let bBalHtml = (o.beforeBalance !== undefined) ? `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-wallet mr-2"></i>${t('before_bal')}</span> <strong style="font-size:15px;">${o.beforeBalance.toLocaleString()} Ks</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hand-holding-usd mr-2"></i>${t('after_bal')}</span> <strong style="font-size:15px; color:var(--warning);">${o.afterBalance.toLocaleString()} Ks</strong></div>` : ''; let h = `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hashtag mr-2"></i>${t('order_id')}</span> <strong style="color:var(--accent); font-family:monospace; font-size:15px;">${o.orderId || o.id.substring(0,8)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="far fa-calendar-alt mr-2"></i>${t('date')}</span> <strong style="font-size:13px;">${formatDate(o.createdAt)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gamepad mr-2"></i>${t('game')}</span> <strong style="font-size:15px;">${o.game}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gem mr-2"></i>${t('item')}</span> <strong style="color:var(--accent); font-size:15px;">${o.item}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-id-card mr-2"></i>${t('player_id')}</span> <strong style="background:rgba(255,255,255,0.15); padding:6px 12px; border-radius:10px; font-family:monospace; font-size:15px;">${o.playerId}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-money-check-alt mr-2"></i>${t('pay_method')}</span> <strong><span class="badge" style="background:var(--primary); padding:6px 10px; border-radius:8px; font-size:12px;">${o.payMethod || 'Wallet'}</span></strong></div>${bBalHtml}<div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; margin-bottom:10px;"><span style="color:var(--text); font-weight:800; font-size:16px;">${t('amt_paid')}</span> <strong style="color:var(--ok); font-size:26px;">${o.price.toLocaleString()} Ks</strong></div><div style="text-align:center; margin-top:20px; font-weight:900; color:${c}; font-size:16px; background:rgba(255,255,255,0.05); padding:16px; border-radius:16px; border:1px solid ${c}50;">${t('status')}: ${t(statKey).toUpperCase()}</div>`; document.getElementById('order-modal-content').innerHTML = h; openModal('order-modal'); };
+    // 💡 RENDER LEDGER + PENDING DEPOSITS 💡
+    function renderLedger() {
+        let lHtml = "";
+        // Show Pending Deposits First
+        if(window.myPendingDeps && window.myPendingDeps.length > 0) {
+            window.myPendingDeps.forEach(dep => {
+                lHtml += `<div class="glass-card glass-tint-warn" style="padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:800; font-size:14px; color:var(--warning);"><i class="fas fa-spinner fa-spin mr-1"></i> Pending Deposit</div><div style="font-size:11px; color:var(--text); margin-top:4px;">${dep.payMethod}</div></div><div style="font-weight:800; font-size:16px; color:var(--warning);">+${(dep.amount||0).toLocaleString()} Ks</div></div>`;
+            });
+        }
+        // Show Transactions
+        if(window.myTransactions) {
+            window.myTransactions.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0));
+            window.myTransactions.forEach(tx => { 
+                let color = tx.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = tx.amount >= 0 ? '+' : ''; 
+                lHtml += `<div class="glass-card" style="padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700; font-size:14px;">${tx.type}</div><div style="font-size:11px; color:var(--muted); margin:4px 0;">${tx.desc}</div><div style="font-size:10px; color:var(--accent);"><i class="far fa-clock"></i> ${formatDate(tx.createdAt)}</div></div><div style="font-weight:800; font-size:16px; color:${color};">${sign}${tx.amount.toLocaleString()} Ks</div></div>`; 
+            });
+        }
+        let ll = document.getElementById('ledger-list'); if(ll) ll.innerHTML = lHtml || `<div style='text-align:center; color:gray; padding:20px;'>No records yet.</div>`;
+    }
+
+    window.showOrderDetails = (id) => { vibe(); let o = allMyData.find(x => x.id === id); if(!o) return; let c = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)'); let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc'); let bBalHtml = (o.beforeBalance !== undefined) ? `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-wallet mr-2"></i>${t('before_bal')}</span> <strong style="font-size:15px;">${o.beforeBalance.toLocaleString()} Ks</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hand-holding-usd mr-2"></i>${t('after_bal')}</span> <strong style="font-size:15px; color:var(--warning);">${o.afterBalance.toLocaleString()} Ks</strong></div>` : ''; let h = `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hashtag mr-2"></i>${t('order_id')}</span> <strong style="color:var(--accent); font-family:monospace; font-size:15px;">${o.orderId || o.id.substring(0,8)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="far fa-calendar-alt mr-2"></i>${t('date')}</span> <strong style="font-size:13px;">${formatDate(o.createdAt)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gamepad mr-2"></i>${t('game')}</span> <strong style="font-size:15px;">${o.game}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gem mr-2"></i>${t('item')}</span> <strong style="color:var(--accent); font-size:15px;">${o.item}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-id-card mr-2"></i>${t('player_id')}</span> <strong style="background:rgba(255,255,255,0.15); padding:6px 12px; border-radius:10px; font-family:monospace; font-size:15px;">${o.playerId}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-money-check-alt mr-2"></i>${t('pay_method')}</span> <strong><span class="badge" style="background:var(--primary); padding:6px 10px; border-radius:8px; font-size:12px;">${o.payMethod || 'Wallet'}</span></strong></div>${bBalHtml}<div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; margin-bottom:10px;"><span style="color:var(--text); font-weight:800; font-size:16px;">${t('amt_paid')}</span> <strong style="color:var(--ok); font-size:26px;">${o.price.toLocaleString()} Ks</strong></div><div style="text-align:center; margin-top:20px; font-weight:900; color:${c}; font-size:16px; background:rgba(255,255,255,0.05); padding:16px; border-radius:16px; border:1px solid ${c}50;">${t('status')}: ${t(statKey).toUpperCase()}</div>`; let omc = document.getElementById('order-modal-content'); if(omc) omc.innerHTML = h; openModal('order-modal'); };
 
     // 💡 DYNAMIC PLACEHOLDERS 💡
     window.openGameDetail = (catId) => {
         vibe(); let c = dynamicCats.find(x => x.id === catId); if(!c) return;
-        currentOrder.gameName = c.name; document.getElementById('detail-game-title').innerText = c.name; document.getElementById('detail-banner').src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
+        currentOrder.gameName = c.name; 
+        let gt = document.getElementById('detail-game-title'); if(gt) gt.innerText = c.name; 
+        let dbn = document.getElementById('detail-banner'); if(dbn) dbn.src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
         
-        let p1 = c.uidPlaceholder || "Player ID / Game ID";
-        let p2 = c.zonePlaceholder || "Zone / Server ID";
+        let p1 = c.uidPlaceholder || "Player ID / Email";
+        let p2 = c.zonePlaceholder || "Zone / Server ID / Password";
 
         let formHtml = ''; let forms = c.forms || [];
         if(forms.includes('gameId')) formHtml += `<input type="text" id="dyn-uid" class="glass-input" style="flex:2; margin:0;" placeholder="${p1}" oninput="checkForm()">`;
         if(forms.includes('zoneId')) formHtml += `<input type="text" id="dyn-zone" class="glass-input" style="flex:1; margin:0;" placeholder="${p2}" oninput="checkForm()">`;
         if(formHtml === '') formHtml = `<input type="text" id="dyn-uid" class="glass-input" style="flex:2; margin:0;" placeholder="${p1}" oninput="checkForm()">`;
-        document.getElementById('dyn-form-inputs').innerHTML = formHtml;
+        let dfi = document.getElementById('dyn-form-inputs'); if(dfi) dfi.innerHTML = formHtml;
 
         let prods = dynamicProds.filter(p => p.categoryId === c.id); prods.sort((a,b) => a.sellingPrice - b.sellingPrice);
         let pHtml = "";
@@ -432,30 +458,30 @@
             let imgHtml = p.logoUrl ? `<img src="${p.logoUrl}" style="width:45px; height:45px; object-fit:contain; margin-bottom:12px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">` : `<i class="fas fa-gem text-accent" style="font-size:30px; margin-bottom:12px; filter: drop-shadow(0 4px 10px rgba(14,165,233,0.5));"></i>`;
             pHtml += `<div class="glass-card pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${p.sellingPrice})">${imgHtml}<div style="font-weight:800; font-size:15px; color:var(--text);">${p.name}</div><div style="font-size:14px; color:var(--accent); font-weight:900; margin-top:8px;">${p.sellingPrice.toLocaleString()} Ks</div></div>`; 
         });
-        document.getElementById('pack-container').innerHTML = pHtml;
-        currentOrder.item = ''; currentOrder.price = 0; document.getElementById('display-total').innerText = "0 Ks"; 
+        let pc = document.getElementById('pack-container'); if(pc) pc.innerHTML = pHtml;
+        currentOrder.item = ''; currentOrder.price = 0; let dt = document.getElementById('display-total'); if(dt) dt.innerText = "0 Ks"; 
         
         switchPayTab('wallet', document.querySelector('.pay-tab')); 
         navTo('page-detail');
     };
 
-    window.selectPackage = (id, n, p) => { vibe(); document.querySelectorAll('.pack-card').forEach(c => {c.style.borderColor = 'transparent'; c.style.transform='translateY(0)'; c.style.boxShadow='var(--glass-shadow)';}); let el = document.getElementById(`pkg-${id}`); el.style.borderColor = 'var(--accent)'; el.style.transform='translateY(-5px)'; el.style.boxShadow='0 15px 30px rgba(14,165,233,0.4), inset 0 0 20px rgba(14,165,233,0.2)'; currentOrder.item = n; currentOrder.price = p; document.getElementById('display-total').innerText = p.toLocaleString() + " Ks"; checkForm(); };
+    window.selectPackage = (id, n, p) => { vibe(); document.querySelectorAll('.pack-card').forEach(c => {c.style.borderColor = 'transparent'; c.style.transform='translateY(0)'; c.style.boxShadow='var(--glass-shadow)';}); let el = document.getElementById(`pkg-${id}`); if(el) { el.style.borderColor = 'var(--accent)'; el.style.transform='translateY(-5px)'; el.style.boxShadow='0 15px 30px rgba(14,165,233,0.4), inset 0 0 20px rgba(14,165,233,0.2)'; } currentOrder.item = n; currentOrder.price = p; let dt = document.getElementById('display-total'); if(dt) dt.innerText = p.toLocaleString() + " Ks"; checkForm(); };
     window.checkForm = () => { 
         let uidEl = document.getElementById('dyn-uid'); let zoneEl = document.getElementById('dyn-zone');
         let hasUid = uidEl ? uidEl.value.length > 2 : true; let hasZone = zoneEl ? zoneEl.value.length > 0 : true;
         let isValid = hasUid && hasZone && currentOrder.price > 0; 
-        if(payMode === 'slip') { let pMethod = document.getElementById('selected-pay-method').value; if(!orderFile || !pMethod) isValid = false; }
+        if(payMode === 'slip') { let pMethod = document.getElementById('selected-pay-method'); if(!orderFile || !pMethod || !pMethod.value) isValid = false; }
         let btn = document.getElementById('btn-submit'); if(btn) btn.disabled = !isValid; 
     };
 
-    window.handleOrderUpload = (i) => { if(i.files[0]) { vibe(); orderFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('upload-placeholder').style.display='none'; document.getElementById('preview-img').src=e.target.result; document.getElementById('preview-img').style.display='block'; checkForm(); }; r.readAsDataURL(i.files[0]); } };
+    window.handleOrderUpload = (i) => { if(i.files[0]) { vibe(); orderFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { let up = document.getElementById('upload-placeholder'); if(up) up.style.display='none'; let pi = document.getElementById('preview-img'); if(pi){ pi.src=e.target.result; pi.style.display='block';} checkForm(); }; r.readAsDataURL(i.files[0]); } };
 
     window.submitOrder = async () => {
         vibe(); if(!me) { openAuthScreen(); toast(t('pls_login')); return; }
-        const b = document.getElementById('btn-submit'); b.innerText = t('processing'); b.disabled = true;
+        const b = document.getElementById('btn-submit'); if(b) { b.innerText = t('processing'); b.disabled = true; }
         try {
-            let uid = document.getElementById('dyn-uid') ? document.getElementById('dyn-uid').value : '';
-            let zone = document.getElementById('dyn-zone') ? document.getElementById('dyn-zone').value : '';
+            let uidEl = document.getElementById('dyn-uid'); let uid = uidEl ? uidEl.value : '';
+            let zoneEl = document.getElementById('dyn-zone'); let zone = zoneEl ? zoneEl.value : '';
             let finalId = zone ? `${uid} (${zone})` : uid;
             let ordId = 'ORD-' + Math.random().toString(36).substr(2, 6).toUpperCase();
             
@@ -463,7 +489,7 @@
             let slipUrl = null; let finalMethod = 'Wallet';
 
             if(payMode === 'slip') {
-                slipUrl = await uploadImage(orderFile); finalMethod = document.getElementById('selected-pay-method').value;
+                slipUrl = await uploadImage(orderFile); let pMet = document.getElementById('selected-pay-method'); finalMethod = pMet ? pMet.value : 'Slip';
             } else {
                 if(myWallet < currentOrder.price) throw new Error("Insufficient Balance!");
                 afterBal = myWallet - currentOrder.price;
@@ -475,18 +501,56 @@
             toast("Order Placed Successfully!"); 
             orderFile = null; let prevImg = document.getElementById('preview-img'); if(prevImg) prevImg.style.display='none'; let upPlace = document.getElementById('upload-placeholder'); if(upPlace) upPlace.style.display='block';
             navToMain('page-orders');
-        } catch (e) { toast(e.message); checkForm(); } b.innerText = t('pay_now'); b.disabled = false;
+        } catch (e) { toast(e.message); checkForm(); } if(b) { b.innerText = t('pay_now'); b.disabled = false; }
     };
 
     // UPLOADS & TRANSACTIONS
-    window.handleDepUpload = (i) => { if(i.files[0]) { vibe(); depFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('dep-placeholder').style.display='none'; document.getElementById('dep-img').src=e.target.result; document.getElementById('dep-img').style.display='block'; }; r.readAsDataURL(i.files[0]); } };
+    window.handleDepUpload = (i) => { if(i.files[0]) { vibe(); depFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { let dp = document.getElementById('dep-placeholder'); if(dp) dp.style.display='none'; let di = document.getElementById('dep-img'); if(di) { di.src=e.target.result; di.style.display='block'; } }; r.readAsDataURL(i.files[0]); } };
     async function uploadImage(f) { let fd = new FormData(); fd.append("image", f); try { let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let d = await res.json(); if(d.success) return d.data.url; throw new Error(); } catch(e) { throw new Error("Upload failed"); } }
     
-    window.submitDeposit = async () => { let amt = parseInt(document.getElementById('dep-amount').value); let pMethod = document.getElementById('selected-dep-method').value; if(!amt || !depFile || !pMethod) return toast("Enter amount, select method, and upload slip."); vibe(); const b = document.getElementById('btn-dep'); b.innerText = "Uploading..."; b.disabled = true; try { let slipUrl = await uploadImage(depFile); let depId = 'DEP-' + Math.random().toString(36).substr(2, 6).toUpperCase(); await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() }); toast("Deposit request sent!"); document.getElementById('dep-amount').value = ""; document.getElementById('dep-img').style.display = "none"; document.getElementById('dep-placeholder').style.display = "block"; depFile = null; navToMain('page-profile'); } catch(e) { toast(e.message); } b.innerText = "Submit Deposit"; b.disabled = false; };
-    window.submitWithdraw = async () => { let amt = parseInt(document.getElementById('wd-amount').value); let met = document.getElementById('wd-method').value; let ph = document.getElementById('wd-phone').value; let nm = document.getElementById('wd-name').value; if(!amt || !ph || !nm) return toast("Fill all fields"); if(amt > myWallet) return toast("Insufficient balance!"); vibe(); const b = document.getElementById('btn-wd'); b.disabled = true; b.innerText = "Processing..."; try { await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - amt }); let wdId = 'WD-' + Math.random().toString(36).substr(2, 6).toUpperCase(); await addDoc(collection(db, "withdrawals"), { wdId: wdId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: met, accPhone: ph, accName: nm, status: "Pending", createdAt: serverTimestamp() }); await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Withdrawal', amount: -amt, desc: `Requested withdraw via ${met}`, createdAt: serverTimestamp() }); toast("Withdraw requested!"); navToMain('page-profile'); document.getElementById('wd-amount').value=''; document.getElementById('wd-phone').value=''; document.getElementById('wd-name').value=''; } catch(e) { toast(e.message); } b.disabled = false; b.innerText = "Submit Request"; };
+    window.submitDeposit = async () => { 
+        if(window.hasPendingDeposit) return toast(t('pending_dep_exist')); // 💡 PREVENT MULTIPLE PENDING DEPOSITS 💡
+        let amtEl = document.getElementById('dep-amount'); let amt = amtEl ? parseInt(amtEl.value) : 0; 
+        let sdm = document.getElementById('selected-dep-method'); let pMethod = sdm ? sdm.value : ''; 
+        if(!amt || !depFile || !pMethod) return toast("Enter amount, select method, and upload slip."); 
+        vibe(); const b = document.getElementById('btn-dep'); if(b){ b.innerText = "Uploading..."; b.disabled = true; }
+        try { 
+            let slipUrl = await uploadImage(depFile); let depId = 'DEP-' + Math.random().toString(36).substr(2, 6).toUpperCase(); 
+            await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() }); 
+            toast("Deposit request sent!"); if(amtEl) amtEl.value = ""; let di = document.getElementById('dep-img'); if(di) di.style.display = "none"; let dp = document.getElementById('dep-placeholder'); if(dp) dp.style.display = "block"; depFile = null; navToMain('page-profile'); 
+        } catch(e) { toast(e.message); } if(b){ b.innerText = "Submit Deposit"; b.disabled = false; }
+    };
     
-    window.playSpin = async () => { if(mySpins <= 0) return toast("No tickets! Top up 10,000 Ks to get 1 ticket."); vibe(); let btn = document.getElementById('btn-spin'); btn.disabled = true; btn.innerText = "Spinning..."; let resBox = document.getElementById('spin-result'); let fakePrizes = [0, 100, 500, 1000, 5000]; let interval = setInterval(() => { resBox.innerText = fakePrizes[Math.floor(Math.random()*fakePrizes.length)] + " Ks"; vibe(); }, 100); setTimeout(async () => { clearInterval(interval); let rand = Math.random() * 100; let winAmt = 0; if(rand < 60) winAmt = 0; else if(rand < 85) winAmt = 100; else if(rand < 96) winAmt = 500; else if(rand < 99) winAmt = 1000; else winAmt = 5000; resBox.innerText = winAmt + " Ks"; resBox.style.transform = 'scale(1.2)'; setTimeout(()=>resBox.style.transform = 'scale(1)', 300); try { await updateDoc(doc(db, "users", me.uid), { spinCount: mySpins - 1, walletBalance: myWallet + winAmt }); if(winAmt > 0) { await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Reward', amount: winAmt, desc: `Lucky Spin Win`, createdAt: serverTimestamp() }); toast(`You won ${winAmt} Ks! 🎉`); } else { toast("Better luck next time!"); } } catch(e) { toast("Error saving spin."); } btn.disabled = false; btn.innerText = "Spin Again (1 Ticket)"; }, 2000); };
+    window.submitWithdraw = async () => { 
+        let wa = document.getElementById('wd-amount'); let amt = wa ? parseInt(wa.value) : 0; 
+        let wm = document.getElementById('wd-method'); let met = wm ? wm.value : ''; 
+        let wp = document.getElementById('wd-phone'); let ph = wp ? wp.value : ''; 
+        let wn = document.getElementById('wd-name'); let nm = wn ? wn.value : ''; 
+        if(!amt || !ph || !nm) return toast("Fill all fields"); if(amt > myWallet) return toast("Insufficient balance!"); 
+        vibe(); const b = document.getElementById('btn-wd'); if(b) { b.disabled = true; b.innerText = "Processing..."; }
+        try { 
+            await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - amt }); let wdId = 'WD-' + Math.random().toString(36).substr(2, 6).toUpperCase(); 
+            await addDoc(collection(db, "withdrawals"), { wdId: wdId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: met, accPhone: ph, accName: nm, status: "Pending", createdAt: serverTimestamp() }); 
+            await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Withdrawal', amount: -amt, desc: `Requested withdraw via ${met}`, createdAt: serverTimestamp() }); 
+            toast("Withdraw requested!"); navToMain('page-profile'); if(wa) wa.value=''; if(wp) wp.value=''; if(wn) wn.value=''; 
+        } catch(e) { toast(e.message); } if(b) { b.disabled = false; b.innerText = "Submit Request"; }
+    };
+    
+    window.playSpin = async () => { 
+        if(mySpins <= 0) return toast("No tickets! Top up 10,000 Ks to get 1 ticket."); vibe(); 
+        let btn = document.getElementById('btn-spin'); if(btn){ btn.disabled = true; btn.innerText = "Spinning..."; }
+        let resBox = document.getElementById('spin-result'); let fakePrizes = [0, 100, 500, 1000, 5000]; 
+        let interval = setInterval(() => { if(resBox) { resBox.innerText = fakePrizes[Math.floor(Math.random()*fakePrizes.length)] + " Ks"; vibe(); } }, 100); 
+        setTimeout(async () => { 
+            clearInterval(interval); let rand = Math.random() * 100; let winAmt = 0; if(rand < 60) winAmt = 0; else if(rand < 85) winAmt = 100; else if(rand < 96) winAmt = 500; else if(rand < 99) winAmt = 1000; else winAmt = 5000; 
+            if(resBox) { resBox.innerText = winAmt + " Ks"; resBox.style.transform = 'scale(1.2)'; setTimeout(()=>resBox.style.transform = 'scale(1)', 300); }
+            try { 
+                await updateDoc(doc(db, "users", me.uid), { spinCount: mySpins - 1, walletBalance: myWallet + winAmt }); 
+                if(winAmt > 0) { await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Reward', amount: winAmt, desc: `Lucky Spin Win`, createdAt: serverTimestamp() }); toast(`You won ${winAmt} Ks! 🎉`); } else { toast("Better luck next time!"); } 
+            } catch(e) { toast("Error saving spin."); } 
+            if(btn) { btn.disabled = false; btn.innerText = "Spin Again (1 Ticket)"; }
+        }, 2000); 
+    };
 </script>
 </body>
 </html>
-
