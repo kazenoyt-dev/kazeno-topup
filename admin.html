@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>Kazeno Admin - Liquid Glass</title>
+<title>Kazeno Admin - Premium Panel</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
@@ -232,8 +232,12 @@
                 <div class="dash-grid" style="grid-template-columns: 1fr; max-width: 600px;">
                     <div class="stat-card glass-card">
                         <h3 style="margin-bottom:15px; font-size:16px; color:var(--accent);"><i class="fas fa-home"></i> App Settings</h3>
-                        <label style="font-size:11px; color:var(--muted);">Home Banner Image URL</label>
-                        <input type="text" id="inp-home-banner" class="glass-input" placeholder="https://...">
+                        
+                        <label style="font-size:11px; color:var(--muted);">Home Banner Image</label>
+                        <img id="set-banner-preview" style="width:100%; height:120px; object-fit:cover; border-radius:12px; display:none; margin-bottom:10px; box-shadow:0 5px 15px rgba(0,0,0,0.5);">
+                        <div class="upload-box" onclick="document.getElementById('set-banner-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload New Banner</div>
+                        <input type="file" id="set-banner-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'set-banner')">
+                        <input type="hidden" id="inp-home-banner">
                         
                         <h3 style="margin-top:20px; margin-bottom:15px; font-size:16px; color:var(--primary);"><i class="fas fa-robot"></i> Telegram Alerts</h3>
                         <label style="font-size:11px; color:var(--muted);">Bot API Token</label><input type="text" id="inp-bot-token" class="glass-input" placeholder="123456:ABC-DEF...">
@@ -246,6 +250,7 @@
                             <button class="btn-gel" style="flex:2;" onclick="saveAllSettings()">Save Settings</button>
                             <button class="btn-gel btn-dark" style="flex:1;" onclick="testTelegram()"><i class="fab fa-telegram"></i> Test TG</button>
                         </div>
+                        <div style="font-size:11px; color:var(--warning); margin-top:10px;"><i class="fas fa-info-circle"></i> "Test TG" ကို နှိပ်ပြီး Telegram ကို မက်ဆေ့ခ်ျဝင်မဝင် အရင်စမ်းသပ်ကြည့်ပါ။</div>
                     </div>
                 </div>
             </div>
@@ -269,13 +274,11 @@
     <div class="modal-card glass-card" style="max-width: 650px;">
         <h3 style="margin-bottom:15px; color:var(--accent);">User Data & Ledger</h3>
         <div style="font-size:20px; font-weight:800; margin-bottom:15px;" id="ud-email">--</div>
-        
         <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:20px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 16px; border:1px solid var(--glass-border);">
             <div style="flex:1;"><div style="font-size:12px; color:var(--muted); text-transform:uppercase;">Balance</div><div style="color:var(--ok); font-weight:900; font-size:22px;" id="ud-bal">0 Ks</div></div>
             <div style="flex:1;"><div style="font-size:12px; color:var(--muted); text-transform:uppercase;">Spins</div><div style="color:var(--warning); font-weight:900; font-size:22px;" id="ud-spins">0</div></div>
             <button class="btn-gel" style="width:100%; margin-top:10px;" id="ud-edit-btn">Edit Balance / Spins</button>
         </div>
-        
         <h4 style="margin-bottom:10px; font-size:15px; color:var(--muted);"><i class="fas fa-history"></i> Transaction Ledger</h4>
         <div class="table-wrapper" style="max-height: 300px; overflow-y: auto; border:1px solid var(--glass-border); border-radius:16px;">
             <table style="font-size: 12px; min-width: 400px;">
@@ -307,7 +310,7 @@
         <label style="font-size:12px; color:var(--muted);">Category Logo</label>
         <img id="cm-img-preview" style="width:70px; height:70px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px; box-shadow:0 5px 15px rgba(0,0,0,0.5);">
         <div class="upload-box" onclick="document.getElementById('cm-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload Image</div>
-        <input type="file" id="cm-file" style="display:none;" accept="image/*" onchange="window.uploadImg(this, 'cm-img')">
+        <input type="file" id="cm-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'cm-img')">
         <input type="hidden" id="cm-img-url">
 
         <div style="font-size:13px; margin-bottom:10px; font-weight:bold; color:var(--accent); border-top:1px solid var(--glass-border); padding-top:15px;">Input Fields Settings</div>
@@ -331,7 +334,7 @@
         <label style="font-size:12px; color:var(--muted);">Product Icon (Optional)</label>
         <img id="pm-img-preview" style="width:70px; height:70px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px;">
         <div class="upload-box" onclick="document.getElementById('pm-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload Image</div>
-        <input type="file" id="pm-file" style="display:none;" accept="image/*" onchange="window.uploadImg(this, 'pm-img')">
+        <input type="file" id="pm-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'pm-img')">
         <input type="hidden" id="pm-img-url">
 
         <div style="display:flex; gap:10px; margin-bottom:10px;">
@@ -361,7 +364,7 @@
         <label style="font-size:12px; color:var(--muted);">QR Code (Optional)</label>
         <img id="pay-qr-preview" style="width:100px; height:100px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px;">
         <div class="upload-box" onclick="document.getElementById('pay-qr-file').click()"><i class="fas fa-qrcode text-2xl mb-2 block"></i><br>Upload QR</div>
-        <input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="window.uploadImg(this, 'pay-qr')">
+        <input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="uploadImg(this, 'pay-qr')">
         <input type="hidden" id="pay-qr-url">
 
         <div style="display:flex; gap:10px;"><button class="btn-gel" style="flex:1;" onclick="savePayment()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="closeModal('pay-modal')">Cancel</button></div>
@@ -384,7 +387,6 @@
 </div>
 
 <script>
-    // These functions must be loaded immediately so the UI doesn't break
     window.toast = function(m) { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); };
     window.toggleSidebar = function() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('active'); };
     window.switchTab = function(viewId, el) { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard'; if(window.innerWidth <= 768) window.toggleSidebar(); };
@@ -392,6 +394,7 @@
     window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
     window.viewSlip = function(url) { if(!url)return window.toast("No slip uploaded"); document.getElementById('modal-img-src').src = url; window.openModal('slip-modal'); };
     
+    // 🔥 SAFE DATE PARSER (Fixes sort crash) 🔥
     window.formatDate = function(ts) { 
         if(!ts) return "-"; 
         let d;
@@ -400,7 +403,6 @@
         else d = new Date(ts);
         return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); 
     };
-
     window.getMs = function(ts) {
         if(!ts) return 0;
         if(typeof ts.toMillis === 'function') return ts.toMillis();
@@ -408,13 +410,13 @@
         return new Date(ts).getTime() || 0;
     };
 
-    // 💡 BULLETPROOF LOGIN GATE 💡
+    // 🔥 BULLETPROOF LOGIN GATE 🔥
     window.checkPin = function() {
         let pin = document.getElementById('admin-pin').value;
         if(pin === "1234") {
             document.getElementById('auth-gate').style.display = "none";
             document.getElementById('main-admin').style.display = "flex";
-            window.dispatchEvent(new Event('adminLoggedIn')); 
+            window.dispatchEvent(new Event('adminLoggedIn')); // Tells Firebase script to safely load
         } else {
             window.toast("Invalid PIN!");
         }
@@ -425,6 +427,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc, setDoc, addDoc, deleteDoc, query, orderBy, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
+    // ⚠️ Firebase Keys အစားထိုးပါ ⚠️
     const firebaseConfig = { 
         apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", 
         authDomain: "kazeno-diamond-shop.firebaseapp.com", 
@@ -437,12 +440,8 @@
 
     let globalOrders = []; let globalUsers = []; let globalTransactions = []; let allCats = [];
 
-    // Triggered when PIN is correct
-    window.addEventListener('adminLoggedIn', () => {
-        initAdmin();
-    });
+    window.addEventListener('adminLoggedIn', () => { initAdmin(); });
 
-    // Safely attach delete functions to window
     window.delCat = async(id) => { if(confirm('Delete Category?')) { await deleteDoc(doc(db,'categories',id)); window.toast("Deleted!"); } };
     window.delProd = async(id) => { if(confirm('Delete Product?')) { await deleteDoc(doc(db,'products',id)); window.toast("Deleted!"); } };
     window.delGuide = async(id) => { if(confirm('Delete Guide?')) { await deleteDoc(doc(db,'guides',id)); window.toast("Deleted!"); } };
@@ -476,6 +475,7 @@
                 document.getElementById('inp-tg-order-topic').value = d.data().tgOrderTopicId || '';
                 document.getElementById('inp-tg-dep-topic').value = d.data().tgDepositTopicId || '';
                 document.getElementById('inp-home-banner').value = d.data().homeBannerUrl || '';
+                if(d.data().homeBannerUrl) { document.getElementById('set-banner-preview').src = d.data().homeBannerUrl; document.getElementById('set-banner-preview').style.display = 'block'; }
             }
         });
 
@@ -487,7 +487,7 @@
                 let u={id:d.id, ...d.data()}; globalUsers.push(u); t+=(u.walletBalance||0); 
                 h+=`<tr><td><div style="font-weight:bold; font-size:14px;">${u.email}</div><span class="badge bg-pill">${u.role||'Customer'}</span></td><td style="color:var(--ok); font-weight:800; font-size:15px;">${(u.walletBalance||0).toLocaleString()} Ks</td><td style="color:var(--warning); font-weight:bold;">${u.spinCount||0}</td><td><button class="btn-gel" onclick="showUserDetail('${u.id}')"><i class="fas fa-eye"></i> View</button></td></tr>`; 
             }); 
-            document.getElementById('tb-users').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No users</td></tr>"; 
+            document.getElementById('tb-users').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No users</td></tr>"; 
             document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
         });
 
@@ -500,7 +500,7 @@
                 if((c.forms||[]).includes('zoneId')) phText += `F2: ${c.zonePlaceholder||'Default'}`;
                 h+=`<tr><td><div style="display:flex;align-items:center;gap:15px;"><img src="${c.logoUrl||'https://via.placeholder.com/40'}" style="width:40px;height:40px;border-radius:10px;object-fit:cover;box-shadow:0 4px 10px rgba(0,0,0,0.5);"><strong>${c.name}</strong></div></td><td><div style="font-size:11px; color:var(--muted);">${phText||'None'}</div></td><td><span class="badge ${c.isActive?'bg-active':'bg-inactive'}">${c.isActive?'Active':'Inactive'}</span></td><td><button class="btn-gel btn-dark" onclick='openCatModal(${JSON.stringify(c).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delCat('${c.id}')"><i class="fas fa-trash"></i></button></td></tr>`; 
             }); 
-            document.getElementById('tb-categories').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No categories</td></tr>"; 
+            document.getElementById('tb-categories').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No categories</td></tr>"; 
             document.getElementById('pm-cat').innerHTML=opt; document.getElementById('ds-cat').innerText=allCats.length;
         });
 
@@ -509,7 +509,7 @@
                 let p = {id: s.id, ...s.data()}; let cName = allCats.find(x=>x.id===p.categoryId)?.name || 'Unknown'; 
                 h+=`<tr><td><div style="display:flex;align-items:center;gap:15px;"><img src="${p.logoUrl||'https://via.placeholder.com/40'}" style="width:40px;height:40px;border-radius:10px;object-fit:contain;"><strong>${p.name}</strong></div></td><td>${cName}</td><td><div style="font-size:11px; color:var(--muted);">Cost: ${p.retailPrice||0} Ks</div><div style="font-weight:bold; color:var(--accent);">Sell: ${p.sellingPrice||0} Ks</div></td><td><button class="btn-gel btn-dark" onclick='openProdModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delProd('${p.id}')"><i class="fas fa-trash"></i></button></td></tr>`; 
             }); 
-            document.getElementById('tb-products').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No products</td></tr>"; 
+            document.getElementById('tb-products').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No products</td></tr>"; 
             document.getElementById('ds-prod').innerText=snap.size; 
         });
 
@@ -518,12 +518,13 @@
                 let g = {id: s.id, ...s.data()};
                 h+=`<tr><td><strong>${g.title}</strong></td><td><div style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:11px; color:gray;">${g.content}</div></td><td>${g.videoUrl ? '<span class="text-ok"><i class="fas fa-check"></i> Yes</span>' : '<span class="text-muted">No</span>'}</td><td><button class="btn-gel btn-dark" onclick='openGuideModal(${JSON.stringify(g).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delGuide('${g.id}')"><i class="fas fa-trash"></i></button></td></tr>`; 
             }); 
-            document.getElementById('tb-guides').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No guides</td></tr>"; 
+            document.getElementById('tb-guides').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No guides</td></tr>"; 
         });
 
         onSnapshot(collection(db, "orders"), (s) => { 
             globalOrders = []; let tS=0, tP=0; s.forEach(d=>{ let o={id:d.id, ...d.data()}; globalOrders.push(o); });
-            // FIXED SORTING TO PREVENT CRASH
+            
+            // 🔥 FIXED SORT CRASH 🔥
             globalOrders.sort((a,b) => window.getMs(b.createdAt) - window.getMs(a.createdAt)); 
             
             globalOrders.forEach(o=>{ if(o.status==='Completed'){ tS+=(o.price||0); let cost=o.costPrice||(o.price*0.85); tP+=(o.price-cost); }}); 
@@ -534,12 +535,12 @@
             window.filterOrders(statusToFilter, activeTab);
         });
 
-        onSnapshot(collection(db, "deposits"), (s) => { let tD=0, h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((a,b) => window.getMs(b.createdAt) - window.getMs(a.createdAt)); a.forEach(dp=>{ if(dp.status==='Completed')tD+=dp.amount; let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${dp.depId||dp.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${dp.status}</span></td><td><div style="font-size:13px; font-weight:bold;">${dp.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatDate(dp.createdAt)}</div></td><td><div style="color:var(--ok); font-weight:900; font-size:16px;">+${(dp.amount||0).toLocaleString()} Ks</div><div style="font-size:11px; color:var(--muted);">${dp.payMethod}</div></td><td><button class="btn-gel btn-dark" onclick="window.viewSlip('${dp.slipImage}')"><i class="fas fa-image"></i></button>${dp.status==='Pending'?` <button class="btn-gel btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})"><i class="fas fa-check"></i></button> <button class="btn-gel btn-danger" onclick="updDep('${dp.id}','Cancelled')"><i class="fas fa-times"></i></button>`:''}</td></tr>`; }); document.getElementById('tb-deposits').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No deposits</td></tr>"; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
+        onSnapshot(collection(db, "deposits"), (s) => { let tD=0, h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((a,b) => window.getMs(b.createdAt) - window.getMs(a.createdAt)); a.forEach(dp=>{ if(dp.status==='Completed')tD+=dp.amount; let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${dp.depId||dp.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${dp.status}</span></td><td><div style="font-size:13px; font-weight:bold;">${dp.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatDate(dp.createdAt)}</div></td><td><div style="color:var(--ok); font-weight:900; font-size:16px;">+${(dp.amount||0).toLocaleString()} Ks</div><div style="font-size:11px; color:var(--muted);">${dp.payMethod}</div></td><td><button class="btn-gel btn-dark" onclick="window.viewSlip('${dp.slipImage}')"><i class="fas fa-image"></i></button>${dp.status==='Pending'?` <button class="btn-gel btn-ok" onclick="apprDep('${dp.id}','${dp.userId}',${dp.amount})"><i class="fas fa-check"></i></button> <button class="btn-gel btn-danger" onclick="updDep('${dp.id}','Cancelled')"><i class="fas fa-times"></i></button>`:''}</td></tr>`; }); document.getElementById('tb-deposits').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No deposits</td></tr>"; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
         
-        onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((a,b) => window.getMs(b.createdAt) - window.getMs(a.createdAt)); a.forEach(w=>{ let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${w.wdId||w.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${w.status}</span></td><td><div style="font-size:13px; font-weight:bold;">${w.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatDate(w.createdAt)}</div></td><td><div style="color:var(--danger); font-weight:900; font-size:16px;">-${(w.amount||0).toLocaleString()} Ks</div><div style="font-size:12px; color:var(--accent); font-weight:bold;">${w.payMethod}: ${w.accPhone}</div><div style="font-size:10px; color:var(--muted);">${w.accName}</div></td><td>${w.status==='Pending'?`<button class="btn-gel btn-ok" onclick="updWd('${w.id}','Completed')"><i class="fas fa-check"></i> Sent</button> <button class="btn-gel btn-danger" onclick="updWd('${w.id}','Cancelled','${w.userId}',${w.amount})"><i class="fas fa-times"></i> Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-withdraws').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No withdrawals</td></tr>"; });
+        onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((a,b) => window.getMs(b.createdAt) - window.getMs(a.createdAt)); a.forEach(w=>{ let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${w.wdId||w.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${w.status}</span></td><td><div style="font-size:13px; font-weight:bold;">${w.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatDate(w.createdAt)}</div></td><td><div style="color:var(--danger); font-weight:900; font-size:16px;">-${(w.amount||0).toLocaleString()} Ks</div><div style="font-size:12px; color:var(--accent); font-weight:bold;">${w.payMethod}: ${w.accPhone}</div><div style="font-size:10px; color:var(--muted);">${w.accName}</div></td><td>${w.status==='Pending'?`<button class="btn-gel btn-ok" onclick="updWd('${w.id}','Completed')"><i class="fas fa-check"></i> Sent</button> <button class="btn-gel btn-danger" onclick="updWd('${w.id}','Cancelled','${w.userId}',${w.amount})"><i class="fas fa-times"></i> Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-withdraws').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:30px;'>No withdrawals</td></tr>"; });
 
-        onSnapshot(collection(db, "promo_codes"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><span class="badge bg-pill" style="font-size:14px; letter-spacing:2px; font-family:monospace;">${p.code}</span></td><td><strong style="color:var(--ok); font-size:15px;">-${p.discount} Ks</strong></td><td><button class="btn-gel btn-danger" onclick="window.delPromo('${p.id}')"><i class="fas fa-trash"></i></button></td></tr>`; }); document.getElementById('tb-promos').innerHTML=h || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
-        onSnapshot(collection(db, "payment_methods"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><div style="display:flex;align-items:center;gap:15px;"><img src="${p.qrUrl||'https://via.placeholder.com/40'}" style="width:40px;height:40px;border-radius:10px;object-fit:cover;"><strong>${p.name}</strong></div></td><td><div style="font-size:15px; font-weight:bold; font-family:monospace; color:var(--accent);">${p.phone}</div><div style="font-size:11px; color:var(--muted);">${p.accName}</div></td><td><button class="btn-gel btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delPay('${p.id}')"><i class="fas fa-trash"></i></button></td></tr>`; }); document.getElementById('tb-payments').innerHTML=h || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
+        onSnapshot(collection(db, "promo_codes"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><span class="badge bg-pill" style="font-size:14px; letter-spacing:2px; font-family:monospace;">${p.code}</span></td><td><strong style="color:var(--ok); font-size:15px;">-${p.discount} Ks</strong></td><td><button class="btn-gel btn-danger" onclick="window.delPromo('${p.id}')"><i class="fas fa-trash"></i></button></td></tr>`; }); document.getElementById('tb-promos').innerHTML=h || "<tr><td colspan='3' style='text-align:center; padding:30px;'>No data</td></tr>"; });
+        onSnapshot(collection(db, "payment_methods"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><div style="display:flex;align-items:center;gap:15px;"><img src="${p.qrUrl||'https://via.placeholder.com/40'}" style="width:40px;height:40px;border-radius:10px;object-fit:cover;"><strong>${p.name}</strong></div></td><td><div style="font-size:15px; font-weight:bold; font-family:monospace; color:var(--accent);">${p.phone}</div><div style="font-size:11px; color:var(--muted);">${p.accName}</div></td><td><button class="btn-gel btn-dark" onclick='openPayModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delPay('${p.id}')"><i class="fas fa-trash"></i></button></td></tr>`; }); document.getElementById('tb-payments').innerHTML=h || "<tr><td colspan='3' style='text-align:center; padding:30px;'>No data</td></tr>"; });
     }
 
     window.testTelegram = async () => {
@@ -696,9 +697,5 @@
     window.openPromoModal = () => { document.getElementById('promo-code').value=''; document.getElementById('promo-amt').value=''; window.openModal('promo-modal'); };
     window.savePromo = async () => { let c=document.getElementById('promo-code').value.toUpperCase(); let a=parseInt(document.getElementById('promo-amt').value); if(c&&a){ await addDoc(collection(db,"promo_codes"),{code:c, discount:a}); window.closeModal('promo-modal'); window.toast("Promo Saved!"); } };
 
-    window.openGuideModal = (g=null) => { document.getElementById('gm-id').value=g?g.id:''; document.getElementById('gm-title-inp').value=g?g.title:''; document.getElementById('gm-content').value=g?g.content:''; document.getElementById('gm-video').value=g?g.videoUrl:''; document.getElementById('gm-title').innerText=g?"Edit Guide":"New Guide"; window.openModal('guide-modal'); };
-    window.saveGuide = async () => { let id = document.getElementById('gm-id').value; let data = { title: document.getElementById('gm-title-inp').value, content: document.getElementById('gm-content').value, videoUrl: document.getElementById('gm-video').value, createdAt: serverTimestamp() }; if(id) await updateDoc(doc(db,"guides",id), data); else await addDoc(collection(db,"guides"), data); window.closeModal('guide-modal'); window.toast("Guide Saved!"); };
-</script>
-</body>
-</html>
+    window.openGuideModal = (g=null) => { document.getElementById('gm-id').value=g?g.id:''; document.getElementById('gm-title-inp').value=g?g.title:''; document.getElementById('gm-content').value=g?g.content:''; document.getElementById('gm-video').value=g?g.videoUrl:''; document.getElementById('gm-title').innerText=g?"Edit Guide":"
 
