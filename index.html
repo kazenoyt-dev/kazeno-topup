@@ -18,7 +18,7 @@
   
   .app-container{max-width:480px; margin:0 auto; min-height:100vh; position:relative; padding-bottom:100px;}
   
-  .glass-card { background: var(--glass-bg); backdrop-filter: blur(25px) saturate(150%); border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-left: 1px solid var(--glass-highlight); box-shadow: var(--glass-shadow); border-radius: 20px; transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+  .glass-card { background: var(--glass-bg); backdrop-filter: blur(25px) saturate(150%); -webkit-backdrop-filter: blur(25px) saturate(150%); border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-left: 1px solid var(--glass-highlight); box-shadow: var(--glass-shadow); border-radius: 20px; transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
   .glass-tint-ok { background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.02)); border-color: rgba(16,185,129,0.3); } 
   .glass-tint-warn { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.02)); border-color: rgba(245,158,11,0.3); } 
   .glass-tint-danger { background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.02)); border-color: rgba(239,68,68,0.3); }
@@ -67,7 +67,7 @@
   .modal-box { width:100%; max-width:400px; padding:24px; border-radius:28px; position:relative; transform:scale(0.95) translateY(20px); transition:0.4s; } 
   .modal-overlay.active .modal-box { transform:scale(1) translateY(0); }
 
-  /* 💡 MAINTENANCE SCREEN 💡 */
+  /* Maintenance Screen */
   #maintenance-screen { position: fixed; inset: 0; background: var(--bg); z-index: 999999; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
   #maintenance-screen.active { display: flex; }
 </style>
@@ -109,7 +109,7 @@
             </div>
         </div>
         <img id="dyn-home-banner" src="https://img.freepik.com/free-vector/neon-gaming-youtube-channel-art_23-2148154817.jpg" style="width:100%; height:180px; object-fit:cover; border-radius:24px; margin-bottom:25px; display:block; border:1px solid var(--glass-highlight); box-shadow: var(--glass-shadow); pointer-events:none;">
-        <div id="dyn-game-list" class="game-container"><div style="text-align:center; padding:20px; color:var(--muted); grid-column: span 2;" data-i18n="loading">စောင့်ဆိုင်းပါ...</div></div>
+        <div id="dyn-game-list" class="game-container grid-view"><div style="text-align:center; padding:20px; color:var(--muted); grid-column: span 2;" data-i18n="loading">စောင့်ဆိုင်းပါ...</div></div>
     </div>
 
     <div id="page-detail" class="page" style="padding-top:0;">
@@ -145,7 +145,6 @@
         </div>
 
         <div style="height: 120px;"></div>
-        
         <div class="buy-bottom-bar">
             <div><div style="font-size:12px; color:var(--muted); font-weight:600;" data-i18n="total">စုစုပေါင်း</div><div style="font-size:24px; font-weight:800; color:var(--accent);" id="display-total">0 Ks</div></div>
             <button class="btn-gel" style="width:auto; padding:16px 40px; border-radius:20px;" id="btn-submit" disabled onclick="window.submitOrder()" data-i18n="pay_now">ဝယ်ယူမည်</button>
@@ -256,6 +255,7 @@
 </div>
 
 <script>
+    // BASIC UI SCRIPTS
     window.toast = function(m) { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); };
     window.openModal = function(id) { document.getElementById(id).classList.add('active'); };
     window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
@@ -292,9 +292,8 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, where, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, where, doc, setDoc, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // ⚠️ Firebase Keys ⚠️
     const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
@@ -344,7 +343,6 @@
                 if(g.videoUrl.includes('youtube.com') || g.videoUrl.includes('youtu.be')) {
                     videoHtml = `<iframe src="${g.videoUrl}" allowfullscreen style="border-radius:12px; width:100%; height:200px; border:none; margin-top:10px;"></iframe>`;
                 } else {
-                    // Treat as direct MP4 link (like your dl.springsfern.in link)
                     videoHtml = `<video controls style="width:100%; border-radius:12px; margin-top:10px; background:#000;"><source src="${g.videoUrl}" type="video/mp4">Your browser does not support video.</video>`;
                 }
             }
@@ -407,7 +405,7 @@
         let c = window.dynamicCats.find(x => x.id === catId); if(!c) return;
         window.currentOrder.gameName = c.name; document.getElementById('detail-game-title').innerText = c.name; document.getElementById('detail-banner').src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
         
-        let p1 = c.uidPlaceholder || window.t('player_id') || "Player ID / Email"; 
+        let p1 = c.uidPlaceholder || "Player ID / Email"; 
         let p2 = c.zonePlaceholder || "Zone / Server ID";
 
         let formHtml = ''; let forms = c.forms || [];
@@ -440,15 +438,34 @@
 
     window.handleOrderUpload = (i) => { if(i.files[0]) { window.orderFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { let up = document.getElementById('upload-placeholder'); if(up) up.style.display='none'; let pi = document.getElementById('preview-img'); if(pi){ pi.src=e.target.result; pi.style.display='block';} window.checkForm(); }; r.readAsDataURL(i.files[0]); } };
 
+    // 💡 TELEGRAM ALERT (FALLBACK FOR IMAGE UPLOAD ISSUES) 💡
     async function sendTgAlert(msg, threadIdStr, imageUrl) { 
         if(!window.tgBotToken || !window.tgChatId) return; 
-        let endpoint = imageUrl ? "sendPhoto" : "sendMessage"; 
         let payload = { chat_id: window.tgChatId, parse_mode: "HTML" }; 
         if(threadIdStr) payload.message_thread_id = parseInt(threadIdStr); 
-        // Admin URL inline button
-        if(window.adminUrl) payload.reply_markup = { inline_keyboard: [[{ text: "⚙️ Open Admin Panel", url: window.adminUrl }]] };
-        if(imageUrl) { payload.photo = imageUrl; payload.caption = msg; } else { payload.text = msg; } 
-        try { await fetch(`https://api.telegram.org/bot${window.tgBotToken}/${endpoint}`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); } catch(e) { console.log(e); } 
+        
+        if(window.adminUrl) {
+            payload.reply_markup = { inline_keyboard: [[{ text: "⚙️ Open Admin Panel", url: window.adminUrl }]] };
+        }
+
+        try {
+            if(imageUrl) { 
+                payload.photo = imageUrl; 
+                payload.caption = msg; 
+                let res = await fetch(`https://api.telegram.org/bot${window.tgBotToken}/sendPhoto`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); 
+                let data = await res.json();
+                
+                // Fallback to text if sendPhoto fails
+                if(!data.ok) { 
+                    payload.text = msg + `\n\n🖼️ <b>Slip Link:</b> <a href="${imageUrl}">View Image</a>`;
+                    delete payload.photo; delete payload.caption;
+                    await fetch(`https://api.telegram.org/bot${window.tgBotToken}/sendMessage`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) });
+                }
+            } else { 
+                payload.text = msg; 
+                await fetch(`https://api.telegram.org/bot${window.tgBotToken}/sendMessage`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); 
+            }
+        } catch(e) { console.log(e); } 
     }
 
     window.submitOrder = async () => {
@@ -490,6 +507,7 @@
         if(window.hasPendingDeposit) return window.toast(window.t('pending_dep_exist')); 
         let amtEl = document.getElementById('dep-amount'); let amt = amtEl ? parseInt(amtEl.value) : 0; 
         let sdm = document.getElementById('selected-dep-method'); let pMethod = sdm ? sdm.value : ''; 
+        
         if(!amt || !window.depFile || !pMethod) return window.toast("Enter amount, select method, and upload slip."); 
         if(amt < 500) return window.toast(window.t('min_dep_err')); 
 
@@ -497,7 +515,9 @@
         try { 
             let slipUrl = await uploadImage(window.depFile); let depId = 'DEP-' + Math.random().toString(36).substr(2, 6).toUpperCase(); 
             await addDoc(collection(db, "deposits"), { depId: depId, userId: window.me.uid, userEmail: window.me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() }); 
+            
             sendTgAlert(`💸 <b>NEW DEPOSIT</b>\nUser: ${window.me.email}\nAmount: ${amt} Ks\nMethod: ${pMethod}`, window.tgDepositTopicId, slipUrl);
+            
             window.toast("Deposit request sent!"); if(amtEl) amtEl.value = ""; let di = document.getElementById('dep-img'); if(di) di.style.display = "none"; let dp = document.getElementById('dep-placeholder'); if(dp) dp.style.display = "block"; window.depFile = null; window.navToMain('page-profile'); 
         } catch(e) { window.toast(e.message); } if(b){ b.innerText = "Submit Deposit"; b.disabled = false; }
     };
@@ -513,7 +533,9 @@
             await updateDoc(doc(db, "users", window.me.uid), { walletBalance: window.myWallet - amt }); let wdId = 'WD-' + Math.random().toString(36).substr(2, 6).toUpperCase(); 
             await addDoc(collection(db, "withdrawals"), { wdId: wdId, userId: window.me.uid, userEmail: window.me.email, amount: amt, payMethod: met, accPhone: ph, accName: nm, status: "Pending", createdAt: serverTimestamp() }); 
             await addDoc(collection(db, "transactions"), { userId: window.me.uid, type: 'Withdrawal', amount: -amt, desc: `Requested withdraw via ${met}`, createdAt: serverTimestamp() }); 
+            
             sendTgAlert(`💳 <b>WITHDRAW REQUEST</b>\nUser: ${window.me.email}\nAmount: ${amt} Ks\nMethod: ${met}\nAcc: ${ph} (${nm})`, window.tgDepositTopicId, null);
+            
             window.toast("Withdraw requested!"); window.navToMain('page-profile'); if(wa) wa.value=''; if(wp) wp.value=''; if(wn) wn.value=''; 
         } catch(e) { window.toast(e.message); } if(b) { b.disabled = false; b.innerText = "Submit Request"; }
     };
