@@ -91,7 +91,6 @@
   .fab { position: fixed; bottom: 100px; right: 20px; width: 55px; height: 55px; border-radius: 50%; background: var(--primary); color: white; display: flex; justify-content: center; align-items: center; font-size: 24px; box-shadow: 0 10px 30px rgba(138, 43, 226, 0.4); cursor: pointer; z-index: 1000; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid rgba(255,255,255,0.1); border-top: 1px solid rgba(255,255,255,0.3);}
   .fab:active { transform: scale(0.9); box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3); }
 
-  /* Packages */
   .pack-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:25px;}
   .pack-card{padding:16px; cursor:pointer; text-align:center; border:2px solid transparent; transition: 0.3s;}
   .pack-card.selected{border-color:var(--accent); background:rgba(79,172,254,0.15); box-shadow:0 0 20px rgba(79,172,254,0.2), inset 0 0 10px rgba(79,172,254,0.1);}
@@ -102,7 +101,6 @@
   .nav-btn.active{color:var(--accent); text-shadow: 0 0 10px rgba(79,172,254,0.4);} 
   .nav-btn.active i { transform: scale(1.1) translateY(-2px); transition: 0.2s; }
 
-  /* Modals */
   .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(10px); display:none; align-items:center; justify-content:center; z-index:9000; padding:20px; opacity:0; transition:0.3s; }
   .modal-overlay.active { display:flex; opacity:1; }
   .modal-box { width:100%; max-width:400px; padding:24px; border-radius:24px; position:relative; transform:scale(0.9); transition:0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -120,8 +118,7 @@
 
 <div id="auth-screen" class="modal-overlay">
     <div class="glass-card auth-box modal-box" style="margin-top:0; border:1px solid var(--accent);">
-        <div style="text-align:left; margin-bottom:15px; cursor:pointer; color:var(--muted); font-size:13px;" onclick="closeAuthScreen()"><i class="fas fa-arrow-left"></i> <span data-i18n="back_shop">ဆိုင်သို့ ပြန်သွားမည်</span></div>
-        
+        <div style="text-align:left; margin-bottom:15px; cursor:pointer; color:var(--muted); font-size:13px;" onclick="closeAuthScreen()"><i class="fas fa-arrow-left"></i> <span>ဆိုင်သို့ ပြန်သွားမည်</span></div>
         <div style="width:70px; height:70px; background:linear-gradient(135deg, var(--accent), var(--primary)); border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:35px; color:#fff; margin:0 auto 20px; box-shadow:0 10px 20px rgba(138,43,226,0.3);">K</div>
         <div style="font-size:24px; font-weight:800; margin-bottom:30px; color:var(--text);" data-i18n="pls_login">ကျေးဇူးပြု၍ အကောင့်ဝင်ပါ</div>
         
@@ -188,6 +185,8 @@
     <div id="page-profile" class="page">
         <h2 style="margin-bottom:20px; font-weight:800;" data-i18n="profile">ပရိုဖိုင်</h2>
         <div class="glass-card" style="padding:25px; text-align:center; margin-bottom:20px; overflow:hidden;">
+            <div style="position:absolute; top:-20px; right:-20px; width:100px; height:100px; background:var(--primary); filter:blur(40px); opacity:0.3; border-radius:50%;"></div>
+            
             <div style="width:65px; height:65px; background:linear-gradient(135deg, var(--accent), var(--primary)); color:#fff; border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:bold; margin:0 auto 12px; box-shadow:0 6px 15px rgba(138,43,226,0.3);">👤</div>
             <div style="font-size:16px; font-weight:bold;" id="prof-email">--</div>
             <div style="font-size:11px; color:var(--accent); font-weight:600; text-transform:uppercase; margin-bottom:20px; letter-spacing:1px;" id="prof-role">Customer</div>
@@ -217,6 +216,43 @@
         </div>
     </div>
 
+    <div id="page-deposit" class="page">
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="top-action-btn" style="width:40px; height:40px; justify-content:center;" onclick="navToMain('page-profile')"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="topup">ငွေသွင်း</h2></div>
+        <input type="number" id="dep-amount" class="auth-input" placeholder="Amount (e.g. 5000)">
+        <div style="font-size:12px; color:var(--muted); margin-bottom:5px;">Transfer To:</div>
+        <div id="dep-dyn-payments">Loading methods...</div><input type="hidden" id="selected-dep-method" value="">
+        <label for="dep-file" class="glass-card" style="display:block; border:1px dashed var(--glass-border-highlight); padding:20px; text-align:center; border-radius:16px; margin-bottom:20px; cursor:pointer;">
+            <div id="dep-placeholder" style="font-size:13px; font-weight:600; color:var(--accent);">+ Upload Transfer Slip</div>
+            <img id="dep-img" style="width:100%; border-radius:10px; display:none; margin-top:10px;">
+            <input type="file" id="dep-file" style="display:none;" accept="image/*" onchange="handleDepUpload(this)">
+        </label>
+        <button class="btn-main" id="btn-dep" onclick="submitDeposit()">Submit Deposit</button>
+    </div>
+
+    <div id="page-withdraw" class="page">
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="top-action-btn" style="width:40px; height:40px; justify-content:center;" onclick="navToMain('page-profile')"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="withdraw">ငွေထုတ်</h2></div>
+        <div class="glass-card" style="padding:15px; text-align:center; margin-bottom:20px;">
+            <div style="font-size:12px; color:var(--muted);">Available Balance</div>
+            <div style="font-size:24px; font-weight:800; color:var(--ok);" id="wd-avail">0 Ks</div>
+        </div>
+        <input type="number" id="wd-amount" class="auth-input" placeholder="Amount to withdraw (Ks)">
+        <select id="wd-method" class="auth-input" style="appearance:none;"><option value="KPay" style="color:#000;">KBZPay (KPay)</option><option value="WavePay" style="color:#000;">WavePay</option><option value="AYAPay" style="color:#000;">AYA Pay</option></select>
+        <input type="text" id="wd-phone" class="auth-input" placeholder="Account Phone Number">
+        <input type="text" id="wd-name" class="auth-input" placeholder="Account Name">
+        <button class="btn-main" style="background:linear-gradient(135deg, var(--danger), #b91c1c);" id="btn-wd" onclick="submitWithdraw()">Submit Request</button>
+    </div>
+
+    <div id="page-spin" class="page">
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="top-action-btn" style="width:40px; height:40px; justify-content:center;" onclick="navToMain('page-profile')"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="spin">ကံစမ်းမဲ</h2></div>
+        <div class="glass-card" style="border: 2px dashed var(--primary); padding: 30px; text-align: center; margin-bottom: 20px;">
+            <div style="font-size:14px; color:var(--muted);">Spin & Win up to 5000 Ks!</div>
+            <div id="spin-result" style="font-size: 40px; font-weight: 800; color: var(--accent); margin: 20px 0; text-shadow: 0 0 20px rgba(138,43,226,0.5);">0 Ks</div>
+        </div>
+        <div style="text-align:center; font-size:13px; margin-bottom:20px;">Tickets Available: <strong style="color:var(--warning); font-size:20px;" id="spin-tickets">0</strong></div>
+        <button class="btn-main" style="padding:15px; font-size:16px;" id="btn-spin" onclick="playSpin()">Spin Now (1 Ticket)</button>
+        <div style="font-size:11px; color:var(--muted); text-align:center; margin-top:20px;">Get 1 Spin Ticket for every 10,000 Ks deposited.</div>
+    </div>
+
     <div id="page-orders" class="page"><h2 style="margin-bottom:15px; font-weight:800;" data-i18n="my_orders">အော်ဒါမှတ်တမ်း</h2><div id="orders-list"></div></div>
     <div id="page-notifications" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="top-action-btn" style="width:40px; height:40px; justify-content:center;" onclick="navTo('page-home')"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="noti">အသိပေးချက်များ</h2></div><div id="noti-list"></div></div>
     <div id="page-ledger" class="page"><div style="display:flex; align-items:center; gap:15px; margin-bottom:20px;"><div class="top-action-btn" style="width:40px; height:40px; justify-content:center;" onclick="navTo('page-profile')"><i class="fas fa-arrow-left"></i></div><h2 style="margin:0; font-weight:800;" data-i18n="ledger">ပိုက်ဆံအိတ် မှတ်တမ်း</h2></div><div id="ledger-list"></div></div>
@@ -239,8 +275,9 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, where, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, where, doc, setDoc, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
+    // ⚠️ Firebase Keys အစားထိုးပါ ⚠️
     const firebaseConfig = { apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", authDomain: "kazeno-diamond-shop.firebaseapp.com", projectId: "kazeno-diamond-shop", storageBucket: "kazeno-diamond-shop.firebasestorage.app", messagingSenderId: "1209500360", appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" };
     const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
@@ -265,34 +302,21 @@
     window.vibe = () => { if(navigator.vibrate) navigator.vibrate(30); }
     window.formatDate = (ts) => { if(!ts) return "Just now"; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString(); };
     
-    // 💡 GUEST MODE LOGIC 💡
-    window.navToMain = (id) => { 
-        vibe(); 
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); 
-        let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); 
-        navTo(id); 
-    };
-    window.navTo = (id) => { 
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
-        document.getElementById(id).classList.add('active'); 
-        window.scrollTo({top:0, behavior:'smooth'}); 
-        document.getElementById('main-nav').style.display = ['page-home','page-orders','page-profile'].includes(id) ? 'flex' : 'none'; 
-    };
+    // 💡 GUEST MODE & NAVIGATION 💡
+    window.navToMain = (id) => { vibe(); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); let b = document.getElementById('nav-'+id); if(b) b.classList.add('active'); navTo(id); };
+    window.navTo = (id) => { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo({top:0, behavior:'smooth'}); document.getElementById('main-nav').style.display = ['page-home','page-orders','page-profile'].includes(id) ? 'flex' : 'none'; };
     
-    window.checkAuthAndGo = (id) => {
-        vibe();
-        if(!me) { openAuthScreen(); return; }
-        navToMain(id);
-    };
-
+    window.checkAuthAndGo = (id) => { vibe(); if(!me) { openAuthScreen(); return; } navToMain(id); };
     window.openAuthScreen = () => { document.getElementById('auth-screen').classList.add('active'); };
     window.closeAuthScreen = () => { document.getElementById('auth-screen').classList.remove('active'); };
-
     window.openModal = (id) => { vibe(); document.getElementById(id).classList.add('active'); };
     window.closeModal = (id) => { document.getElementById(id).classList.remove('active'); };
 
-    let me = null; let myWallet = 0; let myRole = 'Customer'; let allMyData = []; let dynamicCats = []; let dynamicProds = []; let currentOrder = {};
+    let me = null; let myWallet = 0; let myRole = 'Customer'; let mySpins = 0; 
+    let allMyData = []; let dynamicCats = []; let dynamicProds = []; let payMethods = []; let currentOrder = {}; let depFile = null;
+    let tgBotToken = ""; let tgChatId = ""; let tgDepositTopicId = "";
 
+    // --- AUTH ---
     let isLoginMode = true;
     window.toggleAuthMode = () => { vibe(); isLoginMode = !isLoginMode; document.getElementById('auth-btn').innerText = isLoginMode ? dict[curLang].login_btn : "Sign Up"; document.getElementById('auth-toggle').innerText = isLoginMode ? dict[curLang].go_signup : dict[curLang].go_login; document.getElementById('ref-container').style.display = isLoginMode ? 'none' : 'block';};
     window.handleAuth = async () => {
@@ -301,68 +325,53 @@
         document.getElementById('auth-btn').innerText = t('loading');
         try { 
             if(isLoginMode) await signInWithEmailAndPassword(auth, em, pw); 
-            else { const res = await createUserWithEmailAndPassword(auth, em, pw); await setDoc(doc(db, "users", res.user.uid), { email:em, walletBalance:0, role: "Customer", createdAt:serverTimestamp() }); } 
+            else { const res = await createUserWithEmailAndPassword(auth, em, pw); await setDoc(doc(db, "users", res.user.uid), { email:em, walletBalance:0, spinCount:0, role: "Customer", createdAt:serverTimestamp() }); } 
         } catch(e) { toast(e.message); document.getElementById('auth-btn').innerText = isLoginMode ? dict[curLang].login_btn : "Sign Up"; }
     };
     window.logout = () => { vibe(); signOut(auth); navToMain('page-home'); };
     window.resetPassword = async () => { const em = document.getElementById('auth-email').value.trim(); if(!em) return toast("Enter email first."); try { await sendPasswordResetEmail(auth, em); toast("Reset email sent!"); } catch(e) { toast(e.message); } };
     window.openPassModal = () => openModal('pass-modal');
-    window.changePassword = async () => {
-        let oldP = document.getElementById('cp-old').value; let newP = document.getElementById('cp-new').value;
-        if(!oldP || newP.length < 6) return toast("Invalid passwords.");
-        try { const cred = EmailAuthProvider.credential(me.email, oldP); await reauthenticateWithCredential(me, cred); await updatePassword(me, newP); toast("Password Updated!"); closeModal('pass-modal'); document.getElementById('cp-old').value=''; document.getElementById('cp-new').value='';} 
-        catch(e) { toast(e.message); }
-    };
+    window.changePassword = async () => { let oldP = document.getElementById('cp-old').value; let newP = document.getElementById('cp-new').value; if(!oldP || newP.length < 6) return toast("Invalid passwords."); try { const cred = EmailAuthProvider.credential(me.email, oldP); await reauthenticateWithCredential(me, cred); await updatePassword(me, newP); toast("Password Updated!"); closeModal('pass-modal'); document.getElementById('cp-old').value=''; document.getElementById('cp-new').value='';} catch(e) { toast(e.message); } };
 
-    // Global App Load (Always show home first)
-    onSnapshot(collection(db, "categories"), (snap) => {
-        dynamicCats = []; snap.forEach(s => { let c = {id: s.id, ...s.data()}; dynamicCats.push(c); });
-        dynamicCats.sort((a,b) => (a.orderNum||1) - (b.orderNum||1)); renderGames(dynamicCats);
+    // --- GLOBAL DATA FETCHING ---
+    onSnapshot(doc(db, "settings", "app_config"), (d) => {
+        if(d.exists()) {
+            if(d.data().homeBannerUrl) document.getElementById('dyn-home-banner').src = d.data().homeBannerUrl;
+            tgBotToken = d.data().tgBotToken || ""; tgChatId = d.data().tgChatId || ""; tgDepositTopicId = d.data().tgDepositTopicId || "";
+        }
     });
+
+    onSnapshot(collection(db, "categories"), (snap) => { dynamicCats = []; snap.forEach(s => { let c = {id: s.id, ...s.data()}; dynamicCats.push(c); }); dynamicCats.sort((a,b) => (a.orderNum||1) - (b.orderNum||1)); renderGames(dynamicCats); });
     onSnapshot(collection(db, "products"), (snap) => { dynamicProds = []; snap.forEach(s => { if(s.data().isActive) dynamicProds.push({id: s.id, ...s.data()}); }); });
-    onSnapshot(doc(db, "settings", "app_config"), (d) => { if(d.exists() && d.data().homeBannerUrl) { document.getElementById('dyn-home-banner').src = d.data().homeBannerUrl; } });
+    onSnapshot(collection(db, "payment_methods"), (snap) => { 
+        payMethods = []; let html = "";
+        snap.forEach(s => { let p = {id: s.id, ...s.data()}; payMethods.push(p); html += `<div class="glass-card" onclick="document.getElementById('selected-dep-method').value='${p.name}'; toast('Selected ${p.name}')" style="padding:10px; margin-bottom:10px; cursor:pointer;"><strong style="color:var(--accent);">${p.name}</strong><br><span style="font-family:monospace;">${p.phone}</span> (${p.accName})</div>`; });
+        document.getElementById('dep-dyn-payments').innerHTML = html || "<p>No payment methods found.</p>";
+    });
 
     onAuthStateChanged(auth, async (user) => {
         if(user) {
-            me = user;
-            closeAuthScreen(); // Hide login popup if it was open
-            document.getElementById('prof-email').innerText = me.email;
-            
+            me = user; closeAuthScreen(); document.getElementById('prof-email').innerText = me.email;
             onSnapshot(doc(db, "users", me.uid), (ds) => {
                 if(ds.exists()) { 
-                    myWallet = ds.data().walletBalance || 0; myRole = ds.data().role || 'Customer';
+                    myWallet = ds.data().walletBalance || 0; myRole = ds.data().role || 'Customer'; mySpins = ds.data().spinCount || 0;
                     document.getElementById('home-wallet').innerText = myWallet.toLocaleString() + " Ks"; 
                     document.getElementById('prof-wallet').innerText = myWallet.toLocaleString() + " Ks"; 
-                    document.getElementById('prof-role').innerText = myRole;
+                    document.getElementById('wd-avail').innerText = myWallet.toLocaleString() + " Ks";
+                    document.getElementById('prof-role').innerText = myRole; document.getElementById('spin-tickets').innerText = mySpins;
                 }
             });
             onSnapshot(query(collection(db, "orders"), where("userId", "==", me.uid)), (s) => { allMyData = []; s.forEach(d => { let obj = {id:d.id, type:'order', ...d.data()}; allMyData.push(obj); }); renderHistory(); });
             onSnapshot(query(collection(db, "transactions"), where("userId", "==", me.uid)), (s) => {
                 let tArr = []; s.forEach(d => tArr.push(d.data())); tArr.sort((a,b) => (b.createdAt?.toMillis()||0) - (a.createdAt?.toMillis()||0)); let lHtml = "";
-                tArr.forEach(tx => {
-                    let color = tx.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = tx.amount >= 0 ? '+' : '';
-                    lHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700; font-size:14px;">${tx.type}</div><div style="font-size:11px; color:var(--muted);">${tx.desc}</div><div style="font-size:10px; color:var(--accent); margin-top:4px;"><i class="far fa-clock"></i> ${formatDate(tx.createdAt)}</div></div><div style="font-weight:800; font-size:16px; color:${color}; text-shadow:0 0 10px ${color}40;">${sign}${tx.amount.toLocaleString()} Ks</div></div>`;
-                });
+                tArr.forEach(tx => { let color = tx.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = tx.amount >= 0 ? '+' : ''; lHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:700; font-size:14px;">${tx.type}</div><div style="font-size:11px; color:var(--muted);">${tx.desc}</div><div style="font-size:10px; color:var(--accent); margin-top:4px;"><i class="far fa-clock"></i> ${formatDate(tx.createdAt)}</div></div><div style="font-weight:800; font-size:16px; color:${color}; text-shadow:0 0 10px ${color}40;">${sign}${tx.amount.toLocaleString()} Ks</div></div>`; });
                 document.getElementById('ledger-list').innerHTML = lHtml || `<div style='text-align:center; color:gray; padding:20px;'>No records yet.</div>`;
             });
-        } else { 
-            me = null; 
-            document.getElementById('home-wallet').innerText = "Login Required";
-            allMyData = []; renderHistory(); document.getElementById('ledger-list').innerHTML = "";
-            // Do not force Auth screen here, let them browse.
-        }
+        } else { me = null; document.getElementById('home-wallet').innerText = "Login Required"; allMyData = []; renderHistory(); document.getElementById('ledger-list').innerHTML = ""; }
     });
 
     window.searchGames = () => { let input = document.getElementById('gameSearch').value.toLowerCase(); let filtered = dynamicCats.filter(c => c.name.toLowerCase().includes(input)); renderGames(filtered); };
-    function renderGames(list) {
-        let html = ""; 
-        list.forEach(c => {
-            if(c.isActive) { 
-                html += `<div class="game-card glass-card" onclick="openGameDetail('${c.id}')"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div style="flex:1; margin:0 10px; text-align:left;"><div style="font-weight:700; font-size:15px; color:var(--text);">${c.name}</div><div style="font-size:11px; color:var(--ok);">Available</div></div><div class="buy-btn">Open</div></div>`; 
-            }
-        });
-        document.getElementById('dyn-game-list').innerHTML = html || `<div style="text-align:center; color:gray; width:100%; padding:20px;">No games found.</div>`;
-    }
+    function renderGames(list) { let html = ""; list.forEach(c => { if(c.isActive) { html += `<div class="game-card glass-card" onclick="openGameDetail('${c.id}')"><img class="game-img" src="${c.logoUrl||'https://via.placeholder.com/60'}"><div style="flex:1; margin:0 10px; text-align:left;"><div style="font-weight:700; font-size:15px; color:var(--text);">${c.name}</div><div style="font-size:11px; color:var(--ok);">Available</div></div><div class="buy-btn">Open</div></div>`; } }); document.getElementById('dyn-game-list').innerHTML = html || `<div style="text-align:center; color:gray; width:100%; padding:20px;">No games found.</div>`; }
 
     function renderHistory() {
         if(!me) return;
@@ -371,48 +380,23 @@
         allMyData.forEach(o => {
             let color = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)');
             let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc');
-            if(o.type === 'order') {
-                oHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px; cursor:pointer; position:relative; overflow:hidden;" onclick="showOrderDetails('${o.id}')"><div style="position:absolute; top:0; left:0; width:4px; height:100%; background:${color};"></div><div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span style="font-family:monospace; color:var(--accent); font-weight:bold; font-size:12px;">${o.orderId || o.id.substring(0,8)}</span><span style="background:rgba(255,255,255,0.1); color:${color}; font-size:10px; padding:3px 10px; border-radius:8px; font-weight:bold; border:1px solid ${color}40;">${t(statKey).toUpperCase()}</span></div><div style="font-weight:700; font-size:15px; color:var(--text);">${o.game} - <span style="color:var(--muted);">${o.item}</span></div><div style="font-size:16px; font-weight:800; margin-top:10px; color:var(--ok); text-shadow:0 0 10px rgba(16,185,129,0.3);">${o.price.toLocaleString()} Ks</div></div>`;
-            }
-            if(o.status !== 'Pending' && o.type === 'order') {
-                unread++;
-                nHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px; border-left: 4px solid ${color};"><div style="font-weight:bold; font-size:14px; margin-bottom:6px; color:${color};">${t(statKey)}</div><div style="font-size:12px; color:var(--muted); line-height:1.5;">${t('your_order')} <span style="color:var(--text); font-weight:bold;">${o.item} (${o.game})</span> ${t('is')} ${t(statKey).toLowerCase()}.</div><div style="font-size:10px; text-align:right; margin-top:8px; color:var(--accent);"><i class="far fa-clock"></i> ${formatDate(o.createdAt)}</div></div>`;
-            }
+            if(o.type === 'order') { oHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px; cursor:pointer; position:relative; overflow:hidden;" onclick="showOrderDetails('${o.id}')"><div style="position:absolute; top:0; left:0; width:4px; height:100%; background:${color};"></div><div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span style="font-family:monospace; color:var(--accent); font-weight:bold; font-size:12px;">${o.orderId || o.id.substring(0,8)}</span><span style="background:rgba(255,255,255,0.1); color:${color}; font-size:10px; padding:3px 10px; border-radius:8px; font-weight:bold; border:1px solid ${color}40;">${t(statKey).toUpperCase()}</span></div><div style="font-weight:700; font-size:15px; color:var(--text);">${o.game} - <span style="color:var(--muted);">${o.item}</span></div><div style="font-size:16px; font-weight:800; margin-top:10px; color:var(--ok); text-shadow:0 0 10px rgba(16,185,129,0.3);">${o.price.toLocaleString()} Ks</div></div>`; }
+            if(o.status !== 'Pending' && o.type === 'order') { unread++; nHtml += `<div class="glass-card" style="padding:15px; margin-bottom:12px; border-left: 4px solid ${color};"><div style="font-weight:bold; font-size:14px; margin-bottom:6px; color:${color};">${t(statKey)}</div><div style="font-size:12px; color:var(--muted); line-height:1.5;">${t('your_order')} <span style="color:var(--text); font-weight:bold;">${o.item} (${o.game})</span> ${t('is')} ${t(statKey).toLowerCase()}.</div><div style="font-size:10px; text-align:right; margin-top:8px; color:var(--accent);"><i class="far fa-clock"></i> ${formatDate(o.createdAt)}</div></div>`; }
         });
         document.getElementById('orders-list').innerHTML = oHtml || `<div style='text-align:center; color:gray; padding:40px;'><i class="fas fa-box-open text-4xl mb-3"></i><br>${t('no_orders')}</div>`;
         document.getElementById('noti-list').innerHTML = nHtml || `<div style='text-align:center; color:gray; padding:40px;'><i class="fas fa-bell-slash text-4xl mb-3"></i><br>${t('no_noti')}</div>`;
         document.getElementById('bell-count').style.display = unread > 0 ? 'flex' : 'none';
     }
 
-    window.showOrderDetails = (id) => {
-        vibe(); let o = allMyData.find(x => x.id === id); if(!o) return;
-        let c = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)');
-        let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc');
-        let bBalHtml = (o.beforeBalance !== undefined) ? `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-wallet mr-1"></i> ${t('before_bal')}</span> <strong style="font-size:14px;">${o.beforeBalance.toLocaleString()} Ks</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hand-holding-usd mr-1"></i> ${t('after_bal')}</span> <strong style="font-size:14px; color:var(--warning);">${o.afterBalance.toLocaleString()} Ks</strong></div>` : '';
-        let h = `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hashtag mr-1"></i> ${t('order_id')}</span> <strong style="color:var(--accent); font-family:monospace;">${o.orderId || o.id.substring(0,8)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="far fa-calendar-alt mr-1"></i> ${t('date')}</span> <strong>${formatDate(o.createdAt)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gamepad mr-1"></i> ${t('game')}</span> <strong style="font-size:14px;">${o.game}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gem mr-1"></i> ${t('item')}</span> <strong style="color:var(--accent); font-size:14px;">${o.item}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-id-card mr-1"></i> ${t('player_id')}</span> <strong style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:8px; font-family:monospace; font-size:14px;">${o.playerId}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-money-check-alt mr-1"></i> ${t('pay_method')}</span> <strong><span class="badge" style="background:var(--primary); padding:4px 8px; border-radius:6px; font-size:11px;">${o.payMethod || 'Wallet'}</span></strong></div>${bBalHtml}<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; margin-bottom:10px;"><span style="color:var(--text); font-weight:bold; font-size:14px;">${t('amt_paid')}</span> <strong style="color:var(--ok); font-size:22px; text-shadow:0 0 10px rgba(16,185,129,0.4);">${o.price.toLocaleString()} Ks</strong></div><div style="text-align:center; margin-top:15px; font-weight:800; color:${c}; font-size:15px; background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border:1px solid ${c}40;">${t('status')}: ${t(statKey).toUpperCase()}</div>`;
-        document.getElementById('order-modal-content').innerHTML = h; document.getElementById('om-title').innerHTML = `<i class="fas fa-receipt"></i> ${t('order_det')}`; document.getElementById('om-close').innerText = t('close_btn'); openModal('order-modal');
-    };
+    window.showOrderDetails = (id) => { vibe(); let o = allMyData.find(x => x.id === id); if(!o) return; let c = o.status==='Completed' ? 'var(--ok)' : (o.status==='Cancelled' ? 'var(--danger)' : 'var(--warning)'); let statKey = o.status==='Completed' ? 'order_comp' : (o.status==='Cancelled' ? 'order_canc' : 'order_proc'); let bBalHtml = (o.beforeBalance !== undefined) ? `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-wallet mr-1"></i> ${t('before_bal')}</span> <strong style="font-size:14px;">${o.beforeBalance.toLocaleString()} Ks</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hand-holding-usd mr-1"></i> ${t('after_bal')}</span> <strong style="font-size:14px; color:var(--warning);">${o.afterBalance.toLocaleString()} Ks</strong></div>` : ''; let h = `<div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-hashtag mr-1"></i> ${t('order_id')}</span> <strong style="color:var(--accent); font-family:monospace;">${o.orderId || o.id.substring(0,8)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="far fa-calendar-alt mr-1"></i> ${t('date')}</span> <strong>${formatDate(o.createdAt)}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gamepad mr-1"></i> ${t('game')}</span> <strong style="font-size:14px;">${o.game}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-gem mr-1"></i> ${t('item')}</span> <strong style="color:var(--accent); font-size:14px;">${o.item}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-id-card mr-1"></i> ${t('player_id')}</span> <strong style="background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:8px; font-family:monospace; font-size:14px;">${o.playerId}</strong></div><div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:12px; margin-bottom:12px;"><span style="color:var(--muted);"><i class="fas fa-money-check-alt mr-1"></i> ${t('pay_method')}</span> <strong><span class="badge" style="background:var(--primary); padding:4px 8px; border-radius:6px; font-size:11px;">${o.payMethod || 'Wallet'}</span></strong></div>${bBalHtml}<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; margin-bottom:10px;"><span style="color:var(--text); font-weight:bold; font-size:14px;">${t('amt_paid')}</span> <strong style="color:var(--ok); font-size:22px; text-shadow:0 0 10px rgba(16,185,129,0.4);">${o.price.toLocaleString()} Ks</strong></div><div style="text-align:center; margin-top:15px; font-weight:800; color:${c}; font-size:15px; background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; border:1px solid ${c}40;">${t('status')}: ${t(statKey).toUpperCase()}</div>`; document.getElementById('order-modal-content').innerHTML = h; openModal('order-modal'); };
 
-    window.openGameDetail = (catId) => {
-        vibe(); let c = dynamicCats.find(x => x.id === catId); if(!c) return;
-        currentOrder.gameName = c.name; document.getElementById('detail-game-title').innerText = c.name; document.getElementById('detail-banner').src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg';
-        let formHtml = `<input type="text" id="dyn-uid" class="auth-input glass-card" style="flex:2; margin:0;" placeholder="Player ID" oninput="checkForm()">`;
-        document.getElementById('dyn-form-inputs').innerHTML = formHtml;
-        let prods = dynamicProds.filter(p => p.categoryId === c.id); prods.sort((a,b) => a.sellingPrice - b.sellingPrice);
-        let pHtml = "";
-        prods.forEach(p => { pHtml += `<div class="glass-card pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${p.sellingPrice})"><div style="font-weight:700; font-size:14px; color:var(--text);">${p.name}</div><div style="font-size:13px; color:var(--accent); font-weight:800; margin-top:5px;">${p.sellingPrice.toLocaleString()} Ks</div></div>`; });
-        document.getElementById('pack-container').innerHTML = pHtml;
-        currentOrder.item = ''; currentOrder.price = 0; document.getElementById('display-total').innerText = "0 Ks"; navTo('page-detail');
-    };
-
+    window.openGameDetail = (catId) => { vibe(); let c = dynamicCats.find(x => x.id === catId); if(!c) return; currentOrder.gameName = c.name; document.getElementById('detail-game-title').innerText = c.name; document.getElementById('detail-banner').src = c.bannerUrl || 'https://img.freepik.com/free-vector/gradient-gaming-youtube-channel-art_23-2149092497.jpg'; let formHtml = `<input type="text" id="dyn-uid" class="auth-input glass-card" style="flex:2; margin:0;" placeholder="Player ID" oninput="checkForm()">`; document.getElementById('dyn-form-inputs').innerHTML = formHtml; let prods = dynamicProds.filter(p => p.categoryId === c.id); prods.sort((a,b) => a.sellingPrice - b.sellingPrice); let pHtml = ""; prods.forEach(p => { pHtml += `<div class="glass-card pack-card" id="pkg-${p.id}" onclick="selectPackage('${p.id}', '${p.name}', ${p.sellingPrice})"><div style="font-weight:700; font-size:14px; color:var(--text);">${p.name}</div><div style="font-size:13px; color:var(--accent); font-weight:800; margin-top:5px;">${p.sellingPrice.toLocaleString()} Ks</div></div>`; }); document.getElementById('pack-container').innerHTML = pHtml; currentOrder.item = ''; currentOrder.price = 0; document.getElementById('display-total').innerText = "0 Ks"; navTo('page-detail'); };
     window.selectPackage = (id, n, p) => { vibe(); document.querySelectorAll('.pack-card').forEach(c => {c.style.borderColor = 'transparent'; c.style.transform='scale(1)';}); let el = document.getElementById(`pkg-${id}`); el.style.borderColor = 'var(--accent)'; el.style.transform='scale(1.05)'; currentOrder.item = n; currentOrder.price = p; document.getElementById('display-total').innerText = p.toLocaleString() + " Ks"; checkForm(); };
     window.checkForm = () => { let hasUid = document.getElementById('dyn-uid') && document.getElementById('dyn-uid').value.length > 2; let isValid = hasUid && currentOrder.price > 0; document.getElementById('btn-submit').disabled = !isValid; };
 
     window.submitOrder = async () => {
-        vibe(); 
-        if(!me) { openAuthScreen(); toast(t('pls_login')); return; }
+        vibe(); if(!me) { openAuthScreen(); toast(t('pls_login')); return; }
         if(myWallet < currentOrder.price) return toast("Insufficient Balance!");
-        
         const b = document.getElementById('btn-submit'); b.innerText = t('processing'); b.disabled = true;
         try {
             let beforeBal = myWallet; let afterBal = myWallet - currentOrder.price;
@@ -422,6 +406,54 @@
             await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Order', amount: -currentOrder.price, desc: `Bought ${currentOrder.item} (${currentOrder.gameName})`, createdAt: serverTimestamp() });
             toast("Order Placed Successfully!"); navToMain('page-orders');
         } catch (e) { toast(e.message); checkForm(); } b.innerText = t('pay_now');
+    };
+
+    // 💡 RESTORED: DEPOSIT, WITHDRAW, SPIN LOGIC 💡
+    window.handleDepUpload = (i) => { if(i.files[0]) { vibe(); depFile = i.files[0]; let r = new FileReader(); r.onload = (e) => { document.getElementById('dep-placeholder').style.display='none'; document.getElementById('dep-img').src=e.target.result; document.getElementById('dep-img').style.display='block'; }; r.readAsDataURL(i.files[0]); } };
+    async function uploadImage(f) { let fd = new FormData(); fd.append("image", f); try { let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd }); let d = await res.json(); if(d.success) return d.data.url; throw new Error(); } catch(e) { throw new Error("Upload failed"); } }
+    
+    async function sendTgAlert(msg, threadIdStr, imageUrl) { if(!tgBotToken || !tgChatId) return; let endpoint = imageUrl ? "sendPhoto" : "sendMessage"; let payload = { chat_id: tgChatId, parse_mode: "HTML" }; if(threadIdStr) payload.message_thread_id = parseInt(threadIdStr); if(imageUrl) { payload.photo = imageUrl; payload.caption = msg; } else { payload.text = msg; } try { await fetch(`https://api.telegram.org/bot${tgBotToken}/${endpoint}`, { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload) }); } catch(e) {} }
+
+    window.submitDeposit = async () => {
+        let amt = parseInt(document.getElementById('dep-amount').value); let pMethod = document.getElementById('selected-dep-method').value;
+        if(!amt || !depFile || !pMethod) return toast("Enter amount, select method, and upload slip.");
+        vibe(); const b = document.getElementById('btn-dep'); b.innerText = "Uploading..."; b.disabled = true;
+        try {
+            let slipUrl = await uploadImage(depFile); let depId = 'DEP-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            await addDoc(collection(db, "deposits"), { depId: depId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: pMethod, slipImage: slipUrl, status: "Pending", createdAt: serverTimestamp() });
+            sendTgAlert(`💸 <b>NEW DEPOSIT</b>\nUser: ${me.email}\nAmount: ${amt} Ks\nMethod: ${pMethod}`, tgDepositTopicId, slipUrl);
+            toast("Deposit sent!"); document.getElementById('dep-amount').value = ""; document.getElementById('dep-img').style.display = "none"; document.getElementById('dep-placeholder').style.display = "block"; depFile = null; navToMain('page-profile');
+        } catch(e) { toast(e.message); } b.innerText = "Submit Deposit"; b.disabled = false;
+    };
+
+    window.submitWithdraw = async () => {
+        let amt = parseInt(document.getElementById('wd-amount').value); let met = document.getElementById('wd-method').value; let ph = document.getElementById('wd-phone').value; let nm = document.getElementById('wd-name').value;
+        if(!amt || !ph || !nm) return toast("Fill all fields"); if(amt > myWallet) return toast("Insufficient balance!");
+        vibe(); const b = document.getElementById('btn-wd'); b.disabled = true; b.innerText = "Processing...";
+        try {
+            await updateDoc(doc(db, "users", me.uid), { walletBalance: myWallet - amt }); let wdId = 'WD-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            await addDoc(collection(db, "withdrawals"), { wdId: wdId, userId: me.uid, userEmail: me.email, amount: amt, payMethod: met, accPhone: ph, accName: nm, status: "Pending", createdAt: serverTimestamp() });
+            await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Withdrawal', amount: -amt, desc: `Requested withdraw via ${met}`, createdAt: serverTimestamp() });
+            sendTgAlert(`💳 <b>WITHDRAW REQUEST</b>\nUser: ${me.email}\nAmount: ${amt} Ks\nMethod: ${met}\nAcc: ${ph} (${nm})`, tgDepositTopicId, null);
+            toast("Withdraw requested!"); navToMain('page-profile'); document.getElementById('wd-amount').value=''; document.getElementById('wd-phone').value=''; document.getElementById('wd-name').value='';
+        } catch(e) { toast(e.message); } b.disabled = false; b.innerText = "Submit Request";
+    };
+
+    window.playSpin = async () => {
+        if(mySpins <= 0) return toast("No tickets! Top up to get more.");
+        vibe(); let btn = document.getElementById('btn-spin'); btn.disabled = true; btn.innerText = "Spinning...";
+        let resBox = document.getElementById('spin-result'); let fakePrizes = [0, 100, 500, 1000, 5000];
+        let interval = setInterval(() => { resBox.innerText = fakePrizes[Math.floor(Math.random()*fakePrizes.length)] + " Ks"; }, 100);
+        setTimeout(async () => {
+            clearInterval(interval); let rand = Math.random() * 100; let winAmt = 0;
+            if(rand < 60) winAmt = 0; else if(rand < 85) winAmt = 100; else if(rand < 96) winAmt = 500; else if(rand < 99) winAmt = 1000; else winAmt = 5000;
+            resBox.innerText = winAmt + " Ks";
+            try {
+                await updateDoc(doc(db, "users", me.uid), { spinCount: mySpins - 1, walletBalance: myWallet + winAmt });
+                if(winAmt > 0) { await addDoc(collection(db, "transactions"), { userId: me.uid, type: 'Reward', amount: winAmt, desc: `Lucky Spin Win`, createdAt: serverTimestamp() }); toast(`You won ${winAmt} Ks! 🎉`); } else { toast("Better luck next time!"); }
+            } catch(e) { toast("Error saving spin."); }
+            btn.disabled = false; btn.innerText = "Spin Again (1 Ticket)";
+        }, 2000);
     };
 </script>
 </body>
