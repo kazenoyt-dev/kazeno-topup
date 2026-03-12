@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>Kazeno Admin - Premium</title>
+<title>Admin - Kazeno Shop</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
@@ -20,8 +20,7 @@
   * { box-sizing: border-box; outline: none; margin: 0; padding: 0; font-family: 'Poppins', sans-serif;}
   body { background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
-  /* Liquid Background */
-  .liquid-bg { position: fixed; inset: 0; z-index: -3; background: radial-gradient(circle at 20% 40%, rgba(14, 165, 233, 0.2), transparent 50%), radial-gradient(circle at 80% 60%, rgba(139, 92, 246, 0.2), transparent 50%); filter: blur(60px); animation: liquidFlow 15s infinite alternate ease-in-out; pointer-events: none;}
+  .liquid-bg { position: fixed; inset: 0; z-index: -3; background: radial-gradient(circle at 20% 40%, rgba(14, 165, 233, 0.2), transparent 50%), radial-gradient(circle at 80% 60%, rgba(139, 92, 246, 0.2), transparent 50%); filter: blur(60px); animation: liquidFlow 15s infinite alternate ease-in-out; }
   @keyframes liquidFlow { 0% { transform: scale(1) translate(0, 0); } 100% { transform: scale(1.1) translate(5%, 5%); } }
 
   .glass-card { background: var(--glass-bg); backdrop-filter: blur(25px) saturate(150%); border: 1px solid var(--glass-border); border-top: 1px solid var(--glass-highlight); border-left: 1px solid var(--glass-highlight); box-shadow: var(--glass-shadow); border-radius: 16px; transition: 0.3s; }
@@ -52,7 +51,7 @@
   .stat-val { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 5px; text-shadow: 0 0 15px rgba(255,255,255,0.3); }
   .stat-label { font-size: 12px; color: var(--muted); }
   
-  .table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 25px; border-radius: 20px; border: 1px solid var(--glass-border); }
+  .table-wrapper { overflow-x: auto; width: 100%; margin-bottom: 25px; border-radius: 16px; border: 1px solid var(--glass-border); }
   table { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; }
   th { padding: 15px 20px; font-size: 12px; font-weight: 700; color: var(--muted); border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); white-space: nowrap; text-transform: uppercase;}
   td { padding: 15px 20px; font-size: 13px; border-bottom: 1px solid var(--glass-border); vertical-align: middle; }
@@ -72,13 +71,13 @@
   .tab-pill { background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); color: var(--muted); padding: 10px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; }
   .tab-pill.active { background: rgba(14, 165, 233, 0.2); color: var(--accent); border-color: var(--accent); box-shadow: 0 0 15px rgba(14,165,233,0.3);}
 
-  .input-box, .select-box { width: 100%; background: var(--input-bg); border: 1px solid var(--glass-border); padding: 14px; border-radius: 12px; color: #fff; font-size: 13px; margin-bottom: 15px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); font-family: 'Poppins';}
-  .input-box:focus { border-color: var(--accent); box-shadow: inset 0 2px 5px rgba(0,0,0,0.3), 0 0 15px rgba(14, 165, 233, 0.3); }
+  .input-box, .select-box { width: 100%; background: var(--input-bg); border: 1px solid var(--glass-border); padding: 14px; border-radius: 12px; color: #fff; font-size: 13px; margin-bottom: 15px; font-family: 'Poppins';}
+  .input-box:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(14,165,233,0.3);}
   
-  .upload-box { border: 2px dashed var(--glass-highlight); border-radius: 16px; padding: 20px; text-align: center; color: var(--accent); font-weight:bold; cursor: pointer; font-size: 13px; background: rgba(0,0,0,0.2); transition: 0.3s; margin-bottom: 15px;}
+  .upload-box { border: 2px dashed var(--glass-highlight); border-radius: 16px; padding: 20px; text-align: center; color: var(--accent); cursor: pointer; font-size: 13px; font-weight: 600; background: rgba(0,0,0,0.2); transition: 0.3s; margin-bottom: 15px;}
   .upload-box:hover { background: rgba(14,165,233,0.1); border-color: var(--accent); }
 
-  /* Custom Toggle Switch for Settings */
+  /* Toggles */
   .switch-container { display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--glass-border); }
   .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
   .switch input { opacity: 0; width: 0; height: 0; }
@@ -109,10 +108,11 @@
 <div id="toast" class="toast">Success</div>
 
 <div id="auth-gate" style="position:fixed; inset:0; background:var(--bg); z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-    <div style="font-size:32px; font-weight:800; margin-bottom:30px; background:linear-gradient(135deg, #fff, var(--accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Kazeno Admin</div>
-    <div class="glass-card" style="padding: 30px; text-align: center;">
-        <input type="password" id="admin-pin" class="input-box" placeholder="Enter Admin PIN" style="text-align:center; font-size: 18px; letter-spacing: 5px; width: 250px;">
-        <button class="btn-gel" style="width:250px; font-size:15px;" onclick="window.checkPin()">Secure Login</button>
+    <div style="font-size:32px; font-weight:800; margin-bottom:30px; color:var(--accent);">Kazeno Admin</div>
+    <div class="glass-card" style="padding: 30px; text-align: center; width: 90%; max-width: 350px;">
+        <input type="email" id="admin-email" class="input-box" placeholder="Admin Email" style="text-align:center;">
+        <input type="password" id="admin-pass" class="input-box" placeholder="Password" style="text-align:center;">
+        <button class="btn-gel" style="width:100%; font-size:15px; padding:14px;" onclick="window.adminLogin()" id="btn-login">Secure Login</button>
     </div>
 </div>
 
@@ -132,22 +132,22 @@
             <div class="menu-item" onclick="window.switchTab('v-deposits', this)"><i class="fas fa-arrow-down text-ok"></i> Deposits </div>
             <div class="menu-item" onclick="window.switchTab('v-withdraws', this)"><i class="fas fa-arrow-up text-danger"></i> Withdrawals </div>
             
-            <div class="menu-label">Catalog & Content</div>
+            <div class="menu-label">Catalog</div>
             <div class="menu-item" onclick="window.switchTab('v-categories', this)"><i class="fas fa-gamepad"></i> Categories </div>
             <div class="menu-item" onclick="window.switchTab('v-products', this)"><i class="fas fa-gem"></i> Products </div>
             <div class="menu-item" onclick="window.switchTab('v-guides', this)"><i class="fas fa-book-open"></i> User Guides </div>
             
             <div class="menu-label">Configuration</div>
-            <div class="menu-item" onclick="window.switchTab('v-payments', this)"><i class="fas fa-money-check"></i> Payment Methods </div>
+            <div class="menu-item" onclick="window.switchTab('v-payments', this)"><i class="fas fa-money-check"></i> Payments </div>
             <div class="menu-item" onclick="window.switchTab('v-settings', this)"><i class="fas fa-cog"></i> Settings & Control </div>
-            <div class="menu-item" style="color: var(--danger);" onclick="location.reload()"><i class="fas fa-sign-out-alt"></i> Logout </div>
+            <div class="menu-item" style="color: var(--danger);" onclick="window.adminLogout()"><i class="fas fa-sign-out-alt"></i> Logout </div>
         </div>
     </div>
 
     <div class="main-content">
         <div class="top-header glass-header">
             <div style="display:flex; align-items:center; gap:15px;"><button class="menu-toggle" onclick="window.toggleSidebar()"><i class="fas fa-bars"></i></button><div class="header-title" id="page-title">Dashboard</div></div>
-            <div style="width:40px; height:40px; background:linear-gradient(135deg, var(--accent), var(--primary)); border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:bold; color:#fff; box-shadow: 0 5px 15px rgba(138,43,226,0.5);">A</div>
+            <div style="width:40px; height:40px; background:linear-gradient(135deg, var(--accent), var(--primary)); border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:bold; color:#fff;">A</div>
         </div>
 
         <div class="content-area">
@@ -172,7 +172,7 @@
                 <div class="table-wrapper glass-card">
                     <table>
                         <thead><tr><th>Email</th><th>Role</th><th>Balance</th><th>Spins</th><th>Action</th></tr></thead>
-                        <tbody id="tb-users"><tr><td colspan="5" style="text-align:center; padding:30px;"><i class="fas fa-spinner fa-spin text-2xl"></i> Loading...</td></tr></tbody>
+                        <tbody id="tb-users"><tr><td colspan="5" style="text-align:center; padding:30px;"><i class="fas fa-spinner fa-spin text-2xl"></i></td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -196,7 +196,7 @@
                 <div class="header-actions"><div class="page-title">Deposits</div></div>
                 <div class="table-wrapper glass-card">
                     <table>
-                        <thead><tr><th>ID & Status</th><th>User</th><th>Amount & Method</th><th>Action</th></tr></thead>
+                        <thead><tr><th>ID & Status</th><th>User</th><th>Amount & Date</th><th>Action</th></tr></thead>
                         <tbody id="tb-deposits"></tbody>
                     </table>
                 </div>
@@ -206,7 +206,7 @@
                 <div class="header-actions"><div class="page-title">Withdrawals</div></div>
                 <div class="table-wrapper glass-card">
                     <table>
-                        <thead><tr><th>ID & Status</th><th>User</th><th>Amount & Method</th><th>Action</th></tr></thead>
+                        <thead><tr><th>ID & Status</th><th>User</th><th>Amount & Date</th><th>Action</th></tr></thead>
                         <tbody id="tb-withdraws"></tbody>
                     </table>
                 </div>
@@ -223,7 +223,7 @@
             </div>
 
             <div id="v-guides" class="view">
-                <div class="header-actions"><div class="page-title">User Guides (Tutorials)</div><button class="btn-gel" onclick="window.openGuideModal()">+ Add Guide</button></div>
+                <div class="header-actions"><div class="page-title">User Guides</div><button class="btn-gel" onclick="window.openGuideModal()">+ Add Guide</button></div>
                 <div class="table-wrapper glass-card"><table><thead><tr><th>Title</th><th>Content Snippet</th><th>Video Embed</th><th>Action</th></tr></thead><tbody id="tb-guides"></tbody></table></div>
             </div>
 
@@ -262,7 +262,9 @@
                         <img id="set-banner-preview" style="width:100%; height:120px; object-fit:cover; border-radius:12px; display:none; margin-bottom:10px; box-shadow:0 5px 15px rgba(0,0,0,0.5);">
                         <div class="upload-box" onclick="document.getElementById('set-banner-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload New Banner</div>
                         <input type="file" id="set-banner-file" style="display:none;" accept="image/*" onchange="window.uploadImg(this, 'set-banner')">
-                        <input type="hidden" id="set-banner-url"> <h3 style="margin-top:25px; margin-bottom:15px; font-size:16px; color:var(--primary);"><i class="fas fa-robot"></i> Telegram Alerts</h3>
+                        <input type="hidden" id="set-banner-url">
+
+                        <h3 style="margin-top:25px; margin-bottom:15px; font-size:16px; color:var(--primary);"><i class="fas fa-robot"></i> Telegram Alerts</h3>
                         
                         <label style="font-size:12px; color:var(--muted);">Admin Panel Link (For TG Buttons)</label>
                         <input type="text" id="inp-admin-url" class="input-box" placeholder="e.g. https://your-site.github.io/admin">
@@ -327,7 +329,7 @@
         <label style="font-size:12px; color:var(--muted);">Wallet Balance</label><input type="number" id="um-wallet" class="input-box">
         <label style="font-size:12px; color:var(--muted);">Spin Tickets</label><input type="number" id="um-spins" class="input-box">
         <label style="font-size:12px; color:var(--muted);">Role</label>
-        <select id="um-role" class="select-box" style="color:#000;"><option value="Customer">Customer</option><option value="Seller">Seller</option><option value="Admin">Admin</option></select>
+        <select id="um-role" class="input-box" style="color:#000;"><option value="Customer">Customer</option><option value="Seller">Seller</option><option value="Admin">Admin</option></select>
         <div style="display:flex; gap:10px;"><button class="btn-gel" style="flex:1;" onclick="window.saveUserEdit()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="window.closeModal('user-modal')">Cancel</button></div>
     </div>
 </div>
@@ -337,6 +339,7 @@
         <h3 style="margin-bottom:15px; color:var(--accent);" id="cm-title">Category</h3><input type="hidden" id="cm-id">
         <input type="text" id="cm-name" class="input-box" placeholder="Game Name (e.g. MLBB)">
         <input type="text" id="cm-slug" class="input-box" placeholder="Slug (e.g. mlbb)">
+        
         <label style="font-size:12px; color:var(--muted);">Category Logo</label>
         <img id="cm-img-preview" style="width:70px; height:70px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px; box-shadow:0 5px 15px rgba(0,0,0,0.5);">
         <div class="upload-box" onclick="document.getElementById('cm-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload Image</div>
@@ -358,13 +361,18 @@
     <div class="modal-card glass-card">
         <h3 style="margin-bottom:15px; color:var(--accent);" id="pm-title">Product</h3><input type="hidden" id="pm-id">
         <input type="text" id="pm-name" class="input-box" placeholder="Name (e.g. 11 Diamonds)">
-        <select id="pm-cat" class="select-box" style="color:#000;"></select>
+        <select id="pm-cat" class="input-box" style="color:#000;"></select>
+        
         <label style="font-size:12px; color:var(--muted);">Product Icon (Optional)</label>
         <img id="pm-img-preview" style="width:70px; height:70px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px;">
         <div class="upload-box" onclick="document.getElementById('pm-file').click()"><i class="fas fa-image text-2xl mb-2 block"></i><br>Upload Image</div>
         <input type="file" id="pm-file" style="display:none;" accept="image/*" onchange="window.uploadImg(this, 'pm-img')">
         <input type="hidden" id="pm-img-url">
-        <div style="display:flex; gap:10px; margin-bottom:10px;"><input type="number" id="pm-cost" class="input-box" placeholder="Cost Price"><input type="number" id="pm-price" class="input-box" placeholder="Sell Price"></div>
+
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+            <input type="number" id="pm-cost" class="input-box" placeholder="Cost Price">
+            <input type="number" id="pm-price" class="input-box" placeholder="Sell Price">
+        </div>
         <div style="display:flex; gap:10px;"><button class="btn-gel" style="flex:1;" onclick="window.saveProduct()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="window.closeModal('prod-modal')">Cancel</button></div>
     </div>
 </div>
@@ -374,7 +382,7 @@
         <h3 style="margin-bottom:15px; color:var(--accent);" id="gm-title">User Guide</h3><input type="hidden" id="gm-id">
         <input type="text" id="gm-title-inp" class="input-box" placeholder="Guide Title (e.g. How to buy)">
         <textarea id="gm-content" class="input-box" rows="4" placeholder="Text Content..."></textarea>
-        <input type="text" id="gm-video" class="input-box" placeholder="Direct Video Link (e.g. https://.../video.mp4)">
+        <input type="text" id="gm-video" class="input-box" placeholder="Direct Video URL (e.g. https://.../video.mp4)">
         <div style="display:flex; gap:10px;"><button class="btn-gel" style="flex:1;" onclick="window.saveGuide()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="window.closeModal('guide-modal')">Cancel</button></div>
     </div>
 </div>
@@ -384,11 +392,13 @@
         <input type="text" id="pay-name" class="input-box" placeholder="Provider (e.g. KPay)">
         <input type="text" id="pay-phone" class="input-box" placeholder="Phone Number">
         <input type="text" id="pay-acc" class="input-box" placeholder="Account Name">
+        
         <label style="font-size:12px; color:var(--muted);">QR Code (Optional)</label>
         <img id="pay-qr-preview" style="width:100px; height:100px; border-radius:16px; object-fit:cover; display:none; margin-bottom:10px;">
         <div class="upload-box" onclick="document.getElementById('pay-qr-file').click()"><i class="fas fa-qrcode text-2xl mb-2 block"></i><br>Upload QR</div>
         <input type="file" id="pay-qr-file" style="display:none;" accept="image/*" onchange="window.uploadImg(this, 'pay-qr')">
         <input type="hidden" id="pay-qr-url">
+
         <div style="display:flex; gap:10px;"><button class="btn-gel" style="flex:1;" onclick="window.savePayment()">Save</button><button class="btn-gel btn-dark" style="flex:1;" onclick="window.closeModal('pay-modal')">Cancel</button></div>
     </div>
 </div>
@@ -396,33 +406,13 @@
 <div class="modal-bg" id="slip-modal" onclick="if(event.target===this) window.closeModal('slip-modal')">
     <div class="modal-card glass-card" style="text-align:center;">
         <img id="modal-img-src" style="width:100%; border-radius:16px; margin-bottom:20px; box-shadow:0 10px 30px rgba(0,0,0,0.6);" src="">
-        <button class="btn-gel btn-dark" style="width:100%; padding:14px;" onclick="window.closeModal('slip-modal')">Close Image</button>
+        <button class="btn-gel btn-dark" style="width:100%; padding:14px;" onclick="window.closeModal('slip-modal')">Close</button>
     </div>
 </div>
 
-<script>
-    // BASIC UI - LOADS INSTANTLY
-    window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
-    window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('active'); }
-    window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard'; if(window.innerWidth <= 768) window.toggleSidebar(); }
-    window.openModal = (id) => document.getElementById(id).classList.add('active');
-    window.closeModal = (id) => document.getElementById(id).classList.remove('active');
-    window.viewSlip = (url) => { if(!url)return window.toast("No slip"); document.getElementById('modal-img-src').src = url; window.openModal('slip-modal'); };
-    
-    window.formatD = (ts) => { if(!ts) return "-"; let d; if(ts.toDate) d = ts.toDate(); else if(ts.seconds) d = new Date(ts.seconds * 1000); else d = new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); }
-    window.getM = (ts) => { if(!ts) return 0; if(typeof ts.toMillis === 'function') return ts.toMillis(); if(ts.seconds) return ts.seconds * 1000; return new Date(ts).getTime() || 0; }
-
-    window.checkPin = () => { 
-        if(document.getElementById('admin-pin').value === "1234") { 
-            document.getElementById('auth-gate').style.display = "none"; 
-            document.getElementById('main-admin').style.display = "flex"; 
-            if(typeof window.initAdmin === 'function') { window.initAdmin(); } else { window.toast("Starting Database..."); setTimeout(() => { if(typeof window.initAdmin === 'function') window.initAdmin(); }, 1500); }
-        } else { window.toast("Invalid PIN!"); }
-    };
-</script>
-
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
     import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc, setDoc, addDoc, deleteDoc, query, orderBy, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     // ⚠️ Firebase Keys ⚠️
@@ -434,24 +424,67 @@
         messagingSenderId: "1209500360", 
         appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" 
     };
-    const app = initializeApp(firebaseConfig); const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig); 
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // --- UI GLOBALS ---
+    window.toast = (m) => { const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500); }
+    window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('active'); }
+    window.switchTab = (viewId, el) => { document.querySelectorAll('.menu-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(viewId).classList.add('active'); document.getElementById('page-title').innerText = el ? el.innerText.trim() : 'Dashboard'; if(window.innerWidth <= 768) window.toggleSidebar(); }
+    window.openModal = (id) => document.getElementById(id).classList.add('active');
+    window.closeModal = (id) => document.getElementById(id).classList.remove('active');
+    window.viewSlip = (url) => { if(!url)return window.toast("No slip"); document.getElementById('modal-img-src').src = url; window.openModal('slip-modal'); };
+    
+    // --- SAFE DATE PARSER ---
+    window.formatDate = (ts) => { if(!ts) return "-"; let d; if(ts.toDate) d = ts.toDate(); else if(ts.seconds) d = new Date(ts.seconds * 1000); else d = new Date(ts); return d.toLocaleString('en-US', {month:'short', day:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'}); }
+    window.getMs = (ts) => { if(!ts) return 0; if(typeof ts.toMillis === 'function') return ts.toMillis(); if(ts.seconds) return ts.seconds * 1000; return new Date(ts).getTime() || 0; }
 
     let globalOrders = []; let globalUsers = []; let globalTransactions = []; let allCats = [];
 
-    // GLOBALIZE ALL ACTIONS FOR HTML
-    window.delCat = async(id) => { if(confirm('Delete Category?')) { await deleteDoc(doc(db,'categories',id)); window.toast("Deleted!"); } };
-    window.delProd = async(id) => { if(confirm('Delete Product?')) { await deleteDoc(doc(db,'products',id)); window.toast("Deleted!"); } };
-    window.delGuide = async(id) => { if(confirm('Delete Guide?')) { await deleteDoc(doc(db,'guides',id)); window.toast("Deleted!"); } };
-    window.delPay = async(id) => { if(confirm('Delete Payment Method?')) { await deleteDoc(doc(db,'payment_methods',id)); window.toast("Deleted!"); } };
+    // --- 💡 FIREBASE AUTH LOGIN 💡 ---
+    window.adminLogin = async () => {
+        let em = document.getElementById('admin-email').value.trim();
+        let pw = document.getElementById('admin-pass').value.trim();
+        if(!em || !pw) return window.toast("Enter email and password!");
+        let btn = document.getElementById('btn-login'); btn.innerText = "Loading..."; btn.disabled = true;
+        try {
+            await signInWithEmailAndPassword(auth, em, pw);
+            // The onAuthStateChanged listener will handle the rest
+        } catch(e) {
+            window.toast("Login Failed: " + e.message);
+            btn.innerText = "Secure Login"; btn.disabled = false;
+        }
+    };
+    window.adminLogout = () => { signOut(auth); location.reload(); };
 
+    onAuthStateChanged(auth, async (user) => {
+        if(user) {
+            // Verify if user is ADMIN
+            let uSnap = await getDoc(doc(db, "users", user.uid));
+            if(uSnap.exists() && uSnap.data().role === 'Admin') {
+                document.getElementById('auth-gate').style.display = "none"; 
+                document.getElementById('main-admin').style.display = "flex"; 
+                initAdmin(); 
+            } else {
+                signOut(auth);
+                window.toast("Access Denied: You are not an Admin!");
+                let btn = document.getElementById('btn-login'); if(btn){ btn.innerText = "Secure Login"; btn.disabled = false; }
+            }
+        } else {
+            document.getElementById('auth-gate').style.display = "flex"; 
+            document.getElementById('main-admin').style.display = "none"; 
+        }
+    });
+
+    // --- UPLOADS ---
     window.uploadToImgBB = async (file) => {
-        window.toast("Uploading Image...");
+        window.toast("Uploading...");
         let fd = new FormData(); fd.append("image", file);
         let res = await fetch(`https://api.imgbb.com/1/upload?key=f0d759dd374df91104867c6701e199f2`, { method:'POST', body:fd });
         let data = await res.json();
-        if(data.success) { window.toast("Upload Done!"); return data.data.url; } else throw new Error("Upload Failed");
+        if(data.success) { window.toast("Done!"); return data.data.url; } else throw new Error("Upload Failed");
     };
-
     window.uploadImg = async (input, prefix) => {
         if(!input.files[0]) return;
         try {
@@ -462,7 +495,8 @@
         } catch(e) { window.toast(e.message); }
     };
 
-    window.initAdmin = function() {
+    // --- MAIN INIT ---
+    function initAdmin() {
         onSnapshot(doc(db, "settings", "app_config"), (d) => {
             if(d.exists()) {
                 let data = d.data();
@@ -490,7 +524,7 @@
                 let u={id:d.id, ...d.data()}; globalUsers.push(u); let wBal = parseInt(u.walletBalance)||0; t+=wBal; 
                 h+=`<tr><td><div style="font-weight:bold; font-size:13px;">${u.email||'No Email'}</div></td><td><span class="badge bg-pill">${u.role||'Customer'}</span></td><td style="color:var(--ok); font-weight:800;">${wBal.toLocaleString()} Ks</td><td style="color:var(--warning); font-weight:bold;">${u.spinCount||0}</td><td><button class="btn-gel" onclick="window.showUserDetail('${u.id}')"><i class="fas fa-eye"></i> View</button></td></tr>`; 
             }); 
-            document.getElementById('tb-users').innerHTML=h || "<tr><td colspan='5' style='text-align:center; padding:20px;'>No users</td></tr>"; 
+            document.getElementById('tb-users').innerHTML=h || "<tr><td colspan='5' style='text-align:center;'>No users</td></tr>"; 
             document.getElementById('ds-wal-left').innerText=t.toLocaleString()+" Ks"; 
         });
 
@@ -501,63 +535,47 @@
                 let phText = "";
                 if((c.forms||[]).includes('gameId')) phText += `F1: ${c.uidPlaceholder||'Default'}<br>`;
                 if((c.forms||[]).includes('zoneId')) phText += `F2: ${c.zonePlaceholder||'Default'}`;
-                h+=`<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${c.logoUrl||'https://via.placeholder.com/30'}" style="width:35px;height:35px;border-radius:10px;object-fit:cover;"><strong>${c.name}</strong></div></td><td><div style="font-size:10px; color:var(--muted);">${phText||'None'}</div></td><td><span class="badge ${c.isActive?'bg-active':'bg-inactive'}">${c.isActive?'Active':'Inactive'}</span></td><td><button class="btn-gel btn-dark" onclick='window.openCatModal(${JSON.stringify(c).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delCat('${c.id}')"><i class="fas fa-trash"></i></button></td></tr>`; 
+                h+=`<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${c.logoUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:cover;"><strong>${c.name}</strong></div></td><td><div style="font-size:10px; color:var(--muted);">${phText||'None'}</div></td><td><span class="badge ${c.isActive?'bg-active':'bg-inactive'}">${c.isActive?'Active':'Inactive'}</span></td><td><button class="btn-gel btn-dark" onclick='window.openCatModal(${JSON.stringify(c).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn-gel btn-danger" onclick="window.delCat('${c.id}')">Del</button></td></tr>`; 
             }); 
-            document.getElementById('tb-categories').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:20px;'>No categories</td></tr>"; 
+            document.getElementById('tb-categories').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No categories</td></tr>"; 
             document.getElementById('pm-cat').innerHTML=opt; document.getElementById('ds-cat').innerText=allCats.length;
         });
 
         onSnapshot(collection(db, "products"), (snap) => { 
             let h=""; snap.forEach(s => { 
                 let p = {id: s.id, ...s.data()}; let cName = allCats.find(x=>x.id===p.categoryId)?.name || 'Unknown'; 
-                h+=`<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${p.logoUrl||'https://via.placeholder.com/30'}" style="width:35px;height:35px;border-radius:10px;object-fit:contain;"><strong>${p.name}</strong></div></td><td>${cName}</td><td><div style="font-size:10px; color:var(--muted);">Cost: ${p.retailPrice||0}</div><div style="font-weight:bold; color:var(--accent);">Sell: ${p.sellingPrice||0}</div></td><td><button class="btn-gel btn-dark" onclick='window.openProdModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delProd('${p.id}')"><i class="fas fa-trash"></i></button></td></tr>`; 
+                h+=`<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${p.logoUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:contain;">${p.name}</div></td><td>${cName}</td><td><div style="font-size:10px; color:var(--muted);">Cost: ${p.retailPrice||0}</div><div style="font-weight:bold; color:var(--accent);">Sell: ${p.sellingPrice||0}</div></td><td><button class="btn-gel btn-dark" onclick='window.openProdModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn-gel btn-danger" onclick="window.delProd('${p.id}')">Del</button></td></tr>`; 
             }); 
-            document.getElementById('tb-products').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:20px;'>No products</td></tr>"; 
+            document.getElementById('tb-products').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No products</td></tr>"; 
             document.getElementById('ds-prod').innerText=snap.size; 
         });
 
+        // 💡 DIRECT MP4 VIDEO SUPPORT 💡
         onSnapshot(collection(db, "guides"), (snap) => { 
             let h=""; snap.forEach(s => { 
                 let g = {id: s.id, ...s.data()};
-                let vidHtml = g.videoUrl ? `<video src="${g.videoUrl}" style="width:100px; height:40px; background:#000; border-radius:6px; object-fit:cover;"></video>` : '<span class="text-muted">No Video</span>';
-                h+=`<tr><td><strong>${g.title}</strong></td><td><div style="max-width:150px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:11px; color:gray;">${g.content}</div></td><td>${vidHtml}</td><td><button class="btn-gel btn-dark" onclick='window.openGuideModal(${JSON.stringify(g).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delGuide('${g.id}')"><i class="fas fa-trash"></i></button></td></tr>`; 
+                let vStatus = g.videoUrl ? '<span class="text-ok">Yes</span>' : '<span class="text-muted">No</span>';
+                h+=`<tr><td><strong>${g.title}</strong></td><td><div style="max-width:150px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:11px; color:gray;">${g.content}</div></td><td>${vStatus}</td><td><button class="btn-gel btn-dark" onclick='window.openGuideModal(${JSON.stringify(g).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn-gel btn-danger" onclick="window.delGuide('${g.id}')">Del</button></td></tr>`; 
             }); 
-            document.getElementById('tb-guides').innerHTML=h || "<tr><td colspan='4' style='text-align:center; padding:20px;'>No guides</td></tr>"; 
+            document.getElementById('tb-guides').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No guides</td></tr>"; 
         });
 
         onSnapshot(collection(db, "orders"), (s) => { 
             globalOrders = []; let tS=0, tP=0; s.forEach(d=>{ let o={id:d.id, ...d.data()}; globalOrders.push(o); });
-            globalOrders.sort((a,b) => window.getM(b.createdAt) - window.getM(a.createdAt)); 
+            globalOrders.sort((a,b) => window.getMs(b.createdAt) - window.getMs(a.createdAt)); 
             globalOrders.forEach(o=>{ if(o.status==='Completed'){ let p=parseInt(o.price)||0; let cp=parseInt(o.costPrice)||0; tS+=p; tP+=(p-cp); }}); 
             document.getElementById('ds-orders').innerText=globalOrders.filter(x=>x.status==='Completed').length; document.getElementById('ds-tot-sales').innerText=tS.toLocaleString()+" Ks"; document.getElementById('ds-tot-profit').innerText=tP.toLocaleString()+" Ks"; 
             window.filterOrders('Pending', document.querySelector('.tab-pill.active'));
         });
 
-        onSnapshot(collection(db, "deposits"), (s) => { let tD=0, h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>window.getM(y.createdAt)-window.getM(x.createdAt)); a.forEach(dp=>{ if(dp.status==='Completed')tD+=(parseInt(dp.amount)||0); let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${dp.depId||dp.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${dp.status}</span></td><td><div style="font-size:12px; font-weight:bold;">${dp.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatD(dp.createdAt)}</div></td><td><div style="color:var(--ok); font-weight:900;">+${(parseInt(dp.amount)||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--muted);">${dp.payMethod}</div></td><td><button class="btn-gel btn-dark" onclick="window.viewSlip('${dp.slipImage}')"><i class="fas fa-image"></i></button>${dp.status==='Pending'?` <button class="btn-gel btn-ok" onclick="window.apprDep('${dp.id}','${dp.userId}',${dp.amount})"><i class="fas fa-check"></i></button> <button class="btn-gel btn-danger" onclick="window.updDep('${dp.id}','Cancelled')"><i class="fas fa-times"></i></button>`:''}</td></tr>`; }); document.getElementById('tb-deposits').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No deposits</td></tr>"; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
+        onSnapshot(collection(db, "deposits"), (s) => { let tD=0, h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>window.getMs(y.createdAt)-window.getMs(x.createdAt)); a.forEach(dp=>{ if(dp.status==='Completed')tD+=(parseInt(dp.amount)||0); let cls=dp.status==='Completed'?'bg-active':(dp.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${dp.depId||dp.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${dp.status}</span></td><td><div style="font-size:12px; font-weight:bold;">${dp.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatDate(dp.createdAt)}</div></td><td><div style="color:var(--ok); font-weight:900;">+${(parseInt(dp.amount)||0).toLocaleString()} Ks</div><div style="font-size:10px; color:var(--muted);">${dp.payMethod}</div></td><td><button class="btn-gel btn-dark" onclick="window.viewSlip('${dp.slipImage}')">Slip</button>${dp.status==='Pending'?` <button class="btn-gel btn-ok" onclick="window.apprDep('${dp.id}','${dp.userId}',${dp.amount})">Approve</button> <button class="btn-gel btn-danger" onclick="window.updDep('${dp.id}','Cancelled')">Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-deposits').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No deposits</td></tr>"; document.getElementById('ds-tot-dep').innerText=tD.toLocaleString()+" Ks"; });
         
-        onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>window.getM(y.createdAt)-window.getM(x.createdAt)); a.forEach(w=>{ let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${w.wdId||w.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${w.status}</span></td><td><div style="font-size:12px; font-weight:bold;">${w.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatD(w.createdAt)}</div></td><td><div style="color:var(--danger); font-weight:900;">-${(parseInt(w.amount)||0).toLocaleString()} Ks</div><div style="font-size:11px; color:var(--accent); font-weight:bold;">${w.payMethod}: ${w.accPhone}</div><div style="font-size:10px; color:var(--muted);">${w.accName}</div></td><td>${w.status==='Pending'?`<button class="btn-gel btn-ok" onclick="window.updWd('${w.id}','Completed')"><i class="fas fa-check"></i></button> <button class="btn-gel btn-danger" onclick="window.updWd('${w.id}','Cancelled','${w.userId}',${w.amount})"><i class="fas fa-times"></i></button>`:''}</td></tr>`; }); document.getElementById('tb-withdraws').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No withdrawals</td></tr>"; });
+        onSnapshot(collection(db, "withdrawals"), (s) => { let h=""; let a=[]; s.forEach(d=>a.push({id:d.id,...d.data()})); a.sort((x,y)=>window.getMs(y.createdAt)-window.getMs(x.createdAt)); a.forEach(w=>{ let cls=w.status==='Completed'?'bg-active':(w.status==='Cancelled'?'bg-inactive':'bg-pill'); h+=`<tr><td><span style="font-family:monospace; color:var(--accent); font-weight:bold;">${w.wdId||w.id.substring(0,8)}</span><br><span class="badge ${cls}" style="margin-top:5px;">${w.status}</span></td><td><div style="font-size:12px; font-weight:bold;">${w.userEmail}</div><div style="font-size:10px; color:var(--muted);">${window.formatDate(w.createdAt)}</div></td><td><div style="color:var(--danger); font-weight:900;">-${(parseInt(w.amount)||0).toLocaleString()} Ks</div><div style="font-size:11px; color:var(--accent); font-weight:bold;">${w.payMethod}: ${w.accPhone}</div><div style="font-size:9px; color:var(--muted);">${w.accName}</div></td><td>${w.status==='Pending'?`<button class="btn-gel btn-ok" onclick="window.updWd('${w.id}','Completed')">Sent</button> <button class="btn-gel btn-danger" onclick="window.updWd('${w.id}','Cancelled','${w.userId}',${w.amount})">Reject</button>`:''}</td></tr>`; }); document.getElementById('tb-withdraws').innerHTML=h || "<tr><td colspan='4' style='text-align:center;'>No withdrawals</td></tr>"; });
 
-        onSnapshot(collection(db, "payment_methods"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${p.qrUrl||'https://via.placeholder.com/30'}" style="width:35px;height:35px;border-radius:6px;object-fit:cover;"><strong>${p.name}</strong></div></td><td><div style="font-size:13px; font-weight:bold; font-family:monospace; color:var(--accent);">${p.phone}</div><div style="font-size:10px; color:var(--muted);">${p.accName}</div></td><td><button class="btn-gel btn-dark" onclick='window.openPayModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button> <button class="btn-gel btn-danger" onclick="window.delPay('${p.id}')"><i class="fas fa-trash"></i></button></td></tr>`; }); document.getElementById('tb-payments').innerHTML=h || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
-    };
+        onSnapshot(collection(db, "payment_methods"), (snap) => { let h=""; snap.forEach(s => { let p={id:s.id,...s.data()}; h+=`<tr><td><div style="display:flex;align-items:center;gap:10px;"><img src="${p.qrUrl||'https://via.placeholder.com/30'}" style="width:30px;height:30px;border-radius:6px;object-fit:cover;">${p.name}</div></td><td><div style="font-size:13px; font-weight:bold; font-family:monospace; color:var(--accent);">${p.phone}</div><div style="font-size:10px; color:var(--muted);">${p.accName}</div></td><td><button class="btn-gel btn-dark" onclick='window.openPayModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Edit</button> <button class="btn-gel btn-danger" onclick="window.delPay('${p.id}')">Del</button></td></tr>`; }); document.getElementById('tb-payments').innerHTML=h || "<tr><td colspan='3' style='text-align:center;'>No data</td></tr>"; });
+    }
 
-    window.saveAllSettings = async () => { 
-        try { 
-            await setDoc(doc(db,"settings","app_config"), { 
-                tgBotToken: document.getElementById('inp-bot-token').value, 
-                tgChatId: document.getElementById('inp-chat-id').value, 
-                tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, 
-                tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value, 
-                homeBannerUrl: document.getElementById('set-banner-url').value,
-                adminUrl: document.getElementById('inp-admin-url').value,
-                spinEnabled: document.getElementById('inp-spin-on').checked,
-                withdrawEnabled: document.getElementById('inp-wd-on').checked,
-                maintenanceMode: document.getElementById('inp-maint-on').checked,
-                maintenanceMsg: document.getElementById('inp-maint-msg').value
-            }, {merge:true}); 
-            window.toast("Settings Saved!"); 
-        } catch(e) { window.toast("Error saving settings."); } 
-    };
-
+    // --- ACTIONS ---
     window.testTelegram = async () => {
         let token = document.getElementById('inp-bot-token').value; let chatId = document.getElementById('inp-chat-id').value;
         if(!token || !chatId) return window.toast("Please fill Bot Token and Chat ID first!");
@@ -569,37 +587,18 @@
         let h = ""; let filtered = globalOrders.filter(o => o.status === status);
         filtered.forEach(o => {
             let cls = o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':'bg-pill');
-            h+=`<tr><td><strong style="color:var(--accent); font-family:monospace;">${o.orderId||o.id.substring(0,8)}</strong></td><td><div style="font-size:10px; color:var(--muted);">${window.formatD(o.createdAt)}</div></td><td><div style="font-weight:800; font-size:13px;">${o.game}</div><div style="font-size:11px; color:var(--accent);">${o.item}</div></td><td><strong style="color:var(--ok); font-size:14px;">${(o.price||0).toLocaleString()} Ks</strong></td><td><span class="badge ${cls}">${o.status}</span></td><td><button class="btn-gel" onclick="window.showOrderDetail('${o.id}')"><i class="fas fa-eye"></i> View</button></td></tr>`;
+            let actHtml = "";
+            if(o.status === 'Pending') actHtml = `<button class="btn-gel btn-warning" onclick="window.updOrd('${o.id}','Processing')">Process</button> <button class="btn-gel btn-danger" onclick="window.updOrd('${o.id}','Cancelled')">Cancel</button>`;
+            else if(o.status === 'Processing') actHtml = `<button class="btn-gel btn-ok" onclick="window.updOrd('${o.id}','Completed')">Complete</button> <button class="btn-gel btn-danger" onclick="window.updOrd('${o.id}','Cancelled')">Cancel</button>`;
+            
+            h+=`<tr><td><strong style="color:var(--accent); font-family:monospace;">${o.orderId||o.id.substring(0,8)}</strong></td><td><div style="font-size:10px; color:var(--muted);">${window.formatDate(o.createdAt)}</div></td><td><div style="font-weight:800; font-size:13px;">${o.game}</div><div style="font-size:11px; color:var(--accent);">${o.item}</div><div style="font-size:10px; background:rgba(255,255,255,0.1); padding:2px 4px; border-radius:4px; display:inline-block; margin-top:2px;">${o.playerId}</div></td><td><strong style="color:var(--ok); font-size:14px;">${(o.price||0).toLocaleString()} Ks</strong></td><td><span class="badge ${cls}">${o.status}</span></td><td>${actHtml}</td></tr>`;
         });
-        document.getElementById('tb-orders-tabbed').innerHTML = h || "<tr><td colspan='6' style='text-align:center; padding: 20px;'>No orders.</td></tr>";
+        document.getElementById('tb-orders-tabbed').innerHTML = h || "<tr><td colspan='6' style='text-align:center;'>No orders found.</td></tr>";
     };
 
-    window.showOrderDetail = (id) => {
-        let o = globalOrders.find(x => x.id === id); if(!o) return;
-        let price = parseInt(o.price) || 0; let cost = parseInt(o.costPrice) || (price * 0.85); let profit = price - cost;
-        let cls = o.status==='Completed'?'bg-active':(o.status==='Cancelled'?'bg-inactive':'bg-pill'); 
-        
-        document.getElementById('od-badge').innerHTML = `<span class="badge ${cls}">${o.status.toUpperCase()}</span>`;
-        let h = `
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:10px; margin-bottom:10px;"><span style="color:var(--muted);">Order ID</span> <strong style="color:var(--accent); font-family:monospace;">${o.orderId || o.id}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:10px; margin-bottom:10px;"><span style="color:var(--muted);">Date</span> <strong>${window.formatD(o.createdAt)}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:10px; margin-bottom:10px;"><span style="color:var(--muted);">User</span> <strong>${o.userEmail}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:10px; margin-bottom:10px;"><span style="color:var(--muted);">Item</span> <strong style="color:var(--accent);">${o.game} - ${o.item}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:10px; margin-bottom:10px;"><span style="color:var(--muted);">Input Info</span> <strong style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-family:monospace;">${o.playerId}</strong></div>
-            <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--glass-border); padding-bottom:10px; margin-bottom:10px;"><span style="color:var(--muted);">Payment</span> <strong><span class="badge" style="background:var(--primary);">${o.payMethod || 'Wallet'}</span></strong></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed var(--glass-border); padding-bottom:10px; margin-bottom:10px;"><span style="color:var(--muted);">Price</span> <strong style="color:var(--ok); font-size:20px;">${price.toLocaleString()} Ks</strong></div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span style="color:var(--muted);">Est. Profit</span> <strong style="color:var(--accent);">+${profit.toLocaleString()} Ks</strong></div>
-            ${o.slipImage ? `<button class="btn-gel btn-dark" style="width:100%;" onclick="window.viewSlip('${o.slipImage}')"><i class="fas fa-image"></i> View Slip</button>` : ''}
-        `;
-        document.getElementById('od-content').innerHTML = h;
-        let actHtml = "";
-        if(o.status === 'Pending') { actHtml = `<button class="btn-gel btn-warning" onclick="window.updOrd('${o.id}','Processing', true)" style="flex:1;"><i class="fas fa-cogs"></i> Process</button> <button class="btn-gel btn-danger" onclick="window.updOrd('${o.id}','Cancelled', true)" style="flex:1;"><i class="fas fa-times"></i> Cancel</button>`; } 
-        else if (o.status === 'Processing') { actHtml = `<button class="btn-gel btn-ok" onclick="window.updOrd('${o.id}','Completed', true)" style="flex:1;"><i class="fas fa-check-double"></i> Complete</button> <button class="btn-gel btn-danger" onclick="window.updOrd('${o.id}','Cancelled', true)" style="flex:1;"><i class="fas fa-times"></i> Cancel</button>`; }
-        document.getElementById('od-actions').innerHTML = actHtml; window.openModal('order-info-modal'); 
-    };
-
-    window.updOrd = async (id, st, fromDetail=false) => { 
-        if(confirm(`Mark as ${st}?`)) {
+    // REFUND LOGIC
+    window.updOrd = async (id, st) => { 
+        if(confirm(`Mark as ${st}?`)) { 
             try {
                 if(st === 'Cancelled') {
                     let ordSnap = await getDoc(doc(db, "orders", id));
@@ -608,67 +607,90 @@
                         if(ord.payMethod === 'Wallet' && ord.status !== 'Cancelled') {
                             let uSnap = await getDoc(doc(db, "users", ord.userId));
                             if(uSnap.exists()) {
-                                let currBal = parseInt(uSnap.data().walletBalance) || 0; let ordPrice = parseInt(ord.price) || 0;
+                                let currBal = parseInt(uSnap.data().walletBalance) || 0;
+                                let ordPrice = parseInt(ord.price) || 0;
                                 await updateDoc(doc(db, "users", ord.userId), { walletBalance: currBal + ordPrice });
-                                await addDoc(collection(db, "transactions"), { userId: ord.userId, type: 'Refund', amount: ordPrice, desc: `Refund: ${ord.item}`, createdAt: serverTimestamp() });
-                                window.toast("Refunded " + ordPrice + " Ks");
+                                await addDoc(collection(db, "transactions"), { userId: ord.userId, type: 'Refund', amount: ordPrice, desc: `Refund for Cancelled Order: ${ord.item}`, createdAt: serverTimestamp() });
+                                window.toast("Refunded " + ordPrice + " Ks to user.");
                             }
                         }
                     }
                 }
-                await updateDoc(doc(db,"orders",id),{status:st}); if(fromDetail) window.closeModal('order-info-modal'); 
+                await updateDoc(doc(db,"orders",id),{status:st}); 
             } catch(e) { window.toast(e.message); }
-        }
+        } 
     };
 
+    // --- USER LOGIC ---
     window.showUserDetail = (uid) => {
         let u = globalUsers.find(x => x.id === uid); if(!u) return;
-        document.getElementById('ud-email').innerText = u.email; document.getElementById('ud-bal').innerText = (parseInt(u.walletBalance)||0).toLocaleString() + " Ks"; document.getElementById('ud-spins').innerText = u.spinCount || 0;
+        document.getElementById('ud-email').innerText = u.email;
+        document.getElementById('ud-bal').innerText = (parseInt(u.walletBalance)||0).toLocaleString() + " Ks";
+        document.getElementById('ud-spins').innerText = u.spinCount || 0;
         document.getElementById('ud-edit-btn').onclick = () => { window.closeModal('user-info-modal'); window.openUserModal(u.id, u.walletBalance||0, u.role||'Customer', u.spinCount||0); };
-        let uTrans = globalTransactions.filter(x => x.userId === uid); uTrans.sort((a,b) => window.getM(b.createdAt) - window.getM(a.createdAt)); let lHtml = "";
-        uTrans.forEach(t => { let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = t.amount >= 0 ? '+' : ''; lHtml += `<tr><td style="color:var(--muted);">${window.formatD(t.createdAt)}</td><td><strong style="color:#fff;">${t.type}</strong></td><td>${t.desc}</td><td><strong style="color:${color};">${sign}${(parseInt(t.amount)||0).toLocaleString()} Ks</strong></td></tr>`; });
-        document.getElementById('tb-user-ledger').innerHTML = lHtml || "<tr><td colspan='4' style='text-align:center;'>No records</td></tr>";
+
+        let uTrans = globalTransactions.filter(x => x.userId === uid);
+        uTrans.sort((a,b) => window.getMs(b.createdAt) - window.getMs(a.createdAt));
+        let lHtml = "";
+        uTrans.forEach(t => {
+            let color = t.amount >= 0 ? 'var(--ok)' : 'var(--danger)'; let sign = t.amount >= 0 ? '+' : '';
+            lHtml += `<tr><td style="color:var(--muted);">${window.formatDate(t.createdAt)}</td><td><strong style="color:#fff;">${t.type}</strong></td><td>${t.desc}</td><td><strong style="color:${color};">${sign}${(parseInt(t.amount)||0).toLocaleString()} Ks</strong></td></tr>`;
+        });
+        document.getElementById('tb-user-ledger').innerHTML = lHtml || "<tr><td colspan='4' style='text-align:center;'>No ledger records found.</td></tr>";
         window.openModal('user-info-modal'); 
     };
-
     window.openUserModal = (id, bal, role, spins) => { document.getElementById('um-id').value=id; document.getElementById('um-wallet').value=bal; document.getElementById('um-spins').value=spins; document.getElementById('um-role').value=role; window.openModal('user-modal'); };
-    window.saveUserEdit = async () => { let id=document.getElementById('um-id').value; let b=parseInt(document.getElementById('um-wallet').value); let s=parseInt(document.getElementById('um-spins').value); let r=document.getElementById('um-role').value; if(!isNaN(b)){ await updateDoc(doc(db,"users",id),{walletBalance:b, spinCount:s, role:r}); window.toast("Updated!"); window.closeModal('user-modal'); } };
+    window.saveUserEdit = async () => { let id=document.getElementById('um-id').value; let b=parseInt(document.getElementById('um-wallet').value); let s=parseInt(document.getElementById('um-spins').value); let r=document.getElementById('um-role').value; if(!isNaN(b)){ await updateDoc(doc(db,"users",id),{walletBalance:b, spinCount:s, role:r}); window.toast("User Updated!"); window.closeModal('user-modal'); } };
 
+    // --- SETTINGS (TOGGLES SAVED) ---
+    window.saveAllSettings = async () => { 
+        try {
+            await setDoc(doc(db,"settings","app_config"), { 
+                tgBotToken: document.getElementById('inp-bot-token').value, 
+                tgChatId: document.getElementById('inp-chat-id').value, 
+                tgOrderTopicId: document.getElementById('inp-tg-order-topic').value, 
+                tgDepositTopicId: document.getElementById('inp-tg-dep-topic').value, 
+                adminUrl: document.getElementById('inp-admin-url').value,
+                homeBannerUrl: document.getElementById('set-banner-url').value,
+                spinEnabled: document.getElementById('inp-spin-on').checked,
+                withdrawEnabled: document.getElementById('inp-wd-on').checked,
+                maintenanceMode: document.getElementById('inp-maint-on').checked,
+                maintenanceMsg: document.getElementById('inp-maint-msg').value
+            }, {merge:true}); 
+            window.toast("Settings Saved!"); 
+        } catch(e) { window.toast("Error saving."); }
+    };
+    
+    // --- SPIN LOGIC INTEGRATED ---
     window.apprDep = async (id, uid, amt) => { 
-        if(confirm(`Approve +${amt} Ks?`)){ 
-            try {
-                let u=await getDoc(doc(db,"users",uid)); let uData=u.data(); let newSpins = Math.floor(parseInt(amt) / 10000); 
-                await updateDoc(doc(db,"users",uid), { walletBalance: (parseInt(uData.walletBalance)||0) + parseInt(amt), spinCount: (parseInt(uData.spinCount)||0) + newSpins }); 
-                await updateDoc(doc(db,"deposits",id),{status:'Completed'}); await addDoc(collection(db,"transactions"),{userId:uid, type:'Deposit', amount:parseInt(amt), desc:'Approved', createdAt:serverTimestamp()}); 
-                window.toast(`Approved! +${newSpins} Spin(s).`); 
-            } catch(e) { window.toast(e.message); }
+        if(confirm(`Approve +${amt}?`)){ 
+            let u=await getDoc(doc(db,"users",uid)); let uData=u.data(); 
+            let newSpins = Math.floor(parseInt(amt) / 10000);
+            await updateDoc(doc(db,"users",uid),{walletBalance:(parseInt(uData.walletBalance)||0)+parseInt(amt), spinCount: (parseInt(uData.spinCount)||0) + newSpins}); 
+            await updateDoc(doc(db,"deposits",id),{status:'Completed'}); 
+            await addDoc(collection(db,"transactions"),{userId:uid, type:'Deposit', amount:parseInt(amt), desc:'Approved', createdAt:serverTimestamp()}); 
+            window.toast(`Approved! Added ${newSpins} Spin(s)`); 
         } 
     };
     window.updDep = async (id, st) => { if(confirm(`Mark as ${st}?`)) await updateDoc(doc(db,"deposits",id),{status:st}); };
-    window.updWd = async (id, st, uid, amt) => { 
-        if(confirm(`Confirm ${st}?`)){ 
-            try {
-                if(st==='Cancelled'&&uid&&amt){ 
-                    let u=await getDoc(doc(db,"users",uid)); await updateDoc(doc(db,"users",uid),{walletBalance:(parseInt(u.data().walletBalance)||0)+parseInt(amt)}); 
-                    await addDoc(collection(db, "transactions"), { userId: uid, type: 'Refund', amount: parseInt(amt), desc: `Rejected withdraw`, createdAt: serverTimestamp() });
-                } 
-                await updateDoc(doc(db,"withdrawals",id),{status:st}); window.toast(`Done!`); 
-            } catch(e) { window.toast(e.message); }
-        } 
-    };
-
+    window.updWd = async (id, st, uid, amt) => { if(confirm(`Confirm ${st}?`)){ if(st==='Cancelled'&&uid&&amt){ let u=await getDoc(doc(db,"users",uid)); await updateDoc(doc(db,"users",uid),{walletBalance:(parseInt(u.data().walletBalance)||0)+parseInt(amt)}); await addDoc(collection(db, "transactions"), { userId: uid, type: 'Refund', amount: parseInt(amt), desc: `Rejected withdraw`, createdAt: serverTimestamp() });} await updateDoc(doc(db,"withdrawals",id),{status:st}); window.toast(`Done!`); } };
+    
+    // --- UPLOADS INTEGRATED ---
     window.openCatModal = (c=null) => { document.getElementById('cm-id').value=c?c.id:''; document.getElementById('cm-name').value=c?c.name:''; document.getElementById('cm-slug').value=c?c.slug:''; document.getElementById('cm-img-url').value=c?c.logoUrl:''; document.getElementById('cm-img-preview').src=c?c.logoUrl:''; document.getElementById('cm-img-preview').style.display=c&&c.logoUrl?'block':'none'; let f=(c&&c.forms)?c.forms:[]; document.getElementById('cm-form-uid').checked=f.includes('gameId'); document.getElementById('cm-form-zone').checked=f.includes('zoneId'); document.getElementById('cm-ph-uid').value=c&&c.uidPlaceholder ? c.uidPlaceholder : ''; document.getElementById('cm-ph-zone').value=c&&c.zonePlaceholder ? c.zonePlaceholder : ''; document.getElementById('cm-title').innerText=c?"Edit Category":"New Category"; window.openModal('cat-modal'); };
-    window.saveCategory = async () => { try { let id=document.getElementById('cm-id').value; let forms=[]; if(document.getElementById('cm-form-uid').checked)forms.push('gameId'); if(document.getElementById('cm-form-zone').checked)forms.push('zoneId'); let data={ name:document.getElementById('cm-name').value, slug:document.getElementById('cm-slug').value, logoUrl:document.getElementById('cm-img-url').value, forms:forms, uidPlaceholder: document.getElementById('cm-ph-uid').value, zonePlaceholder: document.getElementById('cm-ph-zone').value, isActive:true }; if(id) await updateDoc(doc(db,"categories",id),data); else await addDoc(collection(db,"categories"),data); window.closeModal('cat-modal'); window.toast("Saved!"); } catch(e) { window.toast(e.message); } };
+    window.saveCategory = async () => { let id=document.getElementById('cm-id').value; let forms=[]; if(document.getElementById('cm-form-uid').checked)forms.push('gameId'); if(document.getElementById('cm-form-zone').checked)forms.push('zoneId'); let data={ name:document.getElementById('cm-name').value, slug:document.getElementById('cm-slug').value, logoUrl:document.getElementById('cm-img-url').value, forms:forms, uidPlaceholder: document.getElementById('cm-ph-uid').value, zonePlaceholder: document.getElementById('cm-ph-zone').value, isActive:true }; if(id) await updateDoc(doc(db,"categories",id),data); else await addDoc(collection(db,"categories"),data); window.closeModal('cat-modal'); window.toast("Saved!"); };
+    window.delCat = async (id) => { if(confirm('Delete?')) await deleteDoc(doc(db,'categories',id)); };
     
     window.openProdModal = (p=null) => { document.getElementById('pm-id').value=p?p.id:''; document.getElementById('pm-name').value=p?p.name:''; document.getElementById('pm-cat').value=p?p.categoryId:''; document.getElementById('pm-cost').value=p?p.retailPrice:''; document.getElementById('pm-price').value=p?p.sellingPrice:''; document.getElementById('pm-img-url').value=p?p.logoUrl:''; document.getElementById('pm-img-preview').src=p?p.logoUrl:''; document.getElementById('pm-img-preview').style.display=p&&p.logoUrl?'block':'none'; document.getElementById('pm-title').innerText=p?"Edit Product":"New Product"; window.openModal('prod-modal'); };
-    window.saveProduct = async () => { try { let id=document.getElementById('pm-id').value; let data={ name:document.getElementById('pm-name').value, categoryId:document.getElementById('pm-cat').value, retailPrice:parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice:parseFloat(document.getElementById('pm-price').value)||0, logoUrl:document.getElementById('pm-img-url').value, isActive:true }; if(id) await updateDoc(doc(db,"products",id),data); else await addDoc(collection(db,"products"),data); window.closeModal('prod-modal'); window.toast("Saved!"); } catch(e) { window.toast(e.message); } };
-    
+    window.saveProduct = async () => { let id=document.getElementById('pm-id').value; let data={ name:document.getElementById('pm-name').value, categoryId:document.getElementById('pm-cat').value, retailPrice:parseFloat(document.getElementById('pm-cost').value)||0, sellingPrice:parseFloat(document.getElementById('pm-price').value)||0, logoUrl:document.getElementById('pm-img-url').value, isActive:true }; if(id) await updateDoc(doc(db,"products",id),data); else await addDoc(collection(db,"products"),data); window.closeModal('prod-modal'); window.toast("Saved!"); };
+    window.delProd = async (id) => { if(confirm('Delete?')) await deleteDoc(doc(db,'products',id)); };
+
     window.openPayModal = (p=null) => { document.getElementById('pay-id').value=p?p.id:''; document.getElementById('pay-name').value=p?p.name:''; document.getElementById('pay-phone').value=p?p.phone:''; document.getElementById('pay-acc').value=p?p.accName:''; document.getElementById('pay-qr-url').value=p?p.qrUrl:''; document.getElementById('pay-qr-preview').src=p?p.qrUrl:''; document.getElementById('pay-qr-preview').style.display=p&&p.qrUrl?'block':'none'; window.openModal('pay-modal'); };
-    window.savePayment = async () => { try { let id=document.getElementById('pay-id').value; let data={name:document.getElementById('pay-name').value, phone:document.getElementById('pay-phone').value, accName:document.getElementById('pay-acc').value, qrUrl:document.getElementById('pay-qr-url').value}; if(id) await updateDoc(doc(db,"payment_methods",id),data); else await addDoc(collection(db,"payment_methods"),data); window.closeModal('pay-modal'); window.toast("Saved!"); } catch(e) { window.toast(e.message); } };
-    
+    window.savePayment = async () => { let id=document.getElementById('pay-id').value; let data={name:document.getElementById('pay-name').value, phone:document.getElementById('pay-phone').value, accName:document.getElementById('pay-acc').value, qrUrl:document.getElementById('pay-qr-url').value}; if(id) await updateDoc(doc(db,"payment_methods",id),data); else await addDoc(collection(db,"payment_methods"),data); window.closeModal('pay-modal'); window.toast("Saved!"); };
+    window.delPay = async (id) => { if(confirm('Delete?')) await deleteDoc(doc(db,'payment_methods',id)); };
+
     window.openGuideModal = (g=null) => { document.getElementById('gm-id').value=g?g.id:''; document.getElementById('gm-title-inp').value=g?g.title:''; document.getElementById('gm-content').value=g?g.content:''; document.getElementById('gm-video').value=g?g.videoUrl:''; document.getElementById('gm-title').innerText=g?"Edit Guide":"New Guide"; window.openModal('guide-modal'); };
-    window.saveGuide = async () => { try { let id = document.getElementById('gm-id').value; let data = { title: document.getElementById('gm-title-inp').value, content: document.getElementById('gm-content').value, videoUrl: document.getElementById('gm-video').value, createdAt: serverTimestamp() }; if(id) await updateDoc(doc(db,"guides",id), data); else await addDoc(collection(db,"guides"), data); window.closeModal('guide-modal'); window.toast("Saved!"); } catch(e) { window.toast(e.message); } };
+    window.saveGuide = async () => { let id = document.getElementById('gm-id').value; let data = { title: document.getElementById('gm-title-inp').value, content: document.getElementById('gm-content').value, videoUrl: document.getElementById('gm-video').value, createdAt: serverTimestamp() }; if(id) await updateDoc(doc(db,"guides",id), data); else await addDoc(collection(db,"guides"), data); window.closeModal('guide-modal'); window.toast("Saved!"); };
+    window.delGuide = async (id) => { if(confirm('Delete?')) await deleteDoc(doc(db,'guides',id)); };
 </script>
 </body>
 </html>
-
