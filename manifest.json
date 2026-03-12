@@ -2,7 +2,7 @@
   "name": "Kazeno Topup Shop",
   "short_name": "Kazeno",
   "description": "အကောင်းဆုံး Game Topup ဝန်ဆောင်မှု",
-  "start_url": "./index.html",
+  "start_url": "https://kazenoyt-dev.github.io/kazeno-topup/index.html",
   "display": "standalone",
   "background_color": "#030308",
   "theme_color": "#0ea5e9",
