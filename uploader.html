@@ -1,91 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kazeno CSV Auto Uploader</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-<style>
-  body { font-family: 'Poppins', sans-serif; background: #050510; color: #fff; padding: 20px; text-align: center; }
-  .box { border: 2px dashed #4facfe; padding: 30px; border-radius: 14px; margin-top: 20px; background: rgba(255,255,255,0.05); }
-  button { background: linear-gradient(135deg, #4facfe, #8a2be2); color: #fff; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 15px;}
-  #status { margin-top: 20px; color: #10b981; font-weight: bold; font-size: 18px; }
-  .note { font-size: 12px; color: #9ca3af; margin-top: 10px; }
-</style>
-</head>
-<body>
-  <h2>🚀 CSV Auto Uploader</h2>
-  <p>CSV ဖိုင်ထဲမှ ပစ္စည်းများကို Database သို့ အလိုအလျောက် သွင်းပေးပါမည်။</p>
-  
-  <div class="box">
-    <input type="file" id="csv-file" accept=".csv" style="font-size: 16px;">
-    <br>
-    <button onclick="startUpload()">စတင် ထည့်သွင်းမည်</button>
-  </div>
-  <div id="status"></div>
-  <div class="note">မှတ်ချက်။ ။ ဒေါ်လာစျေး (USD) ဖြင့် ပြထားသော မူရင်းစျေးများကို မြန်မာကျပ်ငွေ (Ks) သို့ အလိုအလျောက် ပြောင်းလဲပေးပါမည်။</div>
+{
+  "name": "Kazeno Topup Shop",
+  "short_name": "Kazeno",
+  "description": "အကောင်းဆုံး Game Topup ဝန်ဆောင်မှု",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#030308",
+  "theme_color": "#0ea5e9",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192/0ea5e9/ffffff?text=Icon",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512/0ea5e9/ffffff?text=Icon",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-    // သင့်ရဲ့ Firebase Config အမှန်
-    const firebaseConfig = { 
-        apiKey: "AIzaSyAV2vKB0pBq4PP7LcKFO2h9D9dmZF7J2IU", 
-        authDomain: "kazeno-diamond-shop.firebaseapp.com", 
-        projectId: "kazeno-diamond-shop", 
-        storageBucket: "kazeno-diamond-shop.firebasestorage.app", 
-        messagingSenderId: "1209500360", 
-        appId: "1:1209500360:web:0e6f932cfd1569234e9bfd" 
-    };
-    const app = initializeApp(firebaseConfig); 
-    const db = getFirestore(app);
-
-    window.startUpload = () => {
-        const fileInput = document.getElementById('csv-file');
-        const statusText = document.getElementById('status');
-        if(!fileInput.files[0]) return alert("ကျေးဇူးပြု၍ CSV ဖိုင်ကို အရင်ရွေးပေးပါ!");
-
-        statusText.innerText = "ဖိုင်ကို ဖတ်နေပါသည်... အနည်းငယ် စောင့်ပါ။";
-
-        Papa.parse(fileInput.files[0], {
-            header: true,
-            skipEmptyLines: true,
-            complete: async function(results) {
-                const data = results.data;
-                statusText.innerText = `စုစုပေါင်း ပစ္စည်း (${data.length}) ခု တွေ့ရှိပါသည်။ စတင်သွင်းနေပါပြီ...`;
-                
-                let count = 0;
-                for(let row of data) {
-                    try {
-                        // 💡 CSV ထဲမှ USD စျေးကို မြန်မာကျပ်ငွေ (ဥပမာ x 5000) သို့ ပြောင်းခြင်း 💡
-                        let retail = parseFloat(row.retail_price) || 0;
-                        let selling = parseFloat(row.selling_price) || 0;
-                        let mmkPrice = Math.round(selling * 5000); // ငွေလဲနှုန်း ၅၀၀၀ ဖြင့် တွက်ထားသည်
-
-                        await addDoc(collection(db, "products"), {
-                            name: row.name || "Unknown",
-                            description: row.description || "",
-                            gameSlug: row.slug || "uncategorized",
-                            smileId: row.smile_product_id || "",
-                            region: row.region || "",
-                            retailPrice: retail,
-                            sellingPrice: mmkPrice > 0 ? mmkPrice : selling,
-                            topupType: 'Auto', // အရေးကြီး: အလိုလိုဖြည့်ရန် Auto ဟု သတ်မှတ်မည်
-                            isActive: true,
-                            categoryId: row.slug || "", // Admin Panel တွင် ဤ Slug ဖြင့် ပြန်ရှာနိုင်သည်
-                            createdAt: serverTimestamp()
-                        });
-                        count++;
-                        statusText.innerText = `✅ သွင်းပြီးပါပြီ: ${count} / ${data.length}`;
-                    } catch(e) {
-                        console.error(e);
-                    }
-                }
-                statusText.innerText = "🎉 အားလုံးအောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ! Admin Panel တွင် သွားရောက်စစ်ဆေးနိုင်ပါသည်။";
-            }
-        });
-    };
-  </script>
-</body>
-</html>
